@@ -15,7 +15,31 @@ function AddressPage({bookingDetails}) {
 
   const service_id = bookingDetails?.service_id
     switch(service_id) {
-      case 39:
+      case 35:
+        contentAddress = (
+          <>
+          <div className="flex flex-col items-start gap-1">
+            <div className="text-[#575757] text-sm font-normal flex gap-2"> 
+              <img src='/images/icons/google-map-icon.svg'/>
+              <span className="text-[#0F022E] text-sm font-normal">{bookingDetails?.address}</span>
+            </div>
+
+            {/* Line + Arrow */}
+            <div className="flex flex-col items-center w-[18px] ml-2">
+              <div className="border-l-2 border-dashed border-[#8B8B8B] h-4 "></div>
+              <img src="/images/icons/ArrowDown_gray.svg" alt="" />
+            </div>
+
+            <div className="text-[#575757] text-sm font-normal flex gap-2"> 
+              <img src='/images/icons/google-map-icon_gray.svg'/>
+              <span className="text-[#8B8B8B] text-sm font-normal">{bookingDetails?.desired_address}</span>
+            </div>
+          </div>
+          </>
+        )
+        break;
+      default:
+
         contentAddress =(
           <>
             <div className="text-[#575757] text-sm font-normal flex gap-2"> 
@@ -24,54 +48,31 @@ function AddressPage({bookingDetails}) {
             </div>
           </>
         )
-        break;
-      default:
-        contentAddress = (
-          <>
-          <div className="flex flex-col items-start gap-1">
-              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
-                <img src='/images/icons/google-map-icon.svg'/>
-                <span className="text-[#0F022E] text-sm font-normal">{bookingDetails?.address}</span>
-              </div>
-
-              {/* Line + Arrow */}
-              <div className="flex flex-col items-center w-[18px] ml-2">
-                <div className="border-l-2 border-dashed border-[#8B8B8B] h-4 "></div>
-                <img src="/images/icons/ArrowDown_gray.svg" alt="" />
-              </div>
-
-              <div className="text-[#575757] text-sm font-normal flex gap-2"> 
-                <img src='/images/icons/google-map-icon_gray.svg'/>
-                <span className="text-[#8B8B8B] text-sm font-normal">{bookingDetails?.desired_address}</span>
-              </div>
-          </div>
-          </>
-        )
     }
 
     switch(service_id) {
-      case 39:
-        contentMoreAddress =null
-        break;
-      default:
+      case 35:
         contentMoreAddress = (
           <>
             <hr className="border border-[#E3E8EF] my-4  " />
-
             <div className= "grid grid-cols-2 gap-3">
               <div className='flex gap-1.5'>
                 <img src="/images/icons/route.svg" alt="" />
-                <p className='text-[#364152] text-sm font-normal'> 32 كم الي الوجهة</p>
+                <p className='text-[#364152] text-sm font-normal'>{bookingDetails?.distanceData?.total?.distance_km} {t('How far to the destination?')} </p>
               </div>
 
             
-              <div className='flex gap-1.5'>
+              <div className='flex  gap-1.5'>
                 <img src="/images/icons/clock-gray.svg" alt="" />
-                <p className='text-[#364152] text-sm font-normal'>5 دقايق</p>
+                <p className='text-[#364152] text-sm font-normal'>{t('Total')}  {bookingDetails?.distanceData?.total?.duration_minutes}{t('minute')}</p>
               </div>
             </div>
           </>
         )
+        break;
+      default:
+        contentMoreAddress =null
+
     }
 
   return (
@@ -216,12 +217,13 @@ function AddressPage({bookingDetails}) {
             <div className= "grid grid-cols-2 gap-3 ">
               <div className='flex gap-1.5'>
                 <img src="/images/icons/route.svg" alt="" />
-                <p className='text-[#364152] text-sm font-normal'> 3 كم الي العميل</p>
+                <p className='text-[#364152] text-sm font-normal'>{bookingDetails?.distanceData?.provider_to_user?.distance_km} {t('How much to the customer')}</p>
               </div>
 
-              <div className='flex  gap-1.5'>
+            
+              <div className='flex gap-1.5'>
                 <img src="/images/icons/clock-gray.svg" alt="" />
-                <p className='text-[#364152] text-sm font-normal'>الاجمالي 45 دقيقة</p>
+                <p className='text-[#364152] text-sm font-normal'> {bookingDetails?.distanceData?.provider_to_user?.duration_minutes} {t('minutes')}</p>
               </div>
             </div>
 

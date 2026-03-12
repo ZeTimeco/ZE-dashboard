@@ -137,7 +137,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
                 <button
                   onClick={()=> handleCancelled()}
                   className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
-                  {t('cancel')}
+                  {t('cancellation of reservation')}
                 </button>
               </div>
             </>
@@ -153,7 +153,7 @@ function  MainRequestViewPage({ StatusRender, status, assigned_handymen, setActi
                 <button 
                   onClick={()=> handleCancelled()}
                   className=' w-37.5 h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '>
-                  {t('cancel')}
+                  {t('cancellation of reservation')}
                 </button>
               </div>
             </>
