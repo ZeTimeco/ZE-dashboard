@@ -1,11 +1,23 @@
 "use client";
-import React from 'react'
+import { getProviderStateThunk } from '@/redux/slice/Home/HomeSlice';
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 function BoxPage({current_module_key}) {
   const {t} = useTranslation();
   const cash = -2 
   const role = 'company'  // 'freelance'  'company'
+  
+  //API
+  const dispatch = useDispatch()
+  const {providerState}= useSelector((state)=>state.Home)
+
+  useEffect(() => {
+    dispatch(getProviderStateThunk())
+  }, [dispatch]);
+  console.log(providerState);
+
 
   return (
     <>
@@ -20,35 +32,7 @@ function BoxPage({current_module_key}) {
           </p>
           <p className=''>{t('New orders')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>500</p>
-
-          <div className='flex gap-1'>
-            <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            {cash >=0 ? (
-              <>
-              <p className='flex items-center text-sm text-[#17B26A]'>
-                <span>{cash}%</span>
-                <span>+</span>  
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/green_arrow_up.svg" alt="" />
-              </p>
-              </>
-            
-            ):(
-              <>
-              <p className='flex items-center text-sm text-[#F04438]'>
-                <span>{cash}%</span>
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/red_arrow_down.svg" alt="" />
-              </p>
-              </>
-            
-            )}
-            
-          </div>
-      
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{t('today')} ({providerState?.new_bookings_count})</p>
       </div>
 
       
@@ -60,34 +44,7 @@ function BoxPage({current_module_key}) {
           </p>
           <p className=''>{t('Current Orders')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>500</p>
-
-          <div className='flex gap-1'>
-            <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            {cash >=0 ? (
-              <>
-              <p className='flex items-center text-sm text-[#17B26A]'>
-                <span>{cash}%</span>
-                <span>+</span>  
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/green_arrow_up.svg" alt="" />
-              </p>
-              </>
-            
-            ):(
-              <>
-              <p className='flex items-center text-sm text-[#F04438]'>
-                <span>{cash}%</span>
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/red_arrow_down.svg" alt="" />
-              </p>
-              </>
-            
-            )}
-            
-          </div>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{providerState?.ongoing_bookings_count}</p>
       
       </div>
 
@@ -100,35 +57,7 @@ function BoxPage({current_module_key}) {
           </p>
           <p className=''>{t('profits')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>5022220</p>
-
-          <div className='flex gap-1'>
-            <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-            {cash >=0 ? (
-              <>
-              <p className='flex items-center text-sm text-[#17B26A]'>
-                <span>{cash}%</span>
-                <span>+</span>  
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/green_arrow_up.svg" alt="" />
-              </p>
-              </>
-            
-            ):(
-              <>
-              <p className='flex items-center text-sm text-[#F04438]'>
-                <span>{cash}%</span>
-              </p>
-              <p className='flex items-center'>
-                <img src="/images/icons/red_arrow_down.svg" alt="" />
-              </p>
-              </>
-            
-            )}
-            
-          </div>
-      
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{t('today')} ({providerState?.today_earnings})</p>
       </div>
 
 
@@ -136,7 +65,7 @@ function BoxPage({current_module_key}) {
       {/* Evaluation */}
       {/* Conditional Display based on current_module_key and role */}
       {(() => {
-        if (current_module_key === 'خدمات الطريق') {
+        if (current_module_key === 'street_assistant') {
           if (role === 'company') {
             return (
               <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
@@ -160,48 +89,21 @@ function BoxPage({current_module_key}) {
           } else {
             return (
               <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-          <div className='flex items-center gap-3'>
-            <p className=' w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
-              <img src="/images/icons/Evaluation-blue.svg" alt="" />
-            </p>
-            <p className=''>{t('Evaluation')}</p>
-          </div>
-          <div className='my-2.5 flex gap-1'>
-            <img src="/images/icons/star.svg" alt="" />
-            <p className='text-[#FDB022] text-base font-medium'>4.5</p>
-          </div>
-
-            <div className='flex gap-1'>
-              <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-              {cash >=0 ? (
-                <>
-                <p className='flex items-center text-sm text-[#17B26A]'>
-                  <span>{cash}%</span>
-                  <span>+</span>  
-                </p>
-                <p className='flex items-center'>
-                  <img src="/images/icons/green_arrow_up.svg" alt="" />
-                </p>
-                </>
-              
-              ):(
-                <>
-                <p className='flex items-center text-sm text-[#F04438]'>
-                  <span>{cash}%</span>
-                </p>
-                <p className='flex items-center'>
-                  <img src="/images/icons/red_arrow_down.svg" alt="" />
-                </p>
-                </>
-              
-              )}
-              
-            </div>
-        
+                <div className='flex items-center gap-3'>
+                  <p className=' w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
+                    <img src="/images/icons/Evaluation-blue.svg" alt="" />
+                  </p>
+                  <p className=''>{t('Evaluation')}</p>
+                </div>
+                <div className='my-2.5 flex gap-1'>
+                  <img src="/images/icons/star.svg" alt="" />
+                  <p className='text-[#FDB022] text-base font-medium'>4.5</p>
+                </div>
+                
               </div> 
             );
           }
-        } else if(current_module_key === 'خدمات السيارات') {
+        } else if(current_module_key === 'car_services') {
           return  (
             <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
             <div className='flex items-center gap-3'>
@@ -211,34 +113,6 @@ function BoxPage({current_module_key}) {
               <p className=''>{t('Completed applications')}</p>
             </div>
             <p className='text-[#202939] text-lg font-medium my-2.5'>50</p>
-
-              <div className='flex gap-1'>
-                <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-                {cash >=0 ? (
-                  <>
-                  <p className='flex items-center text-sm text-[#17B26A]'>
-                    <span>{cash}%</span>
-                    <span>+</span>  
-                  </p>
-                  <p className='flex items-center'>
-                    <img src="/images/icons/green_arrow_up.svg" alt="" />
-                  </p>
-                  </>
-                
-                ):(
-                  <>
-                  <p className='flex items-center text-sm text-[#F04438]'>
-                    <span>{cash}%</span>
-                  </p>
-                  <p className='flex items-center'>
-                    <img src="/images/icons/red_arrow_down.svg" alt="" />
-                  </p>
-                  </>
-                
-                )}
-                
-              </div>
-          
             </div>
           )
         }else {
@@ -254,34 +128,7 @@ function BoxPage({current_module_key}) {
             <img src="/images/icons/star.svg" alt="" />
             <p className='text-[#FDB022] text-base font-medium'>4.5</p>
           </div>
-
-            <div className='flex gap-1'>
-              <p className='text-[#697586] text-sm font-light'>{t('Last week')}</p>
-              {cash >=0 ? (
-                <>
-                <p className='flex items-center text-sm text-[#17B26A]'>
-                  <span>{cash}%</span>
-                  <span>+</span>  
-                </p>
-                <p className='flex items-center'>
-                  <img src="/images/icons/green_arrow_up.svg" alt="" />
-                </p>
-                </>
-              
-              ):(
-                <>
-                <p className='flex items-center text-sm text-[#F04438]'>
-                  <span>{cash}%</span>
-                </p>
-                <p className='flex items-center'>
-                  <img src="/images/icons/red_arrow_down.svg" alt="" />
-                </p>
-                </>
-              
-              )}
-              
-            </div>
-        
+          
             </div> 
           )
         }
