@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function BoxPage({current_module_key}) {
   const {t} = useTranslation();
-  const cash = -2 
-  const role = 'company'  // 'freelance'  'company'
   
   //API
   const dispatch = useDispatch()
@@ -18,6 +16,8 @@ function BoxPage({current_module_key}) {
   }, [dispatch]);
   console.log(providerState);
 
+  // Determine the role of the provider
+  const role =providerState ?.role  // 'freelance'  'company'
 
   return (
     <>
@@ -34,8 +34,7 @@ function BoxPage({current_module_key}) {
         </div>
         <p className='text-[#202939] text-lg font-medium my-2.5'>{t('today')} ({providerState?.new_bookings_count})</p>
       </div>
-
-      
+    
       {/* Current Orders */}
       <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
         <div className='flex items-center gap-3'>
@@ -48,7 +47,6 @@ function BoxPage({current_module_key}) {
       
       </div>
 
-
       {/* profits */}
       <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
         <div className='flex items-center gap-3'>
@@ -59,8 +57,6 @@ function BoxPage({current_module_key}) {
         </div>
         <p className='text-[#202939] text-lg font-medium my-2.5'>{t('today')} ({providerState?.today_earnings})</p>
       </div>
-
-
 
       {/* Evaluation */}
       {/* Conditional Display based on current_module_key and role */}
@@ -81,9 +77,6 @@ function BoxPage({current_module_key}) {
                     <span>{t('Technicians')}</span>
                   </p>
                 </div>
-
-                
-              
               </div> 
             );
           } else {
@@ -97,45 +90,43 @@ function BoxPage({current_module_key}) {
                 </div>
                 <div className='my-2.5 flex gap-1'>
                   <img src="/images/icons/star.svg" alt="" />
-                  <p className='text-[#FDB022] text-base font-medium'>4.5</p>
+                  <p className='text-[#FDB022] text-base font-medium'>{providerState?.average_rating}</p>
                 </div>
-                
               </div> 
             );
           }
         } else if(current_module_key === 'car_services') {
           return  (
             <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-            <div className='flex items-center gap-3'>
-              <p className=' w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
-                <img src="/images/icons/checkmark-circle-blue.svg" alt="" />
-              </p>
-              <p className=''>{t('Completed applications')}</p>
-            </div>
-            <p className='text-[#202939] text-lg font-medium my-2.5'>50</p>
+              <div className='flex items-center gap-3'>
+                <p className=' w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
+                  <img src="/images/icons/checkmark-circle-blue.svg" alt="" />
+                </p>
+                <p className=''>{t('Completed applications')}</p>
+              </div>
+              <p className='text-[#202939] text-lg font-medium my-2.5'>44</p>
             </div>
           )
         }else {
           return (
             <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-          <div className='flex items-center gap-3'>
-            <p className=' w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
-              <img src="/images/icons/Evaluation-blue.svg" alt="" />
-            </p>
-            <p className=''>{t('Evaluation')}</p>
-          </div>
-          <div className='my-2.5 flex gap-1'>
-            <img src="/images/icons/star.svg" alt="" />
-            <p className='text-[#FDB022] text-base font-medium'>4.5</p>
-          </div>
-          
+              <div className='flex items-center gap-3'>
+                <p className=' w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
+                  <img src="/images/icons/Evaluation-blue.svg" alt="" />
+                </p>
+                <p className=''>{t('Evaluation')}</p>
+              </div>
+              <div className='my-2.5 flex gap-1'>
+                <img src="/images/icons/star.svg" alt="" />
+                <p className='text-[#FDB022] text-base font-medium'>{providerState?.average_rating}</p>
+              </div>
             </div> 
           )
         }
       })()}
 
+
     </section>
- 
     </>
   )
 }

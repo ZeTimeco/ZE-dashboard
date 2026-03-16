@@ -4,6 +4,7 @@ import NewOrdersPage from './NewOrders/page'
 import CurrentOrdersPage from './CurrentOrders/page'
 
 function HomeAndCarServiceCardPages() {
+  
   const newOrders = [
     {
       id: 1,
@@ -12,15 +13,7 @@ function HomeAndCarServiceCardPages() {
       price: "40.00",
       distance: "32 كم",
       location: "شارع رئيسي 123 مدينة نصر",
-    },
-    {
-      id: 2,
-      service: "صيانة تكييف",
-      customer: "محمد علي",
-      price: "60.00",
-      distance: "15 كم",
-      location: "شارع عباس العقاد",
-    },
+    }
   ];
 
   const currentOrders = [
@@ -29,18 +22,6 @@ function HomeAndCarServiceCardPages() {
       service: 'شحن فريون',
       status: 'in_progress',
       customer: 'هاني سعيد',
-    },
-    {
-      id: 2,
-      service: 'تصليح مكيف',
-      status: 'accepted',
-      customer: 'أحمد علي',
-    },
-    {
-      id: 3,
-      service: 'تنظيف سخان',
-      status: 'pending_approval',
-      customer: 'محمود حسني',
     },
   ];
 

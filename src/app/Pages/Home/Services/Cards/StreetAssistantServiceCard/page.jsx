@@ -13,14 +13,6 @@ function StreetAssistantServiceCardPage() {
       distance: "32 كم",
       location: "شارع رئيسي 123 مدينة نصر",
     },
-    // {
-    //   id: 2,
-    //   service: "تشغيل بطارية",
-    //   customer: "محمد علي",
-    //   price: "60.00",
-    //   distance: "15 كم",
-    //   location: "شارع عباس العقاد",
-    // },
   ];
 
   const currentOrders = [
@@ -29,18 +21,6 @@ function StreetAssistantServiceCardPage() {
       service: "تشغيل بطارية",
       status: 'in_progress',
       customer: 'هاني سعيد',
-    },
-    {
-      id: 2,
-      service: "فتح باب",
-      status: 'accepted',
-      customer: 'أحمد علي',
-    },
-    {
-      id: 3,
-      service: "تغير زيت",
-      status: 'pending_approval',
-      customer: 'محمود حسني',
     },
   ];
 
