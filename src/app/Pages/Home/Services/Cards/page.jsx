@@ -2,7 +2,7 @@
 import React from 'react'
 import HomeAndCarServiceCardPages from './HomeAndCarServiceCard/pages'
 import StreetAssistantServiceCardPage from './StreetAssistantServiceCard/page';
-import NoModuleAvailable from '@/app/Components/DaialogsOfNavbar/NoModuleAvailable';
+import NoModuleAvailableWithoutSidebar from '@/app/Components/DaialogsOfNavbar/NoModuleAvailableWithoutSidebar';
 
 function CardsPage({ current_module_key }) {
   let content;
@@ -12,7 +12,7 @@ function CardsPage({ current_module_key }) {
   } else if (current_module_key === 'street_assistant') {
     content = <StreetAssistantServiceCardPage />;
   } else {
-    content = <NoModuleAvailable/>
+    content = <NoModuleAvailableWithoutSidebar/>
   }
 
   return (

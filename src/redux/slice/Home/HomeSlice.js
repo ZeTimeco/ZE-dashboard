@@ -1,4 +1,4 @@
-import { getProviderState, setModuleId } from "@/redux/api/Home/HomeApi";
+import { getProviderRate, getProviderState, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 //add or update module
@@ -24,11 +24,24 @@ export const getProviderStateThunk = createAsyncThunk('Home/getProviderStateThun
   }
 )
 
+export const getProviderRateThunk = createAsyncThunk('Home/getProviderRateThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getProviderRate()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch provider ratings");
+    }
+    }
+)
+
 const initialState = {
   loading:false,
   error:null,
   moduleId:'',
   providerState:null,
+  providerRate:[],
+
 
 }
 
@@ -65,6 +78,20 @@ const homeSlice = createSlice({
         state.error = null;
       })
       .addCase(getProviderStateThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getProviderRateThunk
+      .addCase(getProviderRateThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getProviderRateThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.providerRate = action.payload; 
+        state.error = null;
+      })
+      .addCase(getProviderRateThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
