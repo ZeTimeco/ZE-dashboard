@@ -1,31 +1,47 @@
 'use client';
-import React from "react";
+import { getBookingNewThunk } from "@/redux/slice/Home/HomeSlice";
+import Loader from "@/app/Components/Loader/Loader";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { IMAGE_BASE_URL } from "../../../../../../../../config/imageUrl";
 
-function NewOrdersPage({ orders = [], layout = "list" }) {
+function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
   const { t } = useTranslation();
 
+  //API
+  const dispatch = useDispatch();
+  const {newBookings, loading ,error}= useSelector((state)=>state.Home)
+  
+  useEffect(()=>{
+    dispatch(getBookingNewThunk())
+  },[dispatch])
+
+  console.log(newBookings);
+
+  if (loading) return <Loader />;
+
   return (
-    <div className="border border-[#CDD5DF] rounded-[3px] p-6">
+    <div className="border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto">
       <p className="text-[#0F022E] text-xl font-medium">
         {t("New orders")}
       </p>
 
       <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : `grid lg1:grid-cols-1 ${orders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
-        {orders.map((order) => (
+        {newBookings?.map((order , index) => (
           <div
-            key={order.id}
+            key={order?.booking_id || index}
             className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4"
           >
             {/* Service */}
             <div className="flex gap-2 items-center">
-              <img src="/images/icons/renewable-energy.svg" alt="service" />
+              <img src={`${IMAGE_BASE_URL}${order?.service_icon}`} alt="service" className="w-8 h-8" />
               <p>
                 <span className="text-[#364152] text-lg font-medium">
-                  {order.service} -
+                  {order?.service_name} -
                 </span>{" "}
                 <span className="text-[#4B5565] text-sm">
-                  {order.customer}
+                  {order?.username}
                 </span>
               </p>
             </div>
@@ -37,14 +53,14 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
               <div className="flex gap-1.5 items-center">
                 <img src="/images/icons/price.svg" alt="price" />
                 <p className="text-[var(--color-primary)] text-base font-medium">
-                  {order.price} جنية
+                  {order?.price} جنية
                 </p>
               </div>
 
               <div className="flex gap-1.5 items-center">
                 <img src="/images/icons/route.svg" alt="distance" />
                 <p className="text-[#364152] text-base">
-                  مسافة العمل {order.distance}
+                {t('Working distance')} {order?.total_distance_km} {t('kilometers')}
                 </p>
               </div>
             </div>
@@ -52,12 +68,25 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
             <hr className="border-[#E3E8EF] my-4" />
 
             {/* Location */}
-            <div className="flex gap-2 items-center">
-              <img src="/images/icons/location-bluee.svg" alt="location" />
-              <p className="text-[#364152] text-base">
-                {order.location}
-              </p>
-            </div>
+            {current_module_key === 'home_services' && (
+              <div className="flex gap-2 items-center">
+                <img src="/images/icons/location-bluee.svg" alt="location" />
+                <p className="text-[#364152] text-base">
+                  {order?.address}
+                </p>
+              </div>
+            )}
+
+            {/* car details */}
+            {current_module_key === 'car_services' && (
+              <div className="flex gap-2 items-center">
+                <img src="/images/icons/car-alert_gray.svg" alt="car" />
+                <p className="text-[#364152] text-base">
+                  {order?.car?.brand} {order?.car?.model} - {order?.car?.year}
+                </p>
+              </div>
+            )}
+          
 
             <hr className="border-[#E3E8EF] my-4" />
 

@@ -8,9 +8,9 @@ function CardsPage({ current_module_key }) {
   let content;
 
   if (current_module_key === 'car_services' ||current_module_key === 'home_services' ) {
-    content = <HomeAndCarServiceCardPages />;
+    content = <HomeAndCarServiceCardPages current_module_key={current_module_key}/>;
   } else if (current_module_key === 'street_assistant') {
-    content = <StreetAssistantServiceCardPage />;
+    content = <StreetAssistantServiceCardPage current_module_key={current_module_key}/>;
   } else {
     content = <NoModuleAvailableWithoutSidebar/>
   }

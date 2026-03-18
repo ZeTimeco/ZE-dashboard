@@ -3,7 +3,7 @@ import React from 'react'
 import NewOrdersPage from './NewOrders/page'
 import CurrentOrdersPage from './CurrentOrders/page'
 
-function HomeAndCarServiceCardPages() {
+function HomeAndCarServiceCardPages({current_module_key}) {
   
   const newOrders = [
     {
@@ -39,8 +39,8 @@ function HomeAndCarServiceCardPages() {
   return (
     <>
       <div className={`grid grid-cols-1 lg1:grid-cols-2 gap-6`}>
-        <NewOrdersPage orders={newOrders} />
-        <CurrentOrdersPage orders={currentOrders} />
+        <NewOrdersPage orders={newOrders} current_module_key={current_module_key}/>
+        <CurrentOrdersPage orders={currentOrders} current_module_key={current_module_key} />
       </div>
     </>
   )

@@ -14,3 +14,13 @@ export const getProviderRate = async()=>{
   const response = await API.get('/provider/ratings')
   return response.data
 }
+
+export const getBookingNew = async()=>{
+  const response = await API.get('/provider/bookings/new')
+  return response.data
+}
+
+export const getBookingOngoing = async()=>{
+  const response = await API.get('/provider/bookings/ongoing')
+  return response.data
+}
