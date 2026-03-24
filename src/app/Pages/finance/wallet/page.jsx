@@ -1,5 +1,5 @@
 "use client"
-import MainLayout from '@/app/Components/MainLayout/MainLayout'
+
 import React, { useEffect, useState } from 'react'
 import CardsPage from './Cards/page'
 import TransactionsPage from './Transactions/page'
@@ -33,8 +33,7 @@ function walletPage() {
   }
 
   return (
-    <MainLayout>
-      <CardsPage TaxesData={TaxesData}/>
+    <>      <CardsPage TaxesData={TaxesData}/>
 
       <TransactionsPage 
         WalletTransactionsData={WalletTransactionsData} 
@@ -46,7 +45,7 @@ function walletPage() {
         activeTab={activeTab}
         setActiveTab={handleTabChange}
       />
-    </MainLayout>
+    </>
   )
 }
 

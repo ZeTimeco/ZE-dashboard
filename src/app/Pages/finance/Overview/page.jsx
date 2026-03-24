@@ -1,5 +1,5 @@
 "use client"
-import MainLayout from '@/app/Components/MainLayout/MainLayout'
+
 import React, { useEffect } from 'react'
 import CardsPage from './Cards/page'
 import Income_analysisPage from './Income_analysis/page'
@@ -31,8 +31,7 @@ function OverviewPage() {
   // console.log('paymentsData' ,paymentsData);
 
   return (
-    <MainLayout>
-
+    <>
       <CardsPage paymentsData={paymentsData} />
       <Income_analysisPage />
       <TransactionsPage
@@ -42,7 +41,7 @@ function OverviewPage() {
         onPageChange={handlePageChange}
         onFilterApply={handleFilterApply}
       />
-    </MainLayout>
+    </>
   )
 }
 

@@ -28,7 +28,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     router.push("/Auth/Login"); 
   }
 
-const [openFinance, setOpenFinance] = useState(false);
+
 
 {/* Logic for dashboard redirection */}
       // const handleDashboardClick = (e) => {
@@ -212,82 +212,24 @@ const [openFinance, setOpenFinance] = useState(false);
             </Link>
           </li>
 
-          {/* Finance Dropdown */}
-          <li className={` cursor-pointer rounded transition ${pathname.startsWith("/Pages/finance") ? "bg-[var(--color-primary)] text-white" : ""}`}>
-            <div
-              onClick={() => setOpenFinance(!openFinance)}
-              className={`flex items-center justify-between ml-5 `}
-            >
-            
-              <div className={`${open ? "flex gap-4" : "flex justify-center"}  items-center py-4 px-2`}>
-                <img
-                  src="/images/icons/Finance.svg"
-                  alt=""
-                  className={pathname.startsWith("/Pages/finance") ? "invert" : ""}
-                />
-
-                {/* Text (visible only when sidebar open) */}
-                {open && (
-                  <p
-                    className={`text-base font-normal ${
-                      pathname.startsWith("/Pages/finance")
-                        ? "text-white"
-                        : "text-[#364152]"
-                    }`}
-                  >
-                    {t("Finance")}
+          {/* Finance */}
+          <li className={`cursor-pointer rounded ${pathname.startsWith("/Pages/finance") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            <Link href="/Pages/finance" onClick={() => setIsSidebarOpen(false)}>
+              {open ? (
+                //open 
+                <div className='flex gap-4 items-center py-3 px-2'>
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname.startsWith("/Pages/finance") ? "invert" : ""} />
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/finance") ? "text-[#fff]" : "text-[#364152]"}`}>
+                    {t('Finance')}
                   </p>
-                )}
-              </div>
-              {/* Arrow (only if sidebar is open) */}
-              {open && (
-                <span className={``}>
-                  {openFinance ? (
-                    <img src="/images/icons/arrow-up.svg" alt="open" className='' />
-                  ) : (
-                    <img src="/images/icons/chevron-down.svg" alt="closed" />
-                  )}
-                </span>
+                </div>
+              ) : (
+                <div className='flex justify-center items-center py-2 px-2'>
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname.startsWith("/Pages/finance") ? "invert" : ""} />
+                </div>
               )}
-
-            </div>
+            </Link>
           </li>
-          {/* Dropdown Items */}
-          {openFinance && open && (
-            <ul className="w-full flex flex-col  bg-[#F9F5E8] px-2 py-3">
-
-              <li className={`px-2 py-3  ${pathname === "/Pages/finance/Overview" ? "bg-[#F4EAD0] " : "text-[#364152]"}`}>
-                <Link
-                  href="/Pages/finance/Overview"
-                  onClick={() => setIsSidebarOpen(false)}
-                  className="block text-[#364152] "
-                >
-                  {t("Overview")}
-                </Link>
-              </li>
-
-              <li className={`px-2 py-3  ${pathname === "/Pages/finance/Taxes" ? "bg-[#F4EAD0] " : "text-[#364152]"}`}>
-                <Link
-                  href="/Pages/finance/Taxes"
-                  onClick={() => setIsSidebarOpen(false)}
-                  className="block text-[#364152] "
-                >
-                  {t("Taxes")}
-                </Link>
-              </li>
-
-              <li className={`px-2 py-3  ${pathname === "/Pages/finance/wallet" ? "bg-[#F4EAD0] " : "text-[#364152]"}`}>
-                <Link
-                  href="/Pages/finance/wallet"
-                  onClick={() => setIsSidebarOpen(false)}
-                  className="block text-[#364152] "
-                >
-                  {t("wallet")}
-                </Link>
-              </li>
-
-            </ul>
-          )}
 
 
 

@@ -1,5 +1,5 @@
 "use client"
-import MainLayout from '@/app/Components/MainLayout/MainLayout'
+
 import React, { useEffect } from 'react'
 import HeaderOfTaxesPage from './HeaderOfTaxes/page'
 import CardsPage from './Cards/page'
@@ -23,14 +23,13 @@ function TaxesPage() {
 
   console.log('TaxesTransactionsData' , TaxesTransactionsData);
   return (
-    <MainLayout>
-
+    <>
     <HeaderOfTaxesPage/>
 
     <CardsPage TaxesData={TaxesData}/>
     <TransactionsPage TaxesTransactionsData={TaxesTransactionsData} loading={loading} pagination={TaxesPagination} onPageChange={handlePageChange}/>
 
-    </MainLayout>
+    </>
   )
 }
 
