@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,16 +9,15 @@ import { logout } from '@/redux/slice/Auth/AuthSlice';
 
 
 
-function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
+function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
 
   const [activeIndex, setActiveIndex] = useState(null);
+  const pathname = usePathname();
 
-    const pathname = usePathname();
-
-    //🟢logout
-    const dispatch = useDispatch();
+  //🟢logout
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -28,52 +26,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
     router.push("/Auth/Login"); 
   }
 
-
-
-{/* Logic for dashboard redirection */}
-      // const handleDashboardClick = (e) => {
-      //     e.preventDefault();
-      //     setIsSidebarOpen(false);
-
-      //     // const userData = localStorage.getItem('user');
-      //     // let targetPath = '/Pages/dashboard/Main'; 
-
-      //     // if (userData) {
-      //     //   try {
-      //     //     const user = JSON.parse(userData);
-      //     //     const { current_module_key } = user;
-
-      //     //     switch (current_module_key) {
-      //     //       case 'home_services':
-      //     //         targetPath = '/Pages/Home/Home_services';
-      //     //         break;
-      //     //       case 'delivery':
-      //     //         targetPath = '/Pages/Home/Delivery_services';
-      //     //         break;
-      //     //       case 'property_rental':
-      //     //         targetPath = '/Pages/Home/Renting_houses';
-      //     //         break;
-      //     //       case 'queue':
-      //     //         targetPath = '/Pages/Home/Restaurant_reservations';
-      //     //         break;
-      //     //       case 'street_assistant':
-      //     //         targetPath = '/Pages/Home/Road_assistant';
-      //     //         break;
-      //     //       case 'car_services':
-      //     //         targetPath = '/Pages/Home/Car_services';
-      //     //         break;
-      //     //       default:
-      //     //         targetPath = '/Pages/dashboard/Main';
-      //     //         break;
-      //     //     }
-      //     //   } catch (error) {
-      //     //     console.error("Error parsing user data:", error);
-      //     //   }
-      //     // }
-      //     // router.push(targetPath);
-      // };
-
-      return (
+  return (
     
     // 1440px and above
     <aside
@@ -113,7 +66,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
       {/* Navigation */}
       <nav className="flex-1">
         <ul className='flex flex-col h-full'>
-
+          
+          {/* Dashboard */}
           <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/Pages/Home/Services"  >
                 {open?(
@@ -130,7 +84,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* Requests */}
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/requests" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
@@ -146,7 +101,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/workers") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* workers */}
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/workers") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/workers" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -162,13 +118,14 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Services") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* property rental */}
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Services") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/Services" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center py-3 px-2'>
                   <img src="/images/icons/Services.svg" alt="" className={pathname.startsWith("/Pages/Services") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Services") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Services')}</p>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Services") ? "text-[#fff]" : "text-[#364152]"}`}>{t('property rental')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
@@ -178,7 +135,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Subscription") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* Subscription */}
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Subscription") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/Subscription" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -195,8 +153,9 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
               )}
             </Link>
           </li>
-
-          <li  className={`cursor-pointer rounded ${pathname.startsWith("/Pages/conversations") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+            
+          {/* Conversations */}
+          <li  className={`cursor-pointer rounded ${pathname.startsWith("/Pages/conversations") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/conversations" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -213,7 +172,7 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
           </li>
 
           {/* Finance */}
-          <li className={`cursor-pointer rounded ${pathname.startsWith("/Pages/finance") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li className={`cursor-pointer rounded ${pathname.startsWith("/Pages/finance") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/finance" onClick={() => setIsSidebarOpen(false)}>
               {open ? (
                 //open 
@@ -231,11 +190,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-
-
-
-
-          <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* Settings */}
+          <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/technicalSupport" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -251,7 +207,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/Activity_Settings") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* Activity Settings */}
+          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/Activity_Settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
           <Link href="/Pages/Activity_Settings" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -267,7 +224,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
           </Link>
           </li>
       
-          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/settings") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* Settings */}
+          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
           <Link href="/Pages/settings" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -283,7 +241,8 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
           </Link>
           </li>
           
-          <li  onClick={handleLogout} className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          {/* Sign out */}
+          <li  onClick={handleLogout} className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
           <button >
               {open?(
               //open 
@@ -311,6 +270,6 @@ function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
   
 }
 
-export default Sidebar;
+export default SidebarQueue;
 
 

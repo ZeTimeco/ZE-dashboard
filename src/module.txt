@@ -1,13 +1,13 @@
-home_services
-car_services
-property_rental
-queue
+home_services /
+car_services /
+property_rental/
+queue / 
 delivery
-street_assistant
+street_assistant /
 
 
 
-        {id:40 , Label:'Battery operation'},
+      {id:40 , Label:'Battery operation'},
       {id:36 , Label:'Wheel repair'},
       {id:35 , Label:'Car transport'},
       {id:37 , Label:'Car unlock'},
