@@ -1,9 +1,19 @@
 'use client';
-import React from 'react';
+import { getBookingOngoingThunk } from '@/redux/slice/Home/HomeSlice';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl';
 
 function CurrentOrdersPage({ orders = [], layout = "list" }) {
   const { t } = useTranslation();
+
+  //API
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(getBookingOngoingThunk())
+  },[dispatch])
 
   const StatusRender = (status) => {
     switch (status) {
@@ -65,18 +75,26 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
   };
 
   return (
-    <div className='border border-[#CDD5DF] rounded-[3px] p-6'>
+    <div className='border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto'>
       <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
 
       <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : `grid lg1:grid-cols-1 ${orders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
       {orders.map((order) => (
-        <div key={order.id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4'>
+        <div key={order?.booking_id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4'>
           <div className='flex justify-between w-full'>
             <div className='flex gap-2 w-full'>
-              <img src='/images/icons/renewable-energy.svg' alt='' className='w-6 h-6 mt-1' />
-              <p className='text-[#364152] text-lg font-medium'>{order.service}</p>
+              <img
+                src={
+                  order?.service_icon
+                    ? `${IMAGE_BASE_URL}${order.service_icon}`
+                    : "/images/icons/renewable-energy.svg"
+                }
+                alt="service"
+                className='w-6 h-6 mt-1'
+              />              
+              <p className='text-[#364152] text-lg font-medium'>{order?.service_name}</p>
             </div>
-            <div className='w-full flex justify-end'>{StatusRender(order.status)}</div>
+            <div className='w-full flex justify-end'>{StatusRender(order?.status)}</div>
           </div>
 
           <hr className='border-[#E3E8EF] border my-4' />
@@ -86,7 +104,7 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
               <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
               <p className='text-base font-normal lg1:w-full w-[70%] '>
                 <span className='text-[#808080]'>{t('Customer')} </span>
-                <span className='text-[#0B2C3E]'>{order.customer}</span>
+                <span className='text-[#0B2C3E]'>{order?.username}</span>
               </p>
             </div>
 
@@ -94,27 +112,33 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
               <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                 <img src='/images/icons/chat.svg' alt='' />
               </p>
-              <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+              <a href={`tel:${order?.phone}`} className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
                 <img src='/images/icons/calll.svg' alt='' />
-              </p>
+              </a>
             </div>
           </div>
-          <div className='flex justify-between w-full my-4'>
-            <div className='flex gap-2 w-full'>
-              <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
-              <p className='text-base font-normal lg1:w-full w-[70%]'>
-                <span className='text-[#808080]'>{t('The artist')} </span>
-                <span className='text-[#0B2C3E]'>{order.customer}</span>
-              </p>
+          {order?.assigned_handyman?.id && (
+            <div className='flex justify-between w-full my-4'>
+              <div className='flex gap-2 w-full'>
+                <img src='/images/icons/Customer.svg' alt='' className='w-6 h-6' />
+                <p className='text-base font-normal lg1:w-full w-[70%]'>
+                  <span className='text-[#808080]'>{t('The artist')} </span>
+                  <span className='text-[#0B2C3E]'>
+                    {order?.assigned_handyman?.fullname} 
+                    {order?.handymen_count > 0 && (
+                      <span> + {order.handymen_count}</span>
+                    )}                 
+                  </span>
+                </p>
+              </div>
+              
+              <div className='lg1:w-full w-[30%] flex justify-end gap-4'>
+                <a href={`tel:${order?.assigned_handyman?.phone}`} className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
+                  <img src='/images/icons/calll.svg' alt='' />
+                </a>
+              </div>
             </div>
-
-            <div className='lg1:w-full w-[30%] flex justify-end gap-4'>
-              <p className='rounded-[20px] w-7 h-7 border border-[#8B8B8B] flex items-center justify-center cursor-pointer'>
-                <img src='/images/icons/calll.svg' alt='' />
-              </p>
-            </div>
-          </div>
-
+          )}
           <div className='flex gap-4'>
             <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-[#fff] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
               <span>{t('Start Service')}</span>

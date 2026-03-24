@@ -1,9 +1,20 @@
 'use client';
+import { getBookingNewThunk } from "@/redux/slice/Home/HomeSlice";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { IMAGE_BASE_URL } from "../../../../../../../../config/imageUrl";
 
 function NewOrdersPage({ orders = [], layout = "list" }) {
   const { t } = useTranslation();
+
+  //API
+  const dispatch = useDispatch();
+  
+  useEffect(()=>{
+    dispatch(getBookingNewThunk())
+  },[dispatch])
+
 
   const [hiddenOrders, setHiddenOrders] = useState(new Set());
   const [loadingOrders, setLoadingOrders] = useState(new Set());
@@ -30,7 +41,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
 
 
   return (
-    <div className="border border-[#CDD5DF] rounded-[3px] p-6">
+    <div className="border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto">
       <p className="text-[#0F022E] text-xl font-medium">
         {t("New orders")}
       </p>
@@ -38,37 +49,49 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
       <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : `grid lg1:grid-cols-1 ${orders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
       {visibleOrders.map((order) => (
         <div
-          key={order.id}
+          key={order?.booking_id}
           className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4"
         >
           {/* Service */}
           <div className="flex gap-2 items-center">
-            <img src="/images/icons/automotive-battery.svg" alt="service" />
+            <img
+              src={
+                order?.service_icon
+                  ? `${IMAGE_BASE_URL}${order.service_icon}`
+                  : "/images/icons/renewable-energy.svg"
+              }
+              alt="service"
+              className='w-6 h-6 mt-1'
+            />
+
             <p>
               <span className="text-[#364152] text-lg font-medium">
-                {order.service} -
+                {order?.service_name} -
               </span>{" "}
               <span className="text-[#4B5565] text-sm">
-                {order.customer}
+                {order?.username}
               </span>
             </p>
           </div>
 
           <hr className="border-[#E3E8EF] my-4" />
 
-          {/* Price & Distance */}
+          {/*Distance */}
           <div className="flex justify-between">
             <div className="flex gap-1.5 items-center">
               <img src="/images/icons/clock-gray.svg" alt="price" />
               <p className="text-[#364152] text-base font-medium">
-                  الاجمالي 45 دقيقة
+                {t('Total')}{' '}
+                {order?.total_duration_minutes >= 60
+                  ? `${(order?.total_duration_minutes / 60).toFixed(1)} ساعة`
+                  : `${order?.total_duration_minutes} دقيقة`}
               </p>
             </div>
             
             <div className="flex gap-1.5 items-center">
               <img src="/images/icons/route.svg" alt="distance" />
               <p className="text-[#364152] text-base">
-                مسافة العمل {order.distance}
+                {t('Working distance')} {order?.total_distance_km} {t('kilometers')}
               </p>
             </div>
           </div>
@@ -80,7 +103,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
               <div className="flex gap-2 items-center">
                 <img src="/images/icons/location-bluee.svg" alt="location" />
                 <p className="text-[#364152] text-base">
-                  {order.location}
+                  {order?.address}
                 </p>
               </div>
               <button className=" bg-[#FF3B30] text-[#fff] text-sm font-medium w-[25%] h-10 rounded-[3px] cursor-pointer">
@@ -115,7 +138,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
             </button>
 
             <p className="text-[var(--color-primary)] text-xl font-semibold">
-              40.00 جنية
+                  {order?.price} جنية
             </p>
             
           </div>

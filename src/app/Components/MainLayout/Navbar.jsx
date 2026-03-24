@@ -65,8 +65,9 @@ function Navbar({ onMenuClick }) {
 
               <div 
                 onClick={()=>setOpenServiceToggle(true)}
-                className="p-1 w-10.5 h-10  border border-[#CDD5DF] flex justify-center items-center rounded-[3px] cursor-pointer">
-                <img src="/images/icons/toggle.svg" alt="" />
+                className="p-3 gap-2 h-10   bg-[var(--color-primary)] flex justify-center items-center rounded-[3px] cursor-pointer">
+                <img src="/images/icons/toggleArrow_white.svg" alt="" />
+                <span className="text-white">{t('Switch activity')}</span>
               </div>
 
               {/* Language Dropdown */}

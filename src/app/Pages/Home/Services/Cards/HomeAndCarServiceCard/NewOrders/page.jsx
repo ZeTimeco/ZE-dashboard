@@ -31,7 +31,15 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
           >
             {/* Service */}
             <div className="flex gap-2 items-center">
-              <img src={`${IMAGE_BASE_URL}${order?.service_icon}`} alt="service" className="w-8 h-8" />
+              <img
+                src={
+                  order?.service_icon
+                    ? `${IMAGE_BASE_URL}${order.service_icon}`
+                    : "/images/icons/renewable-energy.svg"
+                }
+                alt="service"
+                className='w-6 h-6 mt-1'
+              />             
               <p>
                 <span className="text-[#364152] text-lg font-medium">
                   {order?.service_name} -
