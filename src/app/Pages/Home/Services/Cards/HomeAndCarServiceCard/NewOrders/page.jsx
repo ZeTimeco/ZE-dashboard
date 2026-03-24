@@ -1,6 +1,5 @@
 'use client';
 import { getBookingNewThunk } from "@/redux/slice/Home/HomeSlice";
-import Loader from "@/app/Components/Loader/Loader";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,15 +10,12 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
 
   //API
   const dispatch = useDispatch();
-  const {newBookings, loading ,error}= useSelector((state)=>state.Home)
   
   useEffect(()=>{
     dispatch(getBookingNewThunk())
   },[dispatch])
 
-  console.log(newBookings);
 
-  if (loading) return <Loader />;
 
   return (
     <div className="border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto">
@@ -28,7 +24,7 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
       </p>
 
       <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : `grid lg1:grid-cols-1 ${orders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
-        {newBookings?.map((order , index) => (
+        {orders?.map((order , index) => (
           <div
             key={order?.booking_id || index}
             className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4"

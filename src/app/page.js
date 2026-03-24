@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 function Homepage({ children }) {
   const [open, setOpen] = useState(true);
-  const [checkedAuth, setCheckedAuth] = useState(false); // 🟢 controls render
+  const [checkedAuth, setCheckedAuth] = useState(false); 
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
@@ -22,7 +22,7 @@ function Homepage({ children }) {
     }
 
     if (token && pathname.startsWith("/Auth")) {
-      router.replace("/");
+      router.replace("/Pages/Home/Services");
       return;
     }
 

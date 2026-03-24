@@ -4,20 +4,17 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl';
-import Loader from '@/app/Components/Loader/Loader';
 
 function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) {
   const { t } = useTranslation();
 
   //API
   const dispatch = useDispatch();
-  const {ongoingBookings, loading ,error}= useSelector((state)=>state.Home)
 
   useEffect(()=>{
     dispatch(getBookingOngoingThunk())
   },[dispatch])
 
-  if (loading) return <Loader />;
 
   const StatusRender = (status) => {
     switch (status) {
@@ -83,7 +80,7 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
       <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
 
       <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : `grid lg1:grid-cols-1 ${orders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
-        {ongoingBookings?.map((order) => (
+        {orders?.map((order) => (
           <div key={order?.booking_id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4'>
             <div className='flex justify-between w-full'>
               <div className='flex gap-2 w-full'>

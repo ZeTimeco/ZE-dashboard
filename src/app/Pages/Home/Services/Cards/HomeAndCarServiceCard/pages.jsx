@@ -2,28 +2,15 @@
 import React from 'react'
 import NewOrdersPage from './NewOrders/page'
 import CurrentOrdersPage from './CurrentOrders/page'
+import { useSelector } from 'react-redux';
+import Loader from '@/app/Components/Loader/Loader';
 
 function HomeAndCarServiceCardPages({current_module_key}) {
+    const {ongoingBookings,newBookings , loading ,error}= useSelector((state)=>state.Home)
   
-  const newOrders = [
-    {
-      id: 1,
-      service: "شحن فريون",
-      customer: "هاني سعيد",
-      price: "40.00",
-      distance: "32 كم",
-      location: "شارع رئيسي 123 مدينة نصر",
-    }
-  ];
+  const newOrders = newBookings ;
 
-  const currentOrders = [
-    {
-      id: 1,
-      service: 'شحن فريون',
-      status: 'in_progress',
-      customer: 'هاني سعيد',
-    },
-  ];
+  const currentOrders = ongoingBookings ;
 
   const isNewOrdersEmpty = newOrders.length === 0;
   const isCurrentOrdersEmpty = currentOrders.length === 0;
@@ -35,6 +22,7 @@ function HomeAndCarServiceCardPages({current_module_key}) {
   if (!isNewOrdersEmpty && isCurrentOrdersEmpty) {
     return <NewOrdersPage orders={newOrders} layout="grid" />;
   }
+
 
   return (
     <>
