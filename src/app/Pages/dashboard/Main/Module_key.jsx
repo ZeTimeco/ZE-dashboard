@@ -7,7 +7,6 @@ import { getmodulesThunk } from '@/redux/slice/Services/ServicesSlice'
 import { setModuleIdThunk } from '@/redux/slice/Home/HomeSlice'
 import { getProfileThunk } from '@/redux/slice/Setting/SettingSlice'
 import { IMAGE_BASE_URL } from '../../../../../config/imageUrl'
-import ServicesPage from '../../Home/Services/page'
 
 function Module_key({ onClose }) {
     const {t} = useTranslation()
@@ -81,7 +80,7 @@ function Module_key({ onClose }) {
           } else if (status === 'active') {
             if (has_subscription === true) {
               if (onClose) onClose()
-              router.push('/Pages/Home/Services')
+              router.push('/Pages/Home')
             } else {
               if (onClose) onClose()
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')

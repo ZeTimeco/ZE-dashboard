@@ -3,7 +3,7 @@ import { getBookingNewThunk } from "@/redux/slice/Home/HomeSlice";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { IMAGE_BASE_URL } from "../../../../../../../../config/imageUrl";
+import { IMAGE_BASE_URL } from "../../../../../../../../../config/imageUrl";
 
 function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
   const { t } = useTranslation();

@@ -3,7 +3,7 @@ import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { getModuleTitle } from '../../../../../../config/getModuleTitle';
+import { getModuleTitle } from '../../../../../../../config/getModuleTitle';
 
 function TileOfSevicesPage({current_module_key}) {
   const {t} = useTranslation();
