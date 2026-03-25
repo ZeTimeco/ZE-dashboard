@@ -2,9 +2,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function Cardspage() {
+function Cardspage({topProperties}) {
   const { t } = useTranslation();
-  const status = "inactive"
+  // const status = "inactive"
 
   const StatusRender = (status) => {
     switch (status) {
@@ -28,37 +28,44 @@ function Cardspage() {
         );  
     }
   };
+
   return (
     <>
-    <div className='flex justify-between mb-5'>
-      <p className='text-[#0F022E] text-2xl font-medium mb-1'>{t('My properties')}</p>
-      <button className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
-        {t('More')}
-      </button>
-    </div>
-    <div className='mb-10 grid grid-cols-2 lg1:grid-cols-3 gap-4 '>
+      <div className='flex justify-between mb-5'>
+        <p className='text-[#0F022E] text-2xl font-medium mb-1'>{t('My properties')}</p>
+        <button className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
+          {t('More')}
+        </button>
+      </div>
 
-        <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)]  p-3'>
-          <div className='relative w-full'>
-            <img src="/images/testyImage.svg" alt="" className='w-full' />
-            <div className='absolute top-2 left-2'>{StatusRender(status)} </div>
-          </div>
-          <div className='mt-4'>
-            <p className='text-[#364152] text-base font-medium'>فيلا الروابي الفاخرة</p>
-            <div className='flex gap-2 mt-1'>
-              <img src="/images/icons/location-gray.svg" alt="" />
-              <p className='text-[#697586] text-sm font-normal'>فيلا . جدة, حي الشاطي</p>
+      <div className='mb-10 flex gap-4 overflow-x-auto p-1'>
+        {topProperties?.map((property , index)=>(
+          <div 
+            key={index}  
+            className=' w-[350px] shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 flex-shrink-0'
+          >
+            <div className='relative w-full'>
+              <img src="/images/testyImage.svg" alt="" className='w-full' />
+              <div className='absolute top-2 left-2'>{StatusRender(property?.status)} </div>
             </div>
+            <div className='mt-4'>
+              <p className='text-[#364152] text-base font-medium w-[300px]'> {property?.name}</p>
+              <div className='flex gap-2 mt-1'>
+                <img src="/images/icons/location-gray.svg" alt="" />
+                <p className='text-[#697586] text-sm font-normal'>{property?.address}</p>
+              </div>
 
-            {/* btn */}
-            <button className='flex gap-2 mt-3 cursor-pointer'>
-              <img src="/images/icons/calendar-yellow.svg" alt="" />
-              <p className='text-[var(--color-primary)] text-sm font-normal'>{t('Calendar view')} </p>
-            </button>
+              {/* btn */}
+              <button className='flex gap-2 mt-3 cursor-pointer'>
+                <img src="/images/icons/calendar-yellow.svg" alt="" />
+                <p className='text-[var(--color-primary)] text-sm font-normal'>{t('Calendar view')} </p>
+              </button>
 
+            </div>
           </div>
-        </div>
-    </div>
+        ))}
+      
+      </div>
       
 
     </>

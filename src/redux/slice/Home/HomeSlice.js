@@ -1,7 +1,9 @@
-import { getBookingNew, getBookingOngoing, getProviderRate, getProviderState, setModuleId } from "@/redux/api/Home/HomeApi";
+import { getBookingNew, getBookingOngoing, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-//add or update module
+
+//Home-Car-Street_module
+//************************************************* */
 export const setModuleIdThunk = createAsyncThunk('Home/setModuleIdThunk',
   async(module_id  , {rejectWithValue})=>{
     try{
@@ -57,6 +59,30 @@ export const getBookingOngoingThunk = createAsyncThunk('Home/getBookingOngoingTh
   }
 )
 
+//property_module
+//************************************************* */
+export const getPropertiesAnalysisThunk = createAsyncThunk('Home/getPropertiesAnalysisThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getPropertiesAnalysis()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch properties analysis");
+    }
+  }
+)
+
+export const getPropertiesTopThunk = createAsyncThunk('Home/getPropertiesTopThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getPropertiesTop()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch properties top");
+    }
+  }
+)
+
 const initialState = {
   loading:false,
   error:null,
@@ -65,6 +91,11 @@ const initialState = {
   providerRate:[],
   newBookings:[],
   ongoingBookings:[],
+
+  analysisProperties:null,
+  topProperties:[],
+
+
 
 
 
@@ -145,6 +176,35 @@ const homeSlice = createSlice({
         state.error = null;
       })
       .addCase(getBookingOngoingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //-------------------------------------------------------------------------------------
+      //getPropertiesAnalysisThunk
+      .addCase(getPropertiesAnalysisThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getPropertiesAnalysisThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.analysisProperties = action.payload; 
+        state.error = null;
+      })
+      .addCase(getPropertiesAnalysisThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getPropertiesTopThunk
+      .addCase(getPropertiesTopThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getPropertiesTopThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.topProperties = action.payload; 
+        state.error = null;
+      })
+      .addCase(getPropertiesTopThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
