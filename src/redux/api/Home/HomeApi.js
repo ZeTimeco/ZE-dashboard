@@ -39,3 +39,8 @@ export const getPropertiesTop = async()=>{
   const response = await API.get('/properties/top')
   return response.data
 }
+
+export const gettopThreeBookings = async()=>{
+  const response = await API.get('/provider/topThreeBookings')
+  return response.data
+}

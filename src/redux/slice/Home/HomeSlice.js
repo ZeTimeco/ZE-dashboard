@@ -1,4 +1,4 @@
-import { getBookingNew, getBookingOngoing, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, setModuleId } from "@/redux/api/Home/HomeApi";
+import { getBookingNew, getBookingOngoing, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -83,6 +83,20 @@ export const getPropertiesTopThunk = createAsyncThunk('Home/getPropertiesTopThun
   }
 )
 
+export const gettopThreeBookingsThunk = createAsyncThunk('Home/gettopThreeBookingsThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await gettopThreeBookings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch properties top three bookings");
+    }
+  }
+)
+
+
+
+
 const initialState = {
   loading:false,
   error:null,
@@ -94,6 +108,7 @@ const initialState = {
 
   analysisProperties:null,
   topProperties:[],
+  topThreeBookings:[],
 
 
 
@@ -205,6 +220,20 @@ const homeSlice = createSlice({
         state.error = null;
       })
       .addCase(getPropertiesTopThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //gettopThreeBookingsThunk
+      .addCase(gettopThreeBookingsThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(gettopThreeBookingsThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.topThreeBookings = action.payload; 
+        state.error = null;
+      })
+      .addCase(gettopThreeBookingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

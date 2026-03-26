@@ -2,12 +2,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function UpcomingBookingsPage() {
-  //'pending//','confirmed//','checked_in//','completed/','canceled','not_attend'
-  //قيد الانتظار - مقبول - تم الوصول - مكتمل - ملغي - لم يحضر
-
+function UpcomingBookingsPage({topThreeBookings}) {
   const{t}  = useTranslation()
-  const status = 'not_attend'
+  
   const StatusRender = (status) => {
     switch (status) {
       case "confirmed": //مقبول
@@ -78,25 +75,36 @@ function UpcomingBookingsPage() {
         </button>
       </div>
   
+
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 mb-10 rounded-[3px]'>
-          <div className='flex justify-between mb-4'>
-            <div className='flex items-center gap-2'>
-              <p className='w-9 h-9 flex items-center justify-center bg-[#007AFF] text-white rounded-full'>a</p>
-              <p className='text-[#364152] text-sm font-normal'>شريف اكرامي</p>
+          {topThreeBookings?.map((booking , index)=>(
+            <div key={index}>
+              <div className='flex justify-between mb-4'>
+                <div className='flex items-center gap-2'>
+                  <p className='w-9 h-9 flex items-center justify-center bg-[#007AFF] text-white rounded-full'>
+                    {booking?.guest?.name?.charAt(0)}
+                  </p>
+                  <p className='text-[#364152] text-sm font-normal'>{booking?.guest?.name} </p>
+                </div>
+                <div>{StatusRender(booking?.status)}</div>
+              </div>
+
+              <div className='flex justify-between'>
+                <p className='text-[#232323] text-sm font-normal w-[65%]'>
+                  {booking?.property?.title}
+                </p>
+                <p className='text-[#4B5565] text-sm font-normal  w-[35%]mr-5 '>
+                  {booking?.check_in} : {booking?.check_out}
+                </p>
+              </div>
+
+              {index !== topThreeBookings.length - 1 && (
+                <div className='border border-[#CDD5DF] my-4'></div>
+              )}      
+              
             </div>
-            <div>{StatusRender(status)}</div>
-          </div>
-
-          <div className='flex justify-between'>
-            <p className='text-[#232323] text-sm font-normal'>
-              جناح فندقي فاخر جناح فندقي فاخ جناح فندقي فاخرر 
-            </p>
-            <p className='text-[#4B5565] text-sm font-normal'>
-              20 يناير : 21 يناير
-            </p>
-          </div>
-
-          <div className='border border-[#CDD5DF] mt-4'></div>
+          ))}
+          
 
       </div>
     </div>
