@@ -9,6 +9,7 @@ import { getPropertiesAnalysisThunk, getPropertiesTopThunk } from '@/redux/slice
 import UpcomingBookingsPage from './UpcomingBookings/page'
 import PerformancePage from './Performance/page'
 import ChatPage from './Chat/page'
+import ActionPage from './Action/page'
 
 function ServicesPage() {
   const dispatch = useDispatch()
@@ -22,9 +23,13 @@ function ServicesPage() {
   console.log(topProperties);
   return (
     <MainLayout>
+
       <TileOfSevicesPage/>
+
       <BoxPage analysisProperties={analysisProperties}/>
+      
       <Cardspage topProperties={topProperties}/>
+
       <div className='grid grid-cols-2 gap-6'>
         <UpcomingBookingsPage />
         <div>
@@ -32,6 +37,8 @@ function ServicesPage() {
           <ChatPage/>
         </div>
       </div>
+
+      <ActionPage/>
       
     </MainLayout>
   )

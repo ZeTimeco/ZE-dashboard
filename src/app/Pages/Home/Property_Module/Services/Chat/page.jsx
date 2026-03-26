@@ -6,7 +6,7 @@ function ChatPage() {
   const {t} = useTranslation()
   return (
     <>
-      <div className='border border-[var(--color-primary)] rounded-[3px]  p-4 mb-10'>
+      <div className='border border-[var(--color-primary)] rounded-[3px]  p-4 mb-8'>
 
         <div className='flex justify-between mb-4'>
           <div className='flex items-center gap-2'>

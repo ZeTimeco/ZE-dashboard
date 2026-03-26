@@ -68,7 +68,7 @@ function SidebarDelivery({ isSidebarOpen, setIsSidebarOpen }) {
           
           {/* Dashboard */}
           <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Home/Services"  >
+            <Link href="/Pages/Home"  >
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center py-3 px-2'>
