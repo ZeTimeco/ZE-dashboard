@@ -12,7 +12,7 @@ function BoxPage({analysisProperties}) {
   return (
     <>
 
-    <section className='mb-10 grid grid-cols-2 lg1:grid-cols-4 gap-4 '>
+    <section className='mb-10 grid grid-cols-2 lg1:grid-cols-4 gap-4  '>
 
       {/* Access operations*/}
       <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>

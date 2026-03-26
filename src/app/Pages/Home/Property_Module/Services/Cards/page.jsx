@@ -42,7 +42,7 @@ function Cardspage({topProperties}) {
         {topProperties?.map((property , index)=>(
           <div 
             key={index}  
-            className=' w-[350px] shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-3 flex-shrink-0'
+            className=' w-[350px] shadow-[0_0_4px_0_rgba(0,0,0,0.30)] rounded-[3px] p-3 flex-shrink-0'
           >
             <div className='relative w-full'>
               <img src="/images/testyImage.svg" alt="" className='w-full' />
