@@ -44,3 +44,8 @@ export const gettopThreeBookings = async()=>{
   const response = await API.get('/provider/topThreeBookings')
   return response.data
 }
+
+export const getconversationsLatestUnseen = async()=>{
+  const response = await API.get('/provider/conversations/latest-unseen')
+  return response.data
+}

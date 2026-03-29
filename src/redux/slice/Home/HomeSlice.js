@@ -1,4 +1,4 @@
-import { getBookingNew, getBookingOngoing, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, setModuleId } from "@/redux/api/Home/HomeApi";
+import { getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -94,6 +94,17 @@ export const gettopThreeBookingsThunk = createAsyncThunk('Home/gettopThreeBookin
   }
 )
 
+export const getconversationsLatestUnseenThunk = createAsyncThunk('Home/getconversationsLatestUnseenThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getconversationsLatestUnseen()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to fetch latest unseen conversations");
+    }
+  }
+)
+
 
 
 
@@ -109,6 +120,7 @@ const initialState = {
   analysisProperties:null,
   topProperties:[],
   topThreeBookings:[],
+  conversationsLatestUnseen:[]
 
 
 
@@ -237,7 +249,20 @@ const homeSlice = createSlice({
         state.loading = false;
         state.error = action.payload; 
       })
-
+      //getconversationsLatestUnseenThunk
+      .addCase(getconversationsLatestUnseenThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getconversationsLatestUnseenThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.conversationsLatestUnseen = action.payload; 
+        state.error = null;
+      })
+      .addCase(getconversationsLatestUnseenThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
       
   }
 })
