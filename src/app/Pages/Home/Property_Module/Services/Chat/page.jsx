@@ -27,7 +27,7 @@ function ChatPage({conversationsLatestUnseen}) {
       {conversationsLatestUnseen?.map((conversation , index)=>(
         <div
           key={conversation?.conversation_id}
-          className='border border-[var(--color-primary)] rounded-[3px]  p-4 mb-8'
+          className='border border-[var(--color-primary)] rounded-[3px]  p-4 mb-2'
         >
           <div className='flex justify-between mb-4'>
             <div className='flex items-center gap-2'>
