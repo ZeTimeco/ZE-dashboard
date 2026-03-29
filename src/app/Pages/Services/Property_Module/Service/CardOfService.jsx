@@ -21,14 +21,36 @@ function CardOfService() {
         return null;  
     }
   }; 
-
+  //'draft','pending','active','inactive', 'rejected'
+  // const  status2 = 'draft'
+  // const StatusRender2 = (status) => {
+  //   switch(status) {
+  //     case "draft": //مسودة
+  //       return (
+  //         <div className=' bg-[#F9F5E8] border border-[#F59E0B] text-[#F59E0B] w-fit  h-9.5 rounded-3xl flex justify-center items-center '>
+  //         <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex gap-1'>
+  //           <img src="/images/icons/Draft Status.svg" alt="" className='w-4 h-4' />
+  //           <span className='text-xs lg1:text-sm'>{t('draft')}</span>
+  //         </div>
+  //       </div>
+  //       );
+  //     case "pending": //في انتظار الموافقة
+  //       return null;
+  //     case "active": //مكتمله
+  //       return null;
+  //     case "inactive": //غير نشط
+  //       return null;
+  //     case "rejected": //مرفوض
+  //       return null;
+  //   }
+  // }
   return (
     <>
 
       <section className='shadow-[0_0_4px_0_#0000004D] p-3'>
         <div className='relative w-full'>
           <img src="/images/testyImage.svg" alt="" className='w-full' />
-          <p className='absolute top-2 right-2'>{StatusRender(status)}</p>
+          <div className='absolute top-2 right-2'>{StatusRender(status)}</div>
           <p className='absolute top-2 left-2 '>
             <img src="/images/icons/dots.svg" alt="" />
           </p>
@@ -39,35 +61,35 @@ function CardOfService() {
           <div className='flex justify-between items-center'>
             <div>
               <p className='text-[#364152] text-base font-semibold'>فيلا الروابي الفاخرة</p>
-              <p className='flex gap-1'>
+              <div className='flex gap-1'>
                 <img src="/images/icons/location-gray.svg" alt="" />
                 <p className='text-[#697586] text-sm font-normal'>فيلا . جدة, حي الشاطي</p>
-              </p>
+              </div>
             </div>
             <div>hhh</div>
           </div>
 
           {/* //price and busy and rating and reservation */}
           <div className='py-4 grid grid-cols-2 gap-4'>
-            <p className='flex gap-1.5'>
+            <div className='flex gap-1.5'>
               <img src="/images/icons/dollar-circle_gray.svg" alt="" />
               <p className='text-[#4B5565] text-sm font-normal'>1,200 SAR</p>
-            </p>
+            </div>
 
-            <p className='flex gap-1.5'>
+            <div className='flex gap-1.5'>
               <img src="/images/icons/price.svg" alt="" />
               <p className='text-[#4B5565] text-sm font-normal'>78% {t('busy')}</p>
-            </p>
+            </div>
 
-            <p className='flex gap-1.5'>
+            <div className='flex gap-1.5'>
               <img src="/images/icons/star.svg" alt="" />
               <p className='text-[#4B5565] text-sm font-normal'> 4.2(120)</p>
-            </p>
+            </div>
 
-            <p className='flex gap-1.5'>
+            <div className='flex gap-1.5'>
               <img src="/images/icons/price.svg" alt="" />
               <p className='text-[#4B5565] text-sm font-normal'>18 {t('reservation')}</p>
-            </p>
+            </div>
             
           </div>
 
@@ -75,13 +97,13 @@ function CardOfService() {
 
           <div className='flex justify-between'>
             {/* available date */}
-            <p className='flex items-center gap-1.5'>
+            <div className='flex items-center gap-1.5'>
               <img src="/images/icons/calender.svg" className="w-6 h-6" />
               <p className='text-[#364152] text-sm font-normal'>
                 <span>{t('Available starting from')} : </span>
                 <span> 20 اكتوبر </span>
               </p>
-            </p>
+            </div>
 
             {/* btn */}
             <div className='flex mt-2 gap-3 '>
