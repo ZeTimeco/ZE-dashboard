@@ -193,6 +193,11 @@ font-size: 50px;
     width: 39rem;
     height: fit-content;
   }
+  .property-dialog{
+  max-width: unset !important;
+  width: 40rem;
+  height:fit-content;
+  }
 
   
 /*street assistant NewOrdersPage*/
