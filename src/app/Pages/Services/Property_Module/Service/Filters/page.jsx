@@ -6,8 +6,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import LocationPage from './Location/page';
 
-function FiltersPage({ open, handleClose }) {
+function FiltersPage({ open,setOpen , handleClose }) {
   const { t } = useTranslation();
 
   const [openLocation, setOpenLocation] = useState(false);
@@ -222,8 +223,8 @@ function FiltersPage({ open, handleClose }) {
             >
               <input
                 type="text"
-                
                 className="h-15 p-3 w-full text-[#364152] focus:outline-none"
+                onClick={()=>{handleClose(); setOpenLocation(true)}}
               />
 
               {/* <span className="absolute left-3 pointer-events-none">
@@ -490,6 +491,12 @@ function FiltersPage({ open, handleClose }) {
       </section>
       
     </Dialog>
+
+    <LocationPage
+      openLocation={openLocation}
+      setOpenLocation={setOpenLocation}
+      setOpenMainFilter={setOpen}
+    />
 
     </>
   )

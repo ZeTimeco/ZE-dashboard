@@ -40,6 +40,7 @@ function Appoint_SpecialistPage({ setActiveSection , bookingDetails }) {
         formData.append('visit_date', bookingDetails?.visit_date);
         formData.append('visit_time', bookingDetails?.visit_time);
         dispatch(getAvailableHandymenThunk(formData));
+        window.dispatchEvent(new Event('booking_updated'));
       }
     });
   };

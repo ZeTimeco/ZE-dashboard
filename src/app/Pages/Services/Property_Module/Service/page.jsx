@@ -47,6 +47,7 @@ function ServicePage() {
 
       <FiltersPage
         open={open} 
+        setOpen={setOpen}
         handleClose={handleClose} 
       />
     </MainLayout>

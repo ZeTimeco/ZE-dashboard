@@ -21,29 +21,57 @@ function CardOfService() {
         return null;  
     }
   }; 
-  //'draft','pending','active','inactive', 'rejected'
-  // const  status2 = 'draft'
-  // const StatusRender2 = (status) => {
-  //   switch(status) {
-  //     case "draft": //مسودة
-  //       return (
-  //         <div className=' bg-[#F9F5E8] border border-[#F59E0B] text-[#F59E0B] w-fit  h-9.5 rounded-3xl flex justify-center items-center '>
-  //         <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex gap-1'>
-  //           <img src="/images/icons/Draft Status.svg" alt="" className='w-4 h-4' />
-  //           <span className='text-xs lg1:text-sm'>{t('draft')}</span>
-  //         </div>
-  //       </div>
-  //       );
-  //     case "pending": //في انتظار الموافقة
-  //       return null;
-  //     case "active": //مكتمله
-  //       return null;
-  //     case "inactive": //غير نشط
-  //       return null;
-  //     case "rejected": //مرفوض
-  //       return null;
-  //   }
-  // }
+  //'draft','pending','completed','inactive','rejected'
+  const  approvalStatus = 'rejected'
+  const StatusRender2 = (status) => {
+    switch(status) {
+      case "completed": //مكتمله 
+        return (
+          <div className=' bg-[#fff] border border-[#17B26A] text-[#067647] w-fit  h-7.5 rounded-[3px] flex justify-center items-center '>
+            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center gap-1'>
+              <img src="/images/icons/true_green.svg" alt="" className='w-3.5 h-3.5' />
+              <span className='text-xs lg1:text-sm'>{t('completed')}</span>
+            </div>
+          </div>
+        );
+      case "pending": //في انتظار الموافقة
+        return (
+          <div className=' bg-[#FFFAEB] border border-[#F79009] text-[#DC6803] w-fit  h-7.5 rounded-[3px] flex  items-center '>
+            <div className='py-1 px-2 flex  items-center  gap-1'>
+              <img src="/images/icons/loading.svg" alt="" className='w-4 h-4' />
+              <span className='text-xs lg1:text-sm'>{t('pending')}</span>
+            </div>
+          </div>
+        );
+      case "draft": //مسودة
+        return (
+          <div className=' bg-[#EFF6FF] border border-[#48A1FF] text-[#48A1FF] w-fit  h-7.5 rounded-[3px] flex justify-center items-center '>
+            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center gap-1'>
+              <img src="/images/icons/remove-circle_babyblue.svg" alt="" className='w-3.5 h-3.5' />
+              <span className='text-xs lg1:text-sm'>{t('draft')}</span>
+            </div>
+          </div>
+        );
+      case "inactive": //غير نشط
+        return (
+          <div className=' bg-[#F8FAFC] border border-[#9AA4B2] text-[#9AA4B2] w-fit  h-7.5 rounded-[3px] flex  items-center '>
+            <div className='py-1 px-2 flex  items-center  gap-1'>
+              <img src="/images/icons/remove-circle_gray.svg" alt="" className='w-4 h-4' />
+              <span className='text-xs lg1:text-sm'>{t('inactive')}</span>
+            </div>
+          </div>
+        );
+      case "rejected": //مرفوض
+        return (
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  h-7.5 rounded-[3px] flex  items-center '>
+            <div className='py-1 px-2 flex  items-center  gap-1'>
+              <img src="/images/icons/refused Status.svg" alt="" className='w-4 h-4' />
+              <span className='text-xs lg1:text-sm'>{t('rejected')}</span>
+            </div>
+          </div>
+        );
+    }
+  }
   return (
     <>
 
@@ -66,7 +94,7 @@ function CardOfService() {
                 <p className='text-[#697586] text-sm font-normal'>فيلا . جدة, حي الشاطي</p>
               </div>
             </div>
-            <div>hhh</div>
+            <div>{StatusRender2(approvalStatus)}</div>
           </div>
 
           {/* //price and busy and rating and reservation */}

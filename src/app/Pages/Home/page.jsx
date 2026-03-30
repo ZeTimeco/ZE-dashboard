@@ -6,8 +6,19 @@ import Property_Module from './Property_Module/Services/page';
 function HomePage() {
     const [current_module_key, setCurrentModuleKey] = useState(null)
     useEffect(() => {
-      const userData = JSON.parse(localStorage.getItem('user'))
-      setCurrentModuleKey(userData?.current_module_key ?? null)
+      const fetchUserData = () => {
+        const userData = JSON.parse(localStorage.getItem('user'))
+        setCurrentModuleKey(userData?.current_module_key ?? null)
+      }
+
+      fetchUserData()
+      window.addEventListener('user_updated', fetchUserData)
+      window.addEventListener('storage', fetchUserData)
+      
+      return () => {
+        window.removeEventListener('user_updated', fetchUserData)
+        window.removeEventListener('storage', fetchUserData)
+      }
     }, [])
 
 

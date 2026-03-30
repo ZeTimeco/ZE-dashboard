@@ -29,6 +29,7 @@ function Module_key({ onClose }) {
                 if (updatedUser) {
                     localStorage.removeItem('user')
                     localStorage.setItem('user', JSON.stringify(updatedUser))
+                    window.dispatchEvent(new Event('user_updated'))
                 }
             } catch (error) {
                 console.error("Failed to sync profile on mount", error)
@@ -67,6 +68,7 @@ function Module_key({ onClose }) {
         if (updatedUser) {
           localStorage.removeItem('user')
           localStorage.setItem('user', JSON.stringify(updatedUser))
+          window.dispatchEvent(new Event('user_updated'))
 
           const { national_id, status, has_subscription } = updatedUser
         
