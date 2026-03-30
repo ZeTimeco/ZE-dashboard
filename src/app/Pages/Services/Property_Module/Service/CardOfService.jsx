@@ -72,6 +72,70 @@ function CardOfService() {
         );
     }
   }
+
+  let content;
+  if(approvalStatus === 'completed' || approvalStatus === 'inactive') {
+      content = (
+          <div className='py-4 grid grid-cols-2 gap-4'>
+            <div className='flex gap-1.5'>
+              <img src="/images/icons/dollar-circle_gray.svg" alt="" />
+              <p className='text-[#4B5565] text-sm font-normal'>1,200 SAR</p>
+            </div>
+
+            <div className='flex gap-1.5'>
+              <img src="/images/icons/price.svg" alt="" />
+              <p className='text-[#4B5565] text-sm font-normal'>78% {t('busy')}</p>
+            </div>
+
+            <div className='flex gap-1.5'>
+              <img src="/images/icons/star.svg" alt="" />
+              <p className='text-[#4B5565] text-sm font-normal'> 4.2(120)</p>
+            </div>
+
+            <div className='flex gap-1.5'>
+              <img src="/images/icons/price.svg" alt="" />
+              <p className='text-[#4B5565] text-sm font-normal'>18 {t('reservation')}</p>
+            </div>
+            
+          </div>
+      )
+  }else if(approvalStatus === 'pending') {
+      content = (
+        <div className='my-4 py-2 px-4 border border-[#FEC84B] bg-[#FFFAEB] rounded-[3px] '>
+          <div className='flex gap-1.5'>
+            <img src="/images/icons/clock_orange_bold.svg" alt="" />
+            <p className='text-[#364152] text-sm font-medium'>{t('Under review')}</p>
+          </div>
+          <p className='text-[#4B5565] text-sm font-normal'>
+            {t('Expected approval within 2-3 business days')}
+          </p>
+        </div>
+      )
+  }else if(approvalStatus === 'draft') {
+      content = (
+        <div className='my-4 py-2 px-4 border border-[#48A1FF] bg-[#EFF6FF] rounded-[3px]'>
+          <div className='flex gap-1.5'>
+            <img src="/images/icons/i_blue.svg" alt="" />
+            <p className='text-[#364152] text-sm font-medium'>{t('Complete the numbers')}</p>
+          </div>
+          <p className='text-[#4B5565] text-sm font-normal'>
+            أضف الصورة والأسعار للنشر
+          </p>
+        </div>
+      )
+  }else if(approvalStatus === 'rejected') {
+      content = (
+        <div className='my-4 py-2 px-4 border border-[#F04438] bg-[#FEE4E2] rounded-[3px]'>
+          <div className='flex gap-1.5'>
+            <img src="/images/icons/warning_red.svg" alt="" />
+            <p className='text-[#364152] text-sm font-medium'>{t('Required procedure')}</p>
+          </div>
+          <p className='text-[#4B5565] text-sm font-normal'>
+            الصور لا تلبي معايير الجودة
+          </p>
+        </div>
+      )
+  }
   return (
     <>
 
@@ -98,28 +162,7 @@ function CardOfService() {
           </div>
 
           {/* //price and busy and rating and reservation */}
-          <div className='py-4 grid grid-cols-2 gap-4'>
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/dollar-circle_gray.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'>1,200 SAR</p>
-            </div>
-
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/price.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'>78% {t('busy')}</p>
-            </div>
-
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/star.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'> 4.2(120)</p>
-            </div>
-
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/price.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'>18 {t('reservation')}</p>
-            </div>
-            
-          </div>
+          {content}
 
           <div className='border border-[#E3E8EF]'></div>
 
