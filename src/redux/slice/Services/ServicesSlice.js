@@ -1,5 +1,9 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+//Home-Car-****************************************************
+//************************************************* */
+//*********************************************************************** */
 
 // get all services
 export const getAllServicesThunk = createAsyncThunk(
@@ -43,7 +47,6 @@ export const getServiceAnalysisByIdThunk = createAsyncThunk(
 )
 
 /**Add service list**/
-
 //Get module
 export const getmodulesThunk = createAsyncThunk(
   "services/getmodules",
@@ -123,8 +126,10 @@ export const deleteServiceThunk = createAsyncThunk(
 );
 
 
-//street assistant
-/* ************************** */
+//street assistant*******************************************************
+/* ************************** *****************************************/
+//**************************************************************************** */
+
 
 export const getStreetServiceByIdThunk = createAsyncThunk(
   'sevices/getStreetServiceByIdThunk', 
@@ -150,7 +155,6 @@ export const getFuelPricesThunk = createAsyncThunk(
     }
   }
 )
-
 
 export const getActiveFuelTypesThunk = createAsyncThunk(
   'service/getActiveFuelTypesThunk',
@@ -237,6 +241,21 @@ export const updateFuelPriceThunk = createAsyncThunk(
   }
 )
 
+
+//Property*******************************************************
+/* ************************** *****************************************/
+//**************************************************************************** */
+
+export const getAllPropertiesThunk = createAsyncThunk('service/getAllPropertiesThunk', 
+  async(params = {} , {rejectWithValue})=>{
+    try{
+      const response = await getAllProperties(params);
+      return response; // returning whole response to get meta
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  })
+
 const initialState = {
     services: [],
     pagination: null,
@@ -257,12 +276,15 @@ const initialState = {
     selectedService:null,
     fuelPrice:[],
     ActiveFuel:[],
-
     serviceData:[],
     statusData:[],
     mainStatus:false,
     FuelPriceData:[],
-    updateFuel:[]
+    updateFuel:[],
+
+    /** */
+    getProperties:[],
+    propertiesMeta: null,
   };
 
 const servicesSlice = createSlice({
@@ -279,6 +301,8 @@ const servicesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    //Home-Car-****************************************************
+    /* ************************** */
       // ✅ All Services
       .addCase(getAllServicesThunk.pending, (state) => {
         state.loadingList = true;
@@ -410,7 +434,7 @@ const servicesSlice = createSlice({
         state.errorDetails = action.payload;
       })
 
-//street assistant
+//street assistant-****************************************************
 /* ************************** */
       //getStreetServiceByIdThunk
       .addCase(getStreetServiceByIdThunk.pending, (state) => {
@@ -546,6 +570,24 @@ const servicesSlice = createSlice({
       .addCase(updateFuelPriceThunk.rejected, (state, action) => {
         state.loadingList = false;
         state.errorList = action.payload;
+      })
+      
+      //Property -****************************************************
+      /* ************************** */
+
+      //getAllPropertiesThunk
+      .addCase(getAllPropertiesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getAllPropertiesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getProperties = action.payload?.data || action.payload || [];
+        state.propertiesMeta = action.payload?.meta || null;
+      })
+      .addCase(getAllPropertiesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
       })
 
 

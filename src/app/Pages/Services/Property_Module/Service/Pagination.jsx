@@ -1,14 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 
-const Pagination = ({ totalPages = 10 }) => {
+const Pagination = ({ meta = {}, onPageChange }) => {
   const { t } = useTranslation();
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  const totalPages = meta.total_pages || 1;
+  const currentPage = meta.current_page || 1;
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
+    if (onPageChange) onPageChange(page);
   };
 
   const generatePages = () => {

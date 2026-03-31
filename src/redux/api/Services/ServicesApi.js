@@ -1,5 +1,11 @@
 import API from "../../../../config/api";
 
+
+
+//Home-Car-****************************************************
+//************************************************* */
+//*********************************************************************** */
+
 export const getAllServices = async (params = {}) => {
   const response = await API.get("/provider/services", {
     params: params,
@@ -66,8 +72,9 @@ export const deleteService = async (service_id) => {
 
 
 
-//street assistant
-/* ************************** */
+//street assistant*******************************************************
+/* ************************** *****************************************/
+//**************************************************************************** */
 
 export const getStreetServiceById =async()=>{
   const response = await API.get('/street_assistant/services')
@@ -114,4 +121,14 @@ export const createFuelPrice = async(formData)=>{
 export const updateFuelPrice = async(formData)=>{
   const response = await API.post('/street_assistant/updateFuelPrice',formData)
   return response.data  
+}
+
+
+//Property*******************************************************
+/* ************************** *****************************************/
+//**************************************************************************** */
+
+export const getAllProperties = async(params = {}) => {
+  const response = await API.get('/get_all/properties', { params })
+  return response.data
 }

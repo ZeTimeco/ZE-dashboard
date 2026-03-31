@@ -2,10 +2,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function CardOfService() {
+function CardOfService({getProperties}) {
   const {t}= useTranslation()
 
-  const status = "active"
+  //
+  console.log(getProperties);
+
   const StatusRender = (status) => {
     switch (status) {
       case "active": //نشط 
@@ -22,7 +24,6 @@ function CardOfService() {
     }
   }; 
   //'draft','pending','completed','inactive','rejected'
-  const  approvalStatus = 'rejected'
   const StatusRender2 = (status) => {
     switch(status) {
       case "completed": //مكتمله 
@@ -73,128 +74,172 @@ function CardOfService() {
     }
   }
 
-  let content;
-  if(approvalStatus === 'completed' || approvalStatus === 'inactive') {
-      content = (
-          <div className='py-4 grid grid-cols-2 gap-4'>
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/dollar-circle_gray.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'>1,200 SAR</p>
-            </div>
 
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/price.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'>78% {t('busy')}</p>
-            </div>
-
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/star.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'> 4.2(120)</p>
-            </div>
-
-            <div className='flex gap-1.5'>
-              <img src="/images/icons/price.svg" alt="" />
-              <p className='text-[#4B5565] text-sm font-normal'>18 {t('reservation')}</p>
-            </div>
-            
-          </div>
-      )
-  }else if(approvalStatus === 'pending') {
-      content = (
-        <div className='my-4 py-2 px-4 border border-[#FEC84B] bg-[#FFFAEB] rounded-[3px] '>
-          <div className='flex gap-1.5'>
-            <img src="/images/icons/clock_orange_bold.svg" alt="" />
-            <p className='text-[#364152] text-sm font-medium'>{t('Under review')}</p>
-          </div>
-          <p className='text-[#4B5565] text-sm font-normal'>
-            {t('Expected approval within 2-3 business days')}
-          </p>
-        </div>
-      )
-  }else if(approvalStatus === 'draft') {
-      content = (
-        <div className='my-4 py-2 px-4 border border-[#48A1FF] bg-[#EFF6FF] rounded-[3px]'>
-          <div className='flex gap-1.5'>
-            <img src="/images/icons/i_blue.svg" alt="" />
-            <p className='text-[#364152] text-sm font-medium'>{t('Complete the numbers')}</p>
-          </div>
-          <p className='text-[#4B5565] text-sm font-normal'>
-            أضف الصورة والأسعار للنشر
-          </p>
-        </div>
-      )
-  }else if(approvalStatus === 'rejected') {
-      content = (
-        <div className='my-4 py-2 px-4 border border-[#F04438] bg-[#FEE4E2] rounded-[3px]'>
-          <div className='flex gap-1.5'>
-            <img src="/images/icons/warning_red.svg" alt="" />
-            <p className='text-[#364152] text-sm font-medium'>{t('Required procedure')}</p>
-          </div>
-          <p className='text-[#4B5565] text-sm font-normal'>
-            الصور لا تلبي معايير الجودة
-          </p>
-        </div>
-      )
-  }
   return (
     <>
 
-      <section className='shadow-[0_0_4px_0_#0000004D] p-3'>
-        <div className='relative w-full'>
-          <img src="/images/testyImage.svg" alt="" className='w-full' />
-          <div className='absolute top-2 right-2'>{StatusRender(status)}</div>
-          <p className='absolute top-2 left-2 '>
-            <img src="/images/icons/dots.svg" alt="" />
-          </p>
-        </div>
+      {getProperties.map((property , index)=>{
+        const  approvalStatus = property?.approval_status
+        let content;
+        if(approvalStatus === 'completed' || approvalStatus === 'inactive') {
+            content = (
+                <div className='py-4 grid grid-cols-2 gap-4'>
+                  <div className='flex gap-1.5'>
+                    <img src="/images/icons/dollar-circle_gray.svg" alt="" />
+                    <p className='text-[#4B5565] text-sm font-normal'>{property?.metrics?.this_month_profit} جنيه/شهر</p>
+                  </div>
 
-        <div className='pt-4 '>
-          {/* //title and location and status*/}
-          <div className='flex justify-between items-center'>
-            <div>
-              <p className='text-[#364152] text-base font-semibold'>فيلا الروابي الفاخرة</p>
-              <div className='flex gap-1'>
-                <img src="/images/icons/location-gray.svg" alt="" />
-                <p className='text-[#697586] text-sm font-normal'>فيلا . جدة, حي الشاطي</p>
+                  <div className='flex gap-1.5'>
+                    <img src="/images/icons/price.svg" alt="" />
+                    <p className='text-[#4B5565] text-sm font-normal'>{property?.metrics?.this_month_occupancy}% {t('busy')}</p>
+                  </div>
+
+                  <div className='flex gap-1.5'>
+                    <img src="/images/icons/star.svg" alt="" />
+                    <p className='text-[#4B5565] text-sm font-normal'> {property?.metrics?.ratings_count} ({property?.metrics?.average_rating})</p>
+                  </div>
+
+                  <div className='flex gap-1.5'>
+                    <img src="/images/icons/price.svg" alt="" />
+                    {property?.metrics?.bookings_count === null ? (
+                      <p className='text-[#4B5565] text-sm font-normal'> {t('No reservations')}</p>
+                    ) : (
+                      <p className='text-[#4B5565] text-sm font-normal'> {property?.metrics?.bookings_count}{t('reservation')}</p>
+                    )}
+                  </div>
+                  
+                </div>
+            )
+        }else if(approvalStatus === 'pending') {
+            content = (
+              <div className='my-4 py-2 px-4 border border-[#FEC84B] bg-[#FFFAEB] rounded-[3px] '>
+                <div className='flex gap-1.5'>
+                  <img src="/images/icons/clock_orange_bold.svg" alt="" />
+                  <p className='text-[#364152] text-sm font-medium'>{t('Under review')}</p>
+                </div>
+                <p className='text-[#4B5565] text-sm font-normal'>
+                  {t('Expected approval within 2-3 business days')}
+                </p>
               </div>
-            </div>
-            <div>{StatusRender2(approvalStatus)}</div>
+            )
+        }else if(approvalStatus === 'draft') {
+            content = (
+              <div className='my-4 py-2 px-4 border border-[#48A1FF] bg-[#EFF6FF] rounded-[3px]'>
+                <div className='flex gap-1.5'>
+                  <img src="/images/icons/i_blue.svg" alt="" />
+                  <p className='text-[#364152] text-sm font-medium'>{t('Complete the numbers')}</p>
+                </div>
+                <p className='text-[#4B5565] text-sm font-normal'>
+                  {property?.text_to_show}
+                </p>
+              </div>
+            )
+        }else if(approvalStatus === 'rejected') {
+            content = (
+              <div className='my-4 py-2 px-4 border border-[#F04438] bg-[#FEE4E2] rounded-[3px]'>
+                <div className='flex gap-1.5'>
+                  <img src="/images/icons/warning_red.svg" alt="" />
+                  <p className='text-[#364152] text-sm font-medium'>{t('Required procedure')}</p>
+                </div>
+                <p className='text-[#4B5565] text-sm font-normal'>
+                  {property?.text_to_show}
+                </p>
+              </div>
+            )
+        }
+
+        // 
+        const mainActions = property?.main_actions || [];
+
+
+      return(
+        <section 
+          key={index}
+          className='shadow-[0_0_4px_0_#0000004D] p-3'
+        >
+          {/* //image and status */}
+          <div className='relative w-full'>
+            <img src="/images/testyImage.svg" alt="" className='w-full' />
+            <div className='absolute top-2 right-2'>{StatusRender(property?.activity_status)}</div>
+            <p className='absolute top-2 left-2 '>
+              <img src="/images/icons/dots.svg" alt="" />
+            </p>
           </div>
 
-          {/* //price and busy and rating and reservation */}
-          {content}
-
-          <div className='border border-[#E3E8EF]'></div>
-
-          <div className='flex justify-between'>
-            {/* available date */}
-            <div className='flex items-center gap-1.5'>
-              <img src="/images/icons/calender.svg" className="w-6 h-6" />
-              <p className='text-[#364152] text-sm font-normal'>
-                <span>{t('Available starting from')} : </span>
-                <span> 20 اكتوبر </span>
-              </p>
+          <div className='pt-4 '>
+            {/* //title and location and status*/}
+            <div className='flex justify-between items-center'>
+              <div>
+                <p className='text-[#364152] text-base font-semibold'>{property?.title}</p>
+                <div className='flex gap-1'>
+                  <img src="/images/icons/location-gray.svg" alt="" />
+                  <p className='text-[#697586] text-sm font-normal'>{property?.address}</p>
+                </div>
+              </div>
+              <div>{StatusRender2(property?.approval_status)}</div>
             </div>
 
-            {/* btn */}
-            <div className='flex mt-2 gap-3 '>
-              <button className='bg-[#F9F5E8] p-2.5 rounded-[3px] cursor-pointer'>
-                <img src="/images/icons/book-open_Yellow.svg" alt="Property requests" />
-              </button>
+            {/* //price and busy and rating and reservation */}
+            {content}
 
-              <button className='bg-[#F9F5E8] p-2.5 rounded-[3px] cursor-pointer'>
-                <img src="/images/icons/calender_yellow.svg" alt="Property valuation" />
-              </button>
+            <div className='border border-[#E3E8EF]'></div>
 
-              <button className='bg-[#F9F5E8] p-2.5 rounded-[3px] cursor-pointer'>
-                <img src="/images/icons/EditYellow.svg" alt="Modification" />
-              </button>
+
+            <div className='flex justify-between'>
+              {/* available date */}
+              <div className='flex items-center gap-1.5'>
+                {property?.approval_status === 'completed' || property?.approval_status === 'inactive' ? (
+                  <>
+                    <img src="/images/icons/calender.svg" className="w-6 h-6" />
+                    <p className='text-[#364152] text-sm font-normal'>
+                      {property?.text_to_show}
+                    </p>
+                  </>
+                  ):null}
+              </div>
+
+              {/* btn */}
+              <div className='flex mt-2 gap-3 '>
+                <button className={`relative group ${mainActions.includes('view_bookings') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed'} p-2.5 rounded-[3px]  transition-all duration-300 hover:shadow-sm`}>
+                  {mainActions.includes('view_bookings') ?(
+                  <img src="/images/icons/book-open_Yellow.svg" />
+                  ):(
+                  <img src="/images/icons/book-open_Gray.svg" />
+                  )}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 bg-[#364152] text-white text-xs font-medium rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 whitespace-nowrap z-50 pointer-events-none">
+                    {t('View Bookings')}
+                  </div>
+                </button>
+                
+                <button className={`relative group ${mainActions.includes('calendar') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed '} p-2.5 rounded-[3px] transition-all duration-300 hover:shadow-sm`}>
+                  {mainActions.includes('calendar') ?(
+                  <img src="/images/icons/calender_yellow.svg" />
+                  ):(
+                  <img src="/images/icons/calender__gray.svg" />
+                  )}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 bg-[#364152] text-white text-xs font-medium rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 whitespace-nowrap z-50 pointer-events-none">
+                    {t('Calendar')}
+                  </div>
+                </button>
+
+                <button className={`relative group ${mainActions.includes('edit_property') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed'} p-2.5 rounded-[3px] transition-all duration-300 hover:shadow-sm`}>
+                  {mainActions.includes('edit_property') ?(
+                    <img src="/images/icons/EditYellow.svg" />
+                  ):(
+                    <img src="/images/icons/EditGray.svg" />
+                  )}
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2.5 py-1.5 bg-[#364152] text-white text-xs font-medium rounded shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-95 group-hover:scale-100 whitespace-nowrap z-50 pointer-events-none">
+                    {t('Edit Property')}
+                  </div>
+                </button>
+              </div>
+
             </div>
-
           </div>
-        </div>
 
-      </section>
+        </section>
+      )})}
+
 
     </>
   )
