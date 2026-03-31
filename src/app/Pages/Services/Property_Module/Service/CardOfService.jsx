@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 function CardOfService({getProperties}) {
@@ -73,6 +73,12 @@ function CardOfService({getProperties}) {
         );
     }
   }
+
+  //tooltip content
+  const [openMenuIndex, setOpenMenuIndex] = useState(null);
+  const toggleMenu = (index) => {
+    setOpenMenuIndex(prev => (prev === index ? null : index));
+  };
 
 
   return (
@@ -151,6 +157,8 @@ function CardOfService({getProperties}) {
         // 
         const mainActions = property?.main_actions || [];
 
+        
+
 
       return(
         <section 
@@ -161,9 +169,40 @@ function CardOfService({getProperties}) {
           <div className='relative w-full'>
             <img src="/images/testyImage.svg" alt="" className='w-full' />
             <div className='absolute top-2 right-2'>{StatusRender(property?.activity_status)}</div>
-            <p className='absolute top-2 left-2 '>
+            <button onClick={() => toggleMenu(index)} className='absolute top-2 left-2 cursor-pointer '>
               <img src="/images/icons/dots.svg" alt="" />
-            </p>
+            </button>
+            {/* dropdown */}
+            {openMenuIndex === index && (
+              <div className='absolute top-8 left-2 p-3  w-47 bg-white border border-[#EEE] rounded-[3px] shadow-md z-10'>
+              
+                <button className='w-full flex gap-2 p-1 cursor-pointer   hover:bg-[#EEE]'>
+                  <img src="/images/icons/checkmark-circle_black.svg"  />
+                  <p className=' text-[#364152] text-base font-normal'>{t('Deactivate')}</p>
+                </button>
+
+                <button className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'>
+                  <img src="/images/icons/fileBlack.svg" alt="" />
+                  <p className='text-[#364152] text-base font-normal'>{t('Property details')}</p>
+                </button>
+
+                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                  <img src="/images/icons/shareBlack.svg" alt="" />
+                  <p className='text-[#364152] text-base font-normal'>{t('Property sharing')}</p>
+                </button>
+
+                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                  <img src="/images/icons/remove-circle-black.svg" alt="" />
+                  <p className='text-[#364152] text-base font-normal'>{t('Property Report')}</p>
+                </button>
+
+                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                  <img src="/images/icons/delete-darkRed.svg" alt="" />
+                  <p className='text-[#364152] text-base font-normal'>{t('Delete property')}</p>
+                </button>
+              </div>
+            )}
+
           </div>
 
           <div className='pt-4 '>
