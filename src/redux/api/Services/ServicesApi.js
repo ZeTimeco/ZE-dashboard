@@ -132,3 +132,13 @@ export const getAllProperties = async(params = {}) => {
   const response = await API.get('/get_all/properties', { params })
   return response.data
 }
+
+export const changeStatusById = async(property_id , status)=>{
+  const response = await API.patch(`/provider/properties/${property_id}/status` , {status})
+  return response.data
+}
+
+export const deletePropertyItem = async (id)=>{
+  const response = await API.delete(`/properties/${id}/delete`)
+  return response.data
+}

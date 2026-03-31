@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -254,7 +254,32 @@ export const getAllPropertiesThunk = createAsyncThunk('service/getAllPropertiesT
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
-  })
+})
+
+export const changeStatusByIdThunk = createAsyncThunk(
+  "service/changeStatusByIdThunk",
+  async ({ property_id, status }, { rejectWithValue }) => {
+    try {
+      await changeStatusById(property_id, status);
+      return { property_id, status };
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const deletePropertyThunk = createAsyncThunk(
+  "service/deletePropertyThunk",
+  async (id, { rejectWithValue }) => {
+    try {
+      await deletePropertyItem(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 
 const initialState = {
     services: [],
@@ -285,6 +310,7 @@ const initialState = {
     /** */
     getProperties:[],
     propertiesMeta: null,
+
   };
 
 const servicesSlice = createSlice({
@@ -586,6 +612,44 @@ const servicesSlice = createSlice({
         state.propertiesMeta = action.payload?.meta || null;
       })
       .addCase(getAllPropertiesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //changeStatusByIdThunk
+      .addCase(changeStatusByIdThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(changeStatusByIdThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+
+        const { property_id, status } = action.payload;
+
+        const property = state.getProperties.find(
+          (p) => p.id === property_id
+        );
+
+        if (property) {
+          property.activity_status = status;
+        }
+      })
+      .addCase(changeStatusByIdThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      
+      //deletePropertyThunk
+      .addCase(deletePropertyThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(deletePropertyThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        if (state.getProperties) {
+          state.getProperties = state.getProperties.filter((p) => p.id !== action.payload);
+        }
+      })
+      .addCase(deletePropertyThunk.rejected, (state, action) => {
         state.loadingList = false;  
         state.errorList = action.payload; 
       })

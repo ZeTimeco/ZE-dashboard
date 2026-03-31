@@ -1,9 +1,12 @@
 "use client"
+import { changeStatusByIdThunk, deletePropertyThunk } from '@/redux/slice/Services/ServicesSlice';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 
 function CardOfService({getProperties}) {
   const {t}= useTranslation()
+  const dispatch = useDispatch()
 
   //
   console.log(getProperties);
@@ -80,7 +83,24 @@ function CardOfService({getProperties}) {
     setOpenMenuIndex(prev => (prev === index ? null : index));
   };
 
+const handleClick = (property) => {
+  const newStatus =
+    property.activity_status === "active" ? "inactive" : "active";
 
+  dispatch(
+    changeStatusByIdThunk({
+      property_id: property.id,
+      status: newStatus,
+    })
+      
+  );
+        
+
+};
+
+const handleDelete = (propertyId) => {
+  dispatch(deletePropertyThunk(propertyId));
+};
   return (
     <>
 
@@ -176,30 +196,44 @@ function CardOfService({getProperties}) {
             {openMenuIndex === index && (
               <div className='absolute top-8 left-2 p-3  w-47 bg-white border border-[#EEE] rounded-[3px] shadow-md z-10'>
               
-                <button className='w-full flex gap-2 p-1 cursor-pointer   hover:bg-[#EEE]'>
-                  <img src="/images/icons/checkmark-circle_black.svg"  />
-                  <p className=' text-[#364152] text-base font-normal'>{t('Deactivate')}</p>
-                </button>
+                {(property?.side_actions?.includes('activate') || property?.side_actions?.includes('deactivate')) && (
+                  <button onClick={() => handleClick(property)} className='w-full flex gap-2 p-1 cursor-pointer   hover:bg-[#EEE]'>
+                    <img src="/images/icons/checkmark-circle_black.svg"  />
+                    <p className=' text-[#364152] text-base font-normal'>
+                      {property?.side_actions?.includes('activate')
+                      ? t("Activate")
+                      : t("Deactivate")}
+                    </p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'>
-                  <img src="/images/icons/fileBlack.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Property details')}</p>
-                </button>
+                {property?.side_actions?.includes('view_details') && (
+                  <button className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'>
+                    <img src="/images/icons/fileBlack.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Property details')}</p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
-                  <img src="/images/icons/shareBlack.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Property sharing')}</p>
-                </button>
+                {property?.side_actions?.includes('share') && (
+                  <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                    <img src="/images/icons/shareBlack.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Property sharing')}</p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
-                  <img src="/images/icons/remove-circle-black.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Property Report')}</p>
-                </button>
+                {property?.side_actions?.includes('view_ratings') && (
+                  <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                    <img src="/images/icons/remove-circle-black.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Property Report')}</p>
+                  </button>
+                )}
 
-                <button className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
-                  <img src="/images/icons/delete-darkRed.svg" alt="" />
-                  <p className='text-[#364152] text-base font-normal'>{t('Delete property')}</p>
-                </button>
+                {property?.side_actions?.includes('remove') && (
+                  <button onClick={() => handleDelete(property.id)} className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                    <img src="/images/icons/delete-darkRed.svg" alt="" />
+                    <p className='text-[#364152] text-base font-normal'>{t('Delete property')}</p>
+                  </button>
+                )}
               </div>
             )}
 
@@ -207,15 +241,15 @@ function CardOfService({getProperties}) {
 
           <div className='pt-4 '>
             {/* //title and location and status*/}
-            <div className='flex justify-between items-center'>
-              <div>
+            <div className='flex gap-2 justify-between items-center'>
+              <div className='w-[80%]'>
                 <p className='text-[#364152] text-base font-semibold'>{property?.title}</p>
                 <div className='flex gap-1'>
                   <img src="/images/icons/location-gray.svg" alt="" />
                   <p className='text-[#697586] text-sm font-normal'>{property?.address}</p>
                 </div>
               </div>
-              <div>{StatusRender2(property?.approval_status)}</div>
+              <div className='w-[20%] flex justify-end' >{StatusRender2(property?.approval_status)}</div>
             </div>
 
             {/* //price and busy and rating and reservation */}
