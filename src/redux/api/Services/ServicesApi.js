@@ -147,3 +147,8 @@ export const getPropertyTypes = async()=>{
   const response = await API.get('/property-types')
   return response.data
 }
+
+export const getPropertiesCities = async()=>{
+  const response = await API.get('/properties/cities')
+  return response.data
+}

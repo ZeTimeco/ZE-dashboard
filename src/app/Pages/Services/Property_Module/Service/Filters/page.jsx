@@ -8,16 +8,17 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import LocationPage from './Location/page';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { getPropertiesCitiesThunk, getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function FiltersPage({ open,setOpen , handleClose }) {
   const { t } = useTranslation();
 
   //api
   const dispatch = useDispatch()
-  const {getPropertyTypes} = useSelector((state)=>state.services)
+  const {getPropertyTypes ,getPropertiesCities} = useSelector((state)=>state.services)
   useEffect(()=>{
     dispatch(getPropertyTypesThunk())
+    dispatch(getPropertiesCitiesThunk())
   },[dispatch])
 
 
@@ -25,6 +26,16 @@ function FiltersPage({ open,setOpen , handleClose }) {
 
 
   const [openLocation, setOpenLocation] = useState(false);
+  const [selectedLocations, setSelectedLocations] = useState([]);
+
+  const toggleLocation = (id) => {
+    if (selectedLocations.includes(id)) {
+      setSelectedLocations(selectedLocations.filter(locId => locId !== id))
+    } else {
+      setSelectedLocations([...selectedLocations, id])
+    }
+  }
+
   //
   const [expiryDate, setExpiryDate] = useState(null);
   //1-status =========================
@@ -252,13 +263,19 @@ function FiltersPage({ open,setOpen , handleClose }) {
           </div>
           
           {/* Show selected location */}
-          <div className='flex gap-3'>
-            <div className='flex gap-1.5 border border-[#E2E2E2] bg-[#EDE7FD] w-fit px-3 py-1 h-9 rounded-[999px]'>
-              <p className='text-[#505050] text-sm flex items-center'>عباسية</p>
-              <p className='flex items-center '>
-                <img src="/images/icons/xx.svg" alt="" className="w-4 h-4 cursor-pointer" />
-              </p>
-            </div>
+          <div className='flex gap-3 flex-wrap mt-2'>
+            {selectedLocations.map((index) => {
+              const cityData = getPropertiesCities?.data?.[index];
+              if (!cityData) return null;
+              return (
+                <div key={index} className='flex gap-1.5 border border-[#E2E2E2] bg-[#EDE7FD] w-fit px-3 py-1 h-9 rounded-[999px]'>
+                  <p className='text-[#505050] text-sm flex items-center'>{cityData.city}</p>
+                  <p className='flex items-center cursor-pointer' onClick={() => toggleLocation(index)}>
+                    <img src="/images/icons/xx.svg" alt="remove" className="w-4 h-4" />
+                  </p>
+                </div>
+              )
+            })}
           </div>
 
         </div>
@@ -506,6 +523,9 @@ function FiltersPage({ open,setOpen , handleClose }) {
       openLocation={openLocation}
       setOpenLocation={setOpenLocation}
       setOpenMainFilter={setOpen}
+      getPropertiesCities={getPropertiesCities}
+      selectedLocations={selectedLocations}
+      toggleLocation={toggleLocation}
     />
 
     </>
