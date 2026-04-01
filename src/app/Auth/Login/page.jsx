@@ -7,7 +7,6 @@ import { loginThunk } from "@/redux/slice/Auth/AuthSlice";
 import { useRouter } from "next/navigation";
 import SecondSection from "@/app/Components/login/SecondSection";
 import No_account from "@/app/Components/login/No_account";
-import ServicesPage from "@/app/Pages/Home/Services/page";
 
 
 

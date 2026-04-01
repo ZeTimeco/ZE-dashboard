@@ -1,10 +1,10 @@
 "use client"
 import SearchForm from '@/app/Components/Forms/SearchForm'
 import { Dialog } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function LocationPage({openLocation , setOpenLocation ,setOpenMainFilter,getPropertiesCities, selectedLocations, toggleLocation}) {
+function LocationPage({openLocation , setOpenLocation ,setOpenMainFilter,getPropertiesCities={}, selectedLocations=[], toggleLocation}) {
   const {t} = useTranslation()
 
   return (

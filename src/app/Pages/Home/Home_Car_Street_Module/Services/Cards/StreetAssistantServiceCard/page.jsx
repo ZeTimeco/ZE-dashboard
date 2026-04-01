@@ -11,8 +11,12 @@ function StreetAssistantServiceCardPage({current_module_key}) {
 
   const currentOrders = ongoingBookings ;
 
-  const isNewOrdersEmpty = newOrders.length === 0;
-  const isCurrentOrdersEmpty = currentOrders.length === 0;
+  const isNewOrdersEmpty = !newOrders || newOrders.length === 0;
+  const isCurrentOrdersEmpty = !currentOrders || currentOrders.length === 0;
+
+  if (isNewOrdersEmpty && isCurrentOrdersEmpty) {
+    return null;
+  }
 
   if (isNewOrdersEmpty && !isCurrentOrdersEmpty) {
     return <CurrentOrdersPage orders={currentOrders} layout="grid" />;

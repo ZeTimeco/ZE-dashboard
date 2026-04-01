@@ -1,9 +1,10 @@
 'use client';
-import { getBookingOngoingThunk } from '@/redux/slice/Home/HomeSlice';
+import { getBookingNewThunk, getBookingOngoingThunk } from '@/redux/slice/Home/HomeSlice';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { IMAGE_BASE_URL } from '../../../../../../../../../config/imageUrl';
+import { UpdateBookingThunk } from '@/redux/slice/Requests/RequestsSlice';
 
 function CurrentOrdersPage({ orders = [], layout = "list" }) {
   const { t } = useTranslation();
@@ -74,7 +75,7 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
     }
   };
 
-    const handleOpenMap = (order) => {
+  const handleOpenMap = (order) => {
     const lat = order?.booking_current_latitude || order?.latitude || order?.lat;
     const lng = order?.booking_current_longitude || order?.longitude || order?.lng;
     
@@ -87,6 +88,18 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
       console.warn("Missing location data:", order);
     }
   };
+
+    const handleInProgressBooking = (booking_id) => {
+      if (!booking_id) return;
+      dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "in_progress" } }))
+        .unwrap()
+        .then(() => {
+          dispatch(getBookingNewThunk());
+        })
+        .catch((err) => {
+          console.error("Failed to accept booking:", err);
+        });
+    };
   return (
     <div className='border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto'>
       <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
@@ -153,12 +166,14 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
             </div>
           )}
           <div className='flex gap-4'>
-            <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-[#fff] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+            <button
+              onClick={() => handleInProgressBooking(order?.booking_id)}
+              className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-[#fff] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
               <span>{t('Start Service')}</span>
               <img src='/images/icons/arrow-left-white.svg' alt='' className='w-6 h-6' />
             </button>
             <button 
-                onClick={() => handleOpenMap(order)}
+              onClick={() => handleOpenMap(order)}
               className='flex gap-2 items-center justify-center border border-[var(--color-primary)] text-[var(--color-primary)] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
               <img src='/images/icons/maps-location-yellow.svg' alt='' className='w-6 h-6' />
               <span>{t('Open the map')}</span>

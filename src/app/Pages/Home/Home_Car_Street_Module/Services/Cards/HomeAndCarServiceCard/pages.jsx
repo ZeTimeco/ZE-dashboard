@@ -12,8 +12,12 @@ function HomeAndCarServiceCardPages({current_module_key}) {
 
   const currentOrders = ongoingBookings ;
 
-  const isNewOrdersEmpty = newOrders.length === 0;
-  const isCurrentOrdersEmpty = currentOrders.length === 0;
+  const isNewOrdersEmpty = !newOrders || newOrders.length === 0;
+  const isCurrentOrdersEmpty = !currentOrders || currentOrders.length === 0;
+
+  if (isNewOrdersEmpty && isCurrentOrdersEmpty) {
+    return null;
+  }
 
   if (isNewOrdersEmpty && !isCurrentOrdersEmpty) {
     return <CurrentOrdersPage orders={currentOrders} layout="grid" />;
@@ -26,6 +30,7 @@ function HomeAndCarServiceCardPages({current_module_key}) {
 
   return (
     <>
+    
       <div className={`grid grid-cols-1 lg1:grid-cols-2 gap-6`}>
         <NewOrdersPage orders={newOrders} current_module_key={current_module_key}/>
         <CurrentOrdersPage orders={currentOrders} current_module_key={current_module_key} />

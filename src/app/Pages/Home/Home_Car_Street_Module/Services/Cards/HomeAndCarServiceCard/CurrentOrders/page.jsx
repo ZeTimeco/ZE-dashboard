@@ -1,9 +1,10 @@
 'use client';
-import { getBookingOngoingThunk } from '@/redux/slice/Home/HomeSlice';
+import { getBookingNewThunk, getBookingOngoingThunk } from '@/redux/slice/Home/HomeSlice';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { IMAGE_BASE_URL } from '../../../../../../../../../config/imageUrl';
+import { UpdateBookingThunk } from '@/redux/slice/Requests/RequestsSlice';
 
 function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) {
   const { t } = useTranslation();
@@ -88,6 +89,18 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
     }
   };
 
+  const handleInProgressBooking = (booking_id) => {
+    if (!booking_id) return;
+    dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "in_progress" } }))
+      .unwrap()
+      .then(() => {
+        dispatch(getBookingNewThunk());
+      })
+      .catch((err) => {
+        console.error("Failed to accept booking:", err);
+      });
+  };
+
   return (
     <div className='border border-[#CDD5DF] rounded-[3px] p-6 max-h-[500px] overflow-y-auto'>
       <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
@@ -145,7 +158,9 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
             
             {current_module_key === 'car_services' && (
               <div className='flex gap-4'>
-                <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+                <button 
+                  onClick={() => handleInProgressBooking(order?.booking_id)}
+                  className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
                   <span>{t('Start Service')}</span>
                   <img src='/images/icons/arrow-left-white.svg' alt='' className='w-6 h-6' />
                 </button>
