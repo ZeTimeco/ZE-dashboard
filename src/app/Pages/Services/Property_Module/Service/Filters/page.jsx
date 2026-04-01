@@ -10,7 +10,7 @@ import LocationPage from './Location/page';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPropertiesCitiesThunk, getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
-function FiltersPage({ open,setOpen , handleClose }) {
+function FiltersPage({ open,setOpen , handleClose, onApplyFilters }) {
   const { t } = useTranslation();
 
   //api
@@ -43,7 +43,8 @@ function FiltersPage({ open,setOpen , handleClose }) {
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const optionStatus =[t('active'),t('pending'),t('draft'),t('inactive'),t('rejected')]
+  const statusKeys = ['active', 'pending', 'draft', 'inactive', 'rejected'];
+  const optionStatus = statusKeys.map(k => t(k));
 
   //2-Property type =========================
   const [open2, setOpen2] = useState(false);
@@ -57,21 +58,69 @@ function FiltersPage({ open,setOpen , handleClose }) {
   const [selected3, setSelected3] = useState(null);
   const [searchValue3, setSearchValue3] = useState("");
   const dropdownRef3 = useRef(null);
-  const optionAvailability =[t("available_now"), t("fully_booked"), t("has_blocked_dates")]
+  const availabilityKeys = ["available_now", "fully_booked", "has_blocked_dates"];
+  const optionAvailability = availabilityKeys.map(k => t(k));
 
   //4-Booking activity =========================
   const [open4, setOpen4] = useState(false);
   const [selected4, setSelected4] = useState(null);
   const [searchValue4, setSearchValue4] = useState("");
   const dropdownRef4 = useRef(null);
-  const optionBookingActivity =[t("has_upcoming_bookings"), t("has_pending_bookings"), t("no_bookings_yet")]
+  const bookingActivityKeys = ["has_upcoming_bookings", "has_pending_bookings", "no_bookings_yet"];
+  const optionBookingActivity = bookingActivityKeys.map(k => t(k));
 
   //5-Evaluation =========================
   const [open5, setOpen5] = useState(false);
   const [selected5, setSelected5] = useState(null);
   const [searchValue5, setSearchValue5] = useState("");
   const dropdownRef5 = useRef(null);
-  const optionEvaluation =[t("more_4_5"), t("more_4"), t("more_3_5"), t("more_3"), t("less_3"), t("not_rated")]
+  const ratingKeys = ["more_4_5", "more_4", "more_3_5", "more_3", "less_3", "not_rated"];
+  const optionEvaluation = ratingKeys.map(k => t(k));
+
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  const getAPIKeyFor = (translatedValue, keysArray, translationsArray) => {
+    if (!translatedValue) return undefined;
+    const index = translationsArray.indexOf(translatedValue);
+    return index !== -1 ? keysArray[index] : undefined;
+  }
+
+  const handleApply = () => {
+    const mappedCities = selectedLocations.map(index => getPropertiesCities?.data?.[index]?.id).filter(id => id);
+    const statusVal = getAPIKeyFor(selected1, statusKeys, optionStatus);
+    
+    const payload = {
+      status: statusVal ? [statusVal] : undefined,
+      property_type_ids: selected2?.id ? [selected2.id] : undefined,
+      cities: mappedCities.length > 0 ? mappedCities : undefined,
+      availability: getAPIKeyFor(selected3, availabilityKeys, optionAvailability),
+      activity: getAPIKeyFor(selected4, bookingActivityKeys, optionBookingActivity),
+      rating: getAPIKeyFor(selected5, ratingKeys, optionEvaluation),
+      date_added: expiryDate ? dayjs(expiryDate).format('YYYY-MM-DD') : undefined,
+      min_price: minPrice || undefined,
+      max_price: maxPrice || undefined,
+    };
+    
+    Object.keys(payload).forEach(key => payload[key] === undefined && delete payload[key]);
+    
+    if (onApplyFilters) onApplyFilters(payload);
+    handleClose();
+  };
+
+  const handleReset = () => {
+    setSelected1(null);
+    setSelected2(null);
+    setSelected3(null);
+    setSelected4(null);
+    setSelected5(null);
+    setSelectedLocations([]);
+    setExpiryDate(null);
+    setMinPrice("");
+    setMaxPrice("");
+    if (onApplyFilters) onApplyFilters({});
+    handleClose();
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -498,7 +547,9 @@ function FiltersPage({ open,setOpen , handleClose }) {
           </label>
           <input 
             type="text"
-            placeholder='1000 $'                 
+            placeholder='1000 $'
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}               
             className="h-15 p-3 w-full  border border-[#C8C8C8] rounded-[3px] cursor-pointer text-[#364152] focus:outline-none"
           />
         </div>
@@ -511,11 +562,18 @@ function FiltersPage({ open,setOpen , handleClose }) {
           <input 
             type="text"
             placeholder='2000 $'                 
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}  
             className="h-15 p-3 w-full  border border-[#C8C8C8] rounded-[3px] cursor-pointer text-[#364152] focus:outline-none"
           />
         </div>
 
       </section>
+
+      <div className="flex gap-4 p-6 pt-0 mt-4">
+        <button onClick={handleReset} className="flex-1 py-3 bg-[#EEF2F6] text-[#364152] font-medium rounded-[3px] hover:bg-[#E3E8EF] transition-colors">{t("Clear all")}</button>
+        <button onClick={handleApply} className="flex-1 py-3 bg-[#364152] text-white font-medium rounded-[3px] hover:bg-[#28313e] transition-colors">{t("Apply Filters")}</button>
+      </div>
       
     </Dialog>
 

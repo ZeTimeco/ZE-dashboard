@@ -15,15 +15,19 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
     dispatch(getBookingOngoingThunk())
   },[dispatch])
 
-
-
-
-
-
-
-
-
-
+  const handleOpenMap = (order) => {
+    const lat = order?.booking_current_latitude || order?.latitude || order?.lat;
+    const lng = order?.booking_current_longitude || order?.longitude || order?.lng;
+    
+    console.log('Order location data:', { lat, lng });
+    
+    if (lat && lng) {
+      window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
+    } else {
+      alert("لم أتمكن من العثور على الإحداثيات! هذه هي البيانات المتاحة بالطلب:\n" + Object.keys(order).join(",\n"));
+      console.warn("Missing location data:", order);
+    }
+  };
   
   const StatusRender = (status) => {
     switch (status) {
@@ -130,7 +134,10 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
 
             {/* Buttons */}
             {current_module_key === 'home_services' && (
-              <button className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+              <button 
+                onClick={() => handleOpenMap(order)}
+                className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-white text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer hover:bg-[#1a5b82] transition-colors'
+              >
                 <img src='/images/icons/maps-location.svg' alt='' className='w-6 h-6' />
                 <span>{t('Open the map')}</span>
               </button>
@@ -143,7 +150,10 @@ function CurrentOrdersPage({ orders = [], layout = "list" ,current_module_key}) 
                   <img src='/images/icons/arrow-left-white.svg' alt='' className='w-6 h-6' />
                 </button>
 
-                <button className='flex gap-2 items-center justify-center border border-[#7F7F7F66] text-[#7F7F7F80] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+                <button 
+                  onClick={() => handleOpenMap(order)}
+                  className='flex gap-2 items-center justify-center border border-[#7F7F7F66] text-[#7F7F7F80] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer hover:bg-[#f5f5f5] transition-colors'
+                >
                   <img src='/images/icons/maps-location_gray.svg' alt='' className='w-6 h-6' />
                   <span>{t('Open the map')}</span>
                 </button>

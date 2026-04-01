@@ -1,5 +1,6 @@
 'use client';
 import { getBookingNewThunk } from "@/redux/slice/Home/HomeSlice";
+import { UpdateBookingThunk } from "@/redux/slice/Requests/RequestsSlice";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,13 +8,37 @@ import { IMAGE_BASE_URL } from "../../../../../../../../../config/imageUrl";
 
 function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
   const { t } = useTranslation();
-
   //API
   const dispatch = useDispatch();
   
   useEffect(()=>{
     dispatch(getBookingNewThunk())
   },[dispatch])
+
+  const handleAcceptBooking = (booking_id) => {
+    if (!booking_id) return;
+    dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "accepted" } }))
+      .unwrap()
+      .then(() => {
+        dispatch(getBookingNewThunk());
+      })
+      .catch((err) => {
+        console.error("Failed to accept booking:", err);
+      });
+  };
+
+    const handleRejectedBooking = (booking_id) => {
+    if (!booking_id) return;
+    dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "rejected" } }))
+      .unwrap()
+      .then(() => {
+        dispatch(getBookingNewThunk());
+      })
+      .catch((err) => {
+        console.error("Failed to reject booking:", err);
+      });
+  };
+
 
 
 
@@ -96,11 +121,17 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
 
             {/* Buttons */}
             <div className="flex gap-4">
-              <button className="bg-[#079455] text-white text-sm font-semibold w-[70%] h-14 rounded-[3px] cursor-pointer">
+              <button 
+                onClick={() => handleAcceptBooking(order?.booking_id)}
+                className="bg-[#079455] text-white text-sm font-semibold w-[70%] h-14 rounded-[3px] cursor-pointer hover:bg-[#067c47] transition-colors"
+              >
                 {t("Application accepted")}
               </button>
 
-              <button className="border border-[#FF3B30] text-[#FF3B30] text-sm font-medium w-[30%] h-14 rounded-[3px] cursor-pointer">
+              <button 
+                onClick={() => handleRejectedBooking(order?.booking_id)}
+                className="border border-[#FF3B30] text-[#FF3B30] text-sm font-medium w-[30%] h-14 rounded-[3px] cursor-pointer hover:bg-[#fff5f5] transition-colors"
+              >
                 {t("to reject")}
               </button>
             </div>

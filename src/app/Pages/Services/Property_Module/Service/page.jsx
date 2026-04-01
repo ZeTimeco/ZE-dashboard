@@ -23,17 +23,18 @@ function ServicePage() {
   const dispatch = useDispatch()
   const {getProperties, propertiesMeta} = useSelector((state)=>state.services)
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilters, setActiveFilters] = useState({});
 
   useEffect(()=>{
     const delayDebounceFn = setTimeout(() => {
-      dispatch(getAllPropertiesThunk({ page: 1, search: searchQuery }))
+      dispatch(getAllPropertiesThunk({ page: 1, search: searchQuery, ...activeFilters }))
     }, 500)
 
     return () => clearTimeout(delayDebounceFn)
-  }, [searchQuery, dispatch])
+  }, [searchQuery, activeFilters, dispatch])
 
   const handlePageChange = (page) => {
-    dispatch(getAllPropertiesThunk({ page, search: searchQuery }))
+    dispatch(getAllPropertiesThunk({ page, search: searchQuery, ...activeFilters }))
   }
 
 
@@ -78,7 +79,10 @@ function ServicePage() {
       <FiltersPage
         open={open} 
         setOpen={setOpen}
-        handleClose={handleClose} 
+        handleClose={handleClose}
+        onApplyFilters={(filters) => {
+          setActiveFilters(filters);
+        }}
       />
     </MainLayout>
   )

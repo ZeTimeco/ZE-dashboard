@@ -1,5 +1,6 @@
 'use client';
 import { getBookingNewThunk } from "@/redux/slice/Home/HomeSlice";
+import { UpdateBookingThunk } from "@/redux/slice/Requests/RequestsSlice";
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
@@ -15,29 +16,56 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
     dispatch(getBookingNewThunk())
   },[dispatch])
 
+  const handleAcceptBooking = (booking_id) => {
+    if (!booking_id) return;
+    dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "accepted" } }))
+      .unwrap()
+      .then(() => {
+        dispatch(getBookingNewThunk());
+      })
+      .catch((err) => {
+        console.error("Failed to accept booking:", err);
+      });
+  };
+
+  const handleRejectedBooking = (booking_id) => {
+    if (!booking_id) return;
+    dispatch(UpdateBookingThunk({ id: booking_id, formData: { status: "rejected" } }))
+      .unwrap()
+      .then(() => {
+        dispatch(getBookingNewThunk());
+      })
+      .catch((err) => {
+        console.error("Failed to reject booking:", err);
+      });
+  };
+
 
   const [hiddenOrders, setHiddenOrders] = useState(new Set());
   const [loadingOrders, setLoadingOrders] = useState(new Set());
+  
   useEffect(() => {
-    // Auto-accept all orders when component mounts or orders change
+    // Auto-accept progress bar simulation
     orders.forEach((order) => {
-      if (!hiddenOrders.has(order.id) && !loadingOrders.has(order.id)) {
-        // Set loading state immediately
-        setLoadingOrders((prev) => new Set([...prev, order.id]));
+      const id = order?.booking_id;
+      if (id && !hiddenOrders.has(id) && !loadingOrders.has(id)) {
+        // Set loading state immediately for the progress bar
+        setLoadingOrders((prev) => new Set([...prev, id]));
 
         setTimeout(() => {
-          setHiddenOrders((prev) => new Set([...prev, order.id]));
+          setHiddenOrders((prev) => new Set([...prev, id]));
           setLoadingOrders((prev) => {
             const newSet = new Set(prev);
-            newSet.delete(order.id);
+            newSet.delete(id);
             return newSet;
           });
         }, 60000);
       }
     });
-  }, [orders]);
+  }, [orders, hiddenOrders, loadingOrders]);
+  
   // Filter out hidden orders
-  const visibleOrders = orders.filter((order) => !hiddenOrders.has(order.id));
+  const visibleOrders = orders.filter((order) => !hiddenOrders.has(order?.booking_id));
 
 
   return (
@@ -52,6 +80,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
           key={order?.booking_id}
           className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4"
         >
+            <p>{order?.booking_id}</p>
           {/* Service */}
           <div className="flex gap-2 items-center">
             <img
@@ -106,7 +135,10 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
                   {order?.address}
                 </p>
               </div>
-              <button className=" bg-[#FF3B30] text-[#fff] text-sm font-medium w-[25%] h-10 rounded-[3px] cursor-pointer">
+              <button 
+                onClick={() => handleRejectedBooking(order?.booking_id)}
+                className=" bg-[#FF3B30] text-[#fff] text-sm font-medium w-[25%] h-10 rounded-[3px] cursor-pointer hover:bg-[#d93026] transition-colors"
+              >
                 {t("to reject")}
               </button>
             </div>
@@ -116,17 +148,17 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
           <div className="flex justify-between items-center w-full">
             {/* Buttons */}
             <button
-              disabled={loadingOrders.has(order.id)}
+              onClick={() => handleAcceptBooking(order?.booking_id)}
               className={`
                 text-white text-sm font-semibold w-[50%] h-14 rounded-[3px]
                 flex items-center justify-center gap-2
-                overflow-hidden relative cursor-pointer
-                ${loadingOrders.has(order.id)
+                overflow-hidden relative cursor-pointer hover:bg-[#067c47] transition-colors
+                ${loadingOrders.has(order?.booking_id)
                   ? " bg-[#079455]"
                   : "bg-[#079455] "}
               `}
             >
-              {loadingOrders.has(order.id) && (
+              {loadingOrders.has(order?.booking_id) && (
                 <span
                   className="absolute top-0 right-0 h-full bg-gradient-to-r from-[#17B26A] via-[#17B26A] to-[#17B26A] animate-progress"
                   style={{ width: "0%" }}
