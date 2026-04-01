@@ -142,3 +142,8 @@ export const deletePropertyItem = async (id)=>{
   const response = await API.delete(`/properties/${id}/delete`)
   return response.data
 }
+
+export const getPropertyTypes = async()=>{
+  const response = await API.get('/property-types')
+  return response.data
+}

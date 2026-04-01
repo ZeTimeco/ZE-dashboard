@@ -7,9 +7,22 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import LocationPage from './Location/page';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function FiltersPage({ open,setOpen , handleClose }) {
   const { t } = useTranslation();
+
+  //api
+  const dispatch = useDispatch()
+  const {getPropertyTypes} = useSelector((state)=>state.services)
+  useEffect(()=>{
+    dispatch(getPropertyTypesThunk())
+  },[dispatch])
+
+
+
+
 
   const [openLocation, setOpenLocation] = useState(false);
   //
@@ -19,37 +32,35 @@ function FiltersPage({ open,setOpen , handleClose }) {
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const optionStatus =["aa","bb","cc","dd","ee","ff","gg","hh","ii","jj"]
+  const optionStatus =[t('active'),t('pending'),t('draft'),t('inactive'),t('rejected')]
 
   //2-Property type =========================
   const [open2, setOpen2] = useState(false);
   const [selected2, setSelected2] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
-  const optionPropertyType =["aa","bb","cc","dd","ee","ff","gg","hh","ii","jj"]
+  const optionPropertyType = getPropertyTypes?.data
 
   //3-Select availability =========================
   const [open3, setOpen3] = useState(false);
   const [selected3, setSelected3] = useState(null);
   const [searchValue3, setSearchValue3] = useState("");
   const dropdownRef3 = useRef(null);
-  const optionAvailability =["aa","bb","cc","dd","ee","ff","gg","hh","ii","jj"]
+  const optionAvailability =[t("available_now"), t("fully_booked"), t("has_blocked_dates")]
 
   //4-Booking activity =========================
   const [open4, setOpen4] = useState(false);
   const [selected4, setSelected4] = useState(null);
   const [searchValue4, setSearchValue4] = useState("");
   const dropdownRef4 = useRef(null);
-  const optionBookingActivity =["aa","bb","cc","dd","ee","ff","gg","hh","ii","jj"]
+  const optionBookingActivity =[t("has_upcoming_bookings"), t("has_pending_bookings"), t("no_bookings_yet")]
 
   //5-Evaluation =========================
   const [open5, setOpen5] = useState(false);
   const [selected5, setSelected5] = useState(null);
   const [searchValue5, setSearchValue5] = useState("");
   const dropdownRef5 = useRef(null);
-  const optionEvaluation =["aa","bb","cc","dd","ee","ff","gg","hh","ii","jj"]
-
-
+  const optionEvaluation =[t("more_4_5"), t("more_4"), t("more_3_5"), t("more_3"), t("less_3"), t("not_rated")]
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -62,7 +73,6 @@ function FiltersPage({ open,setOpen , handleClose }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
 
   return (
     <>
@@ -110,7 +120,7 @@ function FiltersPage({ open,setOpen , handleClose }) {
               <input
                 type="text"
                 placeholder={t("Select status")}
-                value={selected1?.city || searchValue1}   
+                value={selected1 || searchValue1}   
                 onChange={(e) => {
                   setSearchValue1(e.target.value);
                   setOpen1(true);
@@ -189,11 +199,11 @@ function FiltersPage({ open,setOpen , handleClose }) {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {optionPropertyType
                   .filter((opt) =>
-                    opt.toLowerCase().includes(searchValue2.toLowerCase())
+                    opt?.name?.toLowerCase().includes(searchValue2.toLowerCase())
                   )
                   .map((opt) => (
                     <li
-                      key={opt}
+                      key={opt?.id}
                       onClick={() => {
                         setSelected2(opt);
                         setOpen2(false);
@@ -201,7 +211,7 @@ function FiltersPage({ open,setOpen , handleClose }) {
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {opt}
+                      {opt?.name}
                     </li>
                   ))}
               </ul>
@@ -273,7 +283,7 @@ function FiltersPage({ open,setOpen , handleClose }) {
               <input
                 type="text"
                 placeholder={t("Select availability")}
-                value={searchValue3}   
+                value={selected3 || searchValue3}   
                 onChange={(e) => {
                   setSearchValue3(e.target.value);
                   setOpen3(true);
@@ -330,7 +340,7 @@ function FiltersPage({ open,setOpen , handleClose }) {
               <input
                 type="text"
                 placeholder={t("Select booking activity")}
-                value={selected4?.city || searchValue4}   
+                value={selected4 || searchValue4}   
                 onChange={(e) => {
                   setSearchValue4(e.target.value);
                   setOpen4(true);
@@ -387,7 +397,7 @@ function FiltersPage({ open,setOpen , handleClose }) {
               <input
                 type="text"
                 placeholder={t("Select the evaluation")}
-                value={selected5?.city || searchValue5}   
+                value={selected5 || searchValue5}   
                 onChange={(e) => {
                   setSearchValue5(e.target.value);
                   setOpen5(true);

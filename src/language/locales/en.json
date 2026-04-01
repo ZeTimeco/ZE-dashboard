@@ -732,7 +732,20 @@
   "Property Report":"Property Report",
   "Delete property":"Delete property",
   "Activate":"Activate",
+  "available_now":"available_now",
+  "fully_booked":"fully_booked",
+  "has_blocked_dates":"has_blocked_dates",
+  "more_4_5":"more_4_5",
+  "more_4":"more_4",
+  "more_3_5":"more_3_5",
+  "more_3":"more_3",
+  "less_3":"less_3",
+  "not_rated":"not_rated",
+  "has_upcoming_bookings":"has_upcoming_bookings",
+  "has_pending_bookings":"has_pending_bookings",
+  "no_bookings_yet":"no_bookings_yet",
   
+
 
 
 

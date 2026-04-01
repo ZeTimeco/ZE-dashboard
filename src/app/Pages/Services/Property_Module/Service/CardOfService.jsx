@@ -9,7 +9,6 @@ function CardOfService({getProperties}) {
   const dispatch = useDispatch()
 
   //
-  console.log(getProperties);
 
   const StatusRender = (status) => {
     switch (status) {
@@ -242,14 +241,14 @@ const handleDelete = (propertyId) => {
           <div className='pt-4 '>
             {/* //title and location and status*/}
             <div className='flex gap-2 justify-between items-center'>
-              <div className='w-[80%]'>
+              <div className='w-[70%]'>
                 <p className='text-[#364152] text-base font-semibold'>{property?.title}</p>
                 <div className='flex gap-1'>
                   <img src="/images/icons/location-gray.svg" alt="" />
                   <p className='text-[#697586] text-sm font-normal'>{property?.address}</p>
                 </div>
               </div>
-              <div className='w-[20%] flex justify-end' >{StatusRender2(property?.approval_status)}</div>
+              <div className='w-[30%] flex justify-end' >{StatusRender2(property?.approval_status)}</div>
             </div>
 
             {/* //price and busy and rating and reservation */}

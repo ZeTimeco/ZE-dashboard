@@ -732,6 +732,19 @@
   "Property Report":"تقرير العقار",
   "Delete property":"حذف العقار",
   "Activate":"تفعيل",
+  "available_now":"متاح الآن",
+  "fully_booked":"محجوز بالكامل",
+  "has_blocked_dates":"به ايام غير متاحه",
+  "more_4_5":"أكثر من 4.5",
+  "more_4":"أكثر من 4",
+  "more_3_5":"أكثر من 3.5",
+  "more_3":"أكثر من 3",
+  "less_3":"أقل من 3",
+  "not_rated":"غير مقيّم",
+  "has_upcoming_bookings":"به حجوزات قادمة",
+  "has_pending_bookings":"به حجوزات معلقة",
+  "no_bookings_yet":"لا يوجد به حجوزات",
+  
 
 
 

@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -280,6 +280,17 @@ export const deletePropertyThunk = createAsyncThunk(
   }
 );
 
+export const getPropertyTypesThunk = createAsyncThunk('services/getPropertyTypesThunk',
+  async(_, {rejectWithValue}) =>{
+    try{
+      const response = await getPropertyTypes();
+      return response;
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initialState = {
     services: [],
@@ -310,7 +321,8 @@ const initialState = {
     /** */
     getProperties:[],
     propertiesMeta: null,
-
+    getPropertyTypes: [],
+    
   };
 
 const servicesSlice = createSlice({
@@ -622,13 +634,10 @@ const servicesSlice = createSlice({
       })
       .addCase(changeStatusByIdThunk.fulfilled, (state, action) => {
         state.loadingList = false;
-
         const { property_id, status } = action.payload;
-
         const property = state.getProperties.find(
           (p) => p.id === property_id
         );
-
         if (property) {
           property.activity_status = status;
         }
@@ -653,7 +662,19 @@ const servicesSlice = createSlice({
         state.loadingList = false;  
         state.errorList = action.payload; 
       })
-
+      //getPropertyTypesThunk
+      .addCase(getPropertyTypesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getPropertyTypesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getPropertyTypes = action.payload || [];
+      })
+      .addCase(getPropertyTypesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
 
 
 
