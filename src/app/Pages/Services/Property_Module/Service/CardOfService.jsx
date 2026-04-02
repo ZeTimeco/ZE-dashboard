@@ -3,11 +3,13 @@ import { changeStatusByIdThunk, deletePropertyThunk } from '@/redux/slice/Servic
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import DeletePage from './Module/Delete/page';
 
 function CardOfService({getProperties}) {
   const {t}= useTranslation()
   const dispatch = useDispatch()
+  const router = useRouter();
 
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
@@ -212,7 +214,10 @@ function CardOfService({getProperties}) {
                 )}
 
                 {property?.side_actions?.includes('view_details') && (
-                  <button className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'>
+                  <button 
+                    onClick={() => router.push(`/Pages/Services/Property_Module/Service/View?id=${property.id}`)} 
+                    className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'
+                  >
                     <img src="/images/icons/fileBlack.svg" alt="" />
                     <p className='text-[#364152] text-base font-normal'>{t('Property details')}</p>
                   </button>

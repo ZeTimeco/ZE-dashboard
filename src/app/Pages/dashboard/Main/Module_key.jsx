@@ -85,7 +85,7 @@ function Module_key({ onClose }) {
               router.push('/Pages/Home')
             } else {
               if (onClose) onClose()
-              router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
+              router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount/')
             }
           }
         }

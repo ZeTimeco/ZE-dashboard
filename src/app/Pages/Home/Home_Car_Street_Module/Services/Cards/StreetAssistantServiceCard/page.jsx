@@ -1,12 +1,19 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NewOrdersPage from './NewOrders/page'
 import CurrentOrdersPage from './CurrentOrders/page'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBookingNewThunk, getBookingOngoingThunk } from '@/redux/slice/Home/HomeSlice'
 
 function StreetAssistantServiceCardPage({current_module_key}) {
-      const {ongoingBookings,newBookings , loading ,error}= useSelector((state)=>state.Home)
-  
+  const {ongoingBookings,newBookings , loading ,error}= useSelector((state)=>state.Home)
+
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(getBookingNewThunk())
+    dispatch(getBookingOngoingThunk())
+  },[dispatch])
+
   const newOrders = newBookings ;
 
   const currentOrders = ongoingBookings ;
