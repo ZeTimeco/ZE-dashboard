@@ -119,7 +119,6 @@ function FiltersPage({ open,setOpen , handleClose, onApplyFilters }) {
     setMinPrice("");
     setMaxPrice("");
     if (onApplyFilters) onApplyFilters({});
-    handleClose();
   };
 
   useEffect(() => {
@@ -571,8 +570,8 @@ function FiltersPage({ open,setOpen , handleClose, onApplyFilters }) {
       </section>
 
       <div className="flex gap-4 p-6 pt-0 mt-4">
-        <button onClick={handleReset} className="flex-1 py-3 bg-[#EEF2F6] text-[#364152] font-medium rounded-[3px] hover:bg-[#E3E8EF] transition-colors">{t("Clear all")}</button>
-        <button onClick={handleApply} className="flex-1 py-3 bg-[#364152] text-white font-medium rounded-[3px] hover:bg-[#28313e] transition-colors">{t("Apply Filters")}</button>
+        <button onClick={handleReset} className="flex-1 py-3 bg-[#EEF2F6] text-[#364152] font-medium rounded-[3px] cursor-pointer">{t("Clear all")}</button>
+        <button onClick={handleApply} className="flex-1 py-3 bg-[var(--color-primary)] text-white font-medium rounded-[3px] cursor-pointer">{t("Apply Filters")}</button>
       </div>
       
     </Dialog>
