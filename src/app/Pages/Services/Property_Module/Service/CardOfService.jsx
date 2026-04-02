@@ -3,10 +3,14 @@ import { changeStatusByIdThunk, deletePropertyThunk } from '@/redux/slice/Servic
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import DeletePage from './Module/Delete/page';
 
 function CardOfService({getProperties}) {
   const {t}= useTranslation()
   const dispatch = useDispatch()
+
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [propertyToDelete, setPropertyToDelete] = useState(null);
 
   //
 
@@ -82,24 +86,29 @@ function CardOfService({getProperties}) {
     setOpenMenuIndex(prev => (prev === index ? null : index));
   };
 
-const handleClick = (property) => {
-  const newStatus =
-    property.activity_status === "active" ? "inactive" : "active";
+  const handleClick = (property) => {
+    const newStatus =
+      property.activity_status === "active" ? "inactive" : "active";
 
-  dispatch(
-    changeStatusByIdThunk({
-      property_id: property.id,
-      status: newStatus,
-    })
-      
-  );
+    dispatch(
+      changeStatusByIdThunk({
+        property_id: property.id,
+        status: newStatus,
+      })
         
+    );
+          
 
-};
+  };
 
-const handleDelete = (propertyId) => {
-  dispatch(deletePropertyThunk(propertyId));
-};
+  const handleDelete = () => {
+    if (propertyToDelete) {
+      dispatch(deletePropertyThunk(propertyToDelete));
+      setOpenDeleteDialog(false);
+      setPropertyToDelete(null);
+    }
+  };
+  
   return (
     <>
 
@@ -172,13 +181,9 @@ const handleDelete = (propertyId) => {
               </div>
             )
         }
-
         // 
         const mainActions = property?.main_actions || [];
-
-        
-
-
+      
       return(
         <section 
           key={index}
@@ -228,7 +233,10 @@ const handleDelete = (propertyId) => {
                 )}
 
                 {property?.side_actions?.includes('remove') && (
-                  <button onClick={() => handleDelete(property.id)} className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
+                  <button onClick={() => {
+                    setPropertyToDelete(property?.id);
+                    setOpenDeleteDialog(true);
+                  }} className='w-full flex gap-2 p-1  cursor-pointer  hover:bg-[#EEE]'>
                     <img src="/images/icons/delete-darkRed.svg" alt="" />
                     <p className='text-[#364152] text-base font-normal'>{t('Delete property')}</p>
                   </button>
@@ -312,7 +320,13 @@ const handleDelete = (propertyId) => {
         </section>
       )})}
 
-
+      
+        <DeletePage
+          open={openDeleteDialog}
+          setOpen={setOpenDeleteDialog}
+          handleDelete={handleDelete}
+        />
+      
     </>
   )
 }
