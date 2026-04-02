@@ -10,17 +10,18 @@ import DetailsPage from './Details/page'
 function ViewPage() {
   return (
     <MainLayout>
+      <div className='border border-[#CDD5DF] p-8'>
 
-      <DetailsPage/>
-      <div className='grid grid-cols-2 gap-4'>
-        <AddressPage/>
-        <BasicInformationPage/>
-        <CheckDetailsPage/>
-        <AmenitiesPage/>
+        <DetailsPage/>
+        <div className='grid grid-cols-2 gap-6'>
+          <AddressPage/>
+          <BasicInformationPage/>
+          <CheckDetailsPage/>
+          <AmenitiesPage/>
+        </div>
+        
+        <PricingAndPoliciesPage/>
       </div>
-      
-      <PricingAndPoliciesPage/>
-      
     </MainLayout>
   )
 }
