@@ -3,6 +3,7 @@ import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
 import DetailsPage from './Details/page'
 import { useTranslation } from 'react-i18next'
+import CalenderDaysPage from './CalenderDays/page'
 
 function CalendarPage() {
   const {t} = useTranslation()
@@ -15,6 +16,8 @@ function CalendarPage() {
 
       <div className='border border-[#E6E6E6] p-8'>
         <DetailsPage/>
+
+        <CalenderDaysPage/>
       </div>
       
     </MainLayout>
