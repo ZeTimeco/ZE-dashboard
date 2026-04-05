@@ -20,8 +20,8 @@ function HomeAndCarServiceCardPages({current_module_key}) {
 
   const currentOrders = ongoingBookings ;
 
-  console.log("newOrders**",newOrders);
-  console.log("currentOrders***",currentOrders);
+  // console.log("newOrders**",newOrders);
+  // console.log("currentOrders***",currentOrders);
 
   const isNewOrdersEmpty = !newOrders || newOrders.length === 0;
   const isCurrentOrdersEmpty = !currentOrders || currentOrders.length === 0;

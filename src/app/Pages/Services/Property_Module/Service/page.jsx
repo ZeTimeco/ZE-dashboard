@@ -40,41 +40,43 @@ function ServicePage() {
 
   return (
     <MainLayout>
-      <div>
-        {/* //header and add btn */}
-        <div className=" flex justify-between mb-8">
-          <div>
-            <p className="text-[#000] text-2xl font-medium flex items-center mb-3">{t("My properties")}</p>
-            <p className='text-[#697586] text-base font-normal'>{t('A comprehensive overview of all your properties')}</p>
+      {(!getProperties || getProperties.length === 0) ? (
+        <No_services_Add/>
+      ) : (
+        <div>
+          {/* //header and add btn */}
+          <div className=" flex justify-between mb-8">
+            <div>
+              <p className="text-[#000] text-2xl font-medium flex items-center mb-3">{t("My properties")}</p>
+              <p className='text-[#697586] text-base font-normal'>{t('A comprehensive overview of all your properties')}</p>
+            </div>
+            
+            <AddBtn               
+              href="/Pages/Services/Home_Car_Module/Service/Add"
+              label="Adding a new property" 
+            />
           </div>
-          
-          <AddBtn               
-            href="/Pages/Services/Home_Car_Module/Service/Add"
-            label="Adding a new property" 
-          />
+          {/* //search and filter */}
+          <div className="flex gap-6 mb-4">
+            <SearchForm  
+              placeholderKey="Search by property name or number" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <FilterBtn onClick={handleClickOpen}/>
+          </div>
+
+          {/* //services list */}
+          <div className='grid grid-cols-3 gap-6'>
+            <CardOfService getProperties={getProperties}/>
+          </div>
+
+          {propertiesMeta && propertiesMeta.total_pages > 1 && (
+            <Pagination meta={propertiesMeta} onPageChange={handlePageChange} />
+          )}
+
         </div>
-        {/* //search and filter */}
-        <div className="flex gap-6 mb-4">
-          <SearchForm  
-            placeholderKey="Search by property name or number" 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <FilterBtn onClick={handleClickOpen}/>
-        </div>
-
-        {/* //services list */}
-        <div className='grid grid-cols-3 gap-6'>
-          <CardOfService getProperties={getProperties}/>
-        </div>
-
-        {propertiesMeta && propertiesMeta.total_pages > 1 && (
-          <Pagination meta={propertiesMeta} onPageChange={handlePageChange} />
-        )}
-
-      </div>
-
-      {/* <No_services_Add/> */}
+      )}
 
       <FiltersPage
         open={open} 

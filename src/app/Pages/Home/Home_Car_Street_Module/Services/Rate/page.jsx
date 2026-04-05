@@ -15,7 +15,7 @@ function RatePage() {
     dispatch(getProviderRateThunk())
   },[dispatch])
 
-  console.log(providerRate);
+  // console.log(providerRate);
 
 
   const [expandedIndexes, setExpandedIndexes] = useState({});

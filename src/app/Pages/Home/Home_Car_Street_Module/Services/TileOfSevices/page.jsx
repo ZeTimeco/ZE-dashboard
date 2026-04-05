@@ -2,12 +2,29 @@
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getModuleTitle } from '../../../../../../../config/getModuleTitle';
+import { changeStatusThunk } from '@/redux/slice/Home/HomeSlice';
+import { getProfileThunk } from '@/redux/slice/Setting/SettingSlice';
 
 function TileOfSevicesPage({current_module_key}) {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+  const { profileData } = useSelector((state) => state.setting);
 
+  useEffect(()=>{
+    dispatch(getProfileThunk())
+  },[dispatch])
+
+console.log('profileData*********************', profileData?.provider?.is_active);
+
+  const handleStatusChange = (event) => {
+    const token = event.target.checked;
+    dispatch(changeStatusThunk(token)).then(() => {
+      dispatch(getProfileThunk());
+    });
+  };
     const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
       ))(({ theme }) => ({
@@ -65,7 +82,7 @@ function TileOfSevicesPage({current_module_key}) {
       </div>
       <div className='flex items-center justify-between gap-3 border border-[#CDD5DF] rounded-[3px] w-[30%]  p-4'>
         <p className='text-[#364152] text-base font-normal'>{t('Current situation')}</p>
-        <GreenSwitch  />
+        <GreenSwitch checked={profileData?.provider?.is_active} onChange={handleStatusChange} />
       </div>
     </div>
     

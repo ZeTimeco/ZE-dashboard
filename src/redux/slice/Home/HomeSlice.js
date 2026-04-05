@@ -1,4 +1,4 @@
-import { getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, setModuleId } from "@/redux/api/Home/HomeApi";
+import { changeStatus, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -59,6 +59,16 @@ export const getBookingOngoingThunk = createAsyncThunk('Home/getBookingOngoingTh
   }
 )
 
+export const changeStatusThunk = createAsyncThunk('Home/changeStatusThunk',
+  async(token , {rejectWithValue})=>{
+    try{
+      const response = await changeStatus(token)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to change status");
+    }
+  }
+)
 //property_module
 //************************************************* */
 export const getPropertiesAnalysisThunk = createAsyncThunk('Home/getPropertiesAnalysisThunk',
@@ -203,6 +213,19 @@ const homeSlice = createSlice({
         state.error = null;
       })
       .addCase(getBookingOngoingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //changeStatusThunk
+      .addCase(changeStatusThunk.pending , (state)=>{
+        state.loading =true;
+        state.error = null;
+      })
+      .addCase(changeStatusThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(changeStatusThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

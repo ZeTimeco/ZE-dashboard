@@ -27,6 +27,11 @@ export const getBookingOngoing = async()=>{
   return response.data
 }
 
+export const changeStatus = async(token)=>{
+  const response = await API.post('/provider/changeStatus', { token });
+  return response.data;
+}
+
 //property_module
 //************************************************* */
 
