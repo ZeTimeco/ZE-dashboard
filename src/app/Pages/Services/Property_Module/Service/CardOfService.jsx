@@ -296,7 +296,10 @@ function CardOfService({getProperties}) {
                   </div>
                 </button>
                 
-                <button className={`relative group ${mainActions.includes('calendar') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed '} p-2.5 rounded-[3px] transition-all duration-300 hover:shadow-sm`}>
+                <button 
+                  onClick={() => mainActions.includes('calendar') && router.push(`/Pages/Services/Property_Module/Service/Calendar?id=${property.id}`)}
+                  className={`relative group ${mainActions.includes('calendar') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed '} p-2.5 rounded-[3px] transition-all duration-300 hover:shadow-sm`}
+                >
                   {mainActions.includes('calendar') ?(
                   <img src="/images/icons/calender_yellow.svg" />
                   ):(
