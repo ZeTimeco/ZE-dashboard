@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -302,6 +302,17 @@ export const getPropertiesCitiesThunk = createAsyncThunk('services/getProperties
   }
 )
 
+export const getAllDetailsThunk = createAsyncThunk('services/getAllDetailsThunk',
+  async(id, {rejectWithValue}) =>{
+    try{
+      const response = await getAllDetails(id); 
+      return response;
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 const initialState = {
@@ -335,6 +346,7 @@ const initialState = {
     propertiesMeta: null,
     getPropertyTypes: [],
     getPropertiesCities: [],
+    getDetails:null,
     
   };
 
@@ -698,6 +710,19 @@ const servicesSlice = createSlice({
         state.getPropertiesCities = action.payload || [];
       })
       .addCase(getPropertiesCitiesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //getAllDetailsThunk
+      .addCase(getAllDetailsThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getAllDetailsThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getDetails = action.payload ;
+      })
+      .addCase(getAllDetailsThunk.rejected, (state, action) => {
         state.loadingList = false;  
         state.errorList = action.payload; 
       })

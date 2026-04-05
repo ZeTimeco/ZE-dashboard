@@ -152,3 +152,8 @@ export const getPropertiesCities = async()=>{
   const response = await API.get('/properties/cities')
   return response.data
 }
+
+export const getAllDetails = async(id)=>{
+  const response = await API.get(`/properties/${id}/allDetails`)
+  return response.data
+}

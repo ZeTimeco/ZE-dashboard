@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl';
 
 function Cardspage({topProperties}) {
   const { t } = useTranslation();
@@ -45,7 +46,7 @@ function Cardspage({topProperties}) {
             className=' w-[350px] shadow-[0_0_4px_0_rgba(0,0,0,0.30)] rounded-[3px] p-3 flex-shrink-0'
           >
             <div className='relative w-full'>
-              <img src="/images/testyImage.svg" alt="" className='w-full' />
+              <img src={`${IMAGE_BASE_URL}${property?.primary_image}`} alt="" className='w-full h-50' />
               <div className='absolute top-2 left-2'>{StatusRender(property?.status)} </div>
             </div>
             <div className='mt-4'>

@@ -1,43 +1,47 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl'
 
-function DetailsPage() {
+function DetailsPage({getdetailsData}) {
   const {t} = useTranslation()
   return (
     <>
       <div className='mb-6 w-full flex gap-8  border border-[#CDD5DF] rounded-[3px] p-3'>
-        <div className='w-[25%] '>
-          <img src="/images/testyImage.svg" alt=""  />
+        <div className='w-[25%]  '>
+          <img src={`${IMAGE_BASE_URL}${getdetailsData?.primary_image?.image_path}`} alt="" className='h-35 w-full' />  
         </div>
 
         <div className='w-[75%]'>
-          <p className='text-[#364152] text-base font-medium mb-2'>شقة حديثة من غرفتي نوم في الجديدة القاهرة </p>
+          <p className='text-[#364152] text-base font-medium mb-2'> {getdetailsData?.title} </p> 
           
           <ul className="flex items-center gap-2 text-sm font-normal text-[#4B5565]">
             <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-[#4B5565] rounded-full"></span>
-              2 سرير
+              <span className="w-1.5 h-1.5 bg-[#4B5565] rounded-full"></span> 
+              {getdetailsData?.beds_count} {t('bed')}
             </li>
             <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-[#4B5565] rounded-full"></span>
-              2 حمام
+              <span className="w-1.5 h-1.5 bg-[#4B5565] rounded-full"></span> 
+              {getdetailsData?.bathrooms_count} {t('bathroom')}
             </li>
             <li className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-[#4B5565] rounded-full"></span>
-              4 ضيوف
+              <span className="w-1.5 h-1.5 bg-[#4B5565] rounded-full"></span> 
+              {getdetailsData?.guests_count} {t('guests')}
             </li>
           </ul>
           
           <div className='flex gap-2 mt-3'>
             <img src="/images/icons/locationblue.svg" className="w-4 h-4 mt-1" />
-            <p className='text-[#4B5565] text-sm font-normal'>القاهرة الجديدة، القاهرة، مصر</p>
+            <p className='text-[#4B5565] text-sm font-normal'>{getdetailsData?.location?.address}</p> 
           </div>
 
-          <p className='text-[var(--color-primary)] text-base font-medium my-2' >
-            <span>85 جنية</span>
-            <span>{t('On the night')}</span>
-          </p>
+          <div className='text-[var(--color-primary)] text-base font-medium my-2 flex gap-2' > 
+            <p>
+              <span>{getdetailsData?.base_price}</span>
+              <span>{getdetailsData?.currency}</span>
+            </p>
+            <p>{t('On the night')}</p>
+          </div>
           
         </div>
 

@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PricingAndPoliciesPage() {
+function PricingAndPoliciesPage({getdetailsData}) {
   const {t} = useTranslation()
   return (
     <>
@@ -11,19 +11,32 @@ function PricingAndPoliciesPage() {
 
         <div className="flex justify-between items-center  ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Basic price')}</p>
-          <p className="text-[#364152] text-sm font-medium w-[20%]">85 جنية في الليلة</p>
+          <p className="text-[#364152] text-sm font-medium w-[20%]">
+            <span>{getdetailsData?.base_price}</span>
+            <span>{getdetailsData?.currency}</span> {' '}
+            <span>{t('On the night')}</span>
+            
+          </p>
         </div>
         <div className="flex justify-between items-center py-3 ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Cleaning fees')}</p>
-          <p className="text-[#364152] text-sm font-medium w-[20%]">25 جنية </p>
+          <p className="text-[#364152] text-sm font-medium w-[20%]">
+            <span>{getdetailsData?.cleaning_fee}</span>
+            <span>{getdetailsData?.currency}</span>
+          </p>
         </div>
         <div className="flex justify-between items-center  ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Deposit of guarantee')}</p>
-          <p className="text-[#364152] text-sm font-medium w-[20%]">200 جنية</p>
+          <p className="text-[#364152] text-sm font-medium w-[20%]">
+            <span>{getdetailsData?.security_deposit}</span>
+            <span>{getdetailsData?.currency}</span>
+          </p>
         </div>
         <div className="flex justify-between items-center  py-3">
           <p className="text-[#4B5565] text-sm font-normal">{t('cancellation')}</p>
-          <p className="text-[#364152] text-sm font-medium w-[20%]">معتدل </p>
+          <p className="text-[#364152] text-sm font-medium w-[20%]">
+            {getdetailsData?.cancellation_policy?.policy_name}
+          </p>
         </div>
 
       </div>
