@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { IMAGE_BASE_URL } from "../../../../config/imageUrl";
 import { getBookingByIDThunk } from "@/redux/slice/Requests/RequestsSlice";
 import ViewHome_Car_Street_ModulePage from "./Views/Home_Car_Street_Module/View/page";
+import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 
 
 

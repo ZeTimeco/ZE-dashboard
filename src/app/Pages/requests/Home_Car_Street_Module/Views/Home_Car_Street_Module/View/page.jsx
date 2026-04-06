@@ -14,7 +14,6 @@ function ViewHome_Car_Street_ModulePage({ open, handleClose, bookingId ,bookingD
     <>
       <Dialog
         open={open}
-        onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         PaperProps={{

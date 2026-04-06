@@ -4,8 +4,8 @@ import { assignHandymanThunk, getAvailableHandymenThunk, getBookingByIDThunk } f
 import { t } from 'i18next'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl';
 import { CircularProgress } from '@mui/material';
+import { IMAGE_BASE_URL } from '../../../../../../../../../config/imageUrl';
 
 // Force dynamic rendering - this page should not be statically generated
 export const dynamic = 'force-dynamic';

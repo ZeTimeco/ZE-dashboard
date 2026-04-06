@@ -5,8 +5,11 @@ import DetailsPage from './Details/page'
 import { useTranslation } from 'react-i18next'
 import CalenderDaysPage from './CalenderDays/page'
 
+import { useRouter } from 'next/navigation'
+
 function CalendarPage() {
   const {t} = useTranslation()
+  const router = useRouter()
 
   return (
     <MainLayout>
@@ -19,6 +22,18 @@ function CalendarPage() {
         <DetailsPage/>
 
         <CalenderDaysPage/>
+      </div>
+
+      <div className='my-6 flex gap-4'>
+        <button className='bg-[var(--color-primary)] text-white h-15 w-[20%] rounded-[3px]'>
+          {t('Add appointments')}
+        </button>
+        <button 
+          onClick={() => router.push('/Pages/Services/Property_Module/Service')}
+          className='border border-[#697586] text-[#697586] h-15 w-[15%] rounded-[3px] cursor-pointer'
+        >
+          {t('Return')}
+        </button>
       </div>
       
     </MainLayout>

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { IMAGE_BASE_URL } from '../../../../../../../../../config/imageUrl';
+import { IMAGE_BASE_URL } from '../../../../../../../../../../config/imageUrl';
 
 function ImagesPage({bookingDetails}) {
   const { t } = useTranslation();

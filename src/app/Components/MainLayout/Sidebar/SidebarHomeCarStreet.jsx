@@ -86,7 +86,7 @@ function SidebarHomeCarStreet({ isSidebarOpen, setIsSidebarOpen }) {
 
           {/*requests  */}
           <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/requests" onClick={() => setIsSidebarOpen(false)}>
+            <Link href="/Pages/requests/Home_Car_Street_Module" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center py-3 px-2'>

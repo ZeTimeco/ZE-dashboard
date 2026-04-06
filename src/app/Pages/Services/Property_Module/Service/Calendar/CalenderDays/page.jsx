@@ -178,6 +178,11 @@ function CalenderDaysPage() {
         </button>
       </div>
 
+      {/*  note*/}
+      <div className='text-[#DC6803] border border-[#FDB022] bg-[#FFFCF5] rounded-[3px] p-3 my-4'>
+        <p>{t('Click on any date to see detailed status information.')}</p>
+      </div>
+
       <DetailsOfDay 
         selectedDayInfo={selectedDayInfo} 
         onClose={() => setSelectedDayInfo(null)} 

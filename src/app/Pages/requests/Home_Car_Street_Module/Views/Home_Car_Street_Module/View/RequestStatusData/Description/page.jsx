@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { VOICE_BASE_URL } from '../../../../../../../../../config/imageUrl';
+import { VOICE_BASE_URL } from '../../../../../../../../../../config/imageUrl';
 
 function DescriptionPage({bookingDetails}) {
   const { t } = useTranslation();
