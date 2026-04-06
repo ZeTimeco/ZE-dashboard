@@ -1,21 +1,37 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import DetailsOfDay from '../Modules/DetailsOfDay';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPropertyCalendarThunk } from '@/redux/slice/Services/ServicesSlice';
+import { useParams, useSearchParams } from 'next/navigation';
 
 function CalenderDaysPage() {
   const {t} = useTranslation()
-  const days = ["سبت", "أحد", "إثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة"];
+  const days = [t('Saturday'), t('Sunday'), t('Monday'),t('Tuesday'), t('Wednesday'),t('Thursday'), t('Friday')];
 
-  const BOOKED_DAYS = [5, 12, 20];
-  const BLOCKED_DAYS = [8, 15];
-  const AVAILABLE_DAYS = [1, 2, 3, 4, 6, 7];
+  //api
+  const dispatch = useDispatch()  
+  const {getCalendar} = useSelector((state)=>state.services)
+  const calendarData = getCalendar?.data || [];
+
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const id = params?.id || searchParams.get('id');
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDayInfo, setSelectedDayInfo] = useState(null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
+  const monthString = `${year}-${String(month + 1).padStart(2, '0')}`;
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getPropertyCalendarThunk({ id, month: monthString }));
+    }
+  }, [id, monthString, dispatch]);
+
 
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
@@ -31,13 +47,31 @@ function CalenderDaysPage() {
     calendarDays.push(i);
   }
 
+  const formatDate = (year, month, day) => {
+    const m = String(month + 1).padStart(2, '0');
+    const d = String(day).padStart(2, '0');
+    return `${year}-${m}-${d}`;
+  }
+
+  const getDayStatus = (year, month, day) => {
+    if (!calendarData || calendarData.length === 0) return null;
+    const currentDateStr = formatDate(year, month, day);
+    for (const range of calendarData) {
+      if (currentDateStr >= range.start_date && currentDateStr <= range.end_date) {
+        return range.status?.toLowerCase();
+      }
+    }
+    return null; 
+  }
 
   const getStatusColor = (day) => {
     if (!day) return "";
+    
+    const status = getDayStatus(year, month, day);
 
-    if (BOOKED_DAYS.includes(day)) return "bg-[#F04438] text-white";
-    if (BLOCKED_DAYS.includes(day)) return "bg-[var(--color-primary)] text-white";
-    if (AVAILABLE_DAYS.includes(day)) return "bg-[#17B26A] text-white";
+    if (status === "booked") return "bg-[#F04438] text-white";
+    if (status === "blocked") return "bg-[var(--color-primary)] text-white";
+    if (status === "available") return "bg-[#17B26A] text-white";
     return "text-[#9AA4B2]"; 
   };
 
@@ -51,19 +85,39 @@ function CalenderDaysPage() {
 
   const handleDayClick = (day) => {
     if (!day) return;
+    const apiStatus = getDayStatus(year, month, day);
+    let statusLabel = t('Unspecified') || "غير محدد";
+    let statusDetails =t('Unspecified');
+    let colorClass = "bg-[#9AA4B2]"; // Default Unspecified
     
-    let status = t('Unspecified') || "غير محدد";
-    if (BOOKED_DAYS.includes(day)) status = t('Forbidden');
-    else if (BLOCKED_DAYS.includes(day)) status = t('reserved');
-    else if (AVAILABLE_DAYS.includes(day)) status = t('Available');
+    if (apiStatus === 'booked') {
+      statusLabel = t('Forbidden');
+      statusDetails = t('This date is restricted and unavailable.');
+      colorClass = "bg-[#F04438]";
+    } 
+    else if (apiStatus === 'blocked') {
+      statusLabel = t('reserved');
+      statusDetails = t('This date is already booked by a guest.');
+      colorClass = "bg-[var(--color-primary)]";
+    } 
+    else if (apiStatus === 'available') {
+      statusLabel = t('Available');
+      statusDetails = t('This date is available for booking.');
+      colorClass = "bg-[#17B26A]";
+    }
     
     setSelectedDayInfo({
-      date: new Date(year, month, day).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }),
-      status
+      date: new Date(year, month, day).toLocaleDateString('ar-EG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }),
+      status: statusLabel,
+      statusDetails: statusDetails,
+      colorClass: colorClass
     });
-  };
 
-
+  }
 
   return (
     <>

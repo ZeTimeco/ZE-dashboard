@@ -771,6 +771,9 @@
   "reserved":"reserved",
   "closing":"closing",
   "Unspecified":"Unspecified",
+  "This date is restricted and unavailable.":"This date is restricted and unavailable.",
+  "This date is already booked by a guest.":"This date is already booked by a guest.",
+  "This date is available for booking.":"This date is available for booking.",
   
 
 

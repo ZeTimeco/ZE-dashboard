@@ -1,10 +1,29 @@
 "use client"
-import React from 'react'
+import { getAllDetailsThunk } from '@/redux/slice/Services/ServicesSlice';
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { IMAGE_BASE_URL } from '../../../../../../../../config/imageUrl';
 
 function DetailsPage() {
   const {t} = useTranslation()
-  const status = 'inactive'
+
+  //api
+  const dispatch = useDispatch();
+  const { getDetails } = useSelector((state) => state.services);
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getAllDetailsThunk(id));
+    }
+  }, [dispatch, id]);
+
+  const getDetailsData = getDetails?.data
+
 
   const StatusRender = (status) => {
     switch (status) {
@@ -34,25 +53,25 @@ function DetailsPage() {
 
         <div className='mb-6 w-full flex gap-8  border border-[#CDD5DF] rounded-[3px] p-3'>
             <div className='w-[25%]  '>
-              <img src='/images/testyImage.svg' alt="" className=' w-full' />  
+              <img src={`${IMAGE_BASE_URL}${getDetailsData?.primary_image?.image_path}`} alt="" className=' h-35 w-full' />  
             </div>
     
             <div className='w-[75%]'>
-              <div className='flex gap-10'>
-                <p className='text-[#364152] text-base font-medium  flex items-center'> شقة حديثة من غرفتي نوم في الجديدة القاهرة  </p> 
-                <div>{StatusRender(status)}</div>
+              <div className='flex gap-10 mb-3'>
+                <p className='text-[#364152] text-base font-medium  flex items-center'> {getDetailsData?.title}  </p> 
+                <div>{StatusRender(getDetailsData?.activity_status)}</div>
               </div>
 
               <div className='flex gap-2 '>
                 <img src="/images/icons/locationblue.svg" className="w-4 h-4 mt-1" />
-                <p className='text-[#4B5565] text-sm font-normal'>القاهرة الجديدة، القاهرة، مصر</p> 
+                <p className='text-[#4B5565] text-sm font-normal'> {getDetailsData?.location?.address}</p> 
               </div>
     
-              <div className=' mt-2 flex gap-1' > 
+              <div className=' mt-3 flex gap-1' > 
                 <img src="/images/icons/star.svg" alt="" />
                 <p>
-                  <span className='text-[#4B5565] text-base font-medium '>4.5</span> {''}
-                  <span className='text-[#697586] text-base font-normal '>(120)</span>
+                  <span className='text-[#4B5565] text-base font-medium '>{getDetailsData?.rating_avg}</span> {''}
+                  <span className='text-[#697586] text-base font-normal '>({getDetailsData?.reviews_count})</span>
                 </p>
               </div>
               

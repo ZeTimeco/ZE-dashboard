@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -313,6 +313,18 @@ export const getAllDetailsThunk = createAsyncThunk('services/getAllDetailsThunk'
   }
 )
 
+export const getPropertyCalendarThunk = createAsyncThunk('services/getPropertyCalendarThunk',
+  async({id, month}, {rejectWithValue}) =>{
+    try{
+      const response = await getPropertyCalendar(id, month); 
+      return response;
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
 
 
 const initialState = {
@@ -347,6 +359,7 @@ const initialState = {
     getPropertyTypes: [],
     getPropertiesCities: [],
     getDetails:null,
+    getCalendar:[],
     
   };
 
@@ -723,6 +736,19 @@ const servicesSlice = createSlice({
         state.getDetails = action.payload ;
       })
       .addCase(getAllDetailsThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //getPropertyCalendarThunk
+      .addCase(getPropertyCalendarThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getPropertyCalendarThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getCalendar = action.payload ;
+      })
+      .addCase(getPropertyCalendarThunk.rejected, (state, action) => {
         state.loadingList = false;  
         state.errorList = action.payload; 
       })

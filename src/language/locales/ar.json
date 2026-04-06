@@ -771,6 +771,9 @@
   "reserved":"محجوز",
   "closing":"إغلاق",
   "Unspecified":"غير محدد",
+  "This date is restricted and unavailable.":"هذا التاريخ محظور وغير متاح.",
+  "This date is already booked by a guest.":" هذا التاريخ محجوز بالفعل من قبل ضيف.",
+  "This date is available for booking.":" هذا التاريخ متاح للحجز.",
   
 
 

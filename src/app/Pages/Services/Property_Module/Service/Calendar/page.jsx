@@ -7,6 +7,7 @@ import CalenderDaysPage from './CalenderDays/page'
 
 function CalendarPage() {
   const {t} = useTranslation()
+
   return (
     <MainLayout>
       <div className='mb-10'>
