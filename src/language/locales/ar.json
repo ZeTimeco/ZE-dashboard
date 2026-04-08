@@ -794,6 +794,21 @@
   "Total amount":"المبلغ الإجمالي",
   "Platform fees":"رسوم المنصة",
   "Net profit":"الربح الصافي",
+  "Basic price (3 nights)":"السعر الأساسي (3 ليالي)",
+  "Service fees":"رسوم الخدمة",
+  "Payment made":"تم الدفع",
+  "The customer paid the booking fees.":"قام العميل بدفع رسوم الحجز",
+  "Payment pending":"الدفع معلق",
+  "The guest will be charged a fee after approval.":"سيتم فرض رسوم على الضيف بعد الموافقة",
+  "refund request":"طلب استرداد",
+  "The customer requested a refund of the booking fees.":"طلب العميل استرداد رسوم الحجز",
+  "Login and logout instructions":"تعليمات تسجيل الدخول والخروج",
+  "The service provider is available from":"موفر الخدمة متاح من",
+  "to":"الي",
+  "Guest Information":"معلومات الضيف",
+  "Frequent guest":"ضيف متكرر",
+  "communication":"اتصال",
+  "conversation":"محادثة",
   
 
 

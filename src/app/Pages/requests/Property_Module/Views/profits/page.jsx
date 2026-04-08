@@ -33,7 +33,7 @@ function ProfitsPage() {
 
         {/*  */}
         <div className='flex justify-between  '>
-          <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Net profit')} </p>
+          <p className='text-[#364152] text-sm font-medium  flex items-center '>{t('Net profit')} </p>
           <p className='text-[var(--color-primary)] text-base font-semibold flex  gap-1'>
             <span>50.00</span>
             <span>ج.م</span>
@@ -42,7 +42,7 @@ function ProfitsPage() {
 
       </div>
     </div>
-
+    
     </>
   )
 }
