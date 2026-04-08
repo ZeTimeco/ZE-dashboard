@@ -8,10 +8,10 @@ function CardOfRequest() {
 
   const [openView , setOpenView] = useState(false)
 
-  const status = "not_attend"
+  const status = "confirmed"
   const StatusRender = (status) => {
     switch (status) {
-      case "confirmed": //تم القبول
+      case "confirmed": //مقبوله
         return (
           <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
           <div className='py-1.5 px-3 flex gap-1'>

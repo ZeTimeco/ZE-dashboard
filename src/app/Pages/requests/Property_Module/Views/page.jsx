@@ -1,7 +1,54 @@
 import { Dialog } from '@mui/material'
+import { t } from 'i18next';
 import React from 'react'
+import RequestPage from './Request/page';
+import GuestInformationPage from './GuestInformation/page';
+import PropertyDetailsPage from './PropertyDetails/page';
+import PaymentDetailsPage from './PaymentDetails/page';
+import ProfitsPage from './profits/page';
 
 function ViewsPage({open , setOpen}) {
+    const status= "not_attend"
+
+    const StatusBtn = (status) => {
+    switch (status) {
+      case "confirmed": //مقبوله
+        return (
+          <div className='flex gap-6'>
+            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accessed')}</button>
+            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('The client did not attend')}</button>
+          </div>
+        );
+      case "completed"://مكتملة
+        return (
+          <div className='flex gap-6'>
+            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Download the invoice')}</button>
+            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Report a problem')}</button>
+          </div>
+        );
+      case "pending": //قيد الانتظار          
+        return (
+          <div className='flex gap-6'>
+            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accept Booking')}</button>
+            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
+          </div>
+        );
+      case "checked_in": // تم الوصول 
+        return (
+          <div className='flex gap-6'>
+            <button className='bg-[#9333EA] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Departure')}</button>
+            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Report a problem')}</button>
+          </div>
+        );
+      case "not_attend": // لم يحضر
+      case "cancelled": // ملغيه
+        return (
+          <div >
+            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Report a problem')}</button>
+          </div>
+        );
+      }
+  };
   return (
     <>
       <Dialog
@@ -19,6 +66,23 @@ function ViewsPage({open , setOpen}) {
           <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
         </button>
       </section>
+
+
+      <div className='px-6'>
+
+        <RequestPage/>
+        <GuestInformationPage/>
+        <PropertyDetailsPage/>
+        <PaymentDetailsPage/>
+        <ProfitsPage/>
+      </div>
+
+
+
+      {/* btns */}
+      <div className='px-6 my-6'>
+        {StatusBtn(status)}
+      </div>
     </Dialog>
 
     </>

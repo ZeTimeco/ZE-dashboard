@@ -784,8 +784,17 @@
   "Guests":"Guests",
   "amount":"amount",
   "Expected customer arrival time":"Expected customer arrival time",
+  "Accessed":"Accessed",
+  "The client did not attend":"The client did not attend",
+  "Download the invoice":"Download the invoice",
+  "Report a problem":"Report a problem",
+  "Accept Booking":"Accept Booking",
+  "Reservation refused":"Reservation refused",
+  "Your profits":"Your profits",
+  "Total amount":"Total amount",
+  "Platform fees":"Platform fees",
+  "Net profit":"Net profit",
   
-
 
 
 
