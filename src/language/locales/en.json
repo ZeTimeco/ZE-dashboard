@@ -779,7 +779,11 @@
   "Return":"Return",
   "Orders":"Orders",
   "A comprehensive overview of all your orders":"A comprehensive overview of all your orders",
-  
+  "Arrival date":"Arrival date",
+  "Departure date":"Departure date",
+  "Guests":"Guests",
+  "amount":"amount",
+  "Expected customer arrival time":"Expected customer arrival time",
   
 
 
