@@ -1,11 +1,12 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useEffect } from 'react'
+import React, { useEffect , Suspense } from 'react'
 import NavRequest from './NavRequest'
 import CardOfRequest from './CardOfRequest'
 import Pagination from './Pagination'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllBookingPropertyThunk } from '@/redux/slice/Requests/RequestsSlice'
+import Loader from '@/app/Components/Loader/Loader'
 
 function Property_ModulePage() {
 
@@ -21,11 +22,14 @@ function Property_ModulePage() {
 
   return (
     <MainLayout>
-      <NavRequest/>
-      <div className='grid grid-cols-3 gap-6'>
-        <CardOfRequest getBooking={getBooking}/>
-      </div>
-      <Pagination/>
+      <Suspense fallback={<div><Loader/></div>}>
+        <NavRequest/>
+      
+        <div className='grid grid-cols-3 gap-6'>
+          <CardOfRequest getBooking={getBooking}/>
+        </div>
+        <Pagination/>
+      </Suspense>
     </MainLayout>
   )
 }
