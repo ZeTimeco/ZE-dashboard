@@ -1,15 +1,29 @@
+"use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavRequest from './NavRequest'
 import CardOfRequest from './CardOfRequest'
 import Pagination from './Pagination'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllBookingPropertyThunk } from '@/redux/slice/Requests/RequestsSlice'
 
 function Property_ModulePage() {
+
+  //api
+  const dispatch = useDispatch()
+  const {getBooking} = useSelector((state)=>state.requests)
+  useEffect(()=>{
+    dispatch(getAllBookingPropertyThunk())
+  },[dispatch])
+
+
+
+
   return (
     <MainLayout>
       <NavRequest/>
-      <div className='grid grid-cols-3'>
-        <CardOfRequest/>
+      <div className='grid grid-cols-3 gap-6'>
+        <CardOfRequest getBooking={getBooking}/>
       </div>
       <Pagination/>
     </MainLayout>

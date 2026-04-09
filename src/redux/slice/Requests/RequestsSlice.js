@@ -1,5 +1,9 @@
-import { assignHandyman, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+
+//Home-Car-Street_module
+//************************************************* */
 
 export const getBookingsThunk = createAsyncThunk('Requests/getBookingsThunk',
   async(filters = {} , {rejectWithValue})=>{
@@ -45,7 +49,6 @@ export const getAvailableHandymenThunk = createAsyncThunk('Requests/getAvailable
   } 
 )
 
-
 export const assignHandymanThunk = createAsyncThunk('Requests/assignHandymanThunk' ,
   async(formData,{rejectWithValue})=>{
     try{
@@ -79,6 +82,20 @@ export const getRejectionReasonsThunk = createAsyncThunk('Requests/getRejectionR
   }
 )
 
+//property_module
+//************************************************* */
+export const getAllBookingPropertyThunk = createAsyncThunk('Requests/getAllBookingPropertyThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getAllBookingProperty()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get data of bookings");
+
+    }
+  }
+)
+
 
 const initialState = {
   loading: false,
@@ -91,6 +108,10 @@ const initialState = {
   assignHandymanResponse: null,
   bookingDetails:null,
   RejectionReasons: [],
+
+
+  getBooking:[],
+
 }
 
 const RequestsSlice = createSlice({
@@ -186,6 +207,20 @@ const RequestsSlice = createSlice({
       .addCase(getRejectionReasonsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
+      })
+
+      //getBookingsThunk
+      .addCase(getAllBookingPropertyThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllBookingPropertyThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getBooking = action.payload;
+      })
+      .addCase(getAllBookingPropertyThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
       
   }

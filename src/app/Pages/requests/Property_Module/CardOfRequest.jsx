@@ -3,12 +3,16 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import ViewsPage from './Views/page';
 
-function CardOfRequest() {
+function CardOfRequest({getBooking}) {
   const {t} = useTranslation()
+  //api
+
+  const getBookingData = getBooking?.data
+    console.log('getBookingData***********' , getBookingData);
+
 
   const [openView , setOpenView] = useState(false)
 
-  const status = "confirmed"
   const StatusRender = (status) => {
     switch (status) {
       case "confirmed": //مقبوله
@@ -68,75 +72,116 @@ function CardOfRequest() {
       }
   };
 
+
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] mt-6 p-4'>
-        {/*  */}
-        <div className='flex justify-between '>
-          {/* name */}
-          <div className='flex gap-3'>
-            <p className='bg-[#007AFF] text-white text-sm w-11 h-11 flex justify-center items-center rounded-full'>s</p>
-            <p className='text-[#364152] text-sm font-medium flex items-center'>أسم العميل</p>
-          </div>
-          {/* status */}
-          <div className='flex items-center'>{StatusRender(status)}</div>
-        </div>
+      {getBookingData?.map((booking , index)=>{
+        const formatTime = (time) => {
+          if (!time) return "--";
 
-        {/*  */}
-        <div className='flex justify-between mt-6'>
-          <div className='flex flex-col gap-1'>
-            <p className='text-[#364152] text-base font-normal'>فيلا الروابي الفاخرة</p>
-            <p className='text-[#697586] text-sm font-normal'>جدة, حي الشاطي</p>
-          </div>
-          <p className='text-[#4B5565] text-base font-normal'>BK-368955</p>
-        </div>
+          const [hoursStr, minutesStr] = time.split(":");
+          let hours = parseInt(hoursStr);
+          let minutes = parseInt(minutesStr);
 
-        {/*  */}
-        <div className='grid grid-cols-2 gap-4 my-4'>
-          <div className='flex flex-col font-normal'>
-            <p className='text-[#364152] text-base '>{t('Arrival date')}:</p>
-            <p className='text-[#697586] text-sm '>15 ديسمبر 2026</p>
-          </div>
+          if (isNaN(hours) || isNaN(minutes)) return "--";
 
-          <div className='flex flex-col font-normal'>
-            <p className='text-[#364152] text-base '>{t('Departure date')}:</p>
-            <p className='text-[#697586] text-sm '>15 ديسمبر 2026</p>
-          </div>
+          const period = hours >= 12 ? t('evening') : t('morning');
+          hours = hours % 12 || 12;
 
-          <div className='flex flex-col font-normal'>
-            <p className='text-[#364152] text-base '>{t('Guests')}:</p>
-            <p className='text-[#697586] text-sm '>15 ديسمبر 2026</p>
+          return `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
+        };
+      
+      return(
+        <div
+          key={booking?.id}
+          className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] mt-6 p-4'
+        >
+          {/*  */}
+          <div className='flex justify-between '>
+            {/* name */}
+            <div className='flex gap-3'>
+              <p className='bg-[#007AFF] text-white text-sm w-11 h-11 flex justify-center items-center rounded-full'>s</p>
+              <p className='text-[#364152] text-sm font-medium flex items-center'>{booking?.guest?.name}</p>
+            </div>
+            {/* status */}
+            <div className='flex items-center'>{StatusRender(booking?.status)}</div>
           </div>
 
-          <div className='flex flex-col font-normal '>
-            <p className='text-[#364152] text-base '>{t('amount')}:</p>
-            <p className='text-[var(--color-primary)] text-sm '>200.00 جنية</p>
+          {/*  */}
+          <div className='flex justify-between mt-6'>
+            <div className='flex flex-col gap-1'>
+              <p className='text-[#364152] text-base font-normal'>{booking?.property?.title} </p>
+              <p className='text-[#697586] text-sm font-normal'>{booking?.property?.city} , {booking?.property?.area}</p>
+            </div>
+            <p className='text-[#4B5565] text-base font-normal'>{booking?.booking_number}</p>
           </div>
-        </div>
 
-        <div className='flex gap-8 text-base font-normal'>
-          <p className='text-[#364152] '>{t('Expected customer arrival time')}:</p>
-            <p className='text-[#697586]'>12:00 مساًء</p>
-        </div>
-        <div className='bg-[#E3E8EF] h-0.5 my-6'></div>
+          {/*  */}
+          <div className='grid grid-cols-2 gap-4 my-4'>
+            <div className='flex flex-col font-normal'>
+              <p className='text-[#364152] text-base '>{t('Arrival date')}:</p>
+              <p className='text-[#697586] text-sm '>
+                {booking?.check_in &&
+                new Date(booking.check_in).toLocaleDateString("ar-EG", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            </div>
 
-        <div className='flex justify-between'>
-          <button 
-            onClick={()=>{setOpenView(true)}}
-            className='bg-[var(--color-primary)] text-white h-14 w-[70%] rounded-[3px] cursor-pointer'
-          >
-            {t('Details')}
-          </button>
-          <div className='flex items-center'>
-            <p className='border border-[var(--color-primary)] w-10 h-10 flex items-center justify-center rounded-full cursor-pointer'>
-              <img src="/images/icons/chat_yellow.svg" alt="" />
-            </p>
+            <div className='flex flex-col font-normal'>
+              <p className='text-[#364152] text-base '>{t('Departure date')}:</p>
+              <p className='text-[#697586] text-sm '>
+                {booking?.check_out &&
+                  new Date(booking.check_out).toLocaleDateString("ar-EG", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                })}
+              </p>
+
+            </div>
+
+            <div className='flex flex-col font-normal'>
+              <p className='text-[#364152] text-base '>{t('Guests')}:</p>
+              <p className='text-[#697586] text-sm '>{booking?.guest_count_text}</p>
+            </div>
+
+            <div className='flex flex-col font-normal '>
+              <p className='text-[#364152] text-base '>{t('amount')}:</p>
+              <p className='text-[var(--color-primary)] text-sm '>{booking?.total_amount}جنية</p>
+            </div>
+          </div>
+
+          <div className='flex gap-8 text-base font-normal'>
+            <p className='text-[#364152] '>{t('Expected customer arrival time')}:</p>
+              <p className='text-[#697586]'>
+                {booking?.expected_arrival_at &&
+                formatTime(booking.expected_arrival_at)}
+              </p>
+          </div>
+          <div className='bg-[#E3E8EF] h-0.5 my-6'></div>
+
+          <div className='flex justify-between'>
+            <button 
+              onClick={()=>{setOpenView(true)}}
+              className='bg-[var(--color-primary)] text-white h-14 w-[70%] rounded-[3px] cursor-pointer'
+            >
+              {t('Details')}
+            </button>
+            <div className='flex items-center'>
+              <p className='border border-[var(--color-primary)] w-10 h-10 flex items-center justify-center rounded-full cursor-pointer'>
+                <img src="/images/icons/chat_yellow.svg" alt="" />
+              </p>
+            </div>
+            
           </div>
           
         </div>
-        
-      </div>
 
+      )})}
+      
 
       <ViewsPage open={openView} setOpen={setOpenView}/>
     </>

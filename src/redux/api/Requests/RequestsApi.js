@@ -1,5 +1,7 @@
 import API from "../../../../config/api"
 
+//Home-Car-Street_module
+//************************************************* */
 
 export const getBookings = async({ page = 1, status, date_from, date_to, city, service_id } = {})=>{
   const params = new URLSearchParams()
@@ -40,5 +42,13 @@ export const UpdateBooking = async(id, formData)=>{
 
 export const getRejectionReasons = async()=>{
   const response = await API.get('/rejection-reasons')
+  return response.data
+}
+
+
+//property_module
+//************************************************* */
+export const getAllBookingProperty = async()=>{
+  const response = await API.get('/properties/allbookings')
   return response.data
 }
