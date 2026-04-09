@@ -118,7 +118,7 @@ function CardOfRequest() {
           <p className='text-[#364152] '>{t('Expected customer arrival time')}:</p>
             <p className='text-[#697586]'>12:00 مساًء</p>
         </div>
-        <div className='bg-[#E3E8EF] h-0.5 my-2'></div>
+        <div className='bg-[#E3E8EF] h-0.5 my-6'></div>
 
         <div className='flex justify-between'>
           <button 
