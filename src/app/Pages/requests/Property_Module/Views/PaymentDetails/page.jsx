@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PaymentDetailsPage() {
+function PaymentDetailsPage({getBookingDetails}) {
   const {t} = useTranslation();
 
   const status = "checked_in"

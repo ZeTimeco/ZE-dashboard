@@ -1,13 +1,32 @@
+"use client"
 import { Dialog } from '@mui/material'
 import { t } from 'i18next';
-import React from 'react'
+import React, { useEffect } from 'react'
 import RequestPage from './Request/page';
 import GuestInformationPage from './GuestInformation/page';
 import PropertyDetailsPage from './PropertyDetails/page';
 import PaymentDetailsPage from './PaymentDetails/page';
 import ProfitsPage from './profits/page';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBookingByIdPropertyThunk } from '@/redux/slice/Requests/RequestsSlice';
 
-function ViewsPage({open , setOpen}) {
+function ViewsPage({open , setOpen, id}) {
+  //api
+  const dispatch = useDispatch()
+  const {getBookingDetails} = useSelector((state)=>state.requests)
+  useEffect(()=>{
+    if (id && id !== "undefined" && open) {
+      dispatch(getBookingByIdPropertyThunk(id))
+        console.log(id);
+
+    }
+  },[dispatch, id, open])
+
+  
+
+
+
+
   const status= "not_attend"
 
   const StatusBtn = (status) => {
@@ -94,11 +113,11 @@ function ViewsPage({open , setOpen}) {
 
       {/* content */}
       <div className='px-6'>
-        <RequestPage/>
-        <GuestInformationPage/>
-        <PropertyDetailsPage/>
-        <PaymentDetailsPage/>
-        <ProfitsPage/>
+        <RequestPage getBookingDetails={getBookingDetails}/>
+        <GuestInformationPage getBookingDetails={getBookingDetails}/>
+        <PropertyDetailsPage getBookingDetails={getBookingDetails}/>
+        <PaymentDetailsPage getBookingDetails={getBookingDetails}/>
+        <ProfitsPage getBookingDetails={getBookingDetails}/>
       </div>
 
 

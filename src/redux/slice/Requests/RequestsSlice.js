@@ -1,4 +1,4 @@
-import { assignHandyman, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookings, getDrowpdownFilters, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -96,6 +96,17 @@ export const getAllBookingPropertyThunk = createAsyncThunk('Requests/getAllBooki
   }
 )
 
+export const getBookingByIdPropertyThunk = createAsyncThunk('Requests/getBookingByIdPropertyThunk',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await getBookingByIdProperty(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get data of booking");
+    }
+  }
+)
+
 
 const initialState = {
   loading: false,
@@ -111,6 +122,7 @@ const initialState = {
 
 
   getBooking:[],
+  getBookingDetails:null,
 
 }
 
@@ -209,7 +221,8 @@ const RequestsSlice = createSlice({
         state.error = action.payload; 
       })
 
-      //getBookingsThunk
+
+      //getAllBookingPropertyThunk
       .addCase(getAllBookingPropertyThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -219,6 +232,18 @@ const RequestsSlice = createSlice({
         state.getBooking = action.payload;
       })
       .addCase(getAllBookingPropertyThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getBookingByIdPropertyThunk
+      .addCase(getBookingByIdPropertyThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getBookingByIdPropertyThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getBookingDetails = action.payload;
+      })
+      .addCase(getBookingByIdPropertyThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function ProfitsPage() {
+function ProfitsPage({getBookingDetails}) {
   const {t} = useTranslation()
   return (
     <>  

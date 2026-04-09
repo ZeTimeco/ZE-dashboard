@@ -2,9 +2,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function RequestPage() {
+function RequestPage({getBookingDetails}) {
   const {t} = useTranslation()
-  const status = "pending"
+  const getBookingDetailsData = getBookingDetails?.data
+  const status = getBookingDetailsData?.status
   const StatusRender = (status) => {
     switch (status) {
       case "confirmed": //مقبوله
@@ -63,11 +64,27 @@ function RequestPage() {
         );
       }
   };
+
+    const formatTime = (time) => {
+      if (!time) return "--";
+
+      const [hoursStr, minutesStr] = time.split(":");
+      let hours = parseInt(hoursStr);
+      let minutes = parseInt(minutesStr);
+
+      if (isNaN(hours) || isNaN(minutes)) return "--";
+
+      const period = hours >= 12 ? t('evening') : t('morning');
+      hours = hours % 12 || 12;
+
+      return `${hours}:${minutes.toString().padStart(2, "0")} ${period}`;
+    };
+
   return (
     <>
       <div className='border border-[#E3E8EF] rounded-[3px] p-4 mb-4 mt-6'>
         <div className='flex justify-between'>
-          <p className='text-[#697586] text-sm font-normal'>{t('to request')}/5555</p>        
+          <p className='text-[#697586] text-sm font-normal'>{t('to request')}/{getBookingDetailsData?.booking_number}</p>        
           <div>{StatusRender(status)}</div>
         </div>
 
@@ -87,12 +104,22 @@ function RequestPage() {
             {/*  */}
             <div className='flex gap-2  '>
               <img src="/images/icons/calendar_blue.svg" alt="" />
-              <p className='text-[#4B5565] text-base font-medium'>15 ديسمبر 2026</p>
+              <p className='text-[#4B5565] text-base font-medium'>
+                {getBookingDetailsData?.created_at &&
+                  new Date(getBookingDetailsData.created_at).toLocaleDateString("ar-EG", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+              </p>
             </div>
             {/*  */}
             <div className='flex gap-2  '>
               <img src="/images/icons/clock-blue.svg" alt="" />
-              <p className='text-[#4B5565] text-base font-medium'>11:00ص</p>
+              <p className='text-[#4B5565] text-base font-medium'>
+                  {getBookingDetailsData?.created_at &&
+              formatTime(getBookingDetailsData.created_at)}
+              </p>
             </div>
           </div>
 
@@ -104,7 +131,7 @@ function RequestPage() {
                 <img src="/images/icons/user-blue.svg" alt="" />
               </p>
               <p className='text-[#4B5565] text-base font-normal'>{t('Adults')}</p>
-              <p className='text-[#0B0E11] text-xl font-medium'>5</p>
+              <p className='text-[#0B0E11] text-xl font-medium'>{getBookingDetailsData?.adults}</p>
             </div>
             {/*  */}
             <div className='flex flex-col items-center py-4  border border-[#EEF2F6] rounded-[14px]'>
@@ -112,7 +139,7 @@ function RequestPage() {
                 <img src="/images/icons/Baby-pink.svg" alt="" />
               </p>
               <p className='text-[#4B5565] text-base font-normal'>{t('children')}</p>
-              <p className='text-[#0B0E11] text-xl font-medium'>5</p>
+              <p className='text-[#0B0E11] text-xl font-medium'>{getBookingDetailsData?.children}</p>
             </div>
             {/*  */}
             <div className='flex flex-col items-center py-4  border border-[#EEF2F6] rounded-[14px]'>
@@ -120,7 +147,7 @@ function RequestPage() {
                 <img src="/images/icons/Moon-blue.svg" alt="" />
               </p>
               <p className='text-[#4B5565] text-base font-normal'>{t('nights')}</p>
-              <p className='text-[#0B0E11] text-xl font-medium'>5</p>
+              <p className='text-[#0B0E11] text-xl font-medium'>{getBookingDetailsData?.nights}</p>
             </div>
 
 
@@ -134,18 +161,35 @@ function RequestPage() {
         <div className='grid grid-cols-2'>
           <div className='text-base font-normal'>
             <p className='text-[#364152] mb-2'>{t('Arrival date')}:</p>
-            <p className='text-[#697586]'>15 ديسمبر 2026</p>
+            <p className='text-[#697586]'>
+                {getBookingDetailsData?.check_in &&
+                new Date(getBookingDetailsData.check_in).toLocaleDateString("ar-EG", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+            </p>
           </div>
 
           <div className='text-base font-normal'>
             <p className='text-[#364152] mb-2'>{t('Departure date')}:</p>
-            <p className='text-[#697586]'>25 ديسمبر 2026</p>
+            <p className='text-[#697586]'>
+              {getBookingDetailsData?.check_out &&
+                  new Date(getBookingDetailsData.check_out).toLocaleDateString("ar-EG", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                })}
+            </p>
           </div>
         </div>
 
         <div className='text-base font-normal grid grid-cols-2 mt-4'>
           <p className='text-[#364152] '>{t('Expected guest arrival time')}:</p>
-          <p className='text-[#697586]'>12:00 مساًء</p>
+          <p className='text-[#697586]'>
+            {getBookingDetailsData?.expected_arrival_at &&
+              formatTime(getBookingDetailsData.expected_arrival_at)}
+          </p>
         </div>
 
 

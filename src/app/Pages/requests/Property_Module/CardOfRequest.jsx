@@ -1,17 +1,30 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import ViewsPage from './Views/page';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 function CardOfRequest({getBooking}) {
   const {t} = useTranslation()
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const urlId = searchParams.get('id')
+
   //api
 
   const getBookingData = getBooking?.data
     console.log('getBookingData***********' , getBookingData);
 
-
   const [openView , setOpenView] = useState(false)
+
+  useEffect(() => {
+    if (urlId) {
+      setOpenView(true)
+    } else {
+      setOpenView(false)
+    }
+  }, [urlId])
 
   const StatusRender = (status) => {
     switch (status) {
@@ -165,7 +178,10 @@ function CardOfRequest({getBooking}) {
 
           <div className='flex justify-between'>
             <button 
-              onClick={()=>{setOpenView(true)}}
+              onClick={()=>{
+                router.push(`${pathname}?id=${booking?.id}`, { scroll: false })
+                setOpenView(true)
+              }}
               className='bg-[var(--color-primary)] text-white h-14 w-[70%] rounded-[3px] cursor-pointer'
             >
               {t('Details')}
@@ -183,7 +199,16 @@ function CardOfRequest({getBooking}) {
       )})}
       
 
-      <ViewsPage open={openView} setOpen={setOpenView}/>
+      <ViewsPage 
+        open={openView} 
+        setOpen={(val) => {
+          setOpenView(val)
+          if (!val) {
+            router.push(pathname, { scroll: false })
+          }
+        }} 
+        id={urlId} 
+      />
     </>
   )
 }
