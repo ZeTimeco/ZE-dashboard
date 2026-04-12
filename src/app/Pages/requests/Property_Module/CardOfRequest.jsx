@@ -120,6 +120,15 @@ function CardOfRequest({getBooking}) {
             <div className='flex items-center'>{StatusRender(booking?.status)}</div>
           </div>
 
+        
+            {booking?.guest_is_repeated && (
+            <>
+              <p className='border border-[#4D0CE7] bg-[#EDE7FD] text-[#4D0CE7] h-7.5 px-2  w-fit mt-2 rounded-[3px]'>
+                {t('Frequent guest')}
+              </p>
+            </>
+          )}
+
           {/*  */}
           <div className='flex justify-between mt-6'>
             <div className='flex flex-col gap-1'>
