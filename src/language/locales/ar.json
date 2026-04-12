@@ -820,6 +820,23 @@
   "morning":"صباح",
   "Filter your orders":"تصفية الطلبات الخاصة بك",
   "All":"الكل",
+  "Date range":"نطاق التاريخ",
+  "Today is arrival":"وصول اليوم",
+  "coming":"قادم",
+  "this week":"هذا الاسبوع",
+  "This month":"هذا الشهر",
+  "Booking status":"حالة الحجز",
+  "Check-in date":"تاريخ تسجيل الوصول",
+  "From date":"من تاريخ",
+  "Check-out date":"تاريخ تسجيل المغادرة",
+  "Property":"العقار",
+  "Select property":"حدد العقار",
+  "Booking amount":"مبلغ الحجز",
+  "minimum":"الحد الأدنى",
+  "maximum":"الحد الأقصى",
+  "Paid":"مدفوع",
+  "Partially paid":"مدفوع جزئيا",
+  "Payment Pending":"في انتظار الدفع",
   
 
 

@@ -820,8 +820,24 @@
   "morning":"morning",
   "Filter your orders":"Filter your orders",
   "All":"All",
+  "Date range":"Date range",
+  "Today is arrival":"Today is arrival",
+  "coming":"coming",
+  "this week":"this week",
+  "This month":"This month",
+  "Booking status":"Booking status",
+  "Check-in date":"Check-in date",
+  "From date":"From date",
+  "Check-out date":"Check-out date",
+  "Property":"Property",
+  "Select property":"Select property",
+  "Booking amount":"Booking amount",
+  "minimum":"minimum",
+  "maximum":"maximum",
+  "Paid":"Paid",
+  "Partially paid":"Partially paid",
+  "Payment Pending":"Payment pending",
   
-
 
 
 

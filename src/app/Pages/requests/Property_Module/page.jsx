@@ -25,7 +25,7 @@ function Property_ModulePage() {
       <Suspense fallback={<div><Loader/></div>}>
         <NavRequest/>
       
-        <div className='grid grid-cols-3 gap-6'>
+        <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6'>
           <CardOfRequest getBooking={getBooking}/>
         </div>
         <Pagination/>

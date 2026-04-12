@@ -67,7 +67,7 @@ function ServicePage() {
           </div>
 
           {/* //services list */}
-          <div className='grid grid-cols-3 gap-6'>
+          <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6'>
             <CardOfService getProperties={getProperties}/>
           </div>
 
