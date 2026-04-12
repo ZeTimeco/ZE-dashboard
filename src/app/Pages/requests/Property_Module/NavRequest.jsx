@@ -4,12 +4,16 @@ import FilterBtn from '@/app/Components/Buttons/FilterBtn'
 import SearchForm from '@/app/Components/Forms/SearchForm'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import FiltersPage from './Filters/page'
 
 
 function NavRequest() {
   const{t}= useTranslation()
 
-
+    const [open, setOpen] = useState(false);
+  
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
   
 
   return (
@@ -27,9 +31,10 @@ function NavRequest() {
         <SearchForm 
           placeholderKey="Search by order number"
         />
-        <FilterBtn />
+        <FilterBtn onClick={handleClickOpen}/>
       </section>
 
+      <FiltersPage open={open} handleClose={handleClose} />
 
 
 
