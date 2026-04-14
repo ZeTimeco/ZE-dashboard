@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import FiltersPage from './Filters/page'
 
-function NavRequest({ onApplyFilters }) {
+function NavRequest({ onApplyFilters, onSearch }) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false);
 
@@ -24,7 +24,10 @@ function NavRequest({ onApplyFilters }) {
       </section>
 
       <section className='flex gap-6'>
-        <SearchForm placeholderKey="Search by order number"/>
+        <SearchForm 
+          placeholderKey="Search by order number"
+          onChange={(e) => onSearch(e.target.value)}
+        />
         <FilterBtn onClick={handleClickOpen}/>
       </section>
 

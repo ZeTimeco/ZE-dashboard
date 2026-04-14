@@ -52,7 +52,7 @@ function ServicePage() {
             </div>
             
             <AddBtn               
-              href="/Pages/Services/Home_Car_Module/Service/Add"
+              href="/Pages/Services/Property_Module/Service/Add"
               label="Adding a new property" 
             />
           </div>

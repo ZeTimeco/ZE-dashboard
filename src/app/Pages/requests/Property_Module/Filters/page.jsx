@@ -7,6 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useDispatch, useSelector } from "react-redux";
 import { getPropertiesForFilterThunk } from "@/redux/slice/Requests/RequestsSlice";
+import { useSearchParams } from "next/navigation";
 
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
@@ -45,6 +46,19 @@ function FiltersPage({ open, handleClose, onApplyFilters }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const searchParams = useSearchParams();
+  const serviceid = searchParams.get('serviceid');
+
+  useEffect(() => {
+    if (serviceid && PropertyOptions.length > 0 && !selectedPropertyId) {
+      const prop = PropertyOptions.find((p) => p.id == serviceid);
+      if (prop) {
+        setSelectedPropertyId(prop.id);
+        setSelectedPropertyTitle(prop.title);
+      }
+    }
+  }, [serviceid, PropertyOptions, selectedPropertyId]);
 
   // ── Options ───────────────────────────────────────────────
   const allStatusValues = ['confirmed', 'completed', 'pending', 'checked_in', 'not_attend', 'canceled'];

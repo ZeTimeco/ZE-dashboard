@@ -77,5 +77,9 @@ export const getPropertiesForFilter = async()=>{
 export const changeBookingAction = async({ booking_id, action })=>{
   const response = await API.post('/property/booking_action', { booking_id, action });
   return response.data;
+}
 
+export const getPropertyBookingById = async(id)=>{
+  const response = await API.get(`/properties/${id}/bookings`)
+  return response.data
 }

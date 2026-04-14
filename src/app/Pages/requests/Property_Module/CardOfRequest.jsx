@@ -13,7 +13,7 @@ function CardOfRequest({getBooking, hasActiveFilters}) {
 
   //api
 
-  const getBookingData = getBooking?.data
+  const getBookingData = Array.isArray(getBooking) ? getBooking : getBooking?.data
 
   const [openView , setOpenView] = useState(false)
 

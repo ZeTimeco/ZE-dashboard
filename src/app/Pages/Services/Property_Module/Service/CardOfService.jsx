@@ -285,7 +285,9 @@ function CardOfService({getProperties}) {
 
               {/* btn */}
               <div className='flex mt-2 gap-3 '>
-                <button className={`relative group ${mainActions.includes('view_bookings') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed'} p-2.5 rounded-[3px]  transition-all duration-300 hover:shadow-sm`}>
+                <button 
+                  onClick={() => mainActions.includes('view_bookings') && router.push(`/Pages/requests/Property_Module?serviceid=${property?.id}`)}
+                  className={`relative group ${mainActions.includes('view_bookings') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed'} p-2.5 rounded-[3px]  transition-all duration-300 hover:shadow-sm`}>
                   {mainActions.includes('view_bookings') ?(
                   <img src="/images/icons/book-open_Yellow.svg" />
                   ):(
