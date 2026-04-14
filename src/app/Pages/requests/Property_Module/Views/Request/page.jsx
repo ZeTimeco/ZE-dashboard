@@ -53,7 +53,7 @@ function RequestPage({getBookingDetails}) {
             </div>
           </div>
         );
-      case "cancelled": // ملغيه
+      case "canceled": // ملغيه
         return (
           <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>

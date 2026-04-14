@@ -48,8 +48,19 @@ export const getRejectionReasons = async()=>{
 
 //property_module
 //************************************************* */
-export const getAllBookingProperty = async()=>{
-  const response = await API.get('/properties/allbookings')
+export const getAllBookingProperty = async(filters = {})=>{
+  const params = new URLSearchParams()
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === '') return
+    if (Array.isArray(value)) {
+      value.forEach(v => params.append(`${key}[]`, v))
+    } else {
+      params.append(key, value)
+    }
+  })
+
+  const response = await API.get(`/properties/allbookings?${params.toString()}`)
   return response.data
 }
 

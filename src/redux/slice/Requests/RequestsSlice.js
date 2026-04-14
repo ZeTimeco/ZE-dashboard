@@ -85,9 +85,9 @@ export const getRejectionReasonsThunk = createAsyncThunk('Requests/getRejectionR
 //property_module
 //************************************************* */
 export const getAllBookingPropertyThunk = createAsyncThunk('Requests/getAllBookingPropertyThunk',
-  async(_ , {rejectWithValue})=>{
+  async(filters = {} , {rejectWithValue})=>{
     try{
-      const response = await getAllBookingProperty()
+      const response = await getAllBookingProperty(filters)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || "Failed to get data of bookings");
@@ -144,6 +144,7 @@ const initialState = {
 
 
   getBooking:[],
+  getBookingPagination: null,
   getBookingDetails:null,
   getPropertiesFilter:[],
 
@@ -253,6 +254,7 @@ const RequestsSlice = createSlice({
       .addCase(getAllBookingPropertyThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.getBooking = action.payload;
+        state.getBookingPagination = action.payload?.meta || null;
       })
       .addCase(getAllBookingPropertyThunk.rejected, (state, action) => {
         state.loading = false;

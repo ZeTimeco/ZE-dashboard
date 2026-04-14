@@ -54,7 +54,7 @@ function ViewsPage({open , setOpen, id}) {
         return (
           <div className='flex gap-6'>
             <button onClick={() => handleChangeStatus("confirmed")} className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accept Booking')}</button>
-            <button onClick={() => handleChangeStatus("cancelled")} className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
+            <button onClick={() => handleChangeStatus("canceled")} className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
           </div>
         );
       case "checked_in": // تم الوصول 
@@ -65,7 +65,7 @@ function ViewsPage({open , setOpen, id}) {
           </div>
         );
       case "not_attend": // لم يحضر
-      case "cancelled": // ملغيه
+      case "canceled": // ملغيه
         return (
           <div >
             <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Report a problem')}</button>

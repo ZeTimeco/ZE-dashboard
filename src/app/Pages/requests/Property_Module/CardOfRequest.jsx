@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ViewsPage from './Views/page';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
-function CardOfRequest({getBooking}) {
+function CardOfRequest({getBooking, hasActiveFilters}) {
   const {t} = useTranslation()
   const router = useRouter()
   const pathname = usePathname()
@@ -14,7 +14,6 @@ function CardOfRequest({getBooking}) {
   //api
 
   const getBookingData = getBooking?.data
-    console.log('getBookingData***********' , getBookingData);
 
   const [openView , setOpenView] = useState(false)
 
@@ -73,7 +72,7 @@ function CardOfRequest({getBooking}) {
             </div>
           </div>
         );
-      case "cancelled": // ملغيه
+      case "canceled": // ملغيه
         return (
           <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
@@ -88,6 +87,18 @@ function CardOfRequest({getBooking}) {
 
   return (
     <>
+      {getBookingData && getBookingData.length === 0 && (
+        <div className='col-span-2 lg1:col-span-3 flex flex-col items-center justify-center py-20 text-center'>
+          <img src="/images/icons/empty.svg" alt="empty" className='w-24 h-24 mb-4 opacity-40' onError={(e) => e.target.style.display='none'} />
+          {hasActiveFilters &&(
+            <>
+              <p className='text-[#697586] text-lg font-medium'>{t('لا توجد نتائج')}</p>
+              <p className='text-[#9AA4B2] text-sm mt-1'>{t('لا توجد حجوزات تطابق الفلتر المحدد')}</p>
+            </>
+          ) }
+        </div>
+      )}
+
       {getBookingData?.map((booking , index)=>{
         const formatTime = (time) => {
           if (!time) return "--";
