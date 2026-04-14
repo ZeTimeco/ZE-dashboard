@@ -9,7 +9,7 @@ import PaymentDetailsPage from './PaymentDetails/page';
 import ProfitsPage from './profits/page';
 import Activity_LogPage from './Activity_Log/page';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBookingByIdPropertyThunk } from '@/redux/slice/Requests/RequestsSlice';
+import { changeBookingActionThunk, getBookingByIdPropertyThunk } from '@/redux/slice/Requests/RequestsSlice';
 
 function ViewsPage({open , setOpen, id}) {
   const [showActivityLog, setShowActivityLog] = useState(false);
@@ -25,19 +25,22 @@ function ViewsPage({open , setOpen, id}) {
   },[dispatch, id, open])
 
   
+  const status = getBookingDetails?.data?.status
 
-
-
-
-  const status= getBookingDetails?.data?.status
+  const handleChangeStatus = (action) => {
+    dispatch(changeBookingActionThunk({ booking_id: id, action }))
+      .unwrap()
+      .then(() => dispatch(getBookingByIdPropertyThunk(id)))
+      .catch((err) => console.error('Action failed:', err));
+  };
 
   const StatusBtn = (status) => {
     switch (status) {
       case "confirmed": //مقبوله
         return (
           <div className='flex gap-6'>
-            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accessed')}</button>
-            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('The client did not attend')}</button>
+            <button onClick={() => handleChangeStatus('checked_in')} className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accessed')}</button>
+            <button onClick={() => handleChangeStatus('not_attend')} className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('The client did not attend')}</button>
           </div>
         );
       case "completed"://مكتملة
@@ -50,14 +53,14 @@ function ViewsPage({open , setOpen, id}) {
       case "pending": //قيد الانتظار          
         return (
           <div className='flex gap-6'>
-            <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accept Booking')}</button>
-            <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
+            <button onClick={() => handleChangeStatus("confirmed")} className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accept Booking')}</button>
+            <button onClick={() => handleChangeStatus("cancelled")} className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
           </div>
         );
       case "checked_in": // تم الوصول 
         return (
           <div className='flex gap-6'>
-            <button className='bg-[#9333EA] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Departure')}</button>
+            <button onClick={() => handleChangeStatus('completed')} className='bg-[#9333EA] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Departure')}</button>
             <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Report a problem')}</button>
           </div>
         );

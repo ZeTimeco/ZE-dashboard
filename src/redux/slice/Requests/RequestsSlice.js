@@ -1,4 +1,4 @@
-import { assignHandyman, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getPropertiesForFilter, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getPropertiesForFilter, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -119,6 +119,16 @@ export const getPropertiesForFilterThunk = createAsyncThunk('Requests/getPropert
   }
 )
 
+export const changeBookingActionThunk = createAsyncThunk('Home/changeBookingActionThunk',
+  async({ booking_id, action } , {rejectWithValue})=>{
+    try{
+      const response = await changeBookingAction({ booking_id, action })
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to change status");
+    }
+  }
+)
 
 const initialState = {
   loading: false,
@@ -273,6 +283,20 @@ const RequestsSlice = createSlice({
       .addCase(getPropertiesForFilterThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      //changeBookingActionThunk
+      .addCase(changeBookingActionThunk.pending , (state)=>{
+        state.loading =true;
+        state.error = null;
+      })
+      .addCase(changeBookingActionThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(changeBookingActionThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
       })
 
       
