@@ -6,6 +6,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import { useDispatch, useSelector } from "react-redux";
+import { getPropertiesForFilterThunk } from "@/redux/slice/Requests/RequestsSlice";
 
 
 // Dynamically import Dialog to avoid SSR
@@ -13,6 +15,16 @@ const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
 function FiltersPage({ open, handleClose}) {
   const { t } = useTranslation();
+  //api
+  const dispatch = useDispatch()
+  const {getPropertiesFilter} = useSelector((state)=>state.requests)
+  useEffect(()=>{
+    dispatch(getPropertiesForFilterThunk())
+  },[dispatch])
+ 
+
+  console.log('getPropertiesFilter' , getPropertiesFilter);
+
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   const statusOptions =[
@@ -40,7 +52,7 @@ function FiltersPage({ open, handleClose}) {
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const PropertyOptions = ['1', '2', '3', '4', '5'];
+  const PropertyOptions = getPropertiesFilter?.data;
 
 
   
@@ -308,19 +320,19 @@ function FiltersPage({ open, handleClose}) {
               <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {PropertyOptions
                   .filter((opt) =>
-                    opt.toLowerCase().includes(searchValue1.toLowerCase())
+                    opt?.title?.toLowerCase().includes(searchValue1.toLowerCase())
                   )
                   .map((opt) => (
                     <li
-                      key={opt}
+                      key={opt?.id}
                       onClick={() => {
-                        setSelected1(opt);
+                        setSelected1(opt?.title);
                         setOpen1(false);
                         setSearchValue1("");
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {opt}
+                      {opt?.title}
                     </li>
                   ))}
               </ul>

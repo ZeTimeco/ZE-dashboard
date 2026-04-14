@@ -57,3 +57,8 @@ export const getBookingByIdProperty = async(id)=>{
   const response = await API.get(`/properties/bookings/${id}`)
   return response.data
 }
+
+export const getPropertiesForFilter = async()=>{
+  const response = await API.get('/properties/all-properties-for-filter')
+  return response.data
+}

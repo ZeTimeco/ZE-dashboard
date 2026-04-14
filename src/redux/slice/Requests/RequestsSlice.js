@@ -1,4 +1,4 @@
-import { assignHandyman, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getPropertiesForFilter, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -107,6 +107,18 @@ export const getBookingByIdPropertyThunk = createAsyncThunk('Requests/getBooking
   }
 )
 
+export const getPropertiesForFilterThunk = createAsyncThunk('Requests/getPropertiesForFilterThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getPropertiesForFilter()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || "Failed to get properties for filter");
+
+    }
+  }
+)
+
 
 const initialState = {
   loading: false,
@@ -123,6 +135,7 @@ const initialState = {
 
   getBooking:[],
   getBookingDetails:null,
+  getPropertiesFilter:[],
 
 }
 
@@ -247,6 +260,21 @@ const RequestsSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      //getPropertiesForFilterThunk
+      .addCase(getPropertiesForFilterThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPropertiesForFilterThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getPropertiesFilter = action.payload;
+      })
+      .addCase(getPropertiesForFilterThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       
   }
 })
