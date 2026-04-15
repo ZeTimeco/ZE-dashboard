@@ -15,6 +15,7 @@ function AddPage() {
   const {t} = useTranslation()
 
   const [currentStep, setCurrentStep] = useState(0)
+
   const stepTitles = [
     t("Basic Information"),
     t("the address"),
@@ -24,17 +25,6 @@ function AddPage() {
     t("Pricing"),
     t("Availability"),
     t("Media")
-  ]
-
-  const steps = [
-    <BasicInformationPage />,
-    <AddressPage />,
-    <RoomsAndBathroomsPage />,
-    <PropertyDetailsPage />,
-    <FacilitiesPage />,
-    <PricingPage />,
-    <AvailabilityPage />,
-    <MediaPage />
   ]
 
   const nextStep = () => {
@@ -48,7 +38,22 @@ function AddPage() {
       setCurrentStep(prev => prev - 1)
     }
   }
+
+  const stepsCount = 8;
+
+  const steps = [
+    <BasicInformationPage  prevStep={prevStep} nextStep={nextStep}   />,
+    <AddressPage prevStep={prevStep} nextStep={nextStep}/>,
+    <RoomsAndBathroomsPage prevStep={prevStep} nextStep={nextStep}/>,
+    <PropertyDetailsPage prevStep={prevStep} nextStep={nextStep}/>,
+    <FacilitiesPage prevStep={prevStep} nextStep={nextStep}/>,
+    <PricingPage prevStep={prevStep} nextStep={nextStep}/>,
+    <AvailabilityPage prevStep={prevStep} nextStep={nextStep}/>,
+    <MediaPage prevStep={prevStep} nextStep={nextStep}/>
+  ]
+  
   const progressPercentage = ((currentStep + 1) / steps.length) * 100
+
   return (
     <MainLayout>
 
@@ -87,29 +92,17 @@ function AddPage() {
             </div>
           </div>
 
-
-          {/* btn */}
-          <div className="flex justify-between mt-6">
-            <button
-              onClick={prevStep}
-              disabled={currentStep === 0}
-              className="px-4 py-2 bg-gray-300 rounded"
-            >
-              Previous
-            </button>
-
-            <button
-              onClick={nextStep}
-              disabled={currentStep === steps.length - 1}
-              className="px-4 py-2 bg-blue-600 text-white rounded"
-            >
-              Next
-            </button>
+          {/* content*/}
+          <div className="flex-1 mt-6">
+            {steps[currentStep]}
           </div>
+
+
+        
         
 
       </div>
-      
+        
     </MainLayout>
   )
 }
