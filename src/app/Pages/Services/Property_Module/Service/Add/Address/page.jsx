@@ -2,11 +2,20 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@mui/material';
-import { styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles';
+import MapDialog from './MapDialog';
 
 function AddressPage({prevStep , nextStep }) {
     const {t} = useTranslation();
     const [count, setCount] = useState(0);
+    const [openMap, setOpenMap] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState(t('Click to open the map'));
+
+    const handleMapConfirm = (data) => {
+      if (data.address) {
+        setSelectedAddress(data.address);
+      }
+    };
 
     const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -106,14 +115,18 @@ function AddressPage({prevStep , nextStep }) {
           <p className='text-[#9AA4B2] text-sm font-normal'>{t('Disabling the display of the specified address will result in the user being shown a radius of one square kilometer until the booking is completed.')}</p>
         </div>
 
+        {/* Locate the site on the map */}
         <div className='mt-6'>
           <p className='text-[#364152] text-sm font-medium'>{t('Locate the site on the map')}</p>
 
-          <div className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 w-full  rounded-[3px] flex justify-between mt-4'>
+          <div 
+            className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 w-full  rounded-[3px] flex justify-between mt-4 cursor-pointer hover:bg-[#EEF2F6]'
+            onClick={() => setOpenMap(true)}
+          >
             <div className='flex gap-1 w-full'>
               <img src="/images/icons/location_gray.svg" alt="" />
               <p className='text-[#4B5565] text-xs font-normal flex items-center '>
-                القاهره, مصر , مدينة نصر
+                {selectedAddress}
               </p>
             </div>
             <p>
@@ -143,6 +156,13 @@ function AddressPage({prevStep , nextStep }) {
 
 
 
+
+        {/* Map Dialog */}
+        <MapDialog 
+          open={openMap} 
+          handleClose={() => setOpenMap(false)} 
+          onConfirm={handleMapConfirm}
+        />
 
         {/* btn */}
         <div className="flex justify-between mt-6">
