@@ -45,7 +45,16 @@ function BasicInformationPage({prevStep , nextStep }) {
     <>
     <div className='border border-[#E6E6E6] p-8 rounded-[3px]'>
 
-      <div className='flex gap-6 w-full mb-6'>
+      <div>
+        <p className='text-[#364152] text-xl font-medium mb-3'>
+          <span>{t('Step')} 1 :</span>
+          <span>{t('Basic Information')}</span>
+        </p>
+        <p className='text-[#697586] text-base font-normal'>{t('Enter the basic property details to begin adding them.')}</p>
+        <div className='border border-[#CDD5DF] my-4'></div>
+      </div>
+
+      <div className='flex gap-6 w-full mb-6 mt-10'>
         {/* Property Name */}
         <div className='w-full'>
           <p className='text-sm font-medium mb-1.5'>

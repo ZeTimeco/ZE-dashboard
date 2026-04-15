@@ -858,8 +858,16 @@
   "Use clear and descriptive titles that highlight key attributes.":"استخدام عناوين واضحة ووصفية تبرز المفتاح سمات",
   "Detailed descriptions increase booking chances by 40%.":"الأوصاف التفصيلية تزيد من فرص الحجز 40% من خلال",
   "The exact property type helps guests find their perfect accommodation.":"يساعد نوع العقار الدقيق الضيوف في العثور على مكان الإقامة الخاص بك قائمة",
-
-
+  "Enter the address details to begin adding it":"ادخل بيانات العنوان لبدء اضافتها",
+  "Enter the basic property details to begin adding them.":"ادخل بيانات العقار الاساسية لبدء اضافتها",
+  "Show the user the exact and detailed address before booking":"عرض العنوان المحدد و المفصل للمستخدم قبل الحجز",
+  "Disabling the display of the specified address will result in the user being shown a radius of one square kilometer until the booking is completed.":"عدم تفعيل عرض العنوان المحدد سيتم عرض مدى كيلومتر مربع واحد للمستخدم حتى اتمام الحجز",
+  "Locate the site on the map":"تحديد الموقع علي الخريطة",
+  "Site tips":"نصائح الموقع",
+  "The precise location helps guests easily find their royal accommodation.":"الموقع الدقيق يساعد الضيوف في العثور على مكان إقامتك الملكية بسهولة",
+  "Your exact address will remain private until you book.":" يظل عنوانك الدقيق خاصًا حتى الحجز",
+  "A pin should be placed at the building entrance.":"يجب وضع علامة الدبوس على مدخل المبنى",
+  
 
   
   "":"" 
