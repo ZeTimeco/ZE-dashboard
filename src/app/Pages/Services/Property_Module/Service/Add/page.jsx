@@ -59,7 +59,7 @@ function AddPage() {
 
       <div className="flex flex-col h-full">
         {/* Header */}
-        <section className="mb-4">
+        <section className="mb-10">
           <p className="text-[#364152] text-2xl font-medium mb-5">
             {t("Add a new property")}
           </p>
@@ -71,7 +71,7 @@ function AddPage() {
         {/* progress bar */}
 
           {/* Progress Header */}
-          <div className="mb-6">
+          <div className="mb-4">
 
             <div className="flex justify-between items-center mb-2">
               <p className="text-sm text-gray-500">
@@ -96,10 +96,6 @@ function AddPage() {
           <div className="flex-1 mt-6">
             {steps[currentStep]}
           </div>
-
-
-        
-        
 
       </div>
         
