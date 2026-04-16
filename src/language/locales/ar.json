@@ -885,7 +885,10 @@
   "Arrival and departure times":"اوقات الوصول والمغادرة",
   "Add details of registration and checkout times":"أضف تفاصيل وقت التسجيل والخروج",
   "Login start time":"وقت بدء تسجيل الدخول",
-  "Time to leave":"وقت الخروج", 
+  "Time to leave":"وقت الخروج",
+  "Service provider available to receive guests":"توافر مقدم الخدمة لاستقبال الضيوف" ,
+  "Adding the period":"إضافة الفترة",
+  
   
   "":"" 
 }

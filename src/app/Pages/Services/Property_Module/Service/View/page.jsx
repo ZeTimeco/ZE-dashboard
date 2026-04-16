@@ -1,6 +1,6 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import AddressPage from './Address/page'
 import BasicInformationPage from './BasicInformation/page'
 import CheckDetailsPage from './CheckDetails/page'
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllDetailsThunk } from '@/redux/slice/Services/ServicesSlice'
 import { useSearchParams } from 'next/navigation'
 
-function ViewPage() {
+function ViewPageContent() {
   const {t} = useTranslation()
 
   //api
@@ -54,4 +54,12 @@ function ViewPage() {
     </MainLayout>
   )
 }
+function ViewPage() {
+  return (
+    <Suspense fallback={null}>
+      <ViewPageContent />
+    </Suspense>
+  )
+}
+
 export default ViewPage

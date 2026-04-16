@@ -3,6 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next';
 import InformationPage from './Information/page';
 import Arrival_DeparturePage from './Arrival_Departure/page';
+import Receive_GuestsPage from './Receive_Guests/page';
 
 function PropertyDetailsPage({prevStep , nextStep }) {
   const {t} = useTranslation();
@@ -27,6 +28,9 @@ function PropertyDetailsPage({prevStep , nextStep }) {
 
         {/* Arrival and departure times */}
         <Arrival_DeparturePage/>
+
+        {/* Service provider available to receive guests */}
+        <Receive_GuestsPage/>
 
 
 

@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllBookingPropertyThunk, getPropertyBookingByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
 import Loader from '@/app/Components/Loader/Loader'
 
-function Property_ModulePage() {
+function Property_ModuleContent() {
 
   const dispatch = useDispatch()
   const searchParams = useSearchParams()
@@ -59,20 +59,26 @@ function Property_ModulePage() {
 
   return (
     <MainLayout>
-      <Suspense fallback={<div><Loader/></div>}>
-        <NavRequest onApplyFilters={handleApplyFilters} onSearch={handleSearch}/>
+      <NavRequest onApplyFilters={handleApplyFilters} onSearch={handleSearch}/>
 
-        <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6'>
-          <CardOfRequest getBooking={currentBooking} hasActiveFilters={hasActiveFilters}/>
-        </div>
+      <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6'>
+        <CardOfRequest getBooking={currentBooking} hasActiveFilters={hasActiveFilters}/>
+      </div>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={getBookingPagination?.total_pages || 1}
-          onPageChange={handlePageChange}
-        />
-      </Suspense>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={getBookingPagination?.total_pages || 1}
+        onPageChange={handlePageChange}
+      />
     </MainLayout>
+  )
+}
+
+function Property_ModulePage() {
+  return (
+    <Suspense fallback={<div><Loader/></div>}>
+      <Property_ModuleContent />
+    </Suspense>
   )
 }
 

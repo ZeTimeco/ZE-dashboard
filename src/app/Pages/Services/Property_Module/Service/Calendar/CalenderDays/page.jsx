@@ -196,14 +196,14 @@
 // export default CalenderDaysPage
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import DetailsOfDay from "../Modules/DetailsOfDay";
 import { useDispatch, useSelector } from "react-redux";
 import { getPropertyCalendarThunk } from "@/redux/slice/Services/ServicesSlice";
 import { useParams, useSearchParams } from "next/navigation";
 
-export default function CalenderDaysContent() {
+function CalenderDaysContent() {
   const { t } = useTranslation();
 
   const days = [
@@ -411,12 +411,19 @@ export default function CalenderDaysContent() {
   );
 }
 
-// reusable component
 function Legend({ color, label }) {
   return (
     <div className="flex items-center gap-2 border px-3 py-2 rounded">
       <span className={`w-4 h-4 ${color} rounded`}></span>
       {label}
     </div>
+  );
+}
+
+export default function CalenderDaysPage() {
+  return (
+    <Suspense fallback={<div className="text-center p-6">Loading...</div>}>
+      <CalenderDaysContent />
+    </Suspense>
   );
 }

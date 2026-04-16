@@ -1,5 +1,6 @@
+
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useTranslation } from "react-i18next";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -11,7 +12,7 @@ import { useSearchParams } from "next/navigation";
 
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
-function FiltersPage({ open, handleClose, onApplyFilters }) {
+function FiltersPageContent({ open, handleClose, onApplyFilters }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { getPropertiesFilter } = useSelector((state) => state.requests);
@@ -372,6 +373,14 @@ function FiltersPage({ open, handleClose, onApplyFilters }) {
         </button>
       </section>
     </Dialog>
+  );
+}
+
+function FiltersPage(props) {
+  return (
+    <Suspense fallback={null}>
+      <FiltersPageContent {...props} />
+    </Suspense>
   );
 }
 
