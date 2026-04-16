@@ -875,7 +875,17 @@
   "Enter availability details to begin adding them":"ادخل بيانات التوفر لبدء اضافتها",
   "Enter the media details to begin adding them.":"ادخل بيانات الوسائط لبدء اضافتها",
   "No data for":"لا توجد بيانات لـ",
-
+  "Property Information":"معلومات العقار",
+  "Add property details and floor information.":"أضف تفاصيل العقار معلومات الطابق",
+  "Property area":"مساحة العقار",
+  "optional":"أختياري",
+  "Floor number":"رقم الطابق",
+  "ground floor":"الطابق الارضي",
+  "Elevator available":"المصعد متاح",
+  "Arrival and departure times":"اوقات الوصول والمغادرة",
+  "Add details of registration and checkout times":"أضف تفاصيل وقت التسجيل والخروج",
+  "Login start time":"وقت بدء تسجيل الدخول",
+  "Time to leave":"وقت الخروج", 
   
   "":"" 
 }

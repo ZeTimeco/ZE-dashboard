@@ -875,7 +875,18 @@
   "Enter availability details to begin adding them":"Enter availability details to begin adding them",
   "Enter the media details to begin adding them.":"Enter the media details to begin adding them.",
   "No data for":"No data for",
-
+  "Property Information":"Property Information",
+  "Add property details and floor information.":"Add property details and floor information.",
+  "Property area":"Property area",
+  "optional":"optional",
+  "Floor number":"Floor number",
+  "ground floor":"ground floor",
+  "Elevator available":"Elevator available",
+  "Arrival and departure times":"Arrival and departure times",
+  "Add details of registration and checkout times":"Add details of registration and checkout times",
+  "Login start time":"Login start time",
+  "Time to leave":"Time to leave",
+  
 
   
 
