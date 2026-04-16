@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import Home_Car_Street_Module from './Home_Car_Street_Module/Services/page';
 import Property_Module from './Property_Module/Services/page';
+import MainLayout from '@/app/Components/MainLayout/MainLayout';
+import { useTranslation } from 'react-i18next';
 
 function HomePage() {
+  const {t} = useTranslation();
     const [current_module_key, setCurrentModuleKey] = useState(null)
     useEffect(() => {
       const fetchUserData = () => {
@@ -29,7 +32,13 @@ function HomePage() {
     } else if (current_module_key === 'property_rental') {
       content = <Property_Module />
     } else {
-      content = <div>No module selected</div>
+      content =(
+        <MainLayout>
+          <div className='flex justify-center items-center text-red-500 text-2xl'>
+            {t('No data for')}  ({t(current_module_key)})
+          </div>
+        </MainLayout>
+      ) 
     }
   return (
     <>

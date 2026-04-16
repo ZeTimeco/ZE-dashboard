@@ -51,6 +51,7 @@ function MainLayout({ children }) {
       )}
 
 
+
       {/* Content */}
       <div className="flex flex-1 flex-col overflow-hidden">
         <Navbar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />

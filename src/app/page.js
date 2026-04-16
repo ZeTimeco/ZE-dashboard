@@ -4,6 +4,7 @@ import MainLayout from "./Components/MainLayout/MainLayout";
 import { useTranslation } from "react-i18next";
 import i18n from "../language/i18n";
 import { usePathname, useRouter } from "next/navigation";
+import HomePage from "./Pages/Home/page";
 
 function Homepage({ children }) {
   const [open, setOpen] = useState(true);
@@ -49,7 +50,7 @@ function Homepage({ children }) {
 
   return (
     <>
-      <MainLayout>{children}</MainLayout>
+      <HomePage/>
     </>
   );
 }

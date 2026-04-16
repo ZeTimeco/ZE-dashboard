@@ -69,17 +69,17 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
         <ul className='flex flex-col h-full'>
           
           {/* Dashboard */}
-          <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li className={`cursor-pointer  rounded ${pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/Pages/Home"  >
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center py-3 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "invert" : ""}/>
-                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "invert" : ""}/>
+                    <p className={`text-base font-normal ${pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center py-2 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home")? "invert" : ""}/>
+                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home")? "invert" : ""}/>
                   </div>
                 )}
             </Link>
