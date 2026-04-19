@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import BookingTypePage from './BookingType/page';
 
 function AvailabilityPage({prevStep , nextStep }) {
   const {t} = useTranslation();
@@ -15,6 +16,13 @@ function AvailabilityPage({prevStep , nextStep }) {
           <p className='text-[#697586] text-base font-normal'>{t('Enter availability details to begin adding them')}</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
+
+
+
+
+        <BookingTypePage/>
+
+
 
       {/* btn */}
       <div className="flex justify-between mt-6">
