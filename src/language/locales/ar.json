@@ -888,7 +888,26 @@
   "Time to leave":"وقت الخروج",
   "Service provider available to receive guests":"توافر مقدم الخدمة لاستقبال الضيوف" ,
   "Adding the period":"إضافة الفترة",
+  "Basic price per night":"السعر الأساسي لليلة الواحدة",
+  "This is your base price before any fees or taxes.":"هذا هو السعر الأساسي الخاص بك قبل أي رسوم أو ضرائب",
+  "Refundable if no damage occurs":"قابلة للاسترداد في حالة عدم حدوث أي أضرار",
+  "Cancellation Policy":"سياسة الالغاء",  
+  "flexible":"مرن",
+  "Full refund one day before arrival, excluding fees":"استرداد كامل المبلغ قبل يوم واحد من الوصول، باستثناء مصاريف",
+  "moderate":"معتدل",
+  "Full refund 5 days before arrival, excluding fees":"استرداد كامل المبلغ قبل 5 أيام من الوصول، باستثناء مصاريف",
+  "firm":"حازم",
+  "50% refund up to one week before, 0% refund after":"استرداد 50% حتى أسبوع واحد قبل ذلك، 0%  استرداد بعد",
+  "Pricing details":"تفاصيل التسعير",
+  "Value Added Tax":"ضريبة القيمة المضافة",
+  "The guest pays":"يدفع الضيف",
+  "Gain":"المكسب",
   
+
+
+
+
+
   
   "":"" 
 }

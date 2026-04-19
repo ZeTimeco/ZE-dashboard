@@ -1,6 +1,9 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import PricingInfoPage from './PricingInfo/page';
+import CancellationPolicyPage from './CancellationPolicy/page';
+import PricingDetailsPage from './PricingDetails/page';
 
 function PricingPage({prevStep , nextStep }) {
   const {t} = useTranslation();
@@ -15,6 +18,10 @@ function PricingPage({prevStep , nextStep }) {
           <p className='text-[#697586] text-base font-normal'>{t('Enter your pricing details to begin adding them.')}</p>
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
+
+          <PricingInfoPage/>
+          <CancellationPolicyPage/>
+          <PricingDetailsPage/>
 
       {/* btn */}
       <div className="flex justify-between mt-6">
