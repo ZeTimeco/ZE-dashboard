@@ -156,7 +156,7 @@ function BookingTypePage() {
       </div>
 
       {/* calendar */}
-      <div className='flex gap-6 w-full border border-[#E3E8EF] mt-4 p-4'> 
+      <div className='flex gap-6 w-full border border-[#E3E8EF] mt-4 p-4 rounded-[3px]'> 
         {/* right section */}
         <div className=' w-[70%]  mt-4 bg-white rounded-[3px]'>
         {/* Header */}

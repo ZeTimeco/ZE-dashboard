@@ -2,6 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import BookingTypePage from './BookingType/page';
+import SpecialPricesPage from './SpecialPrices/page';
 
 function AvailabilityPage({prevStep , nextStep }) {
   const {t} = useTranslation();
@@ -21,7 +22,7 @@ function AvailabilityPage({prevStep , nextStep }) {
 
 
         <BookingTypePage/>
-
+        <SpecialPricesPage/>
 
 
       {/* btn */}
