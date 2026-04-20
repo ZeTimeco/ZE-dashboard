@@ -1,12 +1,15 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import AddDialog from './AddDialog'
 
 
 
 
 function SpecialPricesPage() {
   const {t} = useTranslation()
+  
+  const [open , setOpen] = useState(false)
 
   return (
     <>
@@ -18,7 +21,9 @@ function SpecialPricesPage() {
             <p className='text-[#364152] text-lg font-medium'>{t('Special prices')}</p>
           </div>
 
-          <button className='flex gap-0.5 w-full justify-end cursor-pointer'>
+          <button 
+            onClick={()=>setOpen(true)}
+            className='flex gap-0.5 w-full justify-end cursor-pointer'>
             <img src="/images/icons/add-circle.svg" className="w-4 h-4 mt-0.5 " />
             <p className='text-[var(--color-primary)] text-sm font-medium'>{t('addition')}</p>
           </button>
@@ -68,6 +73,7 @@ function SpecialPricesPage() {
       </div>
 
 
+    <AddDialog open={open} setOpen={setOpen}/>
     </>
   )
 }
