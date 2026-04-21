@@ -15,7 +15,7 @@ function RoomsAndBathroomsPage({prevStep , nextStep }) {
           <span>{t('Rooms and bathrooms')}</span>
         </p>
         <p className='text-[#697586] text-base font-normal'>{t('Enter the room and bathroom details to begin adding them.')}</p>
-        <div className='border border-[#CDD5DF] my-4'></div>
+        <div className='border border-[#CDD5DF] mt-4'></div>
       </div>
 
 
