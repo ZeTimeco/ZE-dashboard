@@ -14,13 +14,11 @@ function RoomPage() {
     const optionRoomType = ['d' , '1'];
 
 
-    //bed
-    const [open2, setOpen2] = useState(false);
-    const [selected2, setSelected2] = useState(null);
-    const [searchValue2, setSearchValue2] = useState("");
+    // beds array - each bed: { id, selected, searchValue, open, counter }
+    const [beds, setBeds] = useState([]);
+    const optionBeds = ['Single Bed', 'Double Bed', 'King Bed', 'Queen Bed', 'Bunk Bed'];
     const dropdownRef2 = useRef(null);
-    const optionBeds = ['d' , '1'];
-  
+
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
@@ -29,6 +27,20 @@ function RoomPage() {
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const addBed = () => {
+      setBeds(prev => [...prev, { id: Date.now(), selected: null, searchValue: '', open: false, counter: 1 }]);
+    };
+
+    const removeBed = (id) => {
+      setBeds(prev => prev.filter(b => b.id !== id));
+    };
+
+    const updateBed = (id, changes) => {
+      setBeds(prev => prev.map(b => b.id === id ? { ...b, ...changes } : b));
+    };
+
+    // a bed is "filled" if it has a selected type
+    const lastBedFilled = beds.length === 0 || beds[beds.length - 1].selected !== null;
 
 
     //upload images
@@ -62,11 +74,12 @@ function RoomPage() {
       setPreviewImages((prev) => prev.filter((_, i) => i !== index));
     };
 
-      const [count, setCount] = useState(0);
-      const [bedCounter, setBedCounter] = useState(0);
-    
-      const increaseBed = () => setBedCounter(prev => prev + 1);
-      const decreaseBed = () => { if (bedCounter > 0) setBedCounter(prev => prev - 1); };
+    const optionalRoom = [
+      {id:1 , title:'حمام داخلي'},
+      {id:2 , title:"تكييف"},
+      {id:3 , title:'خزانة الملابس'},
+      {id:4 , title:'حمام داخلي'},
+    ]
 
   return (
     <>
@@ -77,12 +90,11 @@ function RoomPage() {
       </p>
       <p className='text-[#4B5565] text-sm font-normal mt-1'>{t('Add details of each room and the beds in it.')}</p>
 
-      {!showContent?(
         <button onClick={() => setShowContent(true)} className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-6 cursor-pointer rounded-[3px]'>
           <p className='text-[#697586] text-base font-medium '>{t('Add a room')}</p>
           <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />
         </button>
-      ):(
+    
         <>
         <div className='border border-[#CDD5DF] rounded-[3px] p-4 mt-6'>
 
@@ -229,85 +241,110 @@ function RoomPage() {
                 {t('A bed in this room')}
               </span>
             </p>
-            
-            <div className='flex gap-5'>
-              {/* Bed type */}
-              <div className=" w-[80%]">
 
-                <div className="relative w-full" ref={dropdownRef2}>
-                  <div
-                    className="relative flex items-center "
-                    onClick={() => setOpen2(!open2)}
-                  >
-                    <input
-                      type="text"
-                      placeholder={t("Choose room type")}
-                      value={searchValue2 || selected2 || ""}
-                      onChange={(e) => {
-                        setSearchValue2(e.target.value);
-                        setOpen2(true);
-                        setSelected2(null);
-                      }}
+            {/* Beds list */}
+            <div className='flex flex-col gap-4'>
+              {beds.map((bed) => (
+                <div key={bed.id} className='flex gap-5'>
+                  {/* Bed type dropdown */}
+                  <div className="w-[80%] relative">
+                    <div
+                      className="relative flex items-center"
+                      onClick={() => updateBed(bed.id, { open: !bed.open })}
+                    >
+                      <input
+                        type="text"
+                        placeholder={t("Choose bed type")}
+                        value={bed.searchValue || bed.selected || ""}
+                        onChange={(e) => updateBed(bed.id, { searchValue: e.target.value, open: true, selected: null })}
+                        className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+                      />
+                      <span className="absolute left-3 cursor-pointer">
+                        {bed.open ? (
+                          <img src="/images/icons/ArrowUp.svg" alt="up" />
+                        ) : (
+                          <img src="/images/icons/ArrowDown.svg" alt="down" />
+                        )}
+                      </span>
+                    </div>
 
-                      className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
-                    />
-
-                    <span className="absolute left-3 cursor-pointer">
-                      {open2 ? (
-                        <img src="/images/icons/ArrowUp.svg" alt="up" />
-                      ) : (
-                        <img src="/images/icons/ArrowDown.svg" alt="down" />
-                      )}
-                    </span>
+                    {bed.open && (
+                      <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                        {optionBeds
+                          .filter((opt) => opt.toLowerCase().includes((bed.searchValue || '').toLowerCase()))
+                          .map((opt) => (
+                            <li
+                              key={opt}
+                              onClick={() => updateBed(bed.id, { selected: opt, searchValue: '', open: false })}
+                              className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                            >
+                              {opt}
+                            </li>
+                          ))}
+                      </ul>
+                    )}
                   </div>
 
-                  {open2 && (
-                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                      {optionBeds
-                        .filter((opt) =>
-                          opt.toLowerCase().includes(searchValue2.toLowerCase())
-                        )
-                        .map((opt) => (
-                          <li
-                            key={opt}
-                            onClick={() => {
-                              setSelected2(opt);
-                              setSearchValue2("");
-                              setOpen2(false);
-                            }}
-                            className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                          >
-                            {opt}
-                          </li>
-                        ))}
-                    </ul>
-                  )}
+                  {/* counter & delete */}
+                  <div className='w-[20%] flex gap-4 items-center'>
+                    {/* counter */}
+                    <div className='flex items-center gap-3 bg-[#EEF2F6] rounded-full p-2'>
+                      <button
+                        onClick={() => updateBed(bed.id, { counter: Math.max(1, bed.counter - 1) })}
+                        className='w-9 h-9 flex items-center justify-center text-lg cursor-pointer'
+                      > - </button>
+                      <span className='text-[#364152] text-base font-medium w-3 text-center'>{bed.counter}</span>
+                      <button
+                        onClick={() => updateBed(bed.id, { counter: bed.counter + 1 })}
+                        className='w-9 h-9 flex items-center justify-center text-lg cursor-pointer'
+                      > + </button>
+                    </div>
+                    {/* delete */}
+                    <button onClick={() => removeBed(bed.id)} className='cursor-pointer'>
+                      <img src="/images/icons/xxxx.svg" className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
-              </div>  
-              {/* counter & delete */}
-              <div className='w-[20%] flex gap-4 '>
-                {/* counter */}
-                <div className='flex items-center gap-3 bg-[#EEF2F6] rounded-full p-2'>
-                  <button onClick={decreaseBed} className='w-9 h-9 flex items-center justify-center text-lg cursor-pointer'> - </button>
-                  <span className='text-[#364152] text-base font-medium w-3 text-center'>{bedCounter}</span>
-                  <button onClick={increaseBed} className='w-9 h-9 flex items-center justify-center text-lg cursor-pointer'> + </button>
-                </div>
-                {/* delete */}
-                <button className='cursor-pointer'>
-                  <img src="/images/icons/xxxx.svg" className="w-5 h-5" />
-                </button>
-              </div>
-
-
-
+              ))}
             </div>
 
-            <button  className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-6 cursor-pointer rounded-[3px]'>
+            <button
+              onClick={lastBedFilled ? addBed : undefined}
+              className={`flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF]  rounded-[3px] ${
+                lastBedFilled ? 'cursor-pointer ' : 'cursor-not-allowed opacity-50 mt-6'
+              }`}
+            >
               <p className='text-[#697586] text-base font-medium '>{t('Add a bed')}</p>
               <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />
             </button>
+            
           </div>
 
+
+
+          {/* Features of the optional room */}
+          <div className='mt-6'>
+            <p className='text-[#364152] text-sm font-medium'>{t('Features of the optional room')}</p>
+            {optionalRoom?.map((item)=>(
+              <div key={item?.id} className='flex gap-2 mt-2' >
+                <input 
+                  type="checkbox"
+                  className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-[white] checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"
+                />
+                <p className='text-[#4B5565] text-sm font-normal'>{item?.title} </p>
+              </div>
+            ))}
+            
+          </div>
+
+          {/* delete the room */}
+
+          <button className='my-6 cursor-pointer'>
+            <p className='flex gap-1'>
+              <img src="/images/icons/delete_red.svg" alt="" />
+              <span className='text-[#F04438] text-base font-medium'>{t('Delete room')}</span>
+            </p>
+          </button>
 
 
         </div>
@@ -319,7 +356,6 @@ function RoomPage() {
         
         
         </>
-      )}
       
     </div>
 
