@@ -42,14 +42,14 @@ function AddPage() {
   const stepsCount = 8;
 
   const steps = [
-    <BasicInformationPage  prevStep={prevStep} nextStep={nextStep}   />,
-    <AddressPage prevStep={prevStep} nextStep={nextStep}/>,
-    <RoomsAndBathroomsPage prevStep={prevStep} nextStep={nextStep}/>,
-    <PropertyDetailsPage prevStep={prevStep} nextStep={nextStep}/>,
-    <FacilitiesPage prevStep={prevStep} nextStep={nextStep}/>,
-    <PricingPage prevStep={prevStep} nextStep={nextStep}/>,
-    <AvailabilityPage prevStep={prevStep} nextStep={nextStep}/>,
-    <MediaPage prevStep={prevStep} nextStep={nextStep}/>
+    <BasicInformationPage   prevStep={prevStep} nextStep={nextStep} />,
+    <AddressPage            prevStep={prevStep} nextStep={nextStep} />,
+    <RoomsAndBathroomsPage  prevStep={prevStep} nextStep={nextStep} />,
+    <PropertyDetailsPage    prevStep={prevStep} nextStep={nextStep} />,
+    <FacilitiesPage         prevStep={prevStep} nextStep={nextStep} />,
+    <PricingPage            prevStep={prevStep} nextStep={nextStep} />,
+    <AvailabilityPage       prevStep={prevStep} nextStep={nextStep} />,
+    <MediaPage              prevStep={prevStep} nextStep={nextStep} />
   ]
   
   const progressPercentage = ((currentStep + 1) / steps.length) * 100

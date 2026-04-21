@@ -960,8 +960,18 @@
   "Choose bed type":"اختر نوع السرير",
   "Features of the optional room":"مميزات الغرفة الاختيارية",
   "Delete room":"حذف الغرفة",
+  "Bathroom type":"نوع الحمام",
+  "Choose the type of bathroom":"اختار نوع الحمام",
+  "Bathroom photos":"صور الحمام",
+  "Access to the bathroom":"الوصول الي الحمام",
+  "Bathroom removal":"حذف الحمام",
+  "private":"خاص",
+  "common":"في المنطقة المشتركة",
+  "public":"مشترك",
+  "inside":"داخل الغرفة",
+  "Bathroom location":"مكان الحمام",
+  "Choose the bathroom location":"اختار مكان الحمام",
   
-
 
 
 
