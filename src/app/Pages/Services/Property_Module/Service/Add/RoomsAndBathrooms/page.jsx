@@ -1,20 +1,31 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import RoomPage from './Room/page';
+import BathroomPage from './Bathroom/page';
 
 function RoomsAndBathroomsPage({prevStep , nextStep }) {
   const {t} = useTranslation();
   return (
     <>
     <div className='border border-[#E6E6E6] p-8 rounded-[3px]'>
-        <div>
-          <p className='text-[#364152] text-xl font-medium mb-3'>
-            <span>{t('Step')} 3 :</span>
-            <span>{t('Rooms and bathrooms')}</span>
-          </p>
-          <p className='text-[#697586] text-base font-normal'>{t('Enter the room and bathroom details to begin adding them.')}</p>
-          <div className='border border-[#CDD5DF] my-4'></div>
-        </div>
+      <div>
+        <p className='text-[#364152] text-xl font-medium mb-3'>
+          <span>{t('Step')} 3 :</span>
+          <span>{t('Rooms and bathrooms')}</span>
+        </p>
+        <p className='text-[#697586] text-base font-normal'>{t('Enter the room and bathroom details to begin adding them.')}</p>
+        <div className='border border-[#CDD5DF] my-4'></div>
+      </div>
+
+
+      <>
+        <RoomPage/>
+        <BathroomPage/>
+
+      </>
+
+
 
       {/* btn */}
       <div className="flex justify-between mt-6">
@@ -43,7 +54,7 @@ function RoomsAndBathroomsPage({prevStep , nextStep }) {
         </div>
         
       </div>
-      </div>
+    </div>
     </>
   )
 }
