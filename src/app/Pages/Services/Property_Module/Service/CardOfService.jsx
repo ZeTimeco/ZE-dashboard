@@ -312,7 +312,9 @@ function CardOfService({getProperties}) {
                   </div>
                 </button>
 
-                <button className={`relative group ${mainActions.includes('edit_property') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed'} p-2.5 rounded-[3px] transition-all duration-300 hover:shadow-sm`}>
+                <button
+                  onClick={()=>mainActions.includes('edit_property') &&  router.push(`/Pages/Services/Property_Module/Service/Edit?id=${property.id}`)}
+                  className={`relative group ${mainActions.includes('edit_property') ? 'bg-[#F9F5E8] cursor-pointer' : 'bg-[#EEF2F6] cursor-not-allowed'} p-2.5 rounded-[3px] transition-all duration-300 hover:shadow-sm`}>
                   {mainActions.includes('edit_property') ?(
                     <img src="/images/icons/EditYellow.svg" />
                   ):(

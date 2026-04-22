@@ -1,9 +1,11 @@
 "use client"
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/navigation';
 
 function MediaPage({prevStep , nextStep }) {
   const {t} = useTranslation();
+  const router = useRouter();
 
   const imageNote = [
     {id:1 , title:t('Use natural light when possible')},
@@ -463,7 +465,7 @@ function MediaPage({prevStep , nextStep }) {
           </button>
 
           <button
-            onClick={nextStep}
+            onClick={() => router.push('/Pages/Services/Property_Module/Service/Add/FormData')}
             className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('the next')}

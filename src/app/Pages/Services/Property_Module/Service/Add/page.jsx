@@ -2,14 +2,16 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import BasicInformationPage from './BasicInformation/page'
-import AddressPage from './Address/page'
-import RoomsAndBathroomsPage from './RoomsAndBathrooms/page'
-import PropertyDetailsPage from './PropertyDetails/page'
-import FacilitiesPage from './Facilities/page'
-import PricingPage from './Pricing/page'
-import AvailabilityPage from './Availability/page'
-import MediaPage from './Media/page'
+import BasicInformationPage from './Form/BasicInformation/page'
+import AddressPage from './Form/Address/page'
+import RoomsAndBathroomsPage from './Form/RoomsAndBathrooms/page'
+import PropertyDetailsPage from './Form/PropertyDetails/page'
+import FacilitiesPage from './Form/Facilities/page'
+import PricingPage from './Form/Pricing/page'
+import AvailabilityPage from './Form/Availability/page'
+import MediaPage from './Form/Media/page'
+
+
 
 function AddPage() {
   const {t} = useTranslation()
