@@ -7,10 +7,10 @@ function InformationPage() {
 
   /* Property area */
   const options = [
-    { label: "متر مربع", value: "sqm" },
-    { label: "فدان", value: "acre" },
-    { label: "متر", value: "meter" },
+    { label: t('SQM'), value: "sqm" },
+    { label: t('SQFT'), value: "sqft " },
   ];
+  
   const [selected, setSelected] = useState(options[0]);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("120");
