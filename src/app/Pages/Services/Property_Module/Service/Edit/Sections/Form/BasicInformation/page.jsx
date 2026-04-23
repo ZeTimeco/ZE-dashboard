@@ -1,13 +1,13 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
-function BasicInformationPage() {
+function BasicInformationPageContent() {
   const {t} = useTranslation();
 
   //api
@@ -349,4 +349,10 @@ function BasicInformationPage() {
   )
 }
 
-export default BasicInformationPage
+export default function BasicInformationPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BasicInformationPageContent />
+    </Suspense>
+  );
+}

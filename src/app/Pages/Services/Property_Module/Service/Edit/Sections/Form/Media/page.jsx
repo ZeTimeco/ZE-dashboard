@@ -1,11 +1,12 @@
 "use client"
-import React, { useRef, useState } from 'react'
+import React, { Suspense, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
+import Loader from '@/app/Components/Loader/Loader';
 
-function MediaPage() {
+function MediaPageContent() {
   const {t} = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -450,8 +451,6 @@ function MediaPage() {
 
 
 
-
-
       {/* btn */}
         <div className="flex  mt-6">
           
@@ -476,4 +475,10 @@ function MediaPage() {
   )
 }
 
-export default MediaPage
+export default function MediaPage() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <MediaPageContent />
+    </Suspense>
+  )
+}

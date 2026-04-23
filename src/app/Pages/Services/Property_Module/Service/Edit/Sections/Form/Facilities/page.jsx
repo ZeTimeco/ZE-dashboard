@@ -1,14 +1,15 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPropertiesAmenitiesThunk } from '@/redux/slice/Services/ServicesSlice';
 import { IMAGE_BASE_URL } from '../../../../../../../../../../config/imageUrl';
+import Loader from '@/app/Components/Loader/Loader';
 
-function FacilitiesPage() {
+function FacilitiesPageContent() {
   const {t} = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -95,4 +96,10 @@ function FacilitiesPage() {
   )
 }
 
-export default FacilitiesPage
+export default function FacilitiesPage() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <FacilitiesPageContent />
+    </Suspense>
+  )
+}

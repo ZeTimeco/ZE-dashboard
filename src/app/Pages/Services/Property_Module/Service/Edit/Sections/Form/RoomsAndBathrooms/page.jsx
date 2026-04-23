@@ -1,13 +1,14 @@
 "use client"
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next';
 import RoomPage from './Room/page';
 import BathroomPage from './Bathroom/page';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Loader from '@/app/Components/Loader/Loader';
 
-function RoomsAndBathroomsPage() {
+function RoomsAndBathroomsPageContent() {
   const {t} = useTranslation();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -60,4 +61,10 @@ function RoomsAndBathroomsPage() {
   )
 }
 
-export default RoomsAndBathroomsPage
+export default function RoomsAndBathroomsPage() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <RoomsAndBathroomsPageContent />
+    </Suspense>
+  )
+}

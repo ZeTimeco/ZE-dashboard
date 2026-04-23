@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -7,8 +7,9 @@ import MapDialog from './MapDialog';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Loader from '@/app/Components/Loader/Loader';
 
-function AddressPage() {
+function AddressPageContent() {
     const {t} = useTranslation();
     const [count, setCount] = useState(0);
     const [openMap, setOpenMap] = useState(false);
@@ -195,4 +196,10 @@ function AddressPage() {
   )
 }
 
-export default AddressPage
+export default function AddressPage() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <AddressPageContent />
+    </Suspense>
+  )
+}

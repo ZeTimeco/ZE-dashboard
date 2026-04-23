@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next';
 import PricingInfoPage from './PricingInfo/page';
 import CancellationPolicyPage from './CancellationPolicy/page';
@@ -8,7 +8,7 @@ import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-function PricingPage() {
+function PricingPageContent() {
   const {t} = useTranslation();
 
     const router = useRouter();
@@ -56,4 +56,10 @@ function PricingPage() {
   )
 }
 
-export default PricingPage
+export default function PricingPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PricingPageContent />
+    </Suspense>
+  )
+}

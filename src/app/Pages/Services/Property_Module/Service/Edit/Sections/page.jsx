@@ -1,9 +1,10 @@
 "use client"
+import Loader from '@/app/Components/Loader/Loader'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function SectionsPage() {
+function SectionsPageContent() {
     const {t} = useTranslation()
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -238,4 +239,10 @@ function SectionsPage() {
   )
 }
 
-export default SectionsPage
+export default function SectionsPage() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <SectionsPageContent />
+    </Suspense>
+  )
+}

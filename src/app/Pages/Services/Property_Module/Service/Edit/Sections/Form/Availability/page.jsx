@@ -1,13 +1,14 @@
 "use client"
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next';
 import BookingTypePage from './BookingType/page';
 import SpecialPricesPage from './SpecialPrices/page';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Loader from '@/app/Components/Loader/Loader';
 
-function AvailabilityPage() {
+function AvailabilityPageContent() {
   const {t} = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -58,4 +59,10 @@ function AvailabilityPage() {
   )
 }
 
-export default AvailabilityPage
+export default function AvailabilityPage() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <AvailabilityPageContent />
+    </Suspense>
+  )
+}

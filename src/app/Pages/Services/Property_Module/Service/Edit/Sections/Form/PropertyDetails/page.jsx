@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { Suspense } from 'react'
 import { useTranslation } from 'react-i18next';
 import InformationPage from './Information/page';
 import Arrival_DeparturePage from './Arrival_Departure/page';
@@ -7,8 +7,9 @@ import Receive_GuestsPage from './Receive_Guests/page';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Loader from '@/app/Components/Loader/Loader';
 
-function PropertyDetailsPage() {
+function PropertyDetailsPageContent() {
   const {t} = useTranslation();
 
   const router = useRouter();
@@ -67,4 +68,10 @@ function PropertyDetailsPage() {
   )
 }
 
-export default PropertyDetailsPage
+export default function PropertyDetailsPage() {
+  return (
+    <Suspense fallback={<Loader/>}>
+      <PropertyDetailsPageContent />
+    </Suspense>
+  )
+}
