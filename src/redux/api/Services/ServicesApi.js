@@ -184,3 +184,10 @@ export const getBathRoomTypes = async()=>{
   const response = await API.get('/BathRoom-types')
   return response.data
 }
+
+export const getPropertiesAmenities = async (property_id) => {
+  const response = await API.get('/properties/amenities/show', {
+    params: { property_id }
+  });
+  return response.data;
+};

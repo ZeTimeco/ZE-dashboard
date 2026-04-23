@@ -1,16 +1,30 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPropertiesAmenitiesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { IMAGE_BASE_URL } from '../../../../../../../../../../config/imageUrl';
 
 function FacilitiesPage() {
   const {t} = useTranslation();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
 
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const id = searchParams.get('id');
+    //api
+    const dispatch = useDispatch()
+    const {getPropertiesAmenities } = useSelector((state)=>state.services)
+    useEffect(() => {
+      if (id) {
+        dispatch(getPropertiesAmenitiesThunk(id));
+      }
+    }, [dispatch, id]); 
+  
+    console.log(getPropertiesAmenities);
+
 
   return (
     <MainLayout>
@@ -26,26 +40,35 @@ function FacilitiesPage() {
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
         
-        <div className='border border-[#CDD5DF] py-4 px-6'>
-          {/*  */}
-          <div className='flex gap-2'>
-            <img src="/images/icons/guest-house.svg" className="w-6 h-6" />
-            <p className='text-[#364152] text-base font-medium'>الاساسيات</p>
+      
+          {getPropertiesAmenities?.data?.map((item ,index)=>(
+          <div key={index} className='border border-[#CDD5DF] mb-6 py-4 px-6'>
+              
+              <div  className='flex gap-2 mb-5'>
+                <img src={`${IMAGE_BASE_URL}${item?.category?.icon}`} className="w-6 h-6" />
+                <p className='text-[#364152] text-base font-medium'>{item?.category?.name}</p>
+              </div>
+
+              <div className=''>
+              {item?.amenities?.map((amenity )=>(
+                <div key={amenity?.id} className='mb-4  flex justify-between'>
+                  <div className='flex gap-2  '>
+                    <img src={`${IMAGE_BASE_URL}${amenity?.icon}`} className="w-6 h-6" />
+                    <p className='text-[#4B5565] text-base font-medium'>{amenity?.name} </p>
+                  </div>
+                  <div>
+                    <input 
+                      type="checkbox"
+                      className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"  
+                    />
+                  </div>
+                </div>
+              ))}
+              </div>
           </div>
-          {/*  */}
-          <div className='mt-6 flex justify-between'>
-            <div className='flex gap-2'>
-              <img src="/images/icons/guest-house.svg" className="w-6 h-6" />
-              <p className='text-[#364152] text-base font-medium'>صانع القهوة</p>
-            </div>
-            <div>
-              <input 
-                type="checkbox"
-                className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"  
-              />
-            </div>
-          </div>
-        </div>
+          ))}
+        
+        
 
       {/* btn */}
         <div className="flex  mt-6">

@@ -25,12 +25,11 @@ function BathroomPage() {
 
   //api
   const dispatch = useDispatch()
-  const {getBathRoomTypes} = useSelector((state)=>state.services)
+  const {getBathRoomTypes } = useSelector((state)=>state.services)
   useEffect(()=>{
     dispatch(getBathRoomTypesThunk())
   },[dispatch])
 
-  console.log(getBathRoomTypes);
 
 
 
