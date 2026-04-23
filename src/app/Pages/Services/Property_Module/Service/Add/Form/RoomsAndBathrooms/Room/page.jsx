@@ -1,7 +1,9 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import RoomCard from './RoomCard'
+import { useDispatch, useSelector } from 'react-redux';
+import { getBedTypesThunk, getRoomAmentyThunk, getRoomTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function createRoom() {
   return {
@@ -18,6 +20,17 @@ function createRoom() {
 
 function RoomPage() {
   const { t } = useTranslation();
+  //api
+  const dispatch = useDispatch()
+  const {getRoomTypes , getBedTypes ,getRoomAmenty } = useSelector((state)=>state.services)
+  useEffect(()=>{
+    dispatch(getRoomTypesThunk())
+    dispatch(getBedTypesThunk())
+    dispatch(getRoomAmentyThunk())
+    
+  },[dispatch])
+
+
   const [rooms, setRooms] = useState([]);
 
   const addRoom = () => {
@@ -51,6 +64,9 @@ function RoomPage() {
             room={room}
             onUpdate={(changes) => updateRoom(room.id, changes)}
             onDelete={() => deleteRoom(room.id)}
+            getRoomTypes={getRoomTypes}
+            getBedTypes={getBedTypes}
+            getRoomAmenty={getRoomAmenty}
           />
         ))}
 

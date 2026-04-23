@@ -164,3 +164,23 @@ export const getPropertyCalendar = async(id, month)=>{
   })
   return response.data
 }
+
+export const getRoomTypes = async()=>{
+  const response = await API.get('/room-types')
+  return response.data
+}
+
+export const getBedTypes = async()=>{
+  const response = await API.get('/bed-types')
+  return response.data
+}
+
+export const getRoomAmenty = async()=>{
+  const response = await API.get('/Room-Amenty')
+  return response.data
+}
+
+export const getBathRoomTypes = async()=>{
+  const response = await API.get('/BathRoom-types')
+  return response.data
+}

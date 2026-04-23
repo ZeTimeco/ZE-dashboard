@@ -2,19 +2,16 @@
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const optionRoomType = ['Master Room', 'Single Room', 'Double Room', 'Suite'];
-const optionBeds = ['Single Bed', 'Double Bed', 'King Bed', 'Queen Bed', 'Bunk Bed'];
-const MAX_IMAGES = 5;
 
-const optionalRoomFeatures = [
-  { id: 1, title: 'حمام داخلي' },
-  { id: 2, title: 'تكييف' },
-  { id: 3, title: 'خزانة الملابس' },
-  { id: 4, title: 'تلفزيون' },
-];
 
-function RoomCard({ room, onUpdate, onDelete }) {
+function RoomCard({ room, onUpdate, onDelete ,getRoomTypes ,getBedTypes ,getRoomAmenty }) {
   const { t } = useTranslation();
+  const optionRoomType =getRoomTypes?.data ;
+  const optionBeds = getBedTypes?.data;
+  const MAX_IMAGES = 5;
+
+  const optionalRoomFeatures = getRoomAmenty?.data ; 
+
   const fileInputRef = useRef(null);
   const dropdownRef1 = useRef(null);
 
@@ -109,14 +106,14 @@ function RoomCard({ room, onUpdate, onDelete }) {
           {room.open1 && (
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionRoomType
-                .filter((opt) => opt.toLowerCase().includes((room.searchValue1 || '').toLowerCase()))
+                .filter((opt) => opt?.name?.toLowerCase().includes((room.searchValue1 || '').toLowerCase()))
                 .map((opt) => (
                   <li
-                    key={opt}
-                    onClick={() => onUpdate({ selected1: opt, searchValue1: '', open1: false })}
+                    key={opt?.id}
+                    onClick={() => onUpdate({ selected1: opt?.name, searchValue1: '', open1: false })}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
                 ))}
             </ul>
@@ -219,14 +216,14 @@ function RoomCard({ room, onUpdate, onDelete }) {
                 {bed.open && (
                   <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                     {optionBeds
-                      .filter((opt) => opt.toLowerCase().includes((bed.searchValue || '').toLowerCase()))
+                      .filter((opt) => opt?.name?.toLowerCase().includes((bed.searchValue || '').toLowerCase()))
                       .map((opt) => (
                         <li
-                          key={opt}
-                          onClick={() => updateBed(bed.id, { selected: opt, searchValue: '', open: false })}
+                          key={opt?.id}
+                          onClick={() => updateBed(bed.id, { selected: opt?.name, searchValue: '', open: false })}
                           className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                         >
-                          {opt}
+                          {opt?.name}
                         </li>
                       ))}
                   </ul>
@@ -276,7 +273,7 @@ function RoomCard({ room, onUpdate, onDelete }) {
               onChange={() => toggleFeature(item.id)}
               className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-[white] checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
             />
-            <p className='text-[#4B5565] text-sm font-normal'>{item.title}</p>
+            <p className='text-[#4B5565] text-sm font-normal'>{item.name}</p>
           </div>
         ))}
       </div>

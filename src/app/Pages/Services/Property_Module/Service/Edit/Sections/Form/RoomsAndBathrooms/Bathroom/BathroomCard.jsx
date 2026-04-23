@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next'
 
 
 
-function BathroomCard({ bathroom, onUpdate, onDelete }) {
+function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
   const { t } = useTranslation();
   const MAX_IMAGES = 5;
 
-  const optionBathroomType = ['Standard Bathroom', 'Master Bathroom', 'Guest Bathroom'];
+  const optionBathroomType = getBathRoomTypes?.data;
 
   const optionBathroomLocation = [
     {id:1 , title:t("inside")},
@@ -109,21 +109,21 @@ function BathroomCard({ bathroom, onUpdate, onDelete }) {
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionBathroomType
                 .filter((opt) =>
-                  opt.toLowerCase().includes((bathroom.searchValue1 || '').toLowerCase())
+                  opt?.name?.toLowerCase().includes((bathroom.searchValue1 || '').toLowerCase())
                 )
                 .map((opt) => (
                   <li
-                    key={opt}
+                    key={opt?.id}
                     onClick={() =>
                       onUpdate({
-                        selected1: opt,
+                        selected1: opt?.name,
                         searchValue1: '',
                         open1: false
                       })
                     }
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
                 ))}
             </ul>

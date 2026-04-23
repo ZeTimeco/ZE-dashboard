@@ -17,8 +17,6 @@ function BasicInformationPage() {
     dispatch(getPropertyTypesThunk())
   },[dispatch])
 
-  console.log(getPropertyTypes?.data);
-
   // Property type
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState(null);

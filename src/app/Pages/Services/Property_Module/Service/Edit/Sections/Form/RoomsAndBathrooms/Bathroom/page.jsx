@@ -1,7 +1,9 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import BathroomCard from './BathroomCard'
+import { getBathRoomTypesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function createBathroom() {
   return {
@@ -20,6 +22,18 @@ function createBathroom() {
 
 function BathroomPage() {
   const { t } = useTranslation();
+
+  //api
+  const dispatch = useDispatch()
+  const {getBathRoomTypes} = useSelector((state)=>state.services)
+  useEffect(()=>{
+    dispatch(getBathRoomTypesThunk())
+  },[dispatch])
+
+  console.log(getBathRoomTypes);
+
+
+
   const [bathrooms, setBathrooms] = useState([]);
 
   const addBathroom = () => {
@@ -59,6 +73,7 @@ function BathroomPage() {
             bathroom={bathroom}
             onUpdate={(changes) => updateBathroom(bathroom.id, changes)}
             onDelete={() => deleteBathroom(bathroom.id)}
+            getBathRoomTypes={getBathRoomTypes}
           />
         ))}
 

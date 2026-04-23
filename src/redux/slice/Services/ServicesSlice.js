@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -324,6 +324,50 @@ export const getPropertyCalendarThunk = createAsyncThunk('services/getPropertyCa
   }
 )
 
+export const getRoomTypesThunk = createAsyncThunk('services/getRoomTypesThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getRoomTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getBedTypesThunk = createAsyncThunk('services/getBedTypesThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getBedTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getRoomAmentyThunk = createAsyncThunk('services/getRoomAmentyThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getRoomAmenty()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getBathRoomTypesThunk = createAsyncThunk('services/getBathRoomTypesThunk',
+  async(_ , {rejectWithValue}) =>{
+    try{
+      const response = await getBathRoomTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -360,6 +404,14 @@ const initialState = {
     getPropertiesCities: [],
     getDetails:null,
     getCalendar:[],
+    getRoomTypes:[],
+    getBedTypes:[],
+    getRoomAmenty:[],
+    getBathRoomTypes:[],
+
+
+
+
     
   };
 
@@ -749,6 +801,59 @@ const servicesSlice = createSlice({
         state.getCalendar = action.payload ;
       })
       .addCase(getPropertyCalendarThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //getRoomTypesThunk
+      .addCase(getRoomTypesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getRoomTypesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getRoomTypes = action.payload || [];
+      })
+      .addCase(getRoomTypesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //getBedTypesThunk
+      .addCase(getBedTypesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getBedTypesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getBedTypes = action.payload || [];
+      })
+      .addCase(getBedTypesThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      
+      //getRoomAmentyThunk
+      .addCase(getRoomAmentyThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getRoomAmentyThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getRoomAmenty = action.payload || [];
+      })
+      .addCase(getRoomAmentyThunk.rejected, (state, action) => {
+        state.loadingList = false;  
+        state.errorList = action.payload; 
+      })
+      //getBathRoomTypesThunk
+      .addCase(getBathRoomTypesThunk.pending, (state) => {
+        state.loadingList = true;
+        state.errorList = null;
+      })
+      .addCase(getBathRoomTypesThunk.fulfilled, (state, action) => {
+        state.loadingList = false;
+        state.getBathRoomTypes = action.payload || [];
+      })
+      .addCase(getBathRoomTypesThunk.rejected, (state, action) => {
         state.loadingList = false;  
         state.errorList = action.payload; 
       })
