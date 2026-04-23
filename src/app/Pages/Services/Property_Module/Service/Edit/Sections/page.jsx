@@ -19,7 +19,7 @@ function SectionsPage() {
           {/* Basic Information */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/home_white.svg" alt="" />
                 </p>
@@ -47,7 +47,7 @@ function SectionsPage() {
           {/* the address */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/location_white.svg" alt="" />
                 </p>
@@ -73,7 +73,7 @@ function SectionsPage() {
           {/* Room and bathroom details */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/bed-single-white.svg" alt="" />
                 </p>
@@ -101,7 +101,7 @@ function SectionsPage() {
           {/* Property details */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/building-white.svg" alt="" />
                 </p>
@@ -129,7 +129,7 @@ function SectionsPage() {
           {/* Property amenities */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/wifi-white.svg" alt="" />
                 </p>
@@ -155,7 +155,7 @@ function SectionsPage() {
           {/* Pricing and policies */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/dollar-white.svg" alt="" />
                 </p>
@@ -181,7 +181,7 @@ function SectionsPage() {
           {/* Availability */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/calendar-white.svg" alt="" />
                 </p>
@@ -207,7 +207,7 @@ function SectionsPage() {
           {/* Images and Media */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
-              <div className='flex items-center'>
+              <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/camera-white.svg" alt="" />
                 </p>

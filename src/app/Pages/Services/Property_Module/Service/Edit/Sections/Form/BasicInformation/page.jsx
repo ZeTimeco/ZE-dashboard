@@ -4,16 +4,27 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function BasicInformationPage() {
   const {t} = useTranslation();
+
+  //api
+  const dispatch = useDispatch()
+  const {getPropertyTypes} = useSelector((state)=>state.services)
+  useEffect(()=>{
+    dispatch(getPropertyTypesThunk())
+  },[dispatch])
+
+  console.log(getPropertyTypes?.data);
 
   // Property type
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const optionPropertyType = ['d' , '1'];
+  const optionPropertyType = getPropertyTypes?.data;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -116,19 +127,19 @@ function BasicInformationPage() {
                 <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionPropertyType
                     .filter((opt) =>
-                      opt.toLowerCase().includes(searchValue1.toLowerCase())
+                      opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                     )
                     .map((opt) => (
                       <li
-                        key={opt}
+                        key={opt?.id}
                         onClick={() => {
-                          setSelected1(opt);
+                          setSelected1(opt?.name);
                           setSearchValue1("");
                           setOpen1(false);
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
-                        {opt}
+                        {opt?.name}
                       </li>
                     ))}
                 </ul>
