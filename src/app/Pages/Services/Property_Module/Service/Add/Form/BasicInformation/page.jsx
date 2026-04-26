@@ -1,12 +1,12 @@
 "use client"
-import { getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { addBasicInfoThunk, getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux';
 
 function BasicInformationPage({prevStep , nextStep }) {
   const {t} = useTranslation();
-
+  
   //api
   const dispatch = useDispatch()
   const {getPropertyTypes} = useSelector((state)=>state.services)
@@ -32,9 +32,9 @@ function BasicInformationPage({prevStep , nextStep }) {
 
   const [count, setCount] = useState(0);
 
-  const [adultsCounter, setAdultsCounter] = useState(0);
-  const [childrenCounter, setChildrenCounter] = useState(0);
-  const [childrenReplacementCounter, setChildrenReplacementCounter] = useState(0);
+  const [adultsCounter, setAdultsCounter] = useState(1);
+  const [childrenCounter, setChildrenCounter] = useState(1);
+  const [childrenReplacementCounter, setChildrenReplacementCounter] = useState(1);
   const [canReplaceAdults, setCanReplaceAdults] = useState(false);
 
   const increaseAdults = () => setAdultsCounter(prev => prev + 1);
@@ -51,6 +51,37 @@ function BasicInformationPage({prevStep , nextStep }) {
     {id:2 , title:t('Detailed descriptions increase booking chances by 40%.')},
     {id:3 , title:t('The exact property type helps guests find their perfect accommodation.')},
   ]
+
+  //api
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    property_type_id:"",
+    max_children:"",
+    max_adults:"",
+    children_equivalent_to_adult:"",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const data = new FormData();
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("property_type_id", formData.property_type_id);
+      data.append("max_children", childrenCounter);
+      data.append("max_adults", adultsCounter);
+      data.append("children_equivalent_to_adult", canReplaceAdults ? childrenReplacementCounter : 1);
+
+      await dispatch(addBasicInfoThunk(data)).unwrap();
+      nextStep();
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
     <div className='border border-[#E6E6E6] p-8 rounded-[3px]'>
@@ -73,8 +104,12 @@ function BasicInformationPage({prevStep , nextStep }) {
           </p>
           <input 
             type="text"
+            name='title'
             placeholder='مثال : - فيلا حي الروابي' 
             className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+            onChange={(e)=>{
+              setFormData({...formData, title: e.target.value});
+            }}
           />
         </div>
 
@@ -125,6 +160,7 @@ function BasicInformationPage({prevStep , nextStep }) {
                         setSelected1(opt?.name);
                         setSearchValue1("");
                         setOpen1(false);
+                        setFormData({ ...formData, property_type_id: opt?.id });
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
@@ -145,7 +181,10 @@ function BasicInformationPage({prevStep , nextStep }) {
         </p>
         <div className="relative w-full">
           <textarea
-            onChange={(e) => setCount(e.target.value.length)}
+            onChange={(e) => {
+              setCount(e.target.value.length);
+              setFormData({ ...formData, description: e.target.value });
+            }}
             placeholder={t("Write a brief description of the property.")}
             maxLength={500}
             className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
@@ -241,7 +280,7 @@ function BasicInformationPage({prevStep , nextStep }) {
         </div>
 
 
-        {/*  */}
+        {/* children replace one adult  */}
         <div>
           {/* note */}
           <div className='flex gap-2 my-3'>
@@ -254,7 +293,7 @@ function BasicInformationPage({prevStep , nextStep }) {
             <p className='text-[#232323] text-sm font-normal'>{t('Adults can be replaced by a number of children')}</p>      
           </div>
           
-          {/*   */}
+          {/* children equivalent to adult */}
           {canReplaceAdults && (
             <div className='bg-[#F8FAFC] border border-[#EEF2F6] w-full h-15 rounded-[3px] px-3 flex items-center justify-between'>
               <div className=''>
@@ -334,7 +373,7 @@ function BasicInformationPage({prevStep , nextStep }) {
           </button>
 
           <button
-            onClick={nextStep}
+            onClick={handleSubmit}
             className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('the next')}

@@ -27,6 +27,7 @@ let markerIcon = null;
 export default function MapDialog({ open, handleClose, onConfirm }) {
   const [mapPosition, setMapPosition] = useState([24.7136, 46.6753]);
   const [address, setAddress] = useState("");
+  const [fullAddressDetails, setFullAddressDetails] = useState({});
   const [isClient, setIsClient] = useState(false);
 
   // Fetch address from coordinates
@@ -38,6 +39,9 @@ export default function MapDialog({ open, handleClose, onConfirm }) {
       const data = await response.json();
       if (data && data.display_name) {
         setAddress(data.display_name);
+        if (data.address) {
+          setFullAddressDetails(data.address);
+        }
       }
     } catch (error) {
       console.error("Error fetching address:", error);
@@ -96,6 +100,7 @@ export default function MapDialog({ open, handleClose, onConfirm }) {
       lat: mapPosition[0],
       lng: mapPosition[1],
       address: address,
+      details: fullAddressDetails,
     });
 
     handleClose();

@@ -1,7 +1,8 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import BasicInformationPage from './Form/BasicInformation/page'
 import AddressPage from './Form/Address/page'
 import RoomsAndBathroomsPage from './Form/RoomsAndBathrooms/page'
@@ -16,7 +17,23 @@ import MediaPage from './Form/Media/page'
 function AddPage() {
   const {t} = useTranslation()
 
-  const [currentStep, setCurrentStep] = useState(0)
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+
+  const stepQuery = searchParams.get('step')
+  const initialStep = stepQuery ? Number(stepQuery) : 0
+
+  const [currentStep, setCurrentStep] = useState(initialStep)
+
+  // Sync state if URL changes (like browser back/forward buttons)
+  useEffect(() => {
+    if (stepQuery !== null) {
+      setCurrentStep(Number(stepQuery))
+    } else {
+      setCurrentStep(0)
+    }
+  }, [stepQuery])
 
   const stepTitles = [
     t("Basic Information"),
@@ -31,13 +48,17 @@ function AddPage() {
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
-      setCurrentStep(prev => prev + 1)
+      const next = currentStep + 1
+      setCurrentStep(next)
+      router.push(`${pathname}?step=${next}`, { scroll: true })
     }
   }
 
   const prevStep = () => {
     if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1)
+      const prev = currentStep - 1
+      setCurrentStep(prev)
+      router.push(`${pathname}?step=${prev}`, { scroll: true })
     }
   }
 

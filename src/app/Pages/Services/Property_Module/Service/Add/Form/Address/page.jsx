@@ -4,16 +4,26 @@ import { useTranslation } from 'react-i18next';
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MapDialog from './MapDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLocationThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function AddressPage({prevStep , nextStep }) {
     const {t} = useTranslation();
     const [count, setCount] = useState(0);
     const [openMap, setOpenMap] = useState(false);
-    const [selectedAddress, setSelectedAddress] = useState(t('Click to open the map'));
 
     const handleMapConfirm = (data) => {
       if (data.address) {
-        setSelectedAddress(data.address);
+        setFormData(prev => ({
+          ...prev,
+          address: data.address,
+          latitude: data.lat,
+          longitude: data.lng,
+          country: data.details?.country || '',
+          city: data.details?.city || data.details?.state || '',
+          area: data.details?.suburb || data.details?.neighbourhood || data.details?.town || '',
+        }));
+        setCount(data.address.length);
       }
     };
 
@@ -67,6 +77,41 @@ function AddressPage({prevStep , nextStep }) {
     {id:2 , title:t('Your exact address will remain private until you book.')},
     {id:3 , title:t('A pin should be placed at the building entrance.')},
     ]
+
+    //api
+    const dispatch = useDispatch();
+    const { addBasicProperty } = useSelector((state) => state.services);
+    const [isVisible, setIsVisible] = useState(true);
+
+    const [formData, setFormData] = useState({
+      country:"",
+      city:"",
+      area:"",
+      address:"",
+      latitude:"",
+      longitude:"",
+    });
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+        try {
+          const data = new FormData();
+          data.append("property_id", addBasicProperty?.data?.id || addBasicProperty?.id || "");
+          data.append("is_visible", isVisible ? 1 : 0);
+          data.append("country", formData.country);
+          data.append("city", formData.city);
+          data.append("area", formData.area);
+          data.append("address", formData.address);
+          data.append("latitude", formData.latitude);
+          data.append("longitude", formData.longitude);
+          await dispatch(addLocationThunk(data)).unwrap();
+          nextStep();
+    
+        } catch (err) {
+          console.log(err);
+        }
+    }
+
   return (
     <>
 
@@ -88,10 +133,14 @@ function AddressPage({prevStep , nextStep }) {
           </p>
           <div className="relative w-full">
             <textarea
-              onChange={(e) => setCount(e.target.value.length)}
+              onChange={(e) => {
+                setCount(e.target.value.length);
+                setFormData({ ...formData, address: e.target.value });
+              }}
               placeholder={t("Write a brief description of the property.")}
               maxLength={500}
               className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
+              value={formData.address}
             />
 
             {/* counter */}
@@ -105,7 +154,10 @@ function AddressPage({prevStep , nextStep }) {
         <div className='border border-[#CDD5DF] p-3 rounded-[3px] flex justify-between mt-4'>
           <p className='text-[#4B5565] text-xs font-normal flex items-center '>{t('Show the user the exact and detailed address before booking')}</p>
           <div>
-            <GreenSwitch />
+            <GreenSwitch 
+              checked={isVisible} 
+              onChange={(e) => setIsVisible(e.target.checked)} 
+            />
           </div>
         </div>
 
@@ -126,7 +178,7 @@ function AddressPage({prevStep , nextStep }) {
             <div className='flex gap-1 w-full'>
               <img src="/images/icons/location_gray.svg" alt="" />
               <p className='text-[#4B5565] text-xs font-normal flex items-center '>
-                {selectedAddress}
+                {t('Click to open the map')}
               </p>
             </div>
             <p>
@@ -183,7 +235,7 @@ function AddressPage({prevStep , nextStep }) {
             </button>
 
             <button
-              onClick={nextStep}
+              onClick={handleSubmit}
               className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('the next')}
