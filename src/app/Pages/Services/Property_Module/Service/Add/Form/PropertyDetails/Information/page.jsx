@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function InformationPage() {
+function InformationPage({setFormData ,formData}) {
   const {t} = useTranslation();
 
   /* Property area */
@@ -24,6 +24,8 @@ function InformationPage() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+
   return (
     <>
       <div>
@@ -37,22 +39,22 @@ function InformationPage() {
         {/*  */}
         <div className='mt-6 border border-[#CDD5DF] p-4'>
           <div className='grid grid-cols-2 gap-6 '>
+
             {/* Property area */}
             <div className='flex flex-col gap-1.5'>
               <label className='text-sm'>
                 <span className='text-[#4B5565] font-medium'>{t('Property area')}</span> {" "}
                 <span className='text-[#697586] font-normal'>({t('optional')})</span>
               </label>
-
               
               {/*  */}
               <div className="flex" ref={dropdownRef1}>
                 {/* Input */}
                 <input
                   type="number"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  className="w-[70%] px-3 py-2 h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-r-[3px] outline-none"
+                  onChange={(e) => setFormData({...formData, area: e.target.value})}
+                  name="area"
+                  className="w-[70%] px-3 py-2 h-14 p-3  border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-r-[3px] outline-none"
                 />  
                 {/* Dropdown */}
                 <div className="relative w-[30%] h-14 p-3 border-l border-t border-b border-[#CDD5DF] text-sm text-[#7d8d84] rounded-l-[3px] outline-none">
@@ -75,10 +77,11 @@ function InformationPage() {
                     <ul className="absolute left-0 mt-3 right-0 border border-[#C8C8C8] bg-white  shadow-md z-10 max-h-48 overflow-y-auto">
                       {options.map((item) => (
                         <li
-                          key={item.value}
+                          key={item?.value}
                           onClick={() => {
                             setSelected(item);
                             setOpen(false);
+                            setFormData({...formData , area_unit:item?.value})
                           }}
                           className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                         >
@@ -93,6 +96,7 @@ function InformationPage() {
 
             </div>
 
+
             {/* Floor number */}
             <div className='flex flex-col gap-1.5'>
               <div className='flex justify-between'>
@@ -101,7 +105,14 @@ function InformationPage() {
                   <input 
                     type="checkbox"
                     checked={isGroundFloor}
-                    onChange={(e) => setIsGroundFloor(e.target.checked)}
+                    onChange={(e) => {
+                      setIsGroundFloor(e.target.checked);
+                      if (e.target.checked) {
+                        setFormData({ ...formData, floor_number: 0 });
+                      } else {
+                        setFormData({ ...formData, floor_number: "" });
+                      }
+                    }}
                     className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"  
                   />
                   <p className='text-[#4B5565] text-sm font-normal select-none'>{t('ground floor')}</p>
@@ -109,8 +120,11 @@ function InformationPage() {
               
               </div>
               <input 
-                type="text" 
+                type="number"
+                min="0" 
                 disabled={isGroundFloor}
+                value={formData.floor_number === 0 && isGroundFloor ? "" : formData.floor_number}
+                onChange={(e) => setFormData({ ...formData, floor_number: e.target.value })}
                 placeholder={t('Floor number')}
                 className="w-full  px-3 py-2 h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed"
               />
@@ -125,7 +139,10 @@ function InformationPage() {
                     type="radio" 
                     name="elevator"
                     checked={hasElevator === 'yes'}
-                    onChange={(e) => setHasElevator('yes')}
+                    onChange={(e) => {
+                      setHasElevator('yes');
+                      setFormData({ ...formData, has_elevator: 1 });
+                    }}
                     className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
                   />
                   <p className='text-[#697586] text-sm select-none'>{t('yes')}</p>
@@ -135,7 +152,10 @@ function InformationPage() {
                     type="radio" 
                     name="elevator"
                     checked={hasElevator === 'no'}
-                    onChange={(e) => setHasElevator('no')}
+                    onChange={(e) => {
+                      setHasElevator('no');
+                      setFormData({ ...formData, has_elevator: 0 });
+                    }}
                     className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
                   />
                   <p className='text-[#697586] text-sm select-none'>{t('no')}</p>

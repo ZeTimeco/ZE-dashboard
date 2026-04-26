@@ -201,3 +201,13 @@ export const addLocation = async(formData)=>{
   const response = await API.post('/properties/location' , formData)
   return response.data
 }
+
+export const addPropertyDetails = async(formData)=>{
+  const response = await API.post('/properties/details' , formData)
+  return response.data
+}
+
+export const addAmenities = async(formData)=>{
+  const response = await API.post('/properties/amenities/create' , formData)
+  return response.data
+}

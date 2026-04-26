@@ -5,7 +5,7 @@ import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-function Arrival_DeparturePage() {
+function Arrival_DeparturePage({setFormData ,formData}) {
   const {t} = useTranslation()
   const [startTime, setStartTime] = useState(null);
   const [leaveTime, setLeaveTime] = useState(null);
@@ -40,7 +40,12 @@ function Arrival_DeparturePage() {
                 >
                   <MobileTimePicker
                     value={startTime}
-                    onChange={(newValue) => setStartTime(newValue)}
+                    onChange={(newValue) => {
+                      setStartTime(newValue);
+                      if (newValue) {
+                        setFormData({ ...formData, check_in_time: newValue.format('HH:mm') });
+                      }
+                    }}
                     ampm={true}
                     views={["hours", "minutes"]}
                     closeOnSelect={true}
@@ -99,7 +104,12 @@ function Arrival_DeparturePage() {
                 >
                   <MobileTimePicker
                     value={leaveTime}
-                    onChange={(newValue) => setLeaveTime(newValue)}
+                    onChange={(newValue) => {
+                      setLeaveTime(newValue);
+                      if (newValue) {
+                        setFormData({ ...formData, check_out_time: newValue.format('HH:mm') });
+                      }
+                    }}
                     ampm={true}
                     views={["hours", "minutes"]}
                     closeOnSelect={true}

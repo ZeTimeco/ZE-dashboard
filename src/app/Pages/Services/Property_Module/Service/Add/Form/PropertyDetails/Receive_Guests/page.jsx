@@ -5,7 +5,7 @@ import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-function Receive_GuestsPage() {
+function Receive_GuestsPage({setFormData ,formData}) {
   const {t} = useTranslation()
   const [startTime, setStartTime] = useState(null);
   const [leaveTime, setLeaveTime] = useState(null);
@@ -13,14 +13,29 @@ function Receive_GuestsPage() {
 
   const handleAddPeriod = () => {
     if (startTime && leaveTime) {
-      setPeriods([...periods, { start: startTime, end: leaveTime }]);
+      const newPeriods = [...periods, { start: startTime, end: leaveTime }];
+      setPeriods(newPeriods);
+      
+      const formattedPeriods = newPeriods.map(p => ({
+        available_from: p.start.format('HH:mm'),
+        available_to: p.end.format('HH:mm')
+      }));
+      setFormData({ ...formData, availabilities: formattedPeriods });
+
       setStartTime(null);
       setLeaveTime(null);
     }
   };
 
   const handleRemovePeriod = (indexToRemove) => {
-    setPeriods(periods.filter((_, index) => index !== indexToRemove));
+    const newPeriods = periods.filter((_, index) => index !== indexToRemove);
+    setPeriods(newPeriods);
+    
+    const formattedPeriods = newPeriods.map(p => ({
+      available_from: p.start.format('HH:mm'),
+      available_to: p.end.format('HH:mm')
+    }));
+    setFormData({ ...formData, availabilities: formattedPeriods });
   };
 
   const formatTime = (timeObj) => {
