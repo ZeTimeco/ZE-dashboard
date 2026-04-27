@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PricingDetailsPage() {
+function PricingDetailsPage({formData , setFormData}) {
   const {t} = useTranslation()
   return (
     <>

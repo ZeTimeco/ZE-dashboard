@@ -1,12 +1,68 @@
 "use client"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import PricingInfoPage from './PricingInfo/page';
 import CancellationPolicyPage from './CancellationPolicy/page';
 import PricingDetailsPage from './PricingDetails/page';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPricingPoliciesThunk, getPoliciesApprovedThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function PricingPage({prevStep , nextStep }) {
   const {t} = useTranslation();
+
+  
+  const dispatch = useDispatch();
+  const {getPoliciesApproved , addBasicProperty} = useSelector((state)=>state.services)
+    
+  const [property_id, setProperty_id] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return addBasicProperty?.data?.id || sessionStorage.getItem('property_id') || null;
+    }
+    return addBasicProperty?.data?.id || null;
+  });
+
+  useEffect(() => {
+    if (addBasicProperty?.data?.id) {
+      setProperty_id(addBasicProperty?.data?.id);
+      sessionStorage.setItem('property_id', addBasicProperty?.data?.id);
+    }
+  }, [addBasicProperty?.data?.id]);
+
+  useEffect(() => {
+    if (property_id) {
+      dispatch(getPoliciesApprovedThunk(property_id));
+    }
+  }, [dispatch, property_id]); 
+
+
+  console.log(getPoliciesApproved);
+  
+  const [formData, setFormData] = useState({
+    base_price: '',
+    security_deposit: '',
+    cleaning_fee: '',
+    cancellation_policy_id:'',
+
+  })
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+        try {
+          const data = new FormData();
+          data.append("property_id", property_id || "");
+          data.append("base_price", formData.base_price);
+          data.append("security_deposit", formData.security_deposit);
+          data.append("cleaning_fee", formData.cleaning_fee);
+          data.append("cancellation_policy_id", formData.cancellation_policy_id);
+        
+          await dispatch(addPricingPoliciesThunk({ property_id, formData: data })).unwrap();
+          nextStep();
+    
+        } catch (err) {
+          console.log(err);
+        }
+    } 
+
   return (
     <>
       <div className='border border-[#E6E6E6] p-8 rounded-[3px]'>
@@ -19,38 +75,38 @@ function PricingPage({prevStep , nextStep }) {
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
 
-          <PricingInfoPage/>
-          <CancellationPolicyPage/>
-          <PricingDetailsPage/>
+        <PricingInfoPage           formData={formData} setFormData={setFormData}  />
+        <CancellationPolicyPage    formData={formData} setFormData={setFormData} getPoliciesApproved={getPoliciesApproved}/>
+        <PricingDetailsPage        formData={formData} setFormData={setFormData}  />
 
-      {/* btn */}
-      <div className="flex justify-between mt-6">
-        <div className='w-full '>
-          <button
-            onClick={prevStep}
-            className=" w-[25%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
-          >
-            {t('the previous')}
-          </button>
-        </div>
-        
-        <div className='flex gap-2 justify-end w-full '>
-          <button
-            className="h-15 w-[30%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
-          >
-            {t('Save draft')}
-          </button>
+        {/* btn */}
+        <div className="flex justify-between mt-6">
+          <div className='w-full '>
+            <button
+              onClick={prevStep}
+              className=" w-[25%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            >
+              {t('the previous')}
+            </button>
+          </div>
+          
+          <div className='flex gap-2 justify-end w-full '>
+            <button
+              className="h-15 w-[30%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            >
+              {t('Save draft')}
+            </button>
 
-          <button
-            onClick={nextStep}
-            className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
-          >
-            {t('the next')}
-          </button>
+            <button
+              onClick={handleSubmit}
+              className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            >
+              {t('the next')}
+            </button>
+          </div>
+          
         </div>
-        
       </div>
-    </div>
     </>
   )
 }

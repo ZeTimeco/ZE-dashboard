@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -83,6 +83,21 @@ function AddressPage({prevStep , nextStep }) {
     const { addBasicProperty } = useSelector((state) => state.services);
     const [isVisible, setIsVisible] = useState(true);
 
+    const [property_id, setProperty_id] = useState(() => {
+      if (typeof window !== 'undefined') {
+        return addBasicProperty?.data?.id || addBasicProperty?.id || sessionStorage.getItem('property_id') || null;
+      }
+      return addBasicProperty?.data?.id || addBasicProperty?.id || null;
+    });
+
+    useEffect(() => {
+      if (addBasicProperty?.data?.id || addBasicProperty?.id) {
+        const id = addBasicProperty?.data?.id || addBasicProperty?.id;
+        setProperty_id(id);
+        sessionStorage.setItem('property_id', id);
+      }
+    }, [addBasicProperty?.data?.id, addBasicProperty?.id]);
+
     const [formData, setFormData] = useState({
       country:"",
       city:"",
@@ -96,7 +111,7 @@ function AddressPage({prevStep , nextStep }) {
       e.preventDefault();
         try {
           const data = new FormData();
-          data.append("property_id", addBasicProperty?.data?.id || addBasicProperty?.id || "");
+          data.append("property_id", property_id || "");
           data.append("is_visible", isVisible ? 1 : 0);
           data.append("country", formData.country);
           data.append("city", formData.city);

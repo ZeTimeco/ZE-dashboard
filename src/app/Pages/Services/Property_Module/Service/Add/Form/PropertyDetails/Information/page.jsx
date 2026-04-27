@@ -11,10 +11,9 @@ function InformationPage({setFormData ,formData}) {
     { label: t('SQFT'), value: "sqft " },
   ];
   
-  const [selected, setSelected] = useState(options[0]);
+  const [selected, setSelected] = useState("وحده المساحه");
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("120");
-  const [hasElevator, setHasElevator] = useState("yes");
+  const [hasElevator, setHasElevator] = useState("");
   const [isGroundFloor, setIsGroundFloor] = useState(false);
   const dropdownRef1 = useRef(null);
   useEffect(() => {

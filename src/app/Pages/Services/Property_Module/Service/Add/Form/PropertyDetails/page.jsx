@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import InformationPage from './Information/page';
 import Arrival_DeparturePage from './Arrival_Departure/page';
@@ -12,6 +12,22 @@ function PropertyDetailsPage({prevStep , nextStep }) {
 
   const dispatch = useDispatch();
   const {addBasicProperty} = useSelector((state) => state.services);
+
+  const [property_id, setProperty_id] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return addBasicProperty?.data?.id || addBasicProperty?.id || sessionStorage.getItem('property_id') || null;
+    }
+    return addBasicProperty?.data?.id || addBasicProperty?.id || null;
+  });
+
+  useEffect(() => {
+    if (addBasicProperty?.data?.id || addBasicProperty?.id) {
+      const id = addBasicProperty?.data?.id || addBasicProperty?.id;
+      setProperty_id(id);
+      sessionStorage.setItem('property_id', id);
+    }
+  }, [addBasicProperty?.data?.id, addBasicProperty?.id]);
+
   const [formData , setFormData] =useState({
     area:"",
     area_unit:"",
@@ -22,13 +38,13 @@ function PropertyDetailsPage({prevStep , nextStep }) {
     floor_number:"",
   })
   
-  console.log("addBasicProperty",addBasicProperty?.data?.id)
+  console.log("property_id", property_id)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const data = new FormData();
-      data.append("property_id", addBasicProperty?.data?.id || addBasicProperty?.id || "");
+      data.append("property_id", property_id || "");
       data.append("area", formData.area);
       data.append("area_unit", formData.area_unit);
       data.append("has_elevator", formData.has_elevator);
