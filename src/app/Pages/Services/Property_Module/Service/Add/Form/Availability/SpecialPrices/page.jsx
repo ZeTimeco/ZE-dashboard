@@ -10,6 +10,17 @@ function SpecialPricesPage() {
   const {t} = useTranslation()
   
   const [open , setOpen] = useState(false)
+  const [specialPrices, setSpecialPrices] = useState([])
+
+  const handleAddSpecialPrice = (newPrice) => {
+    setSpecialPrices([...specialPrices, newPrice])
+  }
+
+  const handleDeleteSpecialPrice = (index) => {
+    const updated = [...specialPrices]
+    updated.splice(index, 1)
+    setSpecialPrices(updated)
+  }
 
   return (
     <>
@@ -31,27 +42,29 @@ function SpecialPricesPage() {
 
         <div className='grid grid-cols-2 gap-3 mt-4'>
 
-          <div className='border border-[#E3E8EF] p-4  flex flex-col gap-1 rounded-[3px] '>
-            {/*  */}
-            <div className='flex justify-between'>
-              <p className='text-[#364152] text-base font-medium'>معدل العطلة</p>
-              <button className='cursor-pointer'>
-                <img src="/images/icons/delete_red.svg" alt="" />
-              </button>
+          {specialPrices.map((item, index) => (
+            <div key={index} className='border border-[#E3E8EF] p-4  flex flex-col gap-1 rounded-[3px] '>
+              {/*  */}
+              <div className='flex justify-between'>
+                <p className='text-[#364152] text-base font-medium'>{item.periodName}</p>
+                <button className='cursor-pointer' onClick={() => handleDeleteSpecialPrice(index)}>
+                  <img src="/images/icons/delete_red.svg" alt="" />
+                </button>
+              </div>
+
+              {/*  */}
+              <p className='text-[#4B5565] text-base font-normal'>
+                <span>{item.dateRange} : </span>
+                <span> سعر ثابت</span>
+              </p>
+
+              {/*  */}
+              <p className='text-[var(--color-primary)] text-base font-semibold'>
+                <span>{t('the price')} : </span>
+                <span>{item.price} جنية</span>
+              </p>
             </div>
-
-            {/*  */}
-            <p className='text-[#4B5565] text-base font-normal'>
-              <span>20-21 يناير  :   </span>
-              <span> سعر ثابت</span>
-            </p>
-
-            {/*  */}
-            <p className='text-[var(--color-primary)] text-base font-semibold'>
-              <span>{t('the price')} : </span>
-              <span>120 جنية</span>
-            </p>
-          </div>
+          ))}
 
 
           
@@ -73,7 +86,7 @@ function SpecialPricesPage() {
       </div>
 
 
-    <AddDialog open={open} setOpen={setOpen}/>
+    <AddDialog open={open} setOpen={setOpen} onAdd={handleAddSpecialPrice} />
     </>
   )
 }

@@ -9,9 +9,11 @@ import { DateRangePicker } from 'react-date-range';
 import { addDays, format } from 'date-fns';
 import { ar } from 'date-fns/locale'; // Arabic locale
 
-function AddDialog({ open, setOpen }) {
+function AddDialog({ open, setOpen, onAdd }) {
   const {t} = useTranslation()
- const [openCalendar, setOpenCalendar] = useState(false);
+  const [openCalendar, setOpenCalendar] = useState(false);
+  const [periodName, setPeriodName] = useState("");
+  const [price, setPrice] = useState("");
 
   const [range, setRange] = useState([
     {
@@ -31,6 +33,20 @@ function AddDialog({ open, setOpen }) {
 
     setOpenCalendar(false);
   };
+
+  const handleSubmit = () => {
+    if (periodName && selectedText && price) {
+      if (onAdd) {
+        onAdd({ periodName, dateRange: selectedText, price });
+      }
+      setPeriodName("");
+      setPrice("");
+      setSelectedText("");
+      setRange([{ startDate: new Date(), endDate: new Date(), key: "selection" }]);
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       <Dialog
@@ -59,6 +75,8 @@ function AddDialog({ open, setOpen }) {
             </p>
             <input 
               type="text"
+              value={periodName}
+              onChange={(e) => setPeriodName(e.target.value)}
               placeholder='مثال: اجازة عيد الفطر'
               className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
             />
@@ -155,6 +173,8 @@ function AddDialog({ open, setOpen }) {
             </p>
             <input 
               type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               placeholder={t('Enter the price')}
               className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
             />
@@ -166,7 +186,7 @@ function AddDialog({ open, setOpen }) {
 
         {/* btn */}
         <div className="flex gap-4 p-6 ">
-          <button className=" p-3 w-full h-14 bg-[var(--color-primary)] text-white font-medium rounded-[3px] cursor-pointer">{t("It was completed")}</button>
+          <button onClick={handleSubmit} className=" p-3 w-full h-14 bg-[var(--color-primary)] text-white font-medium rounded-[3px] cursor-pointer">{t("It was completed")}</button>
           <button onClick={()=>setOpen(false)} className=" p-3 w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] font-medium rounded-[3px] cursor-pointer">{t("cancel")}</button>
         </div>
 

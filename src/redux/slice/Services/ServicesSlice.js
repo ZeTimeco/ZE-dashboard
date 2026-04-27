@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -457,6 +457,17 @@ export const getPricingPoliciesThunk = createAsyncThunk('services/getPricingPoli
   }
 )
 
+export const addAvailabilitySeasonsThunk = createAsyncThunk('services/addAvailabilitySeasonsThunk',
+  async({property_id, formData} , {rejectWithValue})=>{
+    try{
+      const response = await addAvailabilitySeasons(property_id, formData)
+      return response;
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 const initialState = {
@@ -504,7 +515,7 @@ const initialState = {
     getPoliciesApproved:null,
     addPricingPolicies:null,
     getPricingPolicies:null,
-
+    addAvailabilitySeasons:null,
 
 
   };
@@ -1052,6 +1063,19 @@ const servicesSlice = createSlice({
         state.getPricingPolicies = action.payload;
       })
       .addCase(getPricingPoliciesThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+      //addAvailabilitySeasonsThunk
+      .addCase(addAvailabilitySeasonsThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(addAvailabilitySeasonsThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.addAvailabilitySeasons = action.payload;
+      })
+      .addCase(addAvailabilitySeasonsThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })

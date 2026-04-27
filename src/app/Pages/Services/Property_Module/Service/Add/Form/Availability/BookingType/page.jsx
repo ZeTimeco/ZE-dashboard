@@ -218,9 +218,7 @@ function BookingTypePage() {
         <div className="flex justify-center gap-6 mt-6 text-sm">
           <Legend color="bg-[#17B26A]" label={t("Available")} />
           <Legend color="bg-[#F04438]" label={t("Forbidden")} />
-          <Legend
-            color="bg-[var(--color-primary)]"
-            label={t("reserved")}
+          <Legend color="bg-[#E3E8EF]" label={t("Not available")}
           />
         </div>
         
