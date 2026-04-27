@@ -2,8 +2,18 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PricingDetailsPage({formData , setFormData}) {
+function PricingDetailsPage({formData , setFormData ,getPricingPolicies}) {
   const {t} = useTranslation()
+
+  const basePrice = parseFloat(formData?.base_price) || 0;
+  const cleaningFee = parseFloat(formData?.cleaning_fee) || 0;
+  const nights = 1;
+
+  const subTotal = basePrice + cleaningFee;
+  const serviceFee =(subTotal * getPricingPolicies?.service_fee_percentage ||0) / 100;
+  const taxAmount = (subTotal * getPricingPolicies?.tax_percentage ||0) / 100;
+  const totalAmount = subTotal + serviceFee + taxAmount;
+
   return (
     <>
       <div className='border border-[#E3E8EF] bg-[#F8FAFC] mt-6 p-4'>
@@ -13,10 +23,10 @@ function PricingDetailsPage({formData , setFormData}) {
         <div className='flex justify-between mt-4'>
           <p className='text-[#4B5565] text-base  font-normal'>
             <span>{t('Basic price')}</span>{' '}
-            <span>(3 {t('nights')} )</span>
+            <span>({nights} {t('nights')} )</span>
           </p>
-          <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+          <p className='text-[#364152] text-base font-medium flex gap-1'>
+            <span>{basePrice}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -26,8 +36,8 @@ function PricingDetailsPage({formData , setFormData}) {
           <p className='text-[#4B5565] text-base  font-normal'>
             <span>{t('Cleaning fees')}</span>
           </p>
-          <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+          <p className='text-[#364152] text-base font-medium flex gap-1'>
+            <span>{cleaningFee}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -37,8 +47,8 @@ function PricingDetailsPage({formData , setFormData}) {
           <p className='text-[#4B5565] text-base  font-normal'>
             <span>{t('Service fees')}</span>
           </p>
-          <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+          <p className='text-[#364152] text-base font-medium flex gap-1'>
+            <span>{serviceFee}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -47,10 +57,10 @@ function PricingDetailsPage({formData , setFormData}) {
         <div className='flex justify-between mt-4'>
           <p className='text-[#4B5565] text-base  font-normal'>
             <span>{t('Value Added Tax')}</span>{' '}
-            <span>(3%)</span>
+            <span>({getPricingPolicies?.tax_percentage}%)</span>
           </p>
-          <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+          <p className='text-[#364152] text-base font-medium flex gap-1'>
+            <span>{taxAmount}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -63,8 +73,8 @@ function PricingDetailsPage({formData , setFormData}) {
             <span>{t('Total')}</span>{' '}
             <span>({t('The guest pays')})</span>
           </p>
-          <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+          <p className='text-[#364152] text-base font-medium flex gap-1'>
+            <span>{totalAmount}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -74,8 +84,8 @@ function PricingDetailsPage({formData , setFormData}) {
           <p className='text-[var(--color-primary)] text-base  font-normal'>
             <span>{t('Gain')}</span>
           </p>
-          <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+          <p className='text-[#364152] text-base font-medium flex gap-1'>
+            <span>{subTotal}</span>
             <span>جنية</span>
           </p>
         </div>

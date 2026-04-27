@@ -9,20 +9,20 @@ function CancellationPolicyPage({formData , setFormData , getPoliciesApproved}) 
   const [selectedPolicy, setSelectedPolicy] = useState()
   const [displayCount, setDisplayCount] = useState(4)
 
-useEffect(() => {
-  if (getPoliciesApproved?.length > 0) {
-    const defaultPolicy = getPoliciesApproved.find((policy) => policy.is_selected);
+  useEffect(() => {
+    if (getPoliciesApproved?.length > 0) {
+      const defaultPolicy = getPoliciesApproved.find((policy) => policy.is_selected);
 
-    if (defaultPolicy) {
-      setSelectedPolicy(defaultPolicy.id);
+      if (defaultPolicy) {
+        setSelectedPolicy(defaultPolicy.id);
 
-      setFormData((prev) => ({
-        ...prev,
-        cancellation_policy_id: defaultPolicy.id,
-      }));
+        setFormData((prev) => ({
+          ...prev,
+          cancellation_policy_id: defaultPolicy.id,
+        }));
+      }
     }
-  }
-}, [getPoliciesApproved]);
+  }, [getPoliciesApproved]);
 
   const handleSelectPolicy = (id) => {
     setSelectedPolicy(id);

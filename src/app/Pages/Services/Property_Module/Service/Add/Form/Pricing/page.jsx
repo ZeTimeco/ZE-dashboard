@@ -5,14 +5,14 @@ import PricingInfoPage from './PricingInfo/page';
 import CancellationPolicyPage from './CancellationPolicy/page';
 import PricingDetailsPage from './PricingDetails/page';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPricingPoliciesThunk, getPoliciesApprovedThunk } from '@/redux/slice/Services/ServicesSlice';
+import { addPricingPoliciesThunk, getPoliciesApprovedThunk, getPricingPoliciesThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function PricingPage({prevStep , nextStep }) {
   const {t} = useTranslation();
 
   
   const dispatch = useDispatch();
-  const {getPoliciesApproved , addBasicProperty} = useSelector((state)=>state.services)
+  const {getPoliciesApproved , addBasicProperty , getPricingPolicies} = useSelector((state)=>state.services)
     
   const [property_id, setProperty_id] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -31,12 +31,13 @@ function PricingPage({prevStep , nextStep }) {
   useEffect(() => {
     if (property_id) {
       dispatch(getPoliciesApprovedThunk(property_id));
+      dispatch(getPricingPoliciesThunk(property_id));
     }
   }, [dispatch, property_id]); 
 
 
-  console.log(getPoliciesApproved);
-  
+  console.log(getPricingPolicies);
+
   const [formData, setFormData] = useState({
     base_price: '',
     security_deposit: '',
@@ -77,7 +78,7 @@ function PricingPage({prevStep , nextStep }) {
 
         <PricingInfoPage           formData={formData} setFormData={setFormData}  />
         <CancellationPolicyPage    formData={formData} setFormData={setFormData} getPoliciesApproved={getPoliciesApproved}/>
-        <PricingDetailsPage        formData={formData} setFormData={setFormData}  />
+        <PricingDetailsPage        formData={formData} setFormData={setFormData}  getPricingPolicies={getPricingPolicies}/>
 
         {/* btn */}
         <div className="flex justify-between mt-6">

@@ -221,3 +221,8 @@ export const addPricingPolicies = async(property_id, formData)=>{
   const response = await API.post(`/properties/${property_id}/pricing-policies`, formData)
   return response.data
 }
+
+export const getPricingPolicies = async(property_id)=>{
+  const response = await API.get(`/properties/${property_id}/pricing-policies`)
+  return response.data
+}
