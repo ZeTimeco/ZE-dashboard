@@ -107,10 +107,10 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes ,getBedTypes ,getRoom
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionRoomType
                 .filter((opt) => opt?.name?.toLowerCase().includes((room.searchValue1 || '').toLowerCase()))
-                .map((opt) => (
+                ?.map((opt) => (
                   <li
                     key={opt?.id}
-                    onClick={() => onUpdate({ selected1: opt?.name, searchValue1: '', open1: false })}
+                    onClick={() => onUpdate({ selected1: opt?.name, room_type_id: opt?.id, searchValue1: '', open1: false })}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
                     {opt?.name}
@@ -220,7 +220,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes ,getBedTypes ,getRoom
                       .map((opt) => (
                         <li
                           key={opt?.id}
-                          onClick={() => updateBed(bed.id, { selected: opt?.name, searchValue: '', open: false })}
+                          onClick={() => updateBed(bed.id, { selected: opt?.name, bed_type_id: opt?.id, searchValue: '', open: false })}
                           className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                         >
                           {opt?.name}

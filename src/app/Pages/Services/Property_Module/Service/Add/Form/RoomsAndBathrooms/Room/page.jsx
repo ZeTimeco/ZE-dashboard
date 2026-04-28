@@ -18,7 +18,7 @@ function createRoom() {
   };
 }
 
-function RoomPage() {
+function RoomPage({ onRoomsChange }) {
   const { t } = useTranslation();
   //api
   const dispatch = useDispatch()
@@ -32,6 +32,10 @@ function RoomPage() {
 
 
   const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    if (onRoomsChange) onRoomsChange(rooms);
+  }, [rooms]);
 
   const addRoom = () => {
     setRooms((prev) => [...prev, createRoom()]);

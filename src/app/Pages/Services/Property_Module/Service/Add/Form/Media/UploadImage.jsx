@@ -2,14 +2,14 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function UploadImage() {
+function UploadImage({ formData, setFormData }) {
   const {t} = useTranslation();
 
   //upload images
   const fileInputRef = useRef(null);
 
   // additional media
-  const [images, setImages] = useState([]); // files
+
   const [previewImages, setPreviewImages] = useState([]); // urls
   const MAX_IMAGES = 6;
 
@@ -40,7 +40,6 @@ function UploadImage() {
       setDragOverIdx(null);
       return;
     }
-    // reorder both arrays
     const reorder = (arr) => {
       const copy = [...arr];
       const [moved] = copy.splice(from, 1);
@@ -48,7 +47,14 @@ function UploadImage() {
       return copy;
     };
     setPreviewImages(reorder);
-    setImages(reorder);
+    // reorder formData.images and recalculate sort_order
+    setFormData((prev) => {
+      const reordered = reorder(prev.images).map((img, i) => ({
+        ...img,
+        sort_order: i + 1,
+      }));
+      return { ...prev, images: reordered };
+    });
     // fix mainIndex after reorder
     setMainIndex((prev) => {
       if (prev === null) return null;
@@ -65,27 +71,41 @@ function UploadImage() {
   const handleFilesChange = (e) => {
     const files = Array.from(e.target.files);
 
-    if (images.length + files.length > MAX_IMAGES) {
+    if (formData.images.length + files.length > MAX_IMAGES) {
       alert(`Maximum number of photos ${MAX_IMAGES}`);
       return;
     }
 
-    // save files
-    setImages((prev) => [...prev, ...files]);
+    const newImages = files.map((file, index) => ({
+      file,
+      sort_order: formData.images.length + index + 1,
+      is_primary: 0,
+    }));
 
-    // preview
     const newPreviews = files.map((file) =>
       URL.createObjectURL(file)
     );
 
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...newImages],
+    }));
+
     setPreviewImages((prev) => [...prev, ...newPreviews]);
   };
 
+
   const handleDelete = (index) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setFormData((prev) => {
+      const filtered = prev.images
+        .filter((_, i) => i !== index)
+        .map((img, i) => ({ ...img, sort_order: i + 1, is_primary: 0 }));
+      return { ...prev, images: filtered };
+    });
+
     setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+
     setMainIndex((prev) => {
-      if (prev === null) return null;
       if (prev === index) return null;
       if (prev > index) return prev - 1;
       return prev;
@@ -154,7 +174,7 @@ function UploadImage() {
               type="file"
               ref={fileInputRef}
               multiple
-              accept=".svg,.png,.jpg,.jpeg"
+              accept=".png,.jpg,.jpeg,.webp"
               className="hidden"
               onChange={handleFilesChange}
             />
@@ -229,7 +249,15 @@ function UploadImage() {
                           } flex justify-center items-center rounded-full cursor-pointer`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setMainIndex(prev => prev === idx ? null : idx);
+                            const newMain = mainIndex === idx ? null : idx;
+                            setMainIndex(newMain);
+                            setFormData((prev) => ({
+                              ...prev,
+                              images: prev.images.map((img, i) => ({
+                                ...img,
+                                is_primary: newMain === i ? 1 : 0,
+                              })),
+                            }));
                           }}
                         >
                           {mainIndex === idx ? (

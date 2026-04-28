@@ -20,7 +20,7 @@ function createBathroom() {
   };
 }
 
-function BathroomPage() {
+function BathroomPage({ onBathroomsChange }) {
   const { t } = useTranslation();
 
   //api
@@ -34,6 +34,10 @@ function BathroomPage() {
   
 
   const [bathrooms, setBathrooms] = useState([]);
+
+  useEffect(() => {
+    if (onBathroomsChange) onBathroomsChange(bathrooms);
+  }, [bathrooms]);
 
   const addBathroom = () => {
     setBathrooms((prev) => [...prev, createBathroom()]);

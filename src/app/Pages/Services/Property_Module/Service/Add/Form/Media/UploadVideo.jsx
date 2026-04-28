@@ -2,7 +2,7 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function UploadVideo() {
+function UploadVideo({ formData, setFormData }) {
   const {t} = useTranslation();
   
   // additional media
@@ -34,7 +34,11 @@ function UploadVideo() {
               type="file"
               accept="video/*"
               className="hidden"
-              onChange={(e) => setTourVideo(e.target.files[0] || null)}
+              onChange={(e) => {
+                const file = e.target.files[0] || null;
+                setTourVideo(file);
+                setFormData((prev) => ({ ...prev, vr_path: file }));
+              }}
             />
 
             {tourVideo ? (
@@ -42,7 +46,11 @@ function UploadVideo() {
                 <img src="/images/icons/checkmark-circle-true.svg" className="w-4 h-4" alt="" />
                 <p className="text-[#17B26A] text-sm font-normal ">{t('A tour was selected')}</p>
                 <button
-                  onClick={() => { setTourVideo(null); tourVideoRef.current.value = ''; }}
+                  onClick={() => { 
+                    setTourVideo(null); 
+                    tourVideoRef.current.value = ''; 
+                    setFormData((prev) => ({ ...prev, vr_path: "" }));
+                  }}
                   className="text-[#17B26A] font-bold text-sm leading-none cursor-pointer"
                 >×</button>
               </div>
@@ -74,7 +82,11 @@ function UploadVideo() {
               type="file"
               accept="video/*"
               className="hidden"
-              onChange={(e) => setPropertyVideo(e.target.files[0] || null)}
+              onChange={(e) => {
+                const file = e.target.files[0] || null;
+                setPropertyVideo(file);
+                setFormData((prev) => ({ ...prev, video: file }));
+              }}
             />
 
             {propertyVideo ? (
@@ -82,7 +94,11 @@ function UploadVideo() {
                 <img src="/images/icons/checkmark-circle-true.svg" className="w-4 h-4" alt="" />
                 <p className="text-[#17B26A] text-sm font-normal ">{t('A tour was selected')}</p>
                 <button
-                  onClick={() => { setTourVideo(null); tourVideoRef.current.value = ''; }}
+                  onClick={() => { 
+                    setPropertyVideo(null); 
+                    propertyVideoRef.current.value = ''; 
+                    setFormData((prev) => ({ ...prev, video: null }));
+                  }}
                   className="text-[#17B26A] font-bold text-sm leading-none cursor-pointer"
                 >×</button>
               </div>

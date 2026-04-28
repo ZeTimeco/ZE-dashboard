@@ -9,10 +9,11 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
   const MAX_IMAGES = 5;
 
   const optionBathroomType = getBathRoomTypes?.data;
-
+  console.log("bathroom types:", optionBathroomType);
+  
   const optionBathroomLocation = [
-    {id:1 , title:t("inside")},
-    {id:2 , title:t("common")},
+    {id:1 , title:t("inside") , value:"inside"},
+    {id:2 , title:t("common"), value:"common"},
   
   ];
 
@@ -108,8 +109,8 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
           {bathroom.open1 && (
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionBathroomType
-                .filter((opt) =>
-                  opt?.getBathRoomTypes?.toLowerCase().includes((bathroom.searchValue1 || '').toLowerCase())
+                ?.filter((opt) =>
+                  opt?.name?.toLowerCase().includes((bathroom.searchValue1 || '').toLowerCase())
                 )
                 .map((opt) => (
                   <li
@@ -117,6 +118,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
                     onClick={() =>
                       onUpdate({
                         selected1: opt?.name,
+                        bathroom_type_id: opt?.id,
                         searchValue1: '',
                         open1: false
                       })
@@ -245,6 +247,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
                     onClick={() =>
                       onUpdate({
                         selected2: opt?.title,
+                        location: opt?.value,
                         searchValue2: '',
                         open2: false
                       })
