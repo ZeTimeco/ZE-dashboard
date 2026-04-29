@@ -6,7 +6,7 @@ import AddDialog from './AddDialog'
 
 
 
-function SpecialPricesPage() {
+function SpecialPricesPage({formData, setFormData}) {
   const {t} = useTranslation()
   
   const [open , setOpen] = useState(false)

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BookingTypePage() {
+function BookingTypePage({formData, setFormData}) {
   const {t} = useTranslation()
   const [selectedPolicy, setSelectedPolicy] = useState('')
 
@@ -23,6 +23,7 @@ function BookingTypePage() {
   const [bannedDates, setBannedDates] = useState([]);
   const [selectAllActive, setSelectAllActive] = useState(false);
   const [banAllActive, setBanAllActive] = useState(false);
+  const [status, setStatus] = useState('available');
   
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -53,12 +54,20 @@ function BookingTypePage() {
     if (!day) return;
     const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     
-    if (bannedDates.includes(dateStr)) {
-      setBannedDates(bannedDates.filter(d => d !== dateStr));
-    } else if (selectedDates.includes(dateStr)) {
-      setSelectedDates(selectedDates.filter(d => d !== dateStr));
-    } else {
-      setSelectedDates([...selectedDates, dateStr]);
+    if (status === 'available') {
+      if (selectedDates.includes(dateStr)) {
+        setSelectedDates(selectedDates.filter(d => d !== dateStr));
+      } else {
+        setBannedDates(bannedDates.filter(d => d !== dateStr));
+        setSelectedDates([...selectedDates, dateStr]);
+      }
+    } else if (status === 'blocked') {
+      if (bannedDates.includes(dateStr)) {
+        setBannedDates(bannedDates.filter(d => d !== dateStr));
+      } else {
+        setSelectedDates(selectedDates.filter(d => d !== dateStr));
+        setBannedDates([...bannedDates, dateStr]);
+      }
     }
   };
 
@@ -84,9 +93,12 @@ function BookingTypePage() {
     setBanAllActive(true);
     setSelectAllActive(false);
   };
-  function Legend({ color, label }) {
+  function Legend({ color, label, onClick, active }) {
   return (
-    <div className={`flex items-center gap-2 border border-[#E3E8EF] px-3 py-2 rounded`}>
+    <div 
+      className={`flex items-center gap-2 border ${active ? 'border-[var(--color-primary)] ring-1 ring-[var(--color-primary)]' : 'border-[#E3E8EF]'} px-3 py-2 rounded ${onClick ? 'cursor-pointer' : ''}`}
+      onClick={onClick}
+    >
       <span className={`w-4 h-4 ${color} rounded`}></span>
       {label}
     </div>
@@ -216,8 +228,8 @@ function BookingTypePage() {
 
         {/* Legend */}
         <div className="flex justify-center gap-6 mt-6 text-sm">
-          <Legend color="bg-[#17B26A]" label={t("Available")} />
-          <Legend color="bg-[#F04438]" label={t("Forbidden")} />
+          <Legend color="bg-[#17B26A]" label={t("Available")} onClick={() => setStatus('available')} active={status === 'available'} />
+          <Legend color="bg-[#F04438]" label={t("Forbidden")} onClick={() => setStatus('blocked')} active={status === 'blocked'} />
           <Legend color="bg-[#E3E8EF]" label={t("Not available")}
           />
         </div>
