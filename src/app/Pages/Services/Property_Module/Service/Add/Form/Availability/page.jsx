@@ -53,34 +53,23 @@ function AvailabilityPage({prevStep , nextStep }) {
   }, [addBasicProperty]);
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  try {
+    // ابعت formData مباشرة كـ JSON مش FormData
+    await dispatch(addAvailabilitySeasonsThunk({
+      property_id: formData.property_id,
+      formData: {
+        property_id: formData.property_id,
+        availability: formData.availability,
+        seasonal_pricing: formData.seasonal_pricing
+      }
+    })).unwrap();
 
-    try {
-      const data = new FormData();
-
-      data.append("property_id", formData.property_id || "");
-      data.append("availability[all_avalable]", formData.availability.all_avalable ? 1 : 0);
-
-      formData.availability.slots.forEach((slot, index) => {
-        data.append(`availability[slots][${index}][from]`, slot.from);
-        data.append(`availability[slots][${index}][to]`, slot.to);
-        data.append(`availability[slots][${index}][status]`, slot.status);
-      });
-
-      formData.seasonal_pricing.forEach((item, index) => {
-        data.append(`seasonal_pricing[${index}][title]`, item.title);
-        data.append(`seasonal_pricing[${index}][start_date]`, item.start_date);
-        data.append(`seasonal_pricing[${index}][end_date]`, item.end_date);
-        data.append(`seasonal_pricing[${index}][price]`, item.price);
-      });
-
-      await dispatch(addAvailabilitySeasonsThunk(data)).unwrap();
-      nextStep();
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    nextStep();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   return (
     <>

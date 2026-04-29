@@ -12,15 +12,36 @@ function SpecialPricesPage({formData, setFormData}) {
   const [open , setOpen] = useState(false)
   const [specialPrices, setSpecialPrices] = useState([])
 
-  const handleAddSpecialPrice = (newPrice) => {
-    setSpecialPrices([...specialPrices, newPrice])
-  }
+const handleAddSpecialPrice = (newPrice) => {
+  const updated = [...specialPrices, newPrice];
+  setSpecialPrices(updated);
 
-  const handleDeleteSpecialPrice = (index) => {
-    const updated = [...specialPrices]
-    updated.splice(index, 1)
-    setSpecialPrices(updated)
-  }
+  setFormData(prev => ({
+    ...prev,
+    seasonal_pricing: updated.map(item => ({
+      title: item.periodName,
+      start_date: item.startDate,   // <-- من AddDialog
+      end_date: item.endDate,       // <-- من AddDialog
+      price: Number(item.price)
+    }))
+  }));
+};
+
+const handleDeleteSpecialPrice = (index) => {
+  const updated = [...specialPrices];
+  updated.splice(index, 1);
+  setSpecialPrices(updated);
+
+  setFormData(prev => ({
+    ...prev,
+    seasonal_pricing: updated.map(item => ({
+      title: item.periodName,
+      start_date: item.startDate,
+      end_date: item.endDate,
+      price: Number(item.price)
+    }))
+  }));
+};
 
   return (
     <>

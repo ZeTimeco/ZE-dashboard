@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function BookingTypePage({formData, setFormData}) {
@@ -93,6 +93,48 @@ function BookingTypePage({formData, setFormData}) {
     setBanAllActive(true);
     setSelectAllActive(false);
   };
+
+// في BookingTypePage — عدّل الـ useEffect
+useEffect(() => {
+  const toSlots = (dates, status) => {
+    if (dates.length === 0) return [];
+    const sorted = [...dates].sort();
+    const slots = [];
+    let start = sorted[0];
+    let end = sorted[0];
+
+    for (let i = 1; i < sorted.length; i++) {
+      // استخدم string comparison بدل Date objects
+      const prevDate = new Date(end + 'T00:00:00');
+      const currDate = new Date(sorted[i] + 'T00:00:00');
+      const diff = (currDate - prevDate) / (1000 * 60 * 60 * 24);
+
+      if (diff === 1) {
+        end = sorted[i];
+      } else {
+        slots.push({ from: start, to: end, status });
+        start = sorted[i];
+        end = sorted[i];
+      }
+    }
+    slots.push({ from: start, to: end, status });
+    return slots;
+  };
+
+  const slots = [
+    ...toSlots(selectedDates, 'available'),
+    ...toSlots(bannedDates, 'blocked'),
+  ];
+
+  setFormData(prev => ({
+    ...prev,
+    availability: {
+      all_avalable: selectedPolicy === '2',
+      slots
+    }
+  }));
+
+}, [selectedDates, bannedDates, selectedPolicy]);
   function Legend({ color, label, onClick, active }) {
   return (
     <div 

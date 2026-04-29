@@ -34,18 +34,27 @@ function AddDialog({ open, setOpen, onAdd }) {
     setOpenCalendar(false);
   };
 
-  const handleSubmit = () => {
-    if (periodName && selectedText && price) {
-      if (onAdd) {
-        onAdd({ periodName, dateRange: selectedText, price });
-      }
-      setPeriodName("");
-      setPrice("");
-      setSelectedText("");
-      setRange([{ startDate: new Date(), endDate: new Date(), key: "selection" }]);
-      setOpen(false);
+// استبدل handleSubmit بالكامل
+const handleSubmit = () => {
+  if (periodName && selectedText && price) {
+    if (onAdd) {
+      const { startDate, endDate } = range[0];
+      onAdd({
+        periodName,
+        dateRange: selectedText,
+        startDate: format(startDate, 'yyyy-MM-dd'),  // <-- مهم
+        endDate: format(endDate, 'yyyy-MM-dd'),      // <-- مهم
+        price
+      });
     }
-  };
+    // reset
+    setPeriodName("");
+    setPrice("");
+    setSelectedText("");
+    setRange([{ startDate: new Date(), endDate: new Date(), key: "selection" }]);
+    setOpen(false);
+  }
+};
 
   return (
     <>

@@ -228,7 +228,11 @@ export const getPricingPolicies = async(property_id)=>{
 }
 
 export const addAvailabilitySeasons = async(property_id, formData)=>{
-  const response = await API.post(`/properties/availability-seasons`, formData)
+  const response = await API.post(`/properties/availability-seasons`, formData , {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
   return response.data
 }
 
