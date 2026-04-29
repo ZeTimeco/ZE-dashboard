@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function AddressPage() {
+function AddressPage({getDetailsData}) {
   const {t} = useTranslation()
   return (
     <>
@@ -18,15 +18,15 @@ function AddressPage() {
         
           <div className="flex justify-between items-center  ">
             <p className="text-[#4B5565] text-sm font-normal">{t('State')}</p>
-            <p className="text-[#364152] text-sm font-medium w-[20%]">Egypt</p>
+            <p className="text-[#364152] text-sm font-medium w-[20%]">{getDetailsData?.location?.country}</p>
           </div>
           <div className="flex justify-between items-center py-3 ">
             <p className="text-[#4B5565] text-sm font-normal">{t('City')}</p>
-            <p className="text-[#364152] text-sm font-medium w-[20%]">Egypt</p>
+            <p className="text-[#364152] text-sm font-medium w-[20%]">{getDetailsData?.location?.city}</p>
           </div>
           <div className="flex justify-between items-center  ">
             <p className="text-[#4B5565] text-sm font-normal">{t('region')}</p>
-            <p className="text-[#364152] text-sm font-medium w-[20%]">Egypt</p>
+            <p className="text-[#364152] text-sm font-medium w-[20%]">{getDetailsData?.location?.area}</p>
           </div>
 
       </div>

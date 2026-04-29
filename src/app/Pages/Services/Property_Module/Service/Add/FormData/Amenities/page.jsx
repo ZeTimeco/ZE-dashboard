@@ -2,10 +2,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function AmenitiesPage() {
+function AmenitiesPage({getDetailsData}) {
   const {t} = useTranslation()
 
-  const amentiesList = ["واي فاي مجاني" , "موقف سيارات"]
+  const amentiesList = getDetailsData?.amenities
 
   return (
     <>
@@ -22,7 +22,7 @@ function AmenitiesPage() {
         <div className='flex flex-wrap gap-1.5'>
           {amentiesList?.map((items , index)=>(
             <p key={index} className='bg-[#EEF2F6] text-[#364152] text-sm p-2.5 rounded-[55px] w-fit'>
-            {items}
+            {items?.name}
             </p>
           ))}
           

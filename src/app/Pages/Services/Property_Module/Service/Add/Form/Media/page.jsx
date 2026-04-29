@@ -72,7 +72,7 @@ function MediaPage({prevStep , nextStep }) {
         data.append("video", formData.video);
       }
       await dispatch(addMediaThunk(data)).unwrap();
-      router.push('/Pages/Services/Property_Module/Service');
+      router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${formData.property_id}`);
     } catch (error) {
       console.log(error);
       const serverErrors = error?.errors

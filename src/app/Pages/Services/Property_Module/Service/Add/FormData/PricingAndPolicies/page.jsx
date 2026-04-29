@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PricingAndPoliciesPage() {
+function PricingAndPoliciesPage({getDetailsData}) {
   const {t} = useTranslation()
   return (
     <>
@@ -19,8 +19,8 @@ function PricingAndPoliciesPage() {
         <div className="flex justify-between items-center  ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Basic price')}</p>
           <p className="text-[#364152] text-sm font-medium w-[20%]">
-            <span>233</span>
-            <span>$</span> {' '}
+            <span>{getDetailsData?.base_price}</span>
+            <span>{getDetailsData?.currency}</span> {' '}
             <span>{t('On the night')}</span>
             
           </p>
@@ -28,21 +28,21 @@ function PricingAndPoliciesPage() {
         <div className="flex justify-between items-center py-3 ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Cleaning fees')}</p>
           <p className="text-[#364152] text-sm font-medium w-[20%]">
-            <span>2333</span>
-            <span>$</span>
+            <span>{getDetailsData?.cleaning_fee}</span>
+            <span>{getDetailsData?.currency}</span>
           </p>
         </div>
         <div className="flex justify-between items-center  ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Deposit of guarantee')}</p>
-          <p className="text-[#364152] text-sm font-medium w-[20%]">
-            <span>4444</span>
-            <span>$</span>
+          <p className="text-[#1d2633] text-sm font-medium w-[20%]">
+            <span>{getDetailsData?.security_deposit}</span>
+            <span>{getDetailsData?.currency}</span>
           </p>
         </div>
         <div className="flex justify-between items-center  py-3">
           <p className="text-[#4B5565] text-sm font-normal">{t('cancellation')}</p>
           <p className="text-[#364152] text-sm font-medium w-[20%]">
-            policy_name
+            {getDetailsData?.cancellation_policy?.policy_name}
           </p>
         </div>
 

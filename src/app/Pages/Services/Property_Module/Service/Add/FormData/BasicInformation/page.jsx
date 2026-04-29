@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BasicInformationPage() {
+function BasicInformationPage({getDetailsData}) {
   const {t} = useTranslation()
   
   return (
@@ -19,21 +19,21 @@ function BasicInformationPage() {
         <div className="flex justify-between items-center  ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Property type')}</p> 
           <p className="text-[#364152] text-sm font-medium w-[20%]">
-            شقه
+            {getDetailsData?.property_type?.name}
           </p>
         </div>
         <div className="flex justify-between items-center py-3 ">
           <p className="text-[#4B5565] text-sm font-normal">{t('Maximum number of guests')}</p> 
           <p className="text-[#364152] text-sm font-medium w-[20%]">
-            <span>3</span>
+            <span>{getDetailsData?.guests_count}</span>
             <span>{t('guests')}</span>
           </p>
         </div>
         <div className="flex justify-between items-center  ">
           <p className="text-[#4B5565] text-sm font-normal">{t('measuring')}</p> 
           <p className="text-[#364152] text-sm font-medium w-[20%]">
-            <span>233</span>
-            <span>م ع</span>
+            <span>{getDetailsData?.area}</span>
+            <span>{t(getDetailsData?.area_unit)}</span>
           </p>
         </div>
 

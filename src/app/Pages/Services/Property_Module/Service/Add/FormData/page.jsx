@@ -9,27 +9,45 @@ import PricingAndPoliciesPage from './PricingAndPolicies/page'
 import DetailsPage from './Details/page'
 import { useTranslation } from 'react-i18next'
 import NotesPage from './Notes/page'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllDetailsThunk } from '@/redux/slice/Services/ServicesSlice'
 
 
 function FormDataPageContent() {
   const {t} = useTranslation()
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const propertyId = searchParams.get('property_id');
 
+
+  const dispatch = useDispatch();
+  const { getDetails } = useSelector((state) => state.services);
+  const getDetailsData = getDetails?.data;
+
+  useEffect(() => {
+    const idToFetch = propertyId || sessionStorage.getItem('property_id');
+    if (idToFetch) {
+      dispatch(getAllDetailsThunk(idToFetch));
+    }
+  }, [dispatch, propertyId]);
+
+  console.log(getDetails?.data);
+  
   return (
     <MainLayout>
       <div className='border border-[#CDD5DF] p-8'>
         <p className='mb-10 text-[#364152] text-2xl font-medium px-6'>{t('Property details')}</p>
-        <DetailsPage  />
+        <DetailsPage getDetailsData={getDetailsData} />
         <div className='grid grid-cols-2 gap-6'>
-          <AddressPage />
-          <BasicInformationPage />
-          <CheckDetailsPage />
-          <AmenitiesPage />
+          <AddressPage getDetailsData={getDetailsData} />
+          <BasicInformationPage getDetailsData={getDetailsData} />
+          <CheckDetailsPage getDetailsData={getDetailsData} />
+          <AmenitiesPage getDetailsData={getDetailsData} />
         </div>
         
-        <PricingAndPoliciesPage/>
+        <PricingAndPoliciesPage getDetailsData={getDetailsData} />
 
         <NotesPage/>
 

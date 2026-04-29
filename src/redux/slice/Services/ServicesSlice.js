@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -492,6 +492,17 @@ export const addUnitsThunk = createAsyncThunk(
   }
 );
 
+export const getAllDetailsByIdThunk = createAsyncThunk('services/getAllDetailsByIdThunk',
+  async(id, {rejectWithValue}) =>{
+    try{
+      const response = await getAllDetailsById(id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  } 
+)
+
 
 const initialState = {
     services: [],
@@ -541,6 +552,7 @@ const initialState = {
     addAvailabilitySeasons:null,
     addMedia:null,
     addUnits:null,
+    getAllDetailsById:null,
 
 
   };
@@ -1127,6 +1139,19 @@ const servicesSlice = createSlice({
         state.addUnits = action.payload;
       })
       .addCase(addUnitsThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+      //getAllDetailsByIdThunk
+      .addCase(getAllDetailsByIdThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(getAllDetailsByIdThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.getAllDetailsById = action.payload;
+      })
+      .addCase(getAllDetailsByIdThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })

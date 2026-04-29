@@ -17,23 +17,10 @@ function AvailabilityPage({prevStep , nextStep }) {
     property_id: "",
     availability: {
       all_avalable: false,
-      slots: [
-        {
-          from: "",
-          to: "",
-          status: ""
-        }
-      ]
+      slots: []
     },
-    seasonal_pricing: [
-      {
-        title: "",
-        start_date: "",
-        end_date: "",
-        price: ""
-      }
-    ]
-  })
+    seasonal_pricing: []
+  });
 
   useEffect(() => {
     const storedPropertyId = sessionStorage.getItem("property_id");

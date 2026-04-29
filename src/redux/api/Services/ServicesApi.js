@@ -249,3 +249,8 @@ export const addUnits = async (formData) => {
   });
   return response.data;
 };
+
+export const getAllDetailsById = async(id)=>{
+  const response = await API.get(`/properties/${id}/allDetails`)
+  return response.data
+}
