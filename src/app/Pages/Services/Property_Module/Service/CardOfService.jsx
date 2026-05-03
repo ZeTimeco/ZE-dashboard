@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import DeletePage from './Module/Delete/page';
+import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl';
 
 function CardOfService({getProperties}) {
   const {t}= useTranslation()
@@ -193,7 +194,15 @@ function CardOfService({getProperties}) {
         >
           {/* //image and status */}
           <div className='relative w-full'>
-            <img src="/images/testyImage.svg" alt="" className='w-full' />
+            <img
+              src={
+                property?.primary_image
+                  ? `${IMAGE_BASE_URL}${property.primary_image}`
+                  : "/images/testyImage.svg"
+              }
+              alt=""
+              className="w-full h-40"
+            />            
             <div className='absolute top-2 right-2'>{StatusRender(property?.activity_status)}</div>
             <button onClick={() => toggleMenu(index)} className='absolute top-2 left-2 cursor-pointer '>
               <img src="/images/icons/dots.svg" alt="" />

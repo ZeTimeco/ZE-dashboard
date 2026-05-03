@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import NotesPage from './Notes/page'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllDetailsThunk } from '@/redux/slice/Services/ServicesSlice'
+import { addSubmitForReviewThunk, getAllDetailsThunk } from '@/redux/slice/Services/ServicesSlice'
 
 
 function FormDataPageContent() {
@@ -23,7 +23,7 @@ function FormDataPageContent() {
 
 
   const dispatch = useDispatch();
-  const { getDetails } = useSelector((state) => state.services);
+  const { getDetails , addSubmitForReview } = useSelector((state) => state.services);
   const getDetailsData = getDetails?.data;
 
   useEffect(() => {
@@ -33,7 +33,17 @@ function FormDataPageContent() {
     }
   }, [dispatch, propertyId]);
 
-  console.log(getDetails?.data);
+  console.log(propertyId);
+
+  const handleSubmitReview = async () => {
+    const idToSubmit = propertyId || sessionStorage.getItem('property_id');
+    if (idToSubmit) {
+      const res = await dispatch(addSubmitForReviewThunk(idToSubmit));
+      if (res.payload?.status === true) {
+        router.push('/Pages/Services/Property_Module/Service');
+      }
+    }
+  };
   
   return (
     <MainLayout>
@@ -52,10 +62,21 @@ function FormDataPageContent() {
         <NotesPage/>
 
 
-
+      <div>
+        {addSubmitForReview?.status === false && addSubmitForReview?.missing_steps && (
+          <div className="mt-4 p-4 bg-red-50 text-red-600 rounded">
+            <p className="font-semibold mb-2">{t('Please complete the following missing steps:')}</p>
+            <ul className="list-disc ml-5">
+              {addSubmitForReview.missing_steps.map((step, idx) => (
+                <li key={idx}>{step}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
         
         <button 
-          onClick={() => router.push('/Pages/Services/Property_Module/Service')}
+          onClick={handleSubmitReview}
           className='bg-[var(--color-primary)] text-white px-4 h-14 w-fit mt-8 rounded-[3px] cursor-pointer'>
           {t('Property submission for review')}
         </button>

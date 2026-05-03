@@ -254,3 +254,8 @@ export const getAllDetailsById = async(id)=>{
   const response = await API.get(`/properties/${id}/allDetails`)
   return response.data
 }
+
+export const addSubmitForReview = async(property_id)=>{
+  const response = await API.get(`/properties/submit/${property_id}`)
+  return response.data
+}
