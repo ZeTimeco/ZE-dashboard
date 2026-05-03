@@ -5,17 +5,37 @@ import { useTranslation } from 'react-i18next'
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPropertyTypesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { getBasicInfoThunk, getPropertyTypesThunk, UpdateBasicInfoThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function BasicInformationPageContent() {
   const {t} = useTranslation();
 
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+  
   //api
   const dispatch = useDispatch()
-  const {getPropertyTypes} = useSelector((state)=>state.services)
-  useEffect(()=>{
-    dispatch(getPropertyTypesThunk())
-  },[dispatch])
+  const {getPropertyTypes, getBasicInfo} = useSelector((state)=>state.services)
+  const getBasicInfoData = getBasicInfo?.data
+  
+  useEffect(() => {
+    dispatch(getPropertyTypesThunk());
+    if (id) {
+      dispatch(getBasicInfoThunk(id));
+    }
+  }, [dispatch, id]);
+
+  console.log(getBasicInfoData);
+  const [formData, setFormData] = useState({
+    title:'',
+    description:'',
+    property_type_id:'',
+    max_children:'',
+    max_adults:'',
+    children_equivalent_to_adult:'',
+  })
 
   // Property type
   const [open1, setOpen1] = useState(false);
@@ -32,21 +52,65 @@ function BasicInformationPageContent() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const [count, setCount] = useState(0);
+useEffect(() => {
+    if (getBasicInfoData && optionPropertyType) {
+      const selectedType = optionPropertyType.find(
+        (item) => item.id === getBasicInfoData.property_type_id
+      );
+      setSelected1(selectedType);
+    }
+}, [getBasicInfoData, optionPropertyType]);
 
-  const [adultsCounter, setAdultsCounter] = useState(0);
-  const [childrenCounter, setChildrenCounter] = useState(0);
-  const [childrenReplacementCounter, setChildrenReplacementCounter] = useState(0);
-  const [canReplaceAdults, setCanReplaceAdults] = useState(false);
+    const [count, setCount] = useState(0);
 
-  const increaseAdults = () => setAdultsCounter(prev => prev + 1);
-  const decreaseAdults = () => { if (adultsCounter > 0) setAdultsCounter(prev => prev - 1); };
+    const [adultsCounter, setAdultsCounter] = useState(0);
+    const [childrenCounter, setChildrenCounter] = useState(0);
+    const [childrenReplacementCounter, setChildrenReplacementCounter] = useState(0);
+    const [canReplaceAdults, setCanReplaceAdults] = useState(false);
 
-  const increaseChildren = () => setChildrenCounter(prev => prev + 1);
-  const decreaseChildren = () => { if (childrenCounter > 0) setChildrenCounter(prev => prev - 1); };
+    useEffect(()=>{
+      if(getBasicInfoData){
+        setFormData({
+          title: getBasicInfoData?.title || '',
+          description: getBasicInfoData?.description || '',
+          property_type_id: getBasicInfoData?.property_type_id || '',
+          max_children: getBasicInfoData?.max_children || '',
+          max_adults: getBasicInfoData?.max_adults || '',
+          children_equivalent_to_adult: getBasicInfoData?.children_equivalent_to_adult || '',
+        });
+        setAdultsCounter(getBasicInfoData?.max_adults || 0);
+        setChildrenCounter(getBasicInfoData?.max_children || 0);
+        setChildrenReplacementCounter(getBasicInfoData?.children_equivalent_to_adult || 0);
+        setCanReplaceAdults(getBasicInfoData?.children_equivalent_to_adult > 0);
+        if(getBasicInfoData?.description) setCount(getBasicInfoData.description.length);
+      }
+    },[getBasicInfoData])
 
-  const increaseReplacement = () => setChildrenReplacementCounter(prev => prev + 1);
-  const decreaseReplacement = () => { if (childrenReplacementCounter > 0) setChildrenReplacementCounter(prev => prev - 1); };
+    const handleSubmit = () => {
+      if (!id) return;
+      
+      const dataToSubmit = {
+        ...formData,
+        max_adults: adultsCounter,
+        max_children: childrenCounter,
+        children_equivalent_to_adult: canReplaceAdults ? childrenReplacementCounter : 0,
+      };
+
+      dispatch(UpdateBasicInfoThunk({ property_id: id, formData: dataToSubmit })).then((res) => {
+        if (!res.error) {
+          router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`);
+        }
+      });
+    };
+
+    const increaseAdults = () => setAdultsCounter(prev => prev + 1);
+    const decreaseAdults = () => { if (adultsCounter > 0) setAdultsCounter(prev => prev - 1); };
+
+    const increaseChildren = () => setChildrenCounter(prev => prev + 1);
+    const decreaseChildren = () => { if (childrenCounter > 0) setChildrenCounter(prev => prev - 1); };
+
+    const increaseReplacement = () => setChildrenReplacementCounter(prev => prev + 1);
+    const decreaseReplacement = () => { if (childrenReplacementCounter > 0) setChildrenReplacementCounter(prev => prev - 1); };
 
   const QuickTips = [
     {id:1 , title:t('Use clear and descriptive titles that highlight key attributes.')},
@@ -54,9 +118,8 @@ function BasicInformationPageContent() {
     {id:3 , title:t('The exact property type helps guests find their perfect accommodation.')},
   ]
 
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const id = searchParams.get('id');
+
+
 
   return (
     <MainLayout>
@@ -83,7 +146,9 @@ function BasicInformationPageContent() {
             <input 
               type="text"
               placeholder='مثال : - فيلا حي الروابي' 
+              value={formData?.title}
               className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+              onChange={(e)=> setFormData(prev => ({...prev, title: e.target.value}))}
             />
           </div>
 
@@ -102,7 +167,7 @@ function BasicInformationPageContent() {
                 <input
                   type="text"
                   placeholder={t("Select the main category")}
-                  value={searchValue1 || selected1 || ""}
+                  value={searchValue1 || selected1?.name || ""}                  
                   onChange={(e) => {
                     setSearchValue1(e.target.value);
                     setOpen1(true);
@@ -131,9 +196,10 @@ function BasicInformationPageContent() {
                       <li
                         key={opt?.id}
                         onClick={() => {
-                          setSelected1(opt?.name);
+                          setSelected1(opt);
                           setSearchValue1("");
                           setOpen1(false);
+                          setFormData(prev => ({...prev, property_type_id: opt?.id}))
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
@@ -154,7 +220,14 @@ function BasicInformationPageContent() {
           </p>
           <div className="relative w-full">
             <textarea
-              onChange={(e) => setCount(e.target.value.length)}
+              value={formData?.description}
+              onChange={(e) => {
+                  setCount(e.target.value.length);
+                  setFormData(prev => ({
+                    ...prev,
+                    description: e.target.value
+                  }))
+                }}             
               placeholder={t("Write a brief description of the property.")}
               maxLength={500}
               className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
@@ -336,6 +409,7 @@ function BasicInformationPageContent() {
             </button>
 
             <button
+              onClick={handleSubmit}
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('Save changes')}

@@ -259,3 +259,13 @@ export const addSubmitForReview = async(property_id)=>{
   const response = await API.get(`/properties/submit/${property_id}`)
   return response.data
 }
+
+export const getBasicInfo = async(property_id)=>{
+  const response = await API.get(`/properties/${property_id}/basic-info`)
+  return response.data
+}
+
+export const UpdateBasicInfo = async(property_id , formData)=>{
+  const response = await API.post(`/properties/${property_id}/updatebasic-info`, formData)
+  return response.data
+}

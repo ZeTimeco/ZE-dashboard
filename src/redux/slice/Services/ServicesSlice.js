@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview, getBasicInfo, UpdateBasicInfo } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -514,6 +514,30 @@ export const addSubmitForReviewThunk = createAsyncThunk('services/addSubmitForRe
   }
 )
 
+export const getBasicInfoThunk = createAsyncThunk('services/getBasicInfoThunk',
+  async(property_id, {rejectWithValue})=>{
+    try{
+      const response = await getBasicInfo(property_id)
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const UpdateBasicInfoThunk = createAsyncThunk('service/UpdateBasicInfoThunk' ,
+  async({property_id, formData} , {rejectWithValue})=>{
+    try{
+      const response = await UpdateBasicInfo(property_id, formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
+
 
 const initialState = {
     services: [],
@@ -565,6 +589,8 @@ const initialState = {
     addUnits:null,
     getAllDetailsById:null,
     addSubmitForReview:null,
+    getBasicInfo:null,
+    UpdateBasicInfo:null,
 
   };
 
@@ -1179,6 +1205,33 @@ const servicesSlice = createSlice({
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })
+      //getBasicInfoThunk
+      .addCase(getBasicInfoThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(getBasicInfoThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.getBasicInfo = action.payload;
+      })
+      .addCase(getBasicInfoThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+      //UpdateBasicInfoThunk
+      .addCase(UpdateBasicInfoThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(UpdateBasicInfoThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.UpdateBasicInfo = action.payload;
+      })
+      .addCase(UpdateBasicInfoThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+      
 
 
 

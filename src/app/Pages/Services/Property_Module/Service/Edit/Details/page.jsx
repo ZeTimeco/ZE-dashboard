@@ -13,21 +13,22 @@ function DetailsPage() {
 
   //api
   const searchParams = useSearchParams();
-const propertyId = searchParams.get('id');
+  const propertyId = searchParams.get('id');
+
   const dispatch = useDispatch()
   const {getDetails} = useSelector((state) => state.services)
+  const getDetailsData = getDetails?.data
 
 
   useEffect(() => {
-  if (propertyId) {
-    dispatch(getAllDetailsThunk(propertyId));
-  }
-}, [dispatch, propertyId]);
+    if (propertyId) {
+      dispatch(getAllDetailsThunk(propertyId));
+    }
+  }, [dispatch, propertyId]);
 
-console.log("propertyId:", propertyId);
-console.log(getDetails);
+  console.log("propertyId:", propertyId);
+  console.log(getDetails);
 
-const getDetailsData = getDetails?.data
 
   const status = getDetailsData?.activity_status
   const StatusRender = (status) => {
@@ -50,6 +51,8 @@ const getDetailsData = getDetails?.data
         );  
     }
   }; 
+
+  
   return (
     <>
       <div className='mb-6 w-full flex gap-8  border border-[#CDD5DF] rounded-[3px] p-3'>
