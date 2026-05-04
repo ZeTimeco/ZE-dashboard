@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function InformationPage() {
+function InformationPage({formData, setFormData}) {
   const {t} = useTranslation();
 
   /* Property area */
@@ -10,10 +10,7 @@ function InformationPage() {
     { label: t('SQM'), value: "sqm" },
     { label: t('SQFT'), value: "sqft " },
   ];
-  const [selected, setSelected] = useState(options[0]);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("120");
-  const [hasElevator, setHasElevator] = useState("yes");
+  const selected = options.find(opt => opt.value === formData?.area_unit) || options[0];  const [open, setOpen] = useState(false);
   const [isGroundFloor, setIsGroundFloor] = useState(false);
   const dropdownRef1 = useRef(null);
   useEffect(() => {
@@ -23,6 +20,7 @@ function InformationPage() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
   return (
     <>
       <div>
@@ -49,8 +47,8 @@ function InformationPage() {
                 {/* Input */}
                 <input
                   type="number"
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
+                  value={formData?.area}
+                  onChange={(e) => setFormData({...formData, area: e.target.value})}
                   className="w-[70%] px-3 py-2 h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-r-[3px] outline-none"
                 />  
                 {/* Dropdown */}
@@ -76,8 +74,8 @@ function InformationPage() {
                         <li
                           key={item.value}
                           onClick={() => {
-                            setSelected(item);
                             setOpen(false);
+                            setFormData({...formData, area_unit: item.value})
                           }}
                           className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                         >
@@ -95,23 +93,38 @@ function InformationPage() {
             {/* Floor number */}
             <div className='flex flex-col gap-1.5'>
               <div className='flex justify-between'>
-                <label className='text-[#4B5565] text-sm font-medium '>{t('Floor number')} </label>
+                <label className='text-[#4B5565] text-sm font-medium '>
+                  {t('Floor number')}
+                </label>
+
                 <label className='flex gap-2 items-center cursor-pointer'>
                   <input 
                     type="checkbox"
-                    checked={isGroundFloor}
-                    onChange={(e) => setIsGroundFloor(e.target.checked)}
-                    className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"  
+                    checked={formData?.floor_number == 0}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setFormData({ ...formData, floor_number: 0 });
+                      } else {
+                        setFormData({ ...formData, floor_number: "" });
+                      }
+                    }}
+                    className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
                   />
-                  <p className='text-[#4B5565] text-sm font-normal select-none'>{t('ground floor')}</p>
+                  <p className='text-[#4B5565] text-sm font-normal select-none'>
+                    {t('ground floor')}
+                  </p>
                 </label>
-              
               </div>
+
               <input 
                 type="text" 
-                disabled={isGroundFloor}
+                value={formData?.floor_number}
+                onChange={(e) =>
+                  setFormData({ ...formData, floor_number: e.target.value })
+                }
+                disabled={formData?.floor_number == 0}
                 placeholder={t('Floor number')}
-                className="w-full  px-3 py-2 h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed"
+                className="w-full px-3 py-2 h-14 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed"
               />
             </div>
 
@@ -123,9 +136,8 @@ function InformationPage() {
                   <input 
                     type="radio" 
                     name="elevator"
-                    checked={hasElevator === 'yes'}
-                    onChange={(e) => setHasElevator('yes')}
-                    className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+                    checked={formData?.has_elevator == 1}
+                    onChange={() => setFormData({...formData, has_elevator: 1})}                    className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
                   />
                   <p className='text-[#697586] text-sm select-none'>{t('yes')}</p>
                 </label>
@@ -133,9 +145,8 @@ function InformationPage() {
                   <input 
                     type="radio" 
                     name="elevator"
-                    checked={hasElevator === 'no'}
-                    onChange={(e) => setHasElevator('no')}
-                    className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+                    checked={formData?.has_elevator == 0}
+                    onChange={() => setFormData({...formData, has_elevator: 0})}                    className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
                   />
                   <p className='text-[#697586] text-sm select-none'>{t('no')}</p>
                 </label>

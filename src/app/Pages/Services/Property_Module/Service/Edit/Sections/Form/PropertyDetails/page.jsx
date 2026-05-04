@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense } from 'react'
+import React, { Suspense, use, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import InformationPage from './Information/page';
 import Arrival_DeparturePage from './Arrival_Departure/page';
@@ -8,6 +8,8 @@ import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/app/Components/Loader/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPropertyDetailsThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function PropertyDetailsPageContent() {
   const {t} = useTranslation();
@@ -16,6 +18,66 @@ function PropertyDetailsPageContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
+  const dispatch = useDispatch()
+  const {getPropertyDetails} = useSelector((state) => state.services)
+  console.log(getPropertyDetails?.data);
+  const getPropertyDetailsData = getPropertyDetails?.data
+  const [formData, setFormData] =useState({
+    property_id: "",
+    area: "",
+    area_unit: "",
+    floor_number: "",
+    has_elevator: "",
+    check_in_time: "",
+    check_out_time: "",
+    availabilities: [
+      {
+        id: "",
+        available_from: "",
+        available_to: "",
+        created_at: "",
+        updated_at: ""
+      }
+    ]
+  })
+  
+  useEffect(()=>{
+    if(id){
+      setFormData((prev) => ({
+        ...prev,
+        property_id:id
+      }))
+    }
+  }, [id])
+
+  useEffect(() => {
+  if (id) {
+    dispatch(getPropertyDetailsThunk(id))
+  }
+}, [id])
+
+  useEffect(()=>{
+    if(getPropertyDetailsData){
+      setFormData((prev) => ({
+        ...prev,
+        area: getPropertyDetailsData?.area || "",
+        area_unit: getPropertyDetailsData?.area_unit || "",
+        floor_number: getPropertyDetailsData?.floor_number || "",
+        has_elevator: getPropertyDetailsData?.has_elevator || "",
+        check_in_time: getPropertyDetailsData?.check_in_time || "",
+        check_out_time: getPropertyDetailsData?.check_out_time || "",
+        availabilities: getPropertyDetailsData?.availabilities || [
+          {
+            id: "",
+            available_from: "",
+            available_to: "",
+            created_at: "", 
+            updated_at: ""
+          }
+        ]
+      }))
+    }
+  },[getPropertyDetailsData])
 
   return (
     <MainLayout>
@@ -32,19 +94,19 @@ function PropertyDetailsPageContent() {
         </div>
         
         {/* Property Information */}
-        <InformationPage/>
+        <InformationPage  formData={formData} setFormData={setFormData} />
 
         {/* Arrival and departure times */}
-        <Arrival_DeparturePage/>
+        <Arrival_DeparturePage  formData={formData} setFormData={setFormData} />
 
         {/* Service provider available to receive guests */}
-        <Receive_GuestsPage/>
+        <Receive_GuestsPage  formData={formData} setFormData={setFormData} />
 
 
 
 
 
-    {/* btn */}
+        {/* btn */}
         <div className="flex  mt-6">
           
           <div className='flex gap-2 justify-start w-full '>

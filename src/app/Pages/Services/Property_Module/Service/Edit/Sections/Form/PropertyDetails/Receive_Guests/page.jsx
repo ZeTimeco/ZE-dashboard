@@ -5,7 +5,7 @@ import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-function Receive_GuestsPage() {
+function Receive_GuestsPage({formData, setFormData}) {
   const {t} = useTranslation()
   const [startTime, setStartTime] = useState(null);
   const [leaveTime, setLeaveTime] = useState(null);
@@ -13,15 +13,27 @@ function Receive_GuestsPage() {
 
   const handleAddPeriod = () => {
     if (startTime && leaveTime) {
-      setPeriods([...periods, { start: startTime, end: leaveTime }]);
+      setFormData({
+        ...formData,
+        availabilities: [
+          ...(formData?.availabilities || []),
+          {
+            available_from: startTime ? startTime.format("HH:mm:ss") : "",
+            available_to: leaveTime ? leaveTime.format("HH:mm:ss") : ""
+          }
+        ]
+      });      
       setStartTime(null);
       setLeaveTime(null);
     }
   };
 
   const handleRemovePeriod = (indexToRemove) => {
-    setPeriods(periods.filter((_, index) => index !== indexToRemove));
-  };
+  setFormData({
+    ...formData,
+    availabilities: formData.availabilities.filter((_, index) => index !== indexToRemove)
+  });
+};
 
   const formatTime = (timeObj) => {
     if (!timeObj) return '';
@@ -173,16 +185,19 @@ function Receive_GuestsPage() {
         </button>
 
         <div>
-            {periods.length > 0 && (
+            {(formData?.availabilities?.length > 0) && (
               <>
                 <p className='text-[#364152] text-base font-medium mb-3'>{t('Added periods')}</p>
                 <div className='grid grid-cols-2 gap-4'>
-                  {periods.map((period, index) => (
+                  
+                  {(formData?.availabilities || []).map((period, index) => (
                     <div key={index} className='flex border border-[#CDD5DF]  rounded-[3px] py-4 px-3 w-full '>
                       <div className='flex gap-2 w-full'>
                         <img src="/images/icons/clock-yellow.svg" alt="" />
                         <p className='text-[#364152] text-base font-normal'>
-                          {formatTime(period.start)} - {formatTime(period.end)}
+                          {formatTime(dayjs(period.available_from, "HH:mm"))}
+                          -
+                          {formatTime(dayjs(period.available_to, "HH:mm"))}                        
                         </p>
                       </div>
                       <button 
