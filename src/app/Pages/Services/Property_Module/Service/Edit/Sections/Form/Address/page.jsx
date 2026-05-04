@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, use, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -8,18 +8,81 @@ import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/app/Components/Loader/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLocationThunk, getLocationThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function AddressPageContent() {
     const {t} = useTranslation();
+    const router = useRouter()
+
+    //api
+    const dispatch = useDispatch()
+    const { getLocation } = useSelector((state) => state.services)
+    const getLocationData = getLocation?.data
+
+    const searchParams = useSearchParams()
+    const id = searchParams.get('id')
+
+    const [formData , setFormData] = useState({
+      property_id:'',
+      country:'',
+      city:'',
+      area:'',
+      address:'',
+      latitude:'',
+      longitude:'',
+      is_visible:true
+    })
+
+    console.log(id);
+
+    useEffect(()=>{
+      if(id){
+        setFormData((prev) => ({
+          ...prev,
+          property_id:id
+        }))
+      }
+    }, [id])
+
+    useEffect(()=>{
+      if(id){
+        dispatch(getLocationThunk(id))
+      }
+    }, [id])
+
+    useEffect(()=>{
+      if(getLocationData){
+        setFormData((prev)=>({
+          ...prev , 
+          country:getLocationData?.country || '',
+          city:getLocationData?.city || '',
+          area:getLocationData?.area || '',
+          address:getLocationData?.address || '',
+          latitude:getLocationData?.latitude || '',
+          longitude:getLocationData?.longitude || '',
+          is_visible: getLocationData?.is_visible ?? true        
+        }))
+      }
+    },[getLocationData])
+
+    console.log(getLocationData);
+
     const [count, setCount] = useState(0);
     const [openMap, setOpenMap] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(t('Click to open the map'));
 
-    const handleMapConfirm = (data) => {
-      if (data.address) {
-        setSelectedAddress(data.address);
-      }
-    };
+const handleMapConfirm = (data) => {
+  setFormData((prev) => ({
+    ...prev,
+    address: data.address || '',
+    latitude: data.lat || '',
+    longitude: data.lng || '',
+  }))
+
+  setSelectedAddress(data.address)
+  setCount(data.address?.length || 0)
+}
 
     const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -72,9 +135,18 @@ function AddressPageContent() {
     {id:3 , title:t('A pin should be placed at the building entrance.')},
     ]
 
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id')
+
+  const handleSave = async () => {
+    try {
+      const result = await dispatch(addLocationThunk(formData))
+
+      if (result?.meta?.requestStatus === "fulfilled") {
+        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <MainLayout>
@@ -98,7 +170,15 @@ function AddressPageContent() {
           </p>
           <div className="relative w-full">
             <textarea
-              onChange={(e) => setCount(e.target.value.length)}
+              value={formData?.address}
+              onChange={(e) => {
+                setCount(e.target.value.length)
+
+                setFormData((prev) => ({
+                  ...prev,
+                  address: e.target.value
+                }))
+              }}
               placeholder={t("Write a brief description of the property.")}
               maxLength={500}
               className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
@@ -115,7 +195,15 @@ function AddressPageContent() {
         <div className='border border-[#CDD5DF] p-3 rounded-[3px] flex justify-between mt-4'>
           <p className='text-[#4B5565] text-xs font-normal flex items-center '>{t('Show the user the exact and detailed address before booking')}</p>
           <div>
-            <GreenSwitch />
+            <GreenSwitch
+              checked={formData?.is_visible}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  is_visible: e.target.checked
+                }))
+              }
+            />
           </div>
         </div>
 
@@ -162,8 +250,6 @@ function AddressPageContent() {
         </div>
 
 
-
-
         {/* Map Dialog */}
         <MapDialog 
           open={openMap} 
@@ -183,6 +269,7 @@ function AddressPageContent() {
             </button>
 
             <button
+              onClick={handleSave}
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('Save changes')}

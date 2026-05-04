@@ -27,7 +27,6 @@ function BasicInformationPageContent() {
     }
   }, [dispatch, id]);
 
-  console.log(getBasicInfoData);
   const [formData, setFormData] = useState({
     title:'',
     description:'',

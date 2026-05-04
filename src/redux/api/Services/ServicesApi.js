@@ -269,3 +269,11 @@ export const UpdateBasicInfo = async(property_id , formData)=>{
   const response = await API.post(`/properties/${property_id}/updatebasic-info`, formData)
   return response.data
 }
+
+export const getLocation = async(id)=>{
+  const response = await API.get('/properties/get/location', {
+    params: { property_id: id }
+  })
+  return response.data
+}
+

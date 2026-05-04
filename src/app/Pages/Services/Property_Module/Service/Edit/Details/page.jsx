@@ -26,8 +26,7 @@ function DetailsPage() {
     }
   }, [dispatch, propertyId]);
 
-  console.log("propertyId:", propertyId);
-  console.log(getDetails);
+
 
 
   const status = getDetailsData?.activity_status
