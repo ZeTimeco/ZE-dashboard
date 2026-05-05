@@ -11,16 +11,14 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
   const optionBathroomType = getBathRoomTypes?.data;
 
   const optionBathroomLocation = [
-    {id:1 , title:t("inside")},
-    {id:2 , title:t("common")},
-  
+    {id:1 , title:t("inside"), value: "inside"},
+    {id:2 , title:t("common"), value: "common"},
   ];
 
   const optionalBathroomFeatures = [
-    { id: 1, title: t("private") },
-    { id: 2, title: t("public") },
-  
-];
+    { id: 1, title: t("private"), value: "private" },
+    { id: 2, title: t("public"), value: "public" },
+  ];
 
 
   const fileInputRef = useRef(null);
@@ -117,6 +115,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
                     onClick={() =>
                       onUpdate({
                         selected1: opt?.name,
+                        bathroom_type_id: opt?.id,
                         searchValue1: '',
                         open1: false
                       })
@@ -245,6 +244,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
                     onClick={() =>
                       onUpdate({
                         selected2: opt?.title,
+                        location_value: opt?.value,
                         searchValue2: '',
                         open2: false
                       })
@@ -270,7 +270,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
             <input
               type="radio"
               checked={bathroom.selectedFeature === item.id}
-              onChange={() => onUpdate({ selectedFeature: item.id })}
+              onChange={() => onUpdate({ selectedFeature: item.id, access_type: item.value })}
               className="w-5 h-5 appearance-none border-2 border-gray-300 rounded-full cursor-pointer   checked:border-[var(--color-primary)] checked:bg-[var(--color-primary)]  relative  after:content-[''] after:absolute after:inset-1 after:rounded-full  checked:after:bg-white"
             />
             <p className='text-[#4B5565] text-sm font-normal'>

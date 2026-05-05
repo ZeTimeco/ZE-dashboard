@@ -38,11 +38,11 @@ function Arrival_DeparturePage({formData, setFormData}) {
                   adapterLocale="ar"
                 >
                   <MobileTimePicker
-                    value={formData?.check_in_time ? dayjs(formData.check_in_time, "HH:mm:ss") : null}
+                    value={formData?.check_in_time ? dayjs(formData.check_in_time, "HH:mm") : null}
                     onChange={(newValue) => {
                       setFormData({
                         ...formData,
-                        check_in_time: newValue ? dayjs(newValue).format("HH:mm:ss") : ""
+                        check_in_time: newValue ? dayjs(newValue).format("HH:mm") : ""
                       })
                     }}
                     ampm={true}
@@ -102,11 +102,11 @@ function Arrival_DeparturePage({formData, setFormData}) {
                   adapterLocale="ar"
                 >
                   <MobileTimePicker
-                    value={formData?.check_out_time ? dayjs(formData.check_out_time, "HH:mm:ss") : null}
+                    value={formData?.check_out_time ? dayjs(formData.check_out_time, "HH:mm") : null}
                     onChange={(newValue) => {
                       setFormData({
                         ...formData,
-                        check_out_time: newValue ? dayjs(newValue).format("HH:mm:ss") : ""
+                        check_out_time: newValue ? dayjs(newValue).format("HH:mm") : ""
                       })
                     }}
                     ampm={true}

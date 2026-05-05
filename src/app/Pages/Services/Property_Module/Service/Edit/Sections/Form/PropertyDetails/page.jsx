@@ -9,7 +9,7 @@ import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/app/Components/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPropertyDetailsThunk } from '@/redux/slice/Services/ServicesSlice';
+import { getPropertyDetailsThunk, addPropertyDetailsThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function PropertyDetailsPageContent() {
   const {t} = useTranslation();
@@ -51,10 +51,29 @@ function PropertyDetailsPageContent() {
   }, [id])
 
   useEffect(() => {
-  if (id) {
-    dispatch(getPropertyDetailsThunk(id))
+    if (id) {
+      dispatch(getPropertyDetailsThunk(id))
+    }
+  }, [id])
+
+  const handleSubmit = async () => {
+    try {
+      const payload = {
+        ...formData,
+        check_in_time: formData.check_in_time ? formData.check_in_time.substring(0, 5) : "",
+        check_out_time: formData.check_out_time ? formData.check_out_time.substring(0, 5) : "",
+        availabilities: (formData.availabilities || []).map(a => ({
+          ...a,
+          available_from: a.available_from ? a.available_from.substring(0, 5) : "",
+          available_to: a.available_to ? a.available_to.substring(0, 5) : "",
+        })),
+      };
+      await dispatch(addPropertyDetailsThunk(payload)).unwrap();
+      router.push(`/Pages/Services/Property_Module/Service/Edit/Sections?id=${id}`);
+    } catch (error) {
+      console.error('Error saving property details:', error);
+    }
   }
-}, [id])
 
   useEffect(()=>{
     if(getPropertyDetailsData){
@@ -118,6 +137,7 @@ function PropertyDetailsPageContent() {
             </button>
 
             <button
+              onClick={handleSubmit}
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('Save changes')}

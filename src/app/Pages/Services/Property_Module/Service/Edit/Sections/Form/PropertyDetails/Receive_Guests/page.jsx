@@ -18,8 +18,8 @@ function Receive_GuestsPage({formData, setFormData}) {
         availabilities: [
           ...(formData?.availabilities || []),
           {
-            available_from: startTime ? startTime.format("HH:mm:ss") : "",
-            available_to: leaveTime ? leaveTime.format("HH:mm:ss") : ""
+            available_from: startTime ? startTime.format("HH:mm") : "",
+            available_to: leaveTime ? leaveTime.format("HH:mm") : ""
           }
         ]
       });      

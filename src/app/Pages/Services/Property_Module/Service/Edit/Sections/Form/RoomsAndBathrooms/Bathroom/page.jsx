@@ -1,96 +1,65 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import BathroomCard from './BathroomCard'
 import { getBathRoomTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-function createBathroom() {
-  return {
-    id: Date.now() + Math.random(),
-    open1: false,
-    selected1: null,
-    searchValue1: '',
-    open2: false,
-    selected2: null,
-    searchValue2: '',
-    images: [],
-    previewImages: [],
-    selectedFeature: null  
-  };
-}
-
-function BathroomPage() {
+function BathroomPage({ bathrooms, updateBathroom, deleteBathroom, addBathroom }) {
   const { t } = useTranslation();
 
-  //api
   const dispatch = useDispatch()
-  const {getBathRoomTypes } = useSelector((state)=>state.services)
-  useEffect(()=>{
+  const { getBathRoomTypes } = useSelector((state) => state.services)
+
+  useEffect(() => {
     dispatch(getBathRoomTypesThunk())
-  },[dispatch])
-
-
-
-
-  const [bathrooms, setBathrooms] = useState([]);
-
-  const addBathroom = () => {
-    setBathrooms((prev) => [...prev, createBathroom()]);
-  };
-
-  const deleteBathroom = (id) => {
-    setBathrooms((prev) => prev.filter((b) => b.id !== id));
-  };
-
-  const updateBathroom = (id, changes) => {
-    setBathrooms((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, ...changes } : b))
-    );
-  };
-
-  // allow add only if last bathroom is filled
-  const lastBathroomFilled =
-    bathrooms.length === 0 ||
-    bathrooms[bathrooms.length - 1].selected1 !== null;
+  }, [dispatch])
 
   return (
     <>
-      <div className='mt-10'>
-        <p className='flex gap-1'>
-          <img src="/images/icons/bathtub-blue.svg" alt="" />
-          <span className='text-[#364152] text-base font-medium'>{t('Bathroom information')}</span>
-        </p>
-        <p className='text-[#4B5565] text-sm font-normal mt-1'>{t('Add details of each bathroom and its type.')}</p>
+      {bathrooms.map((bathroom, index) => (
+        <div key={bathroom.id} className='border border-[#CDD5DF] rounded-[3px] mt-4'>
+          {/* Card accordion header */}
+          <button
+            type="button"
+            onClick={() => updateBathroom(bathroom.id, { isOpen: !bathroom.isOpen })}
+            className='w-full flex items-center justify-between px-4 py-3 bg-[#F8FAFC] cursor-pointer'
+          >
+            <div className='flex items-center gap-2'>
+              <img src="/images/icons/bathtub-blue.svg" className="w-5 h-5" alt="" />
+              <span className='text-[#364152] text-sm font-medium'>
+                {bathroom.selected1 || `${t('Bathroom')} ${index + 1}`}
+              </span>
+            </div>
+            <img
+              src="/images/icons/ArrowDown.svg"
+              className={`w-4 h-4 transition-transform duration-200 ${bathroom.isOpen ? 'rotate-180' : ''}`}
+              alt=""
+            />
+          </button>
+          {/* Card content */}
+          {bathroom.isOpen && (
+            <div className='p-4'>
+              <BathroomCard
+                bathroom={bathroom}
+                onUpdate={(changes) => updateBathroom(bathroom.id, changes)}
+                onDelete={() => deleteBathroom(bathroom.id)}
+                getBathRoomTypes={getBathRoomTypes}
+              />
+            </div>
+          )}
+        </div>
+      ))}
 
-
-
-        {/* Bathrooms list */}
-        {bathrooms.map((bathroom) => (
-          <BathroomCard
-            key={bathroom.id}
-            bathroom={bathroom}
-            onUpdate={(changes) => updateBathroom(bathroom.id, changes)}
-            onDelete={() => deleteBathroom(bathroom.id)}
-            getBathRoomTypes={getBathRoomTypes}
-          />
-        ))}
-
-        {/* Add bathroom button */}
-        <button
-          onClick={lastBathroomFilled ? addBathroom : undefined}
-          className={`flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-6 rounded-[3px] ${
-            lastBathroomFilled
-              ? 'cursor-pointer'
-              : 'cursor-not-allowed opacity-50'
-          }`}
-        >
-          <p className='text-[#697586] text-base font-medium'>
-            {t('Add bathroom')}
-          </p>
-          <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />
-        </button>
-      </div>
+      {/* Add bathroom button */}
+      <button
+        type="button"
+        onClick={addBathroom}
+        className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-[3px] cursor-pointer'
+      >
+        <p className='text-[#697586] text-base font-medium'>{t('Add bathroom')}</p>
+        <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />
+      </button>
     </>
   );
 }

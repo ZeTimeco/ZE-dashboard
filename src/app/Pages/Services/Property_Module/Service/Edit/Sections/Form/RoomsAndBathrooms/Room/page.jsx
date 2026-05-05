@@ -1,86 +1,69 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import RoomCard from './RoomCard'
 import { useDispatch, useSelector } from 'react-redux';
 import { getBedTypesThunk, getRoomAmentyThunk, getRoomTypesThunk } from '@/redux/slice/Services/ServicesSlice';
 
-function createRoom() {
-  return {
-    id: Date.now() + Math.random(),
-    open1: false,
-    selected1: null,
-    searchValue1: '',
-    images: [],
-    previewImages: [],
-    beds: [],
-    features: [],
-  };
-}
-
-function RoomPage() {
+function RoomPage({ rooms, updateRoom, deleteRoom, addRoom }) {
   const { t } = useTranslation();
 
-  //api
   const dispatch = useDispatch()
-  const {getRoomTypes , getBedTypes , getRoomAmenty} = useSelector((state)=>state.services)
-  useEffect(()=>{
+  const { getRoomTypes, getBedTypes, getRoomAmenty } = useSelector((state) => state.services)
+
+  useEffect(() => {
     dispatch(getRoomTypesThunk())
     dispatch(getBedTypesThunk())
     dispatch(getRoomAmentyThunk())
-  },[dispatch])
-
-
-  const [rooms, setRooms] = useState([]);
-
-  const addRoom = () => {
-    setRooms((prev) => [...prev, createRoom()]);
-  };
-
-  const deleteRoom = (id) => {
-    setRooms((prev) => prev.filter((r) => r.id !== id));
-  };
-
-  const updateRoom = (id, changes) => {
-    setRooms((prev) => prev.map((r) => (r.id === id ? { ...r, ...changes } : r)));
-  };
-
-  // "Add a room" is clickable only if the last room has a selected type (or no rooms yet)
-  const lastRoomFilled = rooms.length === 0 || rooms[rooms.length - 1].selected1 !== null;
+  }, [dispatch])
 
   return (
     <>
-      <div className='mt-10'>
-        <p className='flex gap-1'>
-          <img src="/images/icons/bed-single-blue.svg" alt="" />
-          <span className='text-[#364152] text-base font-medium'>{t('Room Information')}</span>
-        </p>
-        <p className='text-[#4B5565] text-sm font-normal mt-1'>{t('Add details of each room and the beds in it.')}</p>
+      {rooms.map((room, index) => (
+        <div key={room.id} className='border border-[#CDD5DF] rounded-[3px] mt-4'>
+          {/* Card accordion header */}
+          <button
+            type="button"
+            onClick={() => updateRoom(room.id, { isOpen: !room.isOpen })}
+            className='w-full flex items-center justify-between px-4 py-3 bg-[#F8FAFC] cursor-pointer'
+          >
+            <div className='flex items-center gap-2'>
+              <img src="/images/icons/bed-single-blue.svg" className="w-5 h-5" alt="" />
+              <span className='text-[#364152] text-sm font-medium'>
+                {room.selected1 || `${t('Room')} ${index + 1}`}
+              </span>
+            </div>
+            <img
+              src="/images/icons/ArrowDown.svg"
+              className={`w-4 h-4 transition-transform duration-200 ${room.isOpen ? 'rotate-180' : ''}`}
+              alt=""
+            />
+          </button>
+          {/* Card content */}
+          {room.isOpen && (
+            <div className='p-4'>
+              <RoomCard
+                room={room}
+                onUpdate={(changes) => updateRoom(room.id, changes)}
+                onDelete={() => deleteRoom(room.id)}
+                getRoomTypes={getRoomTypes}
+                getBedTypes={getBedTypes}
+                getRoomAmenty={getRoomAmenty}
+              />
+            </div>
+          )}
+        </div>
+      ))}
 
-        {/* Rooms list */}
-        {rooms.map((room) => (
-          <RoomCard
-            key={room.id}
-            room={room}
-            onUpdate={(changes) => updateRoom(room.id, changes)}
-            onDelete={() => deleteRoom(room.id)}
-            getRoomTypes={getRoomTypes}
-            getBedTypes={getBedTypes}
-            getRoomAmenty={getRoomAmenty}
-          />
-        ))}
-
-        {/* Add a room button */}
-        <button
-          onClick={lastRoomFilled ? addRoom : undefined}
-          className={`flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-6 rounded-[3px] ${
-            lastRoomFilled ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
-          }`}
-        >
-          <p className='text-[#697586] text-base font-medium'>{t('Add a room')}</p>
-          <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />
-        </button>
-      </div>
+      {/* Add room button */}
+      <button
+        type="button"
+        onClick={addRoom}
+        className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-[3px] cursor-pointer'
+      >
+        <p className='text-[#697586] text-base font-medium'>{t('Add a room')}</p>
+        <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />
+      </button>
     </>
   );
 }

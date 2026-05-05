@@ -61,6 +61,7 @@ function FacilitiesPageContent() {
 
     try {
       await dispatch(addAmenitiesThunk(formData));
+      router.push(`/Pages/Services/Property_Module/Service/Edit/Sections?id=${id}`);
       console.log("Saved successfully");
     } catch (error) {
       console.log(error);
