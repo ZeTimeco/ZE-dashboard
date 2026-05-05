@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import PricingInfoPage from './PricingInfo/page';
 import CancellationPolicyPage from './CancellationPolicy/page';
@@ -7,6 +7,9 @@ import PricingDetailsPage from './PricingDetails/page';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPoliciesApprovedThunk, getPricingPoliciesThunk, addPricingPoliciesThunk } from '@/redux/slice/Services/ServicesSlice';
+
 
 function PricingPageContent() {
   const {t} = useTranslation();
@@ -14,6 +17,59 @@ function PricingPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
+
+    const dispatch = useDispatch();
+    const {getPricingPolicies , getPoliciesApproved} = useSelector((state) => state.services);
+
+    const [formData, setFormData] = useState({
+      "property_id": '',
+      "base_price": "",
+      "cleaning_fee": "",
+      "security_deposit": "",
+      "tax_percentage": "",
+      "service_fee_percentage": "",
+      "provider_profit": '',
+      "service_fee_amount": '',
+      "tax_amount": '',
+      "total_amount": '',
+      "cancellation_policy_id": '',
+      "platform_profit": '',
+    })
+
+    useEffect(()=>{
+      if(getPricingPolicies){
+        setFormData({
+          property_id: id,
+          base_price: getPricingPolicies.base_price,
+          cleaning_fee: getPricingPolicies.cleaning_fee,
+          security_deposit: getPricingPolicies.security_deposit,
+          tax_percentage: getPricingPolicies.tax_percentage,
+          service_fee_percentage: getPricingPolicies.service_fee_percentage,
+          provider_profit: getPricingPolicies.provider_profit,
+          service_fee_amount: getPricingPolicies.service_fee_amount,
+          tax_amount: getPricingPolicies.tax_amount,
+          total_amount: getPricingPolicies.total_amount,
+          cancellation_policy_id: getPricingPolicies.cancellation_policy_id,
+          platform_profit: getPricingPolicies.platform_profit,
+        })
+      }
+    },[getPricingPolicies])
+
+    useEffect(() => {
+      if (id) {
+        dispatch(getPoliciesApprovedThunk(id));
+        dispatch(getPricingPoliciesThunk(id));
+      }
+    }, [id])
+
+    const handleSubmit = async () => {
+      try {
+        await dispatch(addPricingPoliciesThunk({ property_id: id, formData })).unwrap();
+        router.push(`/Pages/Services/Property_Module/Service/Edit/Sections?id=${id}`);
+      } catch (error) {
+        console.error('Error saving pricing policies:', error);
+      }
+    }
 
   return (
     <MainLayout>
@@ -28,9 +84,9 @@ function PricingPageContent() {
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
 
-          <PricingInfoPage/>
-          <CancellationPolicyPage/>
-          <PricingDetailsPage/>
+          <PricingInfoPage formData={formData} setFormData={setFormData} />
+          <CancellationPolicyPage formData={formData} setFormData={setFormData} getPoliciesApproved={getPoliciesApproved} />
+          <PricingDetailsPage formData={formData} setFormData={setFormData} />
 
       {/* btn */}
         <div className="flex  mt-6">
@@ -44,6 +100,7 @@ function PricingPageContent() {
             </button>
 
             <button
+              onClick={handleSubmit}
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('Save changes')}

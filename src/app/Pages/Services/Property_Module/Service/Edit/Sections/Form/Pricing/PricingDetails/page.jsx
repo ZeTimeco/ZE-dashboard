@@ -2,8 +2,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PricingDetailsPage() {
+function PricingDetailsPage({ formData, setFormData }) {
   const {t} = useTranslation()
+  const basePrice = parseFloat(formData?.base_price) || 0;
+  const cleaningFee = parseFloat(formData?.cleaning_fee) || 0;
+  const nights = 1;
+
+  const subTotal = basePrice + cleaningFee;
+  const serviceFee =(subTotal * formData?.service_fee_percentage ||0) / 100;
+  const taxAmount = (subTotal * formData?.tax_percentage ||0) / 100;
+  const totalAmount = subTotal + serviceFee + taxAmount;
+
   return (
     <>
       <div className='border border-[#E3E8EF] bg-[#F8FAFC] mt-6 p-4'>
@@ -13,10 +22,10 @@ function PricingDetailsPage() {
         <div className='flex justify-between mt-4'>
           <p className='text-[#4B5565] text-base  font-normal'>
             <span>{t('Basic price')}</span>{' '}
-            <span>(3 {t('nights')} )</span>
+            <span>({nights} {t('nights')} )</span>
           </p>
           <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+            <span>{basePrice}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -27,7 +36,7 @@ function PricingDetailsPage() {
             <span>{t('Cleaning fees')}</span>
           </p>
           <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+            <span>{cleaningFee}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -38,7 +47,7 @@ function PricingDetailsPage() {
             <span>{t('Service fees')}</span>
           </p>
           <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+            <span>{serviceFee}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -50,7 +59,7 @@ function PricingDetailsPage() {
             <span>(3%)</span>
           </p>
           <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+            <span>{taxAmount}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -64,7 +73,7 @@ function PricingDetailsPage() {
             <span>({t('The guest pays')})</span>
           </p>
           <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+            <span>{totalAmount}</span>
             <span>جنية</span>
           </p>
         </div>
@@ -75,7 +84,7 @@ function PricingDetailsPage() {
             <span>{t('Gain')}</span>
           </p>
           <p className='text-[#364152] text-base font-medium'>
-            <span>5666</span>
+            <span>{subTotal}</span>
             <span>جنية</span>
           </p>
         </div>

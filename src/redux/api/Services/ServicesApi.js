@@ -296,4 +296,3 @@ export const getAmenities = async(id)=>{
   return response.data
 }
 
-
