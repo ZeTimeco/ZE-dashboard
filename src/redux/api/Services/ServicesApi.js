@@ -288,3 +288,12 @@ export const getPropertyDetails = async(id)=>{
   const response = await API.get(`/properties/${id}/details`)
   return response.data
 }
+
+export const getAmenities = async(id)=>{
+  const response = await API.get(`/properties/amenities/show`, {
+    params: { property_id: id }
+  })
+  return response.data
+}
+
+

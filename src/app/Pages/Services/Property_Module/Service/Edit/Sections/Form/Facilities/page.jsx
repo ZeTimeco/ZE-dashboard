@@ -1,11 +1,11 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React, { Suspense, useEffect } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPropertiesAmenitiesThunk } from '@/redux/slice/Services/ServicesSlice';
+import { addAmenitiesThunk, getAmenitiesThunk, getPropertiesAmenitiesThunk } from '@/redux/slice/Services/ServicesSlice';
 import { IMAGE_BASE_URL } from '../../../../../../../../../../config/imageUrl';
 import Loader from '@/app/Components/Loader/Loader';
 
@@ -15,17 +15,57 @@ function FacilitiesPageContent() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
 
-    //api
-    const dispatch = useDispatch()
-    const {getPropertiesAmenities } = useSelector((state)=>state.services)
-    useEffect(() => {
-      if (id) {
-        dispatch(getPropertiesAmenitiesThunk(id));
-      }
-    }, [dispatch, id]); 
+  //api
+  const dispatch = useDispatch()
+  const {getPropertiesAmenities ,getAmenities } = useSelector((state)=>state.services)
+  useEffect(() => {
+    if (id) {
+      dispatch(getPropertiesAmenitiesThunk(id));
+      dispatch(getAmenitiesThunk());
+    }
+  }, [dispatch, id]); 
   
-    console.log(getPropertiesAmenities);
+  const [selectedAmenities, setSelectedAmenities] = useState([]);
+  useEffect(() => {
+    if (getPropertiesAmenities?.data) {
+      const selected = [];
 
+      getPropertiesAmenities.data.forEach(category => {
+        category.amenities.forEach(am => {
+          if (am.selected) { // حسب API عندك
+            selected.push(am.id);
+          }
+        });
+      });
+
+      setSelectedAmenities(selected);
+    }
+  }, [getPropertiesAmenities]);
+
+  const handleToggleAmenity = (id) => {
+    setSelectedAmenities(prev => 
+      prev.includes(id)
+        ? prev.filter(item => item !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleSave = async () => {
+    const formData = new FormData();
+
+    formData.append("property_id", id);
+
+    selectedAmenities.forEach((amenityId) => {
+      formData.append("amenities[]", amenityId);
+    });
+
+    try {
+      await dispatch(addAmenitiesThunk(formData));
+      console.log("Saved successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <MainLayout>
@@ -60,7 +100,9 @@ function FacilitiesPageContent() {
                   <div>
                     <input 
                       type="checkbox"
-                      className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"  
+                      checked={selectedAmenities.includes(amenity?.id)}
+                      onChange={() => handleToggleAmenity(amenity?.id)}
+                      className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
                     />
                   </div>
                 </div>
@@ -83,6 +125,7 @@ function FacilitiesPageContent() {
             </button>
 
             <button
+              onClick={handleSave}
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('Save changes')}

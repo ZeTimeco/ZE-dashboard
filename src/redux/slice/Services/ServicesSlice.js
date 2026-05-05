@@ -569,6 +569,19 @@ export const getPropertyDetailsThunk = createAsyncThunk('services/getPropertyDet
   }
 )
 
+export const getAmenitiesThunk = createAsyncThunk('services/getAmenitiesThunk',
+  async(property_id, {rejectWithValue})=>{
+    try{
+      const response = await getAmenities(property_id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
+
 
 
 
@@ -627,6 +640,7 @@ const initialState = {
     getLocation:null,
     getUnits:null,
     getPropertyDetails:null,
+    getAmenities:null,
   };
 
 const servicesSlice = createSlice({
@@ -1302,6 +1316,19 @@ const servicesSlice = createSlice({
         state.getPropertyDetails = action.payload;
       })
       .addCase(getPropertyDetailsThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+      //getAmenitiesThunk
+      .addCase(getAmenitiesThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(getAmenitiesThunk.fulfilled, (state, action) => {
+        state.loadingDetails = false;
+        state.getAmenities = action.payload;
+      })
+      .addCase(getAmenitiesThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })
