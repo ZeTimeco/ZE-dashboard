@@ -305,3 +305,8 @@ export const deleteBathroom = async(bathroom_id)=>{
   const response = await API.delete(`/bathrooms/${bathroom_id}`)
   return response.data
 } 
+
+export const getMedia = async(id)=>{
+  const response = await API.get(`/properties/media/${id}`)
+  return response.data
+}
