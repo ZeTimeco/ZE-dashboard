@@ -296,3 +296,12 @@ export const getAmenities = async(id)=>{
   return response.data
 }
 
+export const deleteRoom = async(room_id)=>{
+  const response = await API.delete(`/rooms/${room_id}`)
+  return response.data
+}
+
+export const deleteBathroom = async(bathroom_id)=>{
+  const response = await API.delete(`/bathrooms/${bathroom_id}`)
+  return response.data
+} 

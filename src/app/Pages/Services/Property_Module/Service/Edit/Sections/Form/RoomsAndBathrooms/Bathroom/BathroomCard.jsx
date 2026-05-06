@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { IMAGE_BASE_URL } from '../../../../../../../../../../../config/imageUrl';
 
 
 
@@ -42,7 +43,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
   const handleFilesChange = (e) => {
     const files = Array.from(e.target.files);
 
-    if (bathroom.images.length + files.length > MAX_IMAGES) {
+    if (bathroom.photos.length + files.length > MAX_IMAGES) {
       alert(`Maximum number of photos ${MAX_IMAGES}`);
       return;
     }
@@ -50,14 +51,14 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
     const newPreviews = files.map((file) => URL.createObjectURL(file));
 
     onUpdate({
-      images: [...bathroom.images, ...files],
+      photos: [...bathroom.photos, ...files],
       previewImages: [...bathroom.previewImages, ...newPreviews],
     });
   };
 
   const handleDeleteImage = (index) => {
     onUpdate({
-      images: bathroom.images.filter((_, i) => i !== index),
+      photos: bathroom.photos.filter((_, i) => i !== index),
       previewImages: bathroom.previewImages.filter((_, i) => i !== index),
     });
   };
@@ -165,7 +166,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
                   key={idx}
                   className="relative w-36 h-28 border border-[#E5E7EB] rounded-[3px] overflow-hidden"
                 >
-                  <img src={src} className="w-full h-full object-cover" />
+                  <img src={src.startsWith('blob:') ? src : `${IMAGE_BASE_URL}${src}`} className="w-full h-full object-cover" />
 
                   <button
                     onClick={(e) => {

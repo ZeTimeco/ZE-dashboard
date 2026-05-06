@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview, getBasicInfo, UpdateBasicInfo, getLocation, getUnits, getPropertyDetails } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview, getBasicInfo, UpdateBasicInfo, getLocation, getUnits, getPropertyDetails, deleteRoom, deleteBathroom } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -580,6 +580,31 @@ export const getAmenitiesThunk = createAsyncThunk('services/getAmenitiesThunk',
   }
 )
 
+export const deleteRoomThunk = createAsyncThunk('services/deleteRoomThunk',
+  async(room_id, {rejectWithValue})=>{
+    try{
+      const response = await deleteRoom(room_id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const deleteBathroomThunk = createAsyncThunk('services/deleteBathroomThunk',
+  async(bathroom_id, {rejectWithValue})=>{
+    try{
+      const response = await deleteBathroom(bathroom_id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
+
+
 
 
 
@@ -641,6 +666,7 @@ const initialState = {
     getUnits:null,
     getPropertyDetails:null,
     getAmenities:null,
+    deleteRoom:null,
   };
 
 const servicesSlice = createSlice({
@@ -1332,10 +1358,31 @@ const servicesSlice = createSlice({
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })
-      
+      //deleteRoomThunk
+      .addCase(deleteRoomThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(deleteRoomThunk.fulfilled, (state) => {
+        state.loadingDetails = false;
+      })
+      .addCase(deleteRoomThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
 
-
-
+      //deleteBathroomThunk
+      .addCase(deleteBathroomThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(deleteBathroomThunk.fulfilled, (state) => {
+        state.loadingDetails = false;
+      })
+      .addCase(deleteBathroomThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
 
   },
 });
