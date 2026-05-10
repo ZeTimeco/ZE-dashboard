@@ -1,5 +1,5 @@
 "use client"
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import BookingTypePage from './BookingType/page';
 import SpecialPricesPage from './SpecialPrices/page';
@@ -7,12 +7,26 @@ import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import TitleOfHeader from '../../TitleOfHeader';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/app/Components/Loader/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAvailabilitySeasonsThunk } from '@/redux/slice/Services/ServicesSlice';
 
 function AvailabilityPageContent() {
   const {t} = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+
+  const dispatch = useDispatch()
+  const {getAvailabilitySeasons} = useSelector((state)=>state.services)
+
+  useEffect(() => {
+    if(id){
+      dispatch(getAvailabilitySeasonsThunk(id))
+    }
+  }, [dispatch, id])
+
+  console.log(getAvailabilitySeasons);
+
   return (
     <MainLayout>
       <TitleOfHeader/>
@@ -30,8 +44,8 @@ function AvailabilityPageContent() {
 
 
 
-        <BookingTypePage/>
-        <SpecialPricesPage/>
+        <BookingTypePage getAvailabilitySeasons={getAvailabilitySeasons}/>
+        <SpecialPricesPage getAvailabilitySeasons={getAvailabilitySeasons}/>
 
 
       {/* btn */}
@@ -48,7 +62,7 @@ function AvailabilityPageContent() {
             <button
               className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
-              {t('Save changes')}
+              {t('save')}
             </button>
           </div>
           

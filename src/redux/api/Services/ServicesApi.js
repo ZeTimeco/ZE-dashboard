@@ -318,4 +318,8 @@ export const deleteVideo = async(id, type)=>{
   return response.data
 }
 
+export const getAvailabilitySeasons = async(id)=>{
+  const response = await API.get(`/properties/availability-seasons/${id}`)
+  return response.data
+}
 

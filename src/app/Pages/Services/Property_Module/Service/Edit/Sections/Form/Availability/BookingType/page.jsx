@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BookingTypePage() {
+function BookingTypePage({getAvailabilitySeasons}) {
   const {t} = useTranslation()
   const [selectedPolicy, setSelectedPolicy] = useState('')
 
@@ -21,8 +21,10 @@ function BookingTypePage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDates, setSelectedDates] = useState([]);
   const [bannedDates, setBannedDates] = useState([]);
+  const [reservedDates, setReservedDates] = useState([]);
   const [selectAllActive, setSelectAllActive] = useState(false);
   const [banAllActive, setBanAllActive] = useState(false);
+  const [activeMode, setActiveMode] = useState('available'); // 'available', 'forbidden', 'reserved'
   
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -53,12 +55,30 @@ function BookingTypePage() {
     if (!day) return;
     const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     
-    if (bannedDates.includes(dateStr)) {
-      setBannedDates(bannedDates.filter(d => d !== dateStr));
-    } else if (selectedDates.includes(dateStr)) {
-      setSelectedDates(selectedDates.filter(d => d !== dateStr));
-    } else {
-      setSelectedDates([...selectedDates, dateStr]);
+    if (activeMode === 'available') {
+      if (selectedDates.includes(dateStr)) {
+        setSelectedDates(selectedDates.filter(d => d !== dateStr));
+      } else {
+        setSelectedDates([...selectedDates, dateStr]);
+        setBannedDates(bannedDates.filter(d => d !== dateStr));
+        setReservedDates(reservedDates.filter(d => d !== dateStr));
+      }
+    } else if (activeMode === 'forbidden') {
+      if (bannedDates.includes(dateStr)) {
+        setBannedDates(bannedDates.filter(d => d !== dateStr));
+      } else {
+        setBannedDates([...bannedDates, dateStr]);
+        setSelectedDates(selectedDates.filter(d => d !== dateStr));
+        setReservedDates(reservedDates.filter(d => d !== dateStr));
+      }
+    } else if (activeMode === 'reserved') {
+      if (reservedDates.includes(dateStr)) {
+        setReservedDates(reservedDates.filter(d => d !== dateStr));
+      } else {
+        setReservedDates([...reservedDates, dateStr]);
+        setSelectedDates(selectedDates.filter(d => d !== dateStr));
+        setBannedDates(bannedDates.filter(d => d !== dateStr));
+      }
     }
   };
 
@@ -70,6 +90,7 @@ function BookingTypePage() {
     const newSelected = new Set([...selectedDates, ...allDaysInMonth]);
     setSelectedDates(Array.from(newSelected));
     setBannedDates(bannedDates.filter(d => !allDaysInMonth.includes(d)));
+    setReservedDates(reservedDates.filter(d => !allDaysInMonth.includes(d)));
     setSelectAllActive(true);
     setBanAllActive(false);
   };
@@ -81,12 +102,16 @@ function BookingTypePage() {
     const newBanned = new Set([...bannedDates, ...allDaysInMonth]);
     setBannedDates(Array.from(newBanned));
     setSelectedDates(selectedDates.filter(d => !allDaysInMonth.includes(d)));
+    setReservedDates(reservedDates.filter(d => !allDaysInMonth.includes(d)));
     setBanAllActive(true);
     setSelectAllActive(false);
   };
-  function Legend({ color, label }) {
+  function Legend({ color, label, onClick, isActive }) {
   return (
-    <div className={`flex items-center gap-2 border border-[#E3E8EF] px-3 py-2 rounded`}>
+    <div 
+      className={`flex items-center gap-2 border px-3 py-2 rounded cursor-pointer transition-all ${isActive ? 'border-[var(--color-primary)] bg-[#F8FAFC] shadow-sm' : 'border-[#E3E8EF]'}`}
+      onClick={onClick}
+    >
       <span className={`w-4 h-4 ${color} rounded`}></span>
       {label}
     </div>
@@ -197,6 +222,7 @@ function BookingTypePage() {
               const dateStr = day ? `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}` : null;
               const isSelected = dateStr && selectedDates.includes(dateStr);
               const isBanned = dateStr && bannedDates.includes(dateStr);
+              const isReserved = dateStr && reservedDates.includes(dateStr);
               
               return (
                 <div
@@ -204,7 +230,8 @@ function BookingTypePage() {
                   className={`h-10 flex items-center justify-center rounded text-sm transition-colors
                   ${day ? "cursor-pointer hover:bg-gray-100  text-[#364152]" : ""}
                   ${isSelected ? "!bg-[#17B26A] !text-white !border-[#17B26A]" : ""}
-                  ${isBanned ? "!bg-[#F04438] !text-white !border-[#F04438]" : ""}`}
+                  ${isBanned ? "!bg-[#F04438] !text-white !border-[#F04438]" : ""}
+                  ${isReserved ? "!bg-[var(--color-primary)] !text-white !border-[var(--color-primary)]" : ""}`}
                   onClick={() => toggleDateSelection(day)}
                 >
                   {day}
@@ -216,11 +243,23 @@ function BookingTypePage() {
 
         {/* Legend */}
         <div className="flex justify-center gap-6 mt-6 text-sm">
-          <Legend color="bg-[#17B26A]" label={t("Available")} />
-          <Legend color="bg-[#F04438]" label={t("Forbidden")} />
+          <Legend 
+            color="bg-[#17B26A]" 
+            label={t("Available")} 
+            onClick={() => setActiveMode('available')} 
+            isActive={activeMode === 'available'} 
+          />
+          <Legend 
+            color="bg-[#F04438]" 
+            label={t("Forbidden")} 
+            onClick={() => setActiveMode('forbidden')} 
+            isActive={activeMode === 'forbidden'} 
+          />
           <Legend
             color="bg-[var(--color-primary)]"
             label={t("reserved")}
+            onClick={() => setActiveMode('reserved')} 
+            isActive={activeMode === 'reserved'} 
           />
         </div>
         
