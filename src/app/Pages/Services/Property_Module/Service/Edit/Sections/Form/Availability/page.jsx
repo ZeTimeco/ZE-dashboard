@@ -25,7 +25,6 @@ function AvailabilityPageContent() {
     }
   }, [dispatch, id])
 
-  console.log(getAvailabilitySeasons);
 
   return (
     <MainLayout>

@@ -6,10 +6,32 @@ import AddDialog from './AddDialog'
 
 
 
-function SpecialPricesPage() {
+function SpecialPricesPage({ getAvailabilitySeasons }) {
   const {t} = useTranslation()
   
   const [open , setOpen] = useState(false)
+
+  const seasonalPricing = getAvailabilitySeasons?.data?.seasonal_pricing || [];
+
+  const formatDateRange = (startDateStr, endDateStr) => {
+    if (!startDateStr || !endDateStr) return '';
+    const start = new Date(startDateStr);
+    const end = new Date(endDateStr);
+    
+    const months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+    
+    const startDay = start.getDate();
+    const startMonth = months[start.getMonth()];
+    
+    const endDay = end.getDate();
+    const endMonth = months[end.getMonth()];
+    
+    if (start.getMonth() === end.getMonth()) {
+      return `${startDay}-${endDay} ${startMonth}`;
+    } else {
+      return `${startDay} ${startMonth} - ${endDay} ${endMonth}`;
+    }
+  };
 
   return (
     <>
@@ -31,27 +53,26 @@ function SpecialPricesPage() {
 
         <div className='grid grid-cols-2 gap-3 mt-4'>
 
-          <div className='border border-[#E3E8EF] p-4  flex flex-col gap-1 rounded-[3px] '>
-            {/*  */}
-            <div className='flex justify-between'>
-              <p className='text-[#364152] text-base font-medium'>معدل العطلة</p>
-              <button className='cursor-pointer'>
-                <img src="/images/icons/delete_red.svg" alt="" />
-              </button>
+          {seasonalPricing.map((item, index) => (
+            <div key={item.id || index} className='border border-[#E3E8EF] p-4 flex flex-col gap-1 rounded-[3px]'>
+              <div className='flex justify-between'>
+                <p className='text-[#364152] text-base font-medium'>{item.title || 'سعر خاص'}</p>
+                <button className='cursor-pointer'>
+                  <img src="/images/icons/delete_red.svg" alt="delete" />
+                </button>
+              </div>
+
+              <p className='text-[#4B5565] text-base font-normal'>
+                <span dir="rtl">{formatDateRange(item.start_date, item.end_date)} : </span>
+                <span> سعر ثابت</span>
+              </p>
+
+              <p className='text-[var(--color-primary)] text-base font-semibold'>
+                <span>{t('the price')} : </span>
+                <span>{item.price} جنية</span>
+              </p>
             </div>
-
-            {/*  */}
-            <p className='text-[#4B5565] text-base font-normal'>
-              <span>20-21 يناير  :   </span>
-              <span> سعر ثابت</span>
-            </p>
-
-            {/*  */}
-            <p className='text-[var(--color-primary)] text-base font-semibold'>
-              <span>{t('the price')} : </span>
-              <span>120 جنية</span>
-            </p>
-          </div>
+          ))}
 
 
           

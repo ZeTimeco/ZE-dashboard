@@ -1,9 +1,20 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function BookingTypePage({getAvailabilitySeasons}) {
   const {t} = useTranslation()
+  const getAvailabilitySeasonsData = getAvailabilitySeasons?.data
+  console.log(getAvailabilitySeasonsData);
+  useEffect(() => {
+    if (getAvailabilitySeasonsData?.all_avalable === true) {
+      setSelectedPolicy('2');
+    } else if (getAvailabilitySeasonsData?.all_avalable === false) {
+      setSelectedPolicy('1');
+    }
+  }, [getAvailabilitySeasonsData]);
+
+  
   const [selectedPolicy, setSelectedPolicy] = useState('')
 
   const inputClassName = "w-5 h-5 appearance-none border rounded-full  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"  
@@ -26,6 +37,64 @@ function BookingTypePage({getAvailabilitySeasons}) {
   const [banAllActive, setBanAllActive] = useState(false);
   const [activeMode, setActiveMode] = useState('available'); // 'available', 'forbidden', 'reserved'
   
+  // Process API data and distribute dates based on status
+  useEffect(() => {
+    // Helper function to generate all dates between a start and end date
+    const getDatesInRange = (startDate, endDate) => {
+      const dates = [];
+      let current = new Date(startDate);
+      const end = new Date(endDate);
+      
+      // Normalize to midnight to avoid timezone issues when adding days
+      current.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+
+      while (current <= end) {
+        const yyyy = current.getFullYear();
+        const mm = String(current.getMonth() + 1).padStart(2, '0');
+        const dd = String(current.getDate()).padStart(2, '0');
+        
+        dates.push(`${yyyy}-${mm}-${dd}`);
+        current.setDate(current.getDate() + 1); // increment by 1 day
+      }
+      return dates;
+    };
+
+    // Determine the array from API data (could be directly the data or inside an 'availability' property)
+    const availabilityArray = Array.isArray(getAvailabilitySeasonsData) 
+      ? getAvailabilitySeasonsData 
+      : getAvailabilitySeasonsData?.availability || [];
+
+    if (availabilityArray && availabilityArray.length > 0) {
+      const initialSelected = new Set();
+      const initialBanned = new Set();
+      const initialReserved = new Set();
+
+      availabilityArray.forEach(item => {
+        if (!item.start_date || !item.end_date) return;
+        
+        // Generate all dates for the current block
+        const datesInRange = getDatesInRange(item.start_date, item.end_date);
+        
+        // Assign dates to the correct Set based on status
+        datesInRange.forEach(date => {
+          if (item.status === 'available') {
+            initialSelected.add(date);
+          } else if (item.status === 'blocked') {
+            initialBanned.add(date);
+          } else if (item.status === 'reserved') {
+            initialReserved.add(date);
+          }
+        });
+      });
+
+      // Update states with the newly populated arrays
+      setSelectedDates(Array.from(initialSelected));
+      setBannedDates(Array.from(initialBanned));
+      setReservedDates(Array.from(initialReserved));
+    }
+  }, [getAvailabilitySeasonsData]);
+
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -63,7 +132,7 @@ function BookingTypePage({getAvailabilitySeasons}) {
         setBannedDates(bannedDates.filter(d => d !== dateStr));
         setReservedDates(reservedDates.filter(d => d !== dateStr));
       }
-    } else if (activeMode === 'forbidden') {
+    } else if (activeMode === 'blocked') {
       if (bannedDates.includes(dateStr)) {
         setBannedDates(bannedDates.filter(d => d !== dateStr));
       } else {
@@ -117,6 +186,7 @@ function BookingTypePage({getAvailabilitySeasons}) {
     </div>
   );
   }
+
   return (
     <>
       {/* booking type  */}
@@ -140,7 +210,7 @@ function BookingTypePage({getAvailabilitySeasons}) {
                   <input 
                     type="radio"
                     value="1"
-                    checked={selectedPolicy === '1'}
+                    checked={selectedPolicy === '1'}                   
                     onChange={(e) => setSelectedPolicy(e.target.value)}
                     className={inputClassName}  
                   />
@@ -252,8 +322,8 @@ function BookingTypePage({getAvailabilitySeasons}) {
           <Legend 
             color="bg-[#F04438]" 
             label={t("Forbidden")} 
-            onClick={() => setActiveMode('forbidden')} 
-            isActive={activeMode === 'forbidden'} 
+            onClick={() => setActiveMode('blocked')} 
+            isActive={activeMode === 'blocked'} 
           />
           <Legend
             color="bg-[var(--color-primary)]"
@@ -276,7 +346,7 @@ function BookingTypePage({getAvailabilitySeasons}) {
           </div>  
 
           {/* select all  */}
-          <button onClick={handleSelectAll} className={`border rounded-[3px] ${selectAllActive ? 'border-[green]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-5 w-full p-4 cursor-pointer`}
+          <button onClick={handleSelectAll} className={`border rounded-[3px] ${selectAllActive ? 'border-[#17B26A]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-5 w-full p-4 cursor-pointer`}
             >
               <img src="/images/icons/calendar-add-green.svg" className="w-7 h-7 mb-2 " />
               <p className='text-[#364152] text-base font-normal'>{t('Select all')}</p>
@@ -284,7 +354,7 @@ function BookingTypePage({getAvailabilitySeasons}) {
             </button>
 
             {/* Ban all  */}
-            <button onClick={handleBanAll} className={`border rounded-[3px] ${banAllActive ? 'border-[red]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-4 w-full p-4 cursor-pointer`}
+            <button onClick={handleBanAll} className={`border rounded-[3px] ${banAllActive ? 'border-[#F04438]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-4 w-full p-4 cursor-pointer`}
             >
               <img src="/images/icons/calendar-remove-red.svg" className="w-7 h-7 mb-2 " />
               <p className='text-[#364152] text-base font-normal'>{t('Ban all')}</p>
