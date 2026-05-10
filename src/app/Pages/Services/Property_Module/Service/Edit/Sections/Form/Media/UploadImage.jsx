@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { IMAGE_BASE_URL } from '../../../../../../../../../../config/imageUrl';
 
@@ -8,11 +8,13 @@ function UploadImage({ formData, setFormData }) {
     
   const fileInputRef = useRef(null);
 
-  // Images from formData — mix of File objects (new) and strings (server paths)
+  // Images from formData — mix of { file, sort_order, is_primary } objects (new uploads) and server objects
   const images = formData.images || [];
 
   // Build preview URLs
   const previewImages = images.map((img) => {
+    // New upload object with File inside
+    if (img?.file instanceof File) return URL.createObjectURL(img.file);
     if (img instanceof File) return URL.createObjectURL(img);
     if (typeof img === 'string') return img;
     // Server image object — extract path
@@ -52,10 +54,13 @@ function UploadImage({ formData, setFormData }) {
       copy.splice(to, 0, moved);
       return copy;
     };
-    setFormData((prev) => ({
-      ...prev,
-      images: reorder(prev.images),
-    }));
+    setFormData((prev) => {
+      const reordered = reorder(prev.images).map((img, i) => ({
+        ...img,
+        sort_order: i + 1,
+      }));
+      return { ...prev, images: reordered };
+    });
     setMainIndex((prev) => {
       if (prev === null) return null;
       if (prev === from) return to;
@@ -76,9 +81,15 @@ function UploadImage({ formData, setFormData }) {
       return;
     }
 
+    const newImages = files.map((file, index) => ({
+      file,
+      sort_order: images.length + index + 1,
+      is_primary: 0,
+    }));
+
     setFormData((prev) => ({
       ...prev,
-      images: [...(prev.images || []), ...files],
+      images: [...(prev.images || []), ...newImages],
     }));
   };
 
@@ -111,6 +122,18 @@ function UploadImage({ formData, setFormData }) {
     },
   ];
 
+  useEffect(() => {
+    const primaryIdx = images.findIndex((img) => img?.is_primary === 1);
+    setMainIndex(primaryIdx !== -1 ? primaryIdx : null);
+  }, [formData.images]);
+
+  useEffect(() => {
+    const blobUrls = previewImages.filter((src) => src?.startsWith('blob:'));
+    return () => {
+      blobUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previewImages]);
+  
   return (
     <>
       {/* upload image */}
@@ -194,7 +217,7 @@ function UploadImage({ formData, setFormData }) {
                     }`}
                   >
                     <img
-                      src={typeof src === 'string' && src.startsWith('blob:') ? src : `${IMAGE_BASE_URL}${src}`}
+                      src={src?.startsWith('blob:') ? src : `${IMAGE_BASE_URL}${src}`}
                       alt="preview"
                       className={`w-full h-full transition-opacity duration-200 ${
                         isRearranging ? 'pointer-events-none select-none' : ''
@@ -228,7 +251,15 @@ function UploadImage({ formData, setFormData }) {
                           } flex justify-center items-center rounded-full cursor-pointer`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setMainIndex(prev => prev === idx ? null : idx);
+                            const newMain = mainIndex === idx ? null : idx;
+                            setMainIndex(newMain);
+                            setFormData((prev) => ({
+                              ...prev,
+                              images: prev.images.map((img, i) => ({
+                                ...img,
+                                is_primary: newMain === i ? 1 : 0,
+                              })),
+                            }));
                           }}
                         >
                           {mainIndex === idx ? (

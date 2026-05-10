@@ -310,3 +310,12 @@ export const getMedia = async(id)=>{
   const response = await API.get(`/properties/media/${id}`)
   return response.data
 }
+
+export const deleteVideo = async(id, type)=>{
+  const response = await API.delete(`/properties/${id}/media`, {
+    data: { type }
+  })
+  return response.data
+}
+
+

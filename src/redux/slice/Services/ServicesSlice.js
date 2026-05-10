@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview, getBasicInfo, UpdateBasicInfo, getLocation, getUnits, getPropertyDetails, deleteRoom, deleteBathroom, getMedia } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview, getBasicInfo, UpdateBasicInfo, getLocation, getUnits, getPropertyDetails, deleteRoom, deleteBathroom, getMedia, deleteVideo } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -606,6 +606,17 @@ export const getMediaThunk = createAsyncThunk('services/getMediaThunk',
   async(property_id, {rejectWithValue})=>{
     try{
       const response = await getMedia(property_id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const deleteVideoThunk = createAsyncThunk('services/deleteVideoThunk',
+  async({ id, type }, {rejectWithValue})=>{
+    try{
+      const response = await deleteVideo(id, type);
       return response;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
@@ -1404,6 +1415,19 @@ const servicesSlice = createSlice({
         state.getMedia = action.payload;
       })
       .addCase(getMediaThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
+
+      //deleteVideoThunk
+      .addCase(deleteVideoThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(deleteVideoThunk.fulfilled, (state) => {
+        state.loadingDetails = false;
+      })
+      .addCase(deleteVideoThunk.rejected, (state, action) => {
         state.loadingDetails = false;
         state.errorDetails = action.payload;
       })
