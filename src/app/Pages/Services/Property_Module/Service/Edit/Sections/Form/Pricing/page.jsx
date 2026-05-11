@@ -17,6 +17,7 @@ function PricingPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
+    const from = searchParams.get('from')
 
     const dispatch = useDispatch();
     const {getPricingPolicies , getPoliciesApproved} = useSelector((state) => state.services);
@@ -62,10 +63,26 @@ function PricingPageContent() {
       }
     }, [id])
 
+    const handleBack = () => {
+      if (from === 'Add') {
+        router.push(
+          `/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`
+        )
+      } else {
+        router.push(
+          `/Pages/Services/Property_Module/Service/Edit?id=${id}`
+        )
+      }
+    }
+
     const handleSubmit = async () => {
       try {
         await dispatch(addPricingPoliciesThunk({ property_id: id, formData })).unwrap();
-        router.push(`/Pages/Services/Property_Module/Service/Edit/Sections?id=${id}`);
+        if (from === 'Add') {
+          router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
+        } else {
+          router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+        }
       } catch (error) {
         console.error('Error saving pricing policies:', error);
       }
@@ -93,7 +110,7 @@ function PricingPageContent() {
           
           <div className='flex gap-2 justify-start w-full '>
             <button
-              onClick={()=> router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
+              onClick={handleBack}
               className="h-15 w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('Return')}

@@ -11,9 +11,9 @@ function BasicInformationPageContent() {
   const {t} = useTranslation();
 
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-  const id = searchParams.get('id');
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+  const from = searchParams.get('from')
   
   //api
   const dispatch = useDispatch()
@@ -51,65 +51,80 @@ function BasicInformationPageContent() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-useEffect(() => {
-    if (getBasicInfoData && optionPropertyType) {
-      const selectedType = optionPropertyType.find(
-        (item) => item.id === getBasicInfoData.property_type_id
-      );
-      setSelected1(selectedType);
-    }
-}, [getBasicInfoData, optionPropertyType]);
-
-    const [count, setCount] = useState(0);
-
-    const [adultsCounter, setAdultsCounter] = useState(0);
-    const [childrenCounter, setChildrenCounter] = useState(0);
-    const [childrenReplacementCounter, setChildrenReplacementCounter] = useState(0);
-    const [canReplaceAdults, setCanReplaceAdults] = useState(false);
-
-    useEffect(()=>{
-      if(getBasicInfoData){
-        setFormData({
-          title: getBasicInfoData?.title || '',
-          description: getBasicInfoData?.description || '',
-          property_type_id: getBasicInfoData?.property_type_id || '',
-          max_children: getBasicInfoData?.max_children || '',
-          max_adults: getBasicInfoData?.max_adults || '',
-          children_equivalent_to_adult: getBasicInfoData?.children_equivalent_to_adult || '',
-        });
-        setAdultsCounter(getBasicInfoData?.max_adults || 0);
-        setChildrenCounter(getBasicInfoData?.max_children || 0);
-        setChildrenReplacementCounter(getBasicInfoData?.children_equivalent_to_adult || 0);
-        setCanReplaceAdults(getBasicInfoData?.children_equivalent_to_adult > 0);
-        if(getBasicInfoData?.description) setCount(getBasicInfoData.description.length);
+  useEffect(() => {
+      if (getBasicInfoData && optionPropertyType) {
+        const selectedType = optionPropertyType.find(
+          (item) => item.id === getBasicInfoData.property_type_id
+        );
+        setSelected1(selectedType);
       }
-    },[getBasicInfoData])
+  }, [getBasicInfoData, optionPropertyType]);
 
-    const handleSubmit = () => {
-      if (!id) return;
-      
-      const dataToSubmit = {
-        ...formData,
-        max_adults: adultsCounter,
-        max_children: childrenCounter,
-        children_equivalent_to_adult: canReplaceAdults ? childrenReplacementCounter : 0,
-      };
+  const [count, setCount] = useState(0);
 
-      dispatch(UpdateBasicInfoThunk({ property_id: id, formData: dataToSubmit })).then((res) => {
-        if (!res.error) {
-          router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`);
-        }
+  const [adultsCounter, setAdultsCounter] = useState(0);
+  const [childrenCounter, setChildrenCounter] = useState(0);
+  const [childrenReplacementCounter, setChildrenReplacementCounter] = useState(0);
+  const [canReplaceAdults, setCanReplaceAdults] = useState(false);
+
+  useEffect(()=>{
+    if(getBasicInfoData){
+      setFormData({
+        title: getBasicInfoData?.title || '',
+        description: getBasicInfoData?.description || '',
+        property_type_id: getBasicInfoData?.property_type_id || '',
+        max_children: getBasicInfoData?.max_children || '',
+        max_adults: getBasicInfoData?.max_adults || '',
+        children_equivalent_to_adult: getBasicInfoData?.children_equivalent_to_adult || '',
       });
+      setAdultsCounter(getBasicInfoData?.max_adults || 0);
+      setChildrenCounter(getBasicInfoData?.max_children || 0);
+      setChildrenReplacementCounter(getBasicInfoData?.children_equivalent_to_adult || 0);
+      setCanReplaceAdults(getBasicInfoData?.children_equivalent_to_adult > 0);
+      if(getBasicInfoData?.description) setCount(getBasicInfoData.description.length);
+    }
+  },[getBasicInfoData])
+  const handleBack = () => {
+    if (from === 'Add') {
+      router.push(
+        `/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`
+      )
+    } else {
+      router.push(
+        `/Pages/Services/Property_Module/Service/Edit?id=${id}`
+      )
+    }
+  }
+
+  const handleSubmit = () => {
+    if (!id) return;
+    
+    const dataToSubmit = {
+      ...formData,
+      max_adults: adultsCounter,
+      max_children: childrenCounter,
+      children_equivalent_to_adult: canReplaceAdults ? childrenReplacementCounter : 0,
     };
 
-    const increaseAdults = () => setAdultsCounter(prev => prev + 1);
-    const decreaseAdults = () => { if (adultsCounter > 0) setAdultsCounter(prev => prev - 1); };
+    dispatch(UpdateBasicInfoThunk({ property_id: id, formData: dataToSubmit })).then((res) => {
+      if (!res.error) {
+        if (from === 'Add') {
+          router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
+        } else {
+          router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+        }
+      }
+    });
+  };
 
-    const increaseChildren = () => setChildrenCounter(prev => prev + 1);
-    const decreaseChildren = () => { if (childrenCounter > 0) setChildrenCounter(prev => prev - 1); };
+  const increaseAdults = () => setAdultsCounter(prev => prev + 1);
+  const decreaseAdults = () => { if (adultsCounter > 0) setAdultsCounter(prev => prev - 1); };
 
-    const increaseReplacement = () => setChildrenReplacementCounter(prev => prev + 1);
-    const decreaseReplacement = () => { if (childrenReplacementCounter > 0) setChildrenReplacementCounter(prev => prev - 1); };
+  const increaseChildren = () => setChildrenCounter(prev => prev + 1);
+  const decreaseChildren = () => { if (childrenCounter > 0) setChildrenCounter(prev => prev - 1); };
+
+  const increaseReplacement = () => setChildrenReplacementCounter(prev => prev + 1);
+  const decreaseReplacement = () => { if (childrenReplacementCounter > 0) setChildrenReplacementCounter(prev => prev - 1); };
 
   const QuickTips = [
     {id:1 , title:t('Use clear and descriptive titles that highlight key attributes.')},
@@ -401,7 +416,7 @@ useEffect(() => {
           
           <div className='flex gap-2 justify-start w-full '>
             <button
-              onClick={()=> router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
+              onClick={handleBack}
               className="h-15 w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('Return')}

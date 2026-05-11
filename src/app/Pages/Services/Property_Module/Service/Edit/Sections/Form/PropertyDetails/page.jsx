@@ -17,11 +17,13 @@ function PropertyDetailsPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const from = searchParams.get('from')
 
+  //api
   const dispatch = useDispatch()
   const {getPropertyDetails} = useSelector((state) => state.services)
-  console.log(getPropertyDetails?.data);
   const getPropertyDetailsData = getPropertyDetails?.data
+
   const [formData, setFormData] =useState({
     property_id: "",
     area: "",
@@ -56,6 +58,17 @@ function PropertyDetailsPageContent() {
     }
   }, [id])
 
+  const handleBack = () => {
+    if (from === 'Add') {
+      router.push(
+        `/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`
+      )
+    } else {
+      router.push(
+        `/Pages/Services/Property_Module/Service/Edit?id=${id}`
+      )
+    }
+  }
   const handleSubmit = async () => {
     try {
       const payload = {
@@ -69,7 +82,12 @@ function PropertyDetailsPageContent() {
         })),
       };
       await dispatch(addPropertyDetailsThunk(payload)).unwrap();
-      router.push(`/Pages/Services/Property_Module/Service/Edit/Sections?id=${id}`);
+      if (from === 'Add') {
+        router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
+      } else {
+        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+      }
+
     } catch (error) {
       console.error('Error saving property details:', error);
     }
@@ -130,7 +148,7 @@ function PropertyDetailsPageContent() {
           
           <div className='flex gap-2 justify-start w-full '>
             <button
-              onClick={()=> router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
+              onClick={handleBack}
               className="h-15 w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('Return')}

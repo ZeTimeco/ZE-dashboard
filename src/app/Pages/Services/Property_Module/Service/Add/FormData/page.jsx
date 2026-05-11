@@ -51,13 +51,13 @@ function FormDataPageContent() {
         <p className='mb-10 text-[#364152] text-2xl font-medium px-6'>{t('Property details')}</p>
         <DetailsPage getDetailsData={getDetailsData} />
         <div className='grid grid-cols-2 gap-6'>
-          <AddressPage getDetailsData={getDetailsData} />
-          <BasicInformationPage getDetailsData={getDetailsData} />
-          <CheckDetailsPage getDetailsData={getDetailsData} />
-          <AmenitiesPage getDetailsData={getDetailsData} />
+          <AddressPage getDetailsData={getDetailsData} propertyId={propertyId}/>
+          <BasicInformationPage getDetailsData={getDetailsData} propertyId={propertyId} />
+          <CheckDetailsPage getDetailsData={getDetailsData} propertyId={propertyId} />
+          <AmenitiesPage getDetailsData={getDetailsData}  propertyId={propertyId}/>
         </div>
         
-        <PricingAndPoliciesPage getDetailsData={getDetailsData} />
+        <PricingAndPoliciesPage getDetailsData={getDetailsData} propertyId={propertyId} />
 
         <NotesPage/>
 

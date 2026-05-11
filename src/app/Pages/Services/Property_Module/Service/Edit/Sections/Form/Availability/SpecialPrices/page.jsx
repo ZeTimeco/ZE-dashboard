@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import AddDialog from './AddDialog'
 
-function SpecialPricesPage({ formData, setFormData }) {
+function SpecialPricesPage({ formData, setFormData, setDeletedSeasonalPrices }) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
 
@@ -22,7 +22,10 @@ function SpecialPricesPage({ formData, setFormData }) {
   };
 
   // ─── Delete a seasonal pricing entry ─────────────────────────────────────
-  const handleDelete = (indexToRemove) => {
+  const handleDelete = (indexToRemove, id) => {
+    if (id) {
+      setDeletedSeasonalPrices(prev => [...prev, id]);
+    }
     setFormData(prev => ({
       ...prev,
       seasonal_pricing: prev.seasonal_pricing.filter((_, i) => i !== indexToRemove),
@@ -53,7 +56,7 @@ function SpecialPricesPage({ formData, setFormData }) {
             <div key={item.id || index} className='border border-[#E3E8EF] p-4 flex flex-col gap-1 rounded-[3px]'>
               <div className='flex justify-between'>
                 <p className='text-[#364152] text-base font-medium'>{item.title || 'سعر خاص'}</p>
-                <button className='cursor-pointer' onClick={() => handleDelete(index)}>
+                <button className='cursor-pointer' onClick={() => handleDelete(index, item.id)}>
                   <img src="/images/icons/delete_red.svg" alt="delete" />
                 </button>
               </div>

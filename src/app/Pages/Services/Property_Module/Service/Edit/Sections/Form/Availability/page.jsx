@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Loader from '@/app/Components/Loader/Loader';
 import { useDispatch, useSelector } from 'react-redux';
 import { addAvailabilitySeasonsThunk, getAvailabilitySeasonsThunk } from '@/redux/slice/Services/ServicesSlice';
+import { deleteSeasonalPrice } from '@/redux/api/Services/ServicesApi';
 
 function AvailabilityPageContent() {
   const { t } = useTranslation();
@@ -29,6 +30,8 @@ function AvailabilityPageContent() {
     availability: { all_avalable: false, slots: [] },
     seasonal_pricing: [],
   });
+
+  const [deletedSeasonalPrices, setDeletedSeasonalPrices] = useState([]);
 
   useEffect(() => {
     if (getAvailabilitySeasonsData) {
@@ -58,6 +61,10 @@ function AvailabilityPageContent() {
     }
 
     try {
+      if (deletedSeasonalPrices.length > 0) {
+        await Promise.all(deletedSeasonalPrices.map(deletedId => deleteSeasonalPrice(deletedId)));
+      }
+
       const payload = {
         property_id: formData.property_id,
 
@@ -109,7 +116,11 @@ function AvailabilityPageContent() {
 
         {/* ── Sub-pages get formData + setFormData ── */}
         <BookingTypePage   formData={formData} setFormData={setFormData} />
-        <SpecialPricesPage formData={formData} setFormData={setFormData} />
+        <SpecialPricesPage 
+          formData={formData} 
+          setFormData={setFormData} 
+          setDeletedSeasonalPrices={setDeletedSeasonalPrices}
+        />
 
         {/* ── Action buttons ── */}
         <div className="flex mt-6">
@@ -122,7 +133,6 @@ function AvailabilityPageContent() {
               {t('Return')}
             </button>
 
-            {/* ✅ زر الحفظ يستدعي handleSubmit دلوقتي */}
             <button
               type="button"
               onClick={handleSubmit}

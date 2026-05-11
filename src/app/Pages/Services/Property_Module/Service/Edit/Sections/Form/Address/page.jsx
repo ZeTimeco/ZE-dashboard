@@ -14,14 +14,14 @@ import { addLocationThunk, getLocationThunk } from '@/redux/slice/Services/Servi
 function AddressPageContent() {
     const {t} = useTranslation();
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const id = searchParams.get('id')
+    const from = searchParams.get('from')
 
     //api
     const dispatch = useDispatch()
     const { getLocation } = useSelector((state) => state.services)
     const getLocationData = getLocation?.data
-
-    const searchParams = useSearchParams()
-    const id = searchParams.get('id')
 
     const [formData , setFormData] = useState({
       property_id:'',
@@ -72,17 +72,17 @@ function AddressPageContent() {
     const [openMap, setOpenMap] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState(t('Click to open the map'));
 
-const handleMapConfirm = (data) => {
-  setFormData((prev) => ({
-    ...prev,
-    address: data.address || '',
-    latitude: data.lat || '',
-    longitude: data.lng || '',
-  }))
+    const handleMapConfirm = (data) => {
+      setFormData((prev) => ({
+        ...prev,
+        address: data.address || '',
+        latitude: data.lat || '',
+        longitude: data.lng || '',
+      }))
 
-  setSelectedAddress(data.address)
-  setCount(data.address?.length || 0)
-}
+      setSelectedAddress(data.address)
+      setCount(data.address?.length || 0)
+    }
 
     const GreenSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -135,18 +135,33 @@ const handleMapConfirm = (data) => {
     {id:3 , title:t('A pin should be placed at the building entrance.')},
     ]
 
-
-  const handleSave = async () => {
-    try {
-      const result = await dispatch(addLocationThunk(formData))
-
-      if (result?.meta?.requestStatus === "fulfilled") {
-        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+    const handleBack = () => {
+      if (from === 'Add') {
+        router.push(
+          `/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`
+        )
+      } else {
+        router.push(
+          `/Pages/Services/Property_Module/Service/Edit?id=${id}`
+        )
       }
-    } catch (error) {
-      console.log(error)
     }
-  }
+    const handleSave = async () => {
+      try {
+        const result = await dispatch(addLocationThunk(formData))
+
+        if (result?.meta?.requestStatus === "fulfilled") {
+          if (from === 'Add') {
+            router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
+          } else {
+            router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+          }
+        }
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
   return (
     <MainLayout>
@@ -262,7 +277,7 @@ const handleMapConfirm = (data) => {
           
           <div className='flex gap-2 justify-start w-full '>
             <button
-              onClick={()=> router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
+              onClick={handleBack}
               className="h-15 w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('Return')}

@@ -323,3 +323,8 @@ export const getAvailabilitySeasons = async(id)=>{
   return response.data
 }
 
+export const deleteSeasonalPrice = async(id)=>{
+  const response = await API.delete (`/seasonal-pricing/${id}`)
+  return response.data
+}
+

@@ -14,6 +14,7 @@ function FacilitiesPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  const from = searchParams.get('from')
 
   //api
   const dispatch = useDispatch()
@@ -50,6 +51,18 @@ function FacilitiesPageContent() {
     );
   };
 
+  const handleBack = () => {
+    if (from === 'Add') {
+      router.push(
+        `/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`
+      )
+    } else {
+      router.push(
+        `/Pages/Services/Property_Module/Service/Edit?id=${id}`
+      )
+    }
+  }
+
   const handleSave = async () => {
     const formData = new FormData();
 
@@ -61,7 +74,11 @@ function FacilitiesPageContent() {
 
     try {
       await dispatch(addAmenitiesThunk(formData));
-      router.push(`/Pages/Services/Property_Module/Service/Edit/Sections?id=${id}`);
+      if (from === 'Add') {
+        router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
+      } else {
+        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+      }
       console.log("Saved successfully");
     } catch (error) {
       console.log(error);
@@ -119,7 +136,7 @@ function FacilitiesPageContent() {
           
           <div className='flex gap-2 justify-start w-full '>
             <button
-              onClick={()=> router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
+              onClick={handleBack}
               className="h-15 w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('Return')}

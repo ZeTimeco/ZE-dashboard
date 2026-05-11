@@ -1,4 +1,4 @@
-import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview, getBasicInfo, UpdateBasicInfo, getLocation, getUnits, getPropertyDetails, deleteRoom, deleteBathroom, getMedia, deleteVideo, getAvailabilitySeasons } from "@/redux/api/Services/ServicesApi";
+import { AddService, getAllAreas, getAllServices, getCategories, getmodules, getServiceAnalysisById, getServiceById, updateService, deleteService, getStreetServiceById, getFuelPrices, getActiveFuelTypes, deleteFuelPrice, updateServiceSetting, updateServiceSettingStatus, streetAssistantStatus, createFuelPrice, updateFuelPrice, getAllProperties, changeStatusById, deletePropertyItem, getPropertyTypes, getPropertiesCities, getAllDetails, getPropertyCalendar, getRoomTypes, getBedTypes, getRoomAmenty, getBathRoomTypes, getPropertiesAmenities, addBasicInfo, addLocation, addPropertyDetails, addAmenities, getPoliciesApproved, addPricingPolicies, getPricingPolicies, addAvailabilitySeasons, addMedia, addUnits, getAllDetailsById, addSubmitForReview, getBasicInfo, UpdateBasicInfo, getLocation, getUnits, getPropertyDetails, deleteRoom, deleteBathroom, getMedia, deleteVideo, getAvailabilitySeasons, deleteSeasonalPrice } from "@/redux/api/Services/ServicesApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //Home-Car-****************************************************
@@ -630,6 +630,17 @@ export const getAvailabilitySeasonsThunk = createAsyncThunk('service/getAvailabi
       const response = await getAvailabilitySeasons(id)
       return response
     }catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const deleteSeasonalPriceThunk = createAsyncThunk('services/deleteSeasonalPriceThunk',
+  async(id, {rejectWithValue})=>{
+    try{
+      const response = await deleteSeasonalPrice(id);
+      return response;
+    } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
   }
@@ -1458,6 +1469,18 @@ const servicesSlice = createSlice({
         state.errorDetails = action.payload;
       })
 
+      //deleteSeasonalPriceThunk
+      .addCase(deleteSeasonalPriceThunk.pending, (state) => {
+        state.loadingDetails = true;
+        state.errorDetails = null;
+      })
+      .addCase(deleteSeasonalPriceThunk.fulfilled, (state) => {
+        state.loadingDetails = false;
+      })
+      .addCase(deleteSeasonalPriceThunk.rejected, (state, action) => {
+        state.loadingDetails = false;
+        state.errorDetails = action.payload;
+      })
 
   },
 });
