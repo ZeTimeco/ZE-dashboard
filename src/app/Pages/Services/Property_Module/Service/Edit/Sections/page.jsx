@@ -1,14 +1,25 @@
 "use client"
 import Loader from '@/app/Components/Loader/Loader'
+import { getAllDetailsThunk } from '@/redux/slice/Services/ServicesSlice'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 
 function SectionsPageContent() {
     const {t} = useTranslation()
     const router = useRouter()
     const searchParams = useSearchParams()
     const id = searchParams.get('id')
+    //api
+    const dispatch = useDispatch()
+    const {getDetails} = useSelector((state)=>state.services)
+    const getDetailsData = getDetails?.data
+    useEffect((id)=>{
+      dispatch(getAllDetailsThunk(id))
+    },[dispatch])
+
+    console.log(getDetailsData);
   
   return (
     <>
@@ -17,8 +28,11 @@ function SectionsPageContent() {
         
 
         <div className='grid grid-cols-2 gap-4'>
+
           {/* Basic Information */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div 
+            className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'
+          >
             <div className='flex  gap-4'>
               <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
@@ -29,12 +43,14 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('Basic Information')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    <span>{t('The entire apartment')} - </span>
-                    <span>5</span> {" "}
+                    <span>{getDetailsData?.property_type?.name} - </span>
+                    <span>{getDetailsData?.guests_count}</span> {" "}
                     <span>{t('Maximum number of guests')}</span>
                   </p>
               </div>
+
             </div>
+
             <div className='flex items-center'>
               <button
                 onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/BasicInformation?id=${id}`)}
@@ -57,7 +73,7 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('the address')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    القاهره, مصر , مدينة نصر
+                    {getDetailsData?.location?.country} , {getDetailsData?.location?.city} , {getDetailsData?.location?.area}
                   </p>
               </div>
             </div>
@@ -83,9 +99,9 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('Room and bathroom details')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    <span>{t('bedrooms')} 4 </span> - {" "}
-                    <span>{t('bathroom')} 4</span>  - {" "} 
-                    <span>{t('family')}</span>
+                    <span>{getDetailsData?.rooms_count} {t('bedrooms')}</span> - {" "}
+                    <span>{getDetailsData?.bathrooms_count} {t('bathroom')}</span>  - {" "} 
+                    <span>{getDetailsData?.bathrooms_count} {t('beds')}</span>
                   </p>
               </div>
             </div>
@@ -111,9 +127,17 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('Property details')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    <span>{t('The role')} 1 </span> - {" "}
-                    <span>120 م.ع </span>  - {" "} 
-                    <span>{t('elevator')}(متاح)</span>
+                    <span>
+                      {t('The role')}{" "}
+                      {getDetailsData?.floor_number === 0
+                        ? "الأرضي"
+                        : getDetailsData?.floor_number}
+                    </span>{" "} -
+                    <span>{getDetailsData?.area} م.ع </span>  - {" "} 
+                    <span>
+                      {t('elevator')}{" "}
+                      {getDetailsData?.has_elevator ? (t('available'))  : (t('Not available'))}
+                    </span>
                   </p>
               </div>
             </div>
@@ -139,7 +163,10 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('Property amenities')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    واي فاي • صانع القهوة • مكيرويوف
+                    {getDetailsData?.amenities?.map((item) => (
+                      <span key={item.id}>{item?.name} • {' '}</span> 
+                      
+                    ))}
                   </p>
               </div>
             </div>
@@ -165,7 +192,8 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('Pricing and policies')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    250 جنية في الليلة • سياسة إلغاء معتدلة
+                    <span>{getDetailsData?.base_price}{t('On the night')} </span>  {' '} {' '} {' '}•  {' '}
+                    <span>{getDetailsData?.cancellation_policy?.policy_name}</span>
                   </p>
               </div>
             </div>
@@ -191,9 +219,10 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('Availability')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    تم تمكين مزامنة التقويم • 45 ليلة متاحة
+                    {getDetailsData?.available_nights} {t('available night')}
                   </p>
               </div>
+
             </div>
             <div className='flex items-center'>
               <button 
@@ -217,7 +246,7 @@ function SectionsPageContent() {
               <div className='flex flex-col gap-1'>
                 <p className='text-[#364152] text-base font-medium'>{t('Images and Media')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
-                    تم تحميل 8 صور  
+                    {t('Loaded')} {getDetailsData?.images_count} {t('photo')}  
                   </p>
               </div>
             </div>

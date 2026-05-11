@@ -34,7 +34,6 @@ function AddressPageContent() {
       is_visible:true
     })
 
-    console.log(id);
 
     useEffect(()=>{
       if(id){
@@ -66,7 +65,6 @@ function AddressPageContent() {
       }
     },[getLocationData])
 
-    console.log(getLocationData);
 
     const [count, setCount] = useState(0);
     const [openMap, setOpenMap] = useState(false);

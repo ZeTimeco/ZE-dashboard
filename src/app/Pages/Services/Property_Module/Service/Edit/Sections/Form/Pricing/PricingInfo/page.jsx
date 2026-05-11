@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 function PricingInfoPage({ formData, setFormData }) {
   const {t} = useTranslation()
-    console.log(formData?.security_deposit)
 
   return (
     <>

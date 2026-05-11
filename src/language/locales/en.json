@@ -982,7 +982,7 @@
   "Select the section you want to edit.":"Select the section you want to edit.",
   "The entire apartment":"The entire apartment",
   "Room and bathroom details":"Room and bathroom details",
-  "family":"family",
+  "beds":"beds",
   "bedrooms":"bedrooms",
   "elevator":"elevator",
   "Property amenities":"Property amenities",
@@ -991,6 +991,10 @@
   "SQM":"sqm",
   "SQFT":"sqft",
   "Not available":"Not available",
+  "available night":"available night",
+  "Loaded":"Loaded",
+  "photo":"photo",
+  
 
 
   

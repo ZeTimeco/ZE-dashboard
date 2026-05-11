@@ -245,7 +245,6 @@ function RoomsAndBathroomsPageContent() {
   }
 
 
-  console.log('getUnitsData', getUnitsData);
 
   return (
     <MainLayout>
