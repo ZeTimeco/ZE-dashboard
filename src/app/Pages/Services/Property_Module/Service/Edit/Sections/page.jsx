@@ -1,25 +1,40 @@
 "use client"
 import Loader from '@/app/Components/Loader/Loader'
 import { getAllDetailsThunk } from '@/redux/slice/Services/ServicesSlice'
+import { Tooltip } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { Suspense, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 
 function SectionsPageContent() {
-    const {t} = useTranslation()
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const id = searchParams.get('id')
-    //api
-    const dispatch = useDispatch()
-    const {getDetails} = useSelector((state)=>state.services)
-    const getDetailsData = getDetails?.data
-    useEffect((id)=>{
-      dispatch(getAllDetailsThunk(id))
-    },[dispatch])
+  const {t} = useTranslation()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+  //api
+  const dispatch = useDispatch()
+  const {getDetails} = useSelector((state)=>state.services)
+  const getDetailsData = getDetails?.data
+  const getDetailsNeedsAction = getDetails?.needs_action
+  const stepMessages = {
+    1: "مكان Step 1",
+    2: "مكان Step 2",
+    3: "مكان Step 3",
+    4: "مكان Step 4",
+  };
 
-    console.log(getDetailsData);
+const getStepMessages = (step) => {
+  return getDetailsNeedsAction
+    ?.filter((item) => item.step === step)
+    ?.map((item) => item.message);
+};
+
+  useEffect((id)=>{
+    dispatch(getAllDetailsThunk(id))
+  },[dispatch])
+
+  console.log(getDetailsData);
   
   return (
     <>
@@ -30,18 +45,33 @@ function SectionsPageContent() {
         <div className='grid grid-cols-2 gap-4'>
 
           {/* Basic Information */}
-          <div 
-            className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'
-          >
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/home_white.svg" alt="" />
                 </p>
               </div>
-          
+            
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('Basic Information')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('Basic Information')}</p>
+                    {getStepMessages(1)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(1)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                    )}
+                </div>
                   <p className='text-[#4B5565] text-base font-normal'>
                     <span>{getDetailsData?.property_type?.name} - </span>
                     <span>{getDetailsData?.guests_count}</span> {" "}
@@ -71,7 +101,24 @@ function SectionsPageContent() {
               </div>
           
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('the address')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('the address')}</p>
+                    {getStepMessages(2)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(2)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                    )}
+                </div>
                   <p className='text-[#4B5565] text-base font-normal'>
                     {getDetailsData?.location?.country} , {getDetailsData?.location?.city} , {getDetailsData?.location?.area}
                   </p>
@@ -97,7 +144,24 @@ function SectionsPageContent() {
               </div>
           
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('Room and bathroom details')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('Room and bathroom details')}</p>
+                  {getStepMessages(3)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(3)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] px-3 py-1 text-xs rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                    )}
+                </div>
                   <p className='text-[#4B5565] text-base font-normal'>
                     <span>{getDetailsData?.rooms_count} {t('bedrooms')}</span> - {" "}
                     <span>{getDetailsData?.bathrooms_count} {t('bathroom')}</span>  - {" "} 
@@ -125,7 +189,24 @@ function SectionsPageContent() {
               </div>
           
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('Property details')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('Property details')}</p>
+                {getStepMessages(4)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(4)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                    )}
+                </div>
                   <p className='text-[#4B5565] text-base font-normal'>
                     <span>
                       {t('The role')}{" "}
@@ -161,7 +242,24 @@ function SectionsPageContent() {
               </div>
           
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('Property amenities')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('Property amenities')}</p>
+                  {getStepMessages(5)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(5)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                    )}
+                </div>
                   <p className='text-[#4B5565] text-base font-normal'>
                     {getDetailsData?.amenities?.map((item) => (
                       <span key={item.id}>{item?.name} • {' '}</span> 
@@ -190,7 +288,24 @@ function SectionsPageContent() {
               </div>
           
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('Pricing and policies')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('Pricing and policies')}</p>
+                  {getStepMessages(6)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(6)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                    )}
+                </div>
                   <p className='text-[#4B5565] text-base font-normal'>
                     <span>{getDetailsData?.base_price}{t('On the night')} </span>  {' '} {' '} {' '}•  {' '}
                     <span>{getDetailsData?.cancellation_policy?.policy_name}</span>
@@ -217,7 +332,24 @@ function SectionsPageContent() {
               </div>
           
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('Availability')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('Availability')}</p>
+                  {getStepMessages(7)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(7)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                    )}
+                </div>
                   <p className='text-[#4B5565] text-base font-normal'>
                     {getDetailsData?.available_nights} {t('available night')}
                   </p>
@@ -244,7 +376,25 @@ function SectionsPageContent() {
               </div>
           
               <div className='flex flex-col gap-1'>
-                <p className='text-[#364152] text-base font-medium'>{t('Images and Media')}</p>
+                <div className='flex gap-2'>
+                  <p className='text-[#364152] text-base font-medium'>{t('Images and Media')}</p>
+                  {getStepMessages(8)?.length > 0 && (
+                      <Tooltip
+                        title={
+                          <ol className="flex flex-col text-base font-normal list-decimal pr-4">
+                            {getStepMessages(8)?.map((message, index) => (
+                              <li className='' key={index}>{message}</li>
+                            ))}
+                          </ol>
+                        }
+                      >
+                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                          {t('Procedure is needed')}
+                        </p>
+                      </Tooltip>
+                  )}
+                </div>
+                <p className='text-[#364152] text-base font-medium'>{t('')}</p>
                   <p className='text-[#4B5565] text-base font-normal'>
                     {t('Loaded')} {getDetailsData?.images_count} {t('photo')}  
                   </p>

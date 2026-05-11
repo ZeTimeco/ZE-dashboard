@@ -117,6 +117,7 @@ function CardOfService({getProperties}) {
 
       {getProperties.map((property , index)=>{
         const  approvalStatus = property?.approval_status
+        console.log('property' , property);
         let content;
         if(approvalStatus === 'completed' || approvalStatus === 'inactive') {
             content = (
@@ -267,7 +268,9 @@ function CardOfService({getProperties}) {
                 <p className='text-[#364152] text-base font-semibold'>{property?.title}</p>
                 <div className='flex gap-1'>
                   <img src="/images/icons/location-gray.svg" alt="" />
-                  <p className='text-[#697586] text-sm font-normal'>{property?.address}</p>
+                  <p className='text-[#697586] text-sm font-normal'>
+                    {property?.area}
+                  </p>
                 </div>
               </div>
               <div className='w-[50%] flex justify-end' >{StatusRender2(property?.approval_status)}</div>
