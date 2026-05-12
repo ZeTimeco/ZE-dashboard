@@ -42,7 +42,7 @@ function settingsPage() {
     }
   return (
     <>
-{content}
+      {content}
     </>
   )
 }
