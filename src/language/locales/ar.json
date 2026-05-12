@@ -1000,6 +1000,11 @@
   "Savings and Calendar":"التوفير و التقويم",
   "Legal and Compliance":"القانونية والامتثال",
   "Advanced settings":"إعدادات متقدمة",
+  "Automatic booking approval":"الموافقة التلقائية على الحجوزات",
+  "Manual approval is required":"الموافقة اليدوية مطلوبة",
+  "Minimum number of nights":"الحد الأدني من الليالي",
+  "Maximum number of nights":"الحد الأقصي من الليالي",
+  "Minimum booking time":"أقل مدة قبل الحجز",
   
 
 
