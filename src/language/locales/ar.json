@@ -1033,8 +1033,17 @@
   "Mobile phone":"الموبايل / الجوال",
   "App Messages":"رسائل التطبيق",
   "WhatsApp":"واتساب",
+  "No-attendance is automatically recorded after":"حديد عدم الحضور تلقائيا بعد ",
+  "hours":"ساعات",
+  "Automatically setting reservations for non-attendance":"تحديد الحجوزات تلقائيا لعدم حضور",
+  "Hours after check-in time":"ساعات بعد وقت تسجيل الوصول",
+  "The reservation is complete upon the guest s departure.":"تحديد الحجز مكتمل عند مغادرة الضيف",
+  "Booking completed automatically after departure":"إكمال الحجز تلقائيا بعد المغادرة",
+  "No-attendance policy":"سياسة عدم الحضور",
+  "Collect the full amount":"تحصيل المبلغ الكامل",
+  "Charge only for the first night":"تحصيل تكلفة الليلة الأولي فقط",
+  "Without collection":"بدون تحصيل",
   
-
 
 
 
