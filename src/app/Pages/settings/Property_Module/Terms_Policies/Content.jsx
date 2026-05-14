@@ -1,9 +1,9 @@
 "use client"
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import DeleteDialog from './DeleteDialog';
+import DeleteDialog from './Dialog/DeleteDialog';
 
-function Content() {
+function Content({onEdit , onAdd}) {
   const {t} = useTranslation()
   const status = "approved";
 
@@ -56,6 +56,7 @@ function Content() {
 
             <div className=' text-base font-normal w-full flex gap-4'>
               <button 
+                onClick={() => onEdit && onEdit(1)}
                 className='bg-[var(--color-primary)] text-white w-full h-14 rounded-[3px] cursor-pointer'>
                 {t('modification')}
               </button>
@@ -70,9 +71,16 @@ function Content() {
       
         
 
-        
+      
 
       </div>
+      <button 
+        onClick={onAdd}
+        className='bg-[var(--color-primary)] rounded-[3px] mt-12 mb-4 cursor-pointer text-white flex items-center justify-center gap-2 w-[25%] h-14 '
+      >
+        <span className='text-base font-semibold'>{t('Add policy')}</span>
+        <img src="/images/icons/AddIcon.svg" alt="" />
+      </button>
 
       <DeleteDialog
         open={open}
