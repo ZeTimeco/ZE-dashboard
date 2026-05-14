@@ -36,31 +36,6 @@ function HaveReviewsPage({ reviews }) {
 
   const maxLength = 90;
 
-  // ✅ Mock Data بدل service جاي من backend
-  const ratings = [
-    {
-      id: 1,
-      rating: 4.5,
-      review:
-        "The service was very good and fast. I really appreciate the professionalism and the quick response from the team.",
-      created_at: "2026-02-15",
-      user: {
-        name: "Ahmed",
-        lastname: "Ali",
-      },
-    },
-    {
-      id: 2,
-      rating: 5,
-      review:
-        "Excellent experience! Everything was smooth and well organized. Highly recommended.",
-      created_at: "2026-02-14",
-      user: {
-        name: "Sara",
-        lastname: "Mohamed",
-      },
-    },
-  ];
 
 
   /** for random colors */
