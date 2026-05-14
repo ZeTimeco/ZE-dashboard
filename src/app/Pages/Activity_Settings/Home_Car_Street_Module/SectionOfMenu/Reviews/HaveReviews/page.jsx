@@ -1,14 +1,31 @@
 
 
 "use client";
-import Link from "next/link";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import ViewHome_Car_Street_ModulePage from "@/app/Pages/requests/Home_Car_Street_Module/Views/Home_Car_Street_Module/View/page";
+import { getBookingByIDThunk } from "@/redux/slice/Requests/RequestsSlice";
 
 function HaveReviewsPage({ reviews }) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { bookingDetails } = useSelector((state) => state.requests);
 
   const [expandedIndexes, setExpandedIndexes] = useState({});
+  const [open, setOpen] = useState(false);
+  const [selectedBookingId, setSelectedBookingId] = useState(null);
+
+  const handleClickOpen = (id) => {
+    setSelectedBookingId(id);
+    dispatch(getBookingByIDThunk(id));
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedBookingId(null);
+  };
 
   const toggleExpanded = (index) => {
     setExpandedIndexes((prev) => ({
@@ -91,22 +108,28 @@ function HaveReviewsPage({ reviews }) {
                     </div>
                   </div>
 
-                  <div className="">
-                    <p className="flex gap-1.5 ">
-                      <span className="text-[#8B8B8B] ">#</span>
-                      <Link href='#' className="text-[#4D0CE7] text-sm font-medium underline ">{rating?.booking_id}</Link>
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm font-medium flex gap-1">
+                      <span className="text-[#8B8B8B]">#</span>
+
+                      <span
+                        className="text-[#4D0CE7] underline cursor-pointer"
+                        onClick={() => handleClickOpen(rating?.booking_id)}
+                      >
+                        {rating?.booking_id}
+                      </span>
                     </p>
-                    <div className="flex gap-1  mr-2">
+
+                    <p className="flex items-center">
                       <img
                         src="/images/icons/star.svg"
-                        alt=""
-                        className="w-4 h-4 "
+                        className="w-4 h-4 mt-0.5"
                       />
-                      <p className="text-[#FDB022] text-sm font-medium">
-                        {rating?.rating}
-                      </p>
-                    </div>
 
+                      <span className="text-[#FDB022] text-sm font-medium">
+                        {rating?.rating}
+                      </span>
+                    </p>
                   </div>
                 </div>
 
@@ -129,6 +152,13 @@ function HaveReviewsPage({ reviews }) {
         })}
 
         <div className="w-full h-px bg-[#CDD5DF]"></div>
+
+        <ViewHome_Car_Street_ModulePage
+          open={open}
+          handleClose={handleClose}
+          bookingId={selectedBookingId}
+          bookingDetails={bookingDetails}
+        />
 
     </>
   );

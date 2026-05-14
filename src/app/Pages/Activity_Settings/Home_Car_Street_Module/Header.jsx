@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { getModuleTitle } from '../../../../config/getModuleTitle'
+import { getModuleTitle } from '../../../../../config/getModuleTitle'
 
 function Header({current_module_key}) {
   const {t} = useTranslation()

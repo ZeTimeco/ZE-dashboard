@@ -20,9 +20,7 @@ function ReviewsPages() {
           ) : (
             <NoReviews/>
           )}
-          <button className='h-14 w-[20%] mt-12 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer'>
-            {t('Save changes')}
-          </button>
+        
         </div>
       </div>
 

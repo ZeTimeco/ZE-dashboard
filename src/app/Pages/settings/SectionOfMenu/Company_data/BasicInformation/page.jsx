@@ -5,7 +5,7 @@ import Header from "./Header";
 import { useDispatch } from "react-redux";
 import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
 import { getProfileThunk, updateProfileImageThunk } from "@/redux/slice/Setting/SettingSlice";
-import { IMAGE_BASE_URL } from "../../../../../../../../config/imageUrl";
+import { IMAGE_BASE_URL } from "../../../../../../../config/imageUrl";
 
 function BasicInformationPage({userData}) {
   const { t } = useTranslation();

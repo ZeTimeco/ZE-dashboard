@@ -57,7 +57,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies = [] ,loading
               <div className='w-[35%] flex justify-end'>{StatusRender(policy?.status)}</div>
             </div>
             <div 
-              className='text-[#697586] text-sm font-normal my-4'
+              className='text-[#697586] text-sm font-normal my-4 break-words'
               dangerouslySetInnerHTML={{ __html: policy?.policy_content }}
             />
 

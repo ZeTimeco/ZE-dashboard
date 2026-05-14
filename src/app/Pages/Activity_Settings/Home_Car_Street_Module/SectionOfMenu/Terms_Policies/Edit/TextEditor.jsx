@@ -1,5 +1,4 @@
-'use client'
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef } from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -8,9 +7,7 @@ const ReactQuill = dynamic(
   { ssr: false }
 );
 
-const TextEditor = forwardRef((props, ref) => {
-  const [value, setValue] = useState('');
-
+const TextEditor = forwardRef(({ value, onChange }, ref) => {
   const modules = {
     toolbar: [
       [{ 'header': [1, 2, false] }],
@@ -55,7 +52,7 @@ const TextEditor = forwardRef((props, ref) => {
         ref={ref}
         theme="snow"
         value={value}
-        onChange={setValue}
+        onChange={onChange}
         modules={modules}
         formats={formats}
         style={{ direction: 'rtl', textAlign: 'right' }}
