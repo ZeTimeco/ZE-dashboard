@@ -8,7 +8,7 @@ import NoReviews from './NoReviews'
 
 function ReviewsPages() {
   const {t} = useTranslation()
-  const data = []  
+  const data = ["3"]  
 
   return (
     <>
