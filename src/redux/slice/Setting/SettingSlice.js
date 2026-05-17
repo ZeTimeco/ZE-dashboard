@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -135,6 +135,8 @@ export const updateProfileImageThunk = createAsyncThunk('setting/updateProfileIm
 
 /***************************************************** */
 //******Activity_Settings
+
+/* Home-Car-Street_module */
 export const getPoliciesThunk = createAsyncThunk('setting/getPoliciesThunk' , 
   async(_ , {rejectWithValue})=>{
     try{
@@ -269,6 +271,32 @@ export const uploadDocumentThunk = createAsyncThunk('setting/uploadDocumentThunk
 )
 
 
+
+/* property_module */
+
+export const getBookingSettingThunk = createAsyncThunk('setting/getBookingSettingThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getBookingSetting()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const BookingSettingThunk = createAsyncThunk('setting/BookingSettingThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await BookingSetting(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
 const initialState ={
   success:false,
   loading: false,
@@ -303,7 +331,14 @@ const initialState ={
 
   documents:[],
   documents:null,
+
+  getBookingSetting:null,
+  BookingSetting:null,
+
 }
+
+
+
 const settingSlice = createSlice({
   name:'setting' ,
   initialState,
@@ -647,6 +682,34 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      //getBookingSettingThunk
+      .addCase(getBookingSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getBookingSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getBookingSetting = action.payload;
+      })
+      .addCase(getBookingSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //BookingSettingThunk
+      .addCase(BookingSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(BookingSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.BookingSetting = action.payload;
+      })
+      .addCase(BookingSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
 }
 })
 

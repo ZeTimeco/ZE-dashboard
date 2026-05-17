@@ -36,8 +36,6 @@ function HaveReviewsPage({ reviews }) {
 
   const maxLength = 90;
 
-
-
   /** for random colors */
   const avatarColors = [
     "bg-red-400",
@@ -53,7 +51,9 @@ function HaveReviewsPage({ reviews }) {
     const charCode = user_name.charCodeAt(0);
     return avatarColors[charCode % avatarColors.length];
   };
-     console.log(reviews?.data);
+
+  console.log(reviews?.data);
+
   return (
     <>
         {reviews?.data?.map((rating, index) => {

@@ -3,9 +3,13 @@ import React from 'react'
 import Header from './Header'
 import Content from './Content'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
 
 function BookingSettingPpage() {
   const {t} = useTranslation()
+  //api
+  const dispatch = useDispatch()
+  const {getBookingSetting}= useSelector((state)=>state.setting)
   return (
     <>
       <div className='border border-[#E3E8EF] '>

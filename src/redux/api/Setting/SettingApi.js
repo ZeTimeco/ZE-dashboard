@@ -72,7 +72,8 @@ export const updateProfileImage = async (formData) => {
 };
 
 /***************************************************** */
-//******Activity_Settings
+//******Activity_Settings************************************************************
+/* Home-Car-Street_module */
 export const getPolicies = async()=>{
   const response = await API.get('/provider/policies')
   return response.data
@@ -137,3 +138,16 @@ export const uploadDocument = async(formData)=>{
   })
   return response.data
 }
+//---------------------------------------------------------------------------------------
+/* property_module */
+
+export const getBookingSetting = async()=>{
+  const response = await API.get('/provider/booking-settings')
+  return response.data
+}
+
+export const BookingSetting = async(formData)=>{
+  const response = await API.post('/provider/booking-settings')
+  return response.data
+}
+

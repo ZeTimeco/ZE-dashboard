@@ -37,10 +37,12 @@ function Property_ModulePage() {
                 activeTab === tab.id ? "text-[var(--color-primary)] border-b border-[var(--color-primary)]" :"text-[#364152]"
               }`}
             >
-              <p className='flex gap-0.5'>
-                <img src={activeTab === tab.id ? tab.iconSelected : tab.icons} className="w-5 h-5" />
-                <span>{tab.name}</span>
-              </p>
+              <div className='flex gap-1'>
+                <img src={activeTab === tab.id ? tab.iconSelected : tab.icons} className="w-4 h-4 mt-1" />
+                <p className='flex items-center '>
+                  <span className='text-base font-medium' >{tab.name}</span>
+                </p>
+              </div>
               
             </button>
           ))}
