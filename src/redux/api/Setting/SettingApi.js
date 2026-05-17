@@ -138,6 +138,7 @@ export const uploadDocument = async(formData)=>{
   })
   return response.data
 }
+
 //---------------------------------------------------------------------------------------
 /* property_module */
 
@@ -147,7 +148,9 @@ export const getBookingSetting = async()=>{
 }
 
 export const BookingSetting = async(formData)=>{
-  const response = await API.post('/provider/booking-settings')
+  const response = await API.post('/provider/booking-settings', formData)
   return response.data
 }
+
+
 
