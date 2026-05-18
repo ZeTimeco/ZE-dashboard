@@ -2,6 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl';
+import { useRouter } from 'next/navigation';
 
 function Cardspage({topProperties}) {
   const { t } = useTranslation();
@@ -29,12 +30,15 @@ function Cardspage({topProperties}) {
         );  
     }
   };
+  const router = useRouter()
 
   return (
     <>
       <div className='flex justify-between mb-5'>
         <p className='text-[#0F022E] text-2xl font-medium mb-1'>{t('My properties')}</p>
-        <button className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
+        <button
+          onClick={()=>router.push('/Pages/Services/Property_Module/Service')} 
+          className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
           {t('More')}
         </button>
       </div>
