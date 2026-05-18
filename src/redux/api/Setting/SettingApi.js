@@ -153,4 +153,32 @@ export const BookingSetting = async(formData)=>{
 }
 
 
+export const getCalendarSetting = async()=>{
+  const response = await API.get('/provider/calendar-settings')
+  return response.data
+}
 
+export const CalendarSetting = async(formData)=>{
+  const response = await API.post('/provider/calendar-settings' , formData )
+  return response.data
+}
+
+export const getRuleSetting = async()=>{
+  const response = await API.get('/provider/rules-settings')
+  return response.data
+}
+
+export const RuleSetting = async(formData)=>{
+  const response = await API.post('/provider/rules-settings' , formData)
+  return response.data
+}
+
+export const getAdvancedSetting = async()=>{
+  const response = await API.get('/provider/advanced-settings')
+  return response.data
+}
+
+export const AdvancedSetting = async(formData)=>{
+  const response = await API.post('/provider/advanced-settings' , formData)
+  return response.data
+}

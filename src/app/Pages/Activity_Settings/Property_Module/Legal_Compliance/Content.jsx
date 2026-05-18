@@ -3,8 +3,9 @@ import React, { useState } from 'react'
 import { styled, Switch } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-function Content() {
+function Content({ formData , setFormData}) {
   const {t} = useTranslation()
+  const set = (key, value) => setFormData(prev => ({ ...prev, [key]: value }))
 
   const GreenSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -60,9 +61,16 @@ function Content() {
       <div>
         <p className='text-[#364152] text-base font-medium'>{t('Virtual house rules')}</p>
         <textarea
+          value={formData?.in_house_rules || ''}
+          onChange={(e)=>(
+            setFormData((prev)=>({
+              ...prev , 
+              in_house_rules : e.target.value
+            }))
+          )}
           className='w-full h-35 border border-[#CDD5DF] text-sm font-normal text-[#9AA4B2] outline-0 rounded-[3px] px-4 py-3 resize-none mt-2'
           placeholder={t('Enter the house rules...')}
-        ></textarea>
+        />
       </div>
 
 
@@ -72,8 +80,13 @@ function Content() {
           <span className='text-[#364152] text-base font-medium'>{t('Guest ID verification request')}</span>
           <span className='text-[#697586] text-base font-normal'>{t('Guests identities must be verified before booking.')}</span>
         </p>
-        <GreenSwitch/>
+        <GreenSwitch
+          checked={formData?.ask_guest_identity}
+          onChange={(e)=>set('ask_guest_identity' , e.target.checked ?true:false)}
+        />
+      
       </div>
+
 
       {/*  */}
       <div className='mt-12'>
@@ -88,11 +101,16 @@ function Content() {
               <span className='text-[#364152] text-sm font-normal'>{t('Mobile phone')}</span>
             </p>
             <input 
-              type="radio" 
+              type="checkbox" 
               className={inputClassNameTrue}
-              name='box'
-              checked={selected === "mobile"}
-              onChange={() => setSelected("mobile")}
+              
+              checked={formData?.enable_phone}
+              onChange={(e)=>
+                setFormData((prev)=>({
+                  ...prev,
+                  enable_phone: e.target.checked
+                }))}
+            
             />
           </div>
 
@@ -105,11 +123,15 @@ function Content() {
               <span className='text-[#364152] text-sm font-normal'>{t('WhatsApp')}</span>
             </p>
             <input 
-              type="radio" 
+              type="checkbox" 
               className={inputClassNameTrue}
-              name='box'
-              checked={selected === "WhatsApp"}
-              onChange={() => setSelected("WhatsApp")}
+            
+              checked={formData?.enable_whatsapp}
+              onChange={(e)=>
+                setFormData((prev)=>({
+                  ...prev,
+                  enable_whatsapp: e.target.checked
+                }))}
             />
           </div>
 
@@ -122,11 +144,14 @@ function Content() {
               <span className='text-[#364152] text-sm font-normal'>{t('App Messages')}</span>
             </p>
             <input 
-              type="radio" 
+              type="checkbox" 
               className={inputClassNameTrue}
-              name='box'
-              checked={selected === "Messages"}
-              onChange={() => setSelected("Messages")}
+              checked={formData?.enable_app_message}
+              onChange={(e)=>
+                setFormData((prev)=>({
+                  ...prev,
+                  enable_app_message: e.target.checked
+                }))}
             />
           </div>
 

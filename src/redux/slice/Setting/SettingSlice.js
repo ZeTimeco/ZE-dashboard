@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -296,6 +296,72 @@ export const BookingSettingThunk = createAsyncThunk('setting/BookingSettingThunk
   }
 )
 
+export const getCalendarSettingThunk = createAsyncThunk('setting/getCalendarSettingThunk',
+  async(_ ,{rejectWithValue})=>{
+    try{
+      const response = await getCalendarSetting()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const CalendarSettingThunk = createAsyncThunk('setting/CalendarSettingThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await CalendarSetting(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getRuleSettingThunk = createAsyncThunk('setting/getRuleSettingThunk' , 
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getRuleSetting()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const RuleSettingThunk = createAsyncThunk('settting/RuleSettingThunk' , 
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await RuleSetting(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getAdvancedSettingThunk = createAsyncThunk('setting/getAdvancedSettingThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getAdvancedSetting()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const AdvancedSettingThunk = createAsyncThunk('setting/AdvancedSettingThunk' , 
+  async(formData , {rejectWithValue})=>{
+    try{
+        const response = await AdvancedSetting(formData)
+        return response
+      }catch(error){
+        return rejectWithValue(error.response?.data || error.message);
+      }
+  }
+)
+
 
 const initialState ={
   success:false,
@@ -334,6 +400,15 @@ const initialState ={
 
   getBookingSetting:null,
   BookingSetting:null,
+  getCalendarSetting:null,
+  CalendarSetting:null,
+  getRuleSetting:null,
+  RuleSetting:null,
+  getAdvancedSetting:null,
+  AdvancedSetting:null,
+
+
+
 
 }
 
@@ -706,6 +781,84 @@ const settingSlice = createSlice({
         state.BookingSetting = action.payload;
       })
       .addCase(BookingSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getCalendarSettingThunk
+      .addCase(getCalendarSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCalendarSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getCalendarSetting = action.payload;
+      })
+      .addCase(getCalendarSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //CalendarSettingThunk
+      .addCase(CalendarSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(CalendarSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.CalendarSetting = action.payload;
+      })
+      .addCase(CalendarSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getRuleSettingThunk
+      .addCase(getRuleSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRuleSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getRuleSetting = action.payload;
+      })
+      .addCase(getRuleSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //RuleSettingThunk
+      .addCase(RuleSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(RuleSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.RuleSetting = action.payload;
+      })
+      .addCase(RuleSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getAdvancedSettingThunk
+      .addCase(getAdvancedSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAdvancedSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getAdvancedSetting = action.payload;
+      })
+      .addCase(getAdvancedSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //AdvancedSettingThunk
+      .addCase(AdvancedSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(AdvancedSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.AdvancedSetting = action.payload;
+      })
+      .addCase(AdvancedSettingThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

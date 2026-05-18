@@ -18,7 +18,6 @@ function BookingSettingPpage() {
     dispatch(getBookingSettingThunk())
   },[dispatch])
 
-  console.log('getBookingSettingData' , getBookingSettingData);
 
   const [formData , setFormData] = useState({
     approval_type:'',

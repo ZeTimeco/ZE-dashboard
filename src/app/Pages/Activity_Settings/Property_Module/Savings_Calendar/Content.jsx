@@ -3,20 +3,13 @@ import React, { useState } from 'react'
 import { styled, Switch } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-function Content() {
+function Content({formData , setFormData}) {
   const {t} = useTranslation()
   
   const inputClassNameDot = "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+  const set = (key, value) => setFormData(prev => ({ ...prev, [key]: value }))
 
-  const [count, setCount] = useState(0)
-  const increase = () => {
-    setCount((prev) => prev + 1)
-  }
-  const decrease = () => {
-    if (count > 1) {
-      setCount((prev) => prev - 1)
-    }
-  }
+
 
   const GreenSwitch = styled((props) => (
   <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
@@ -75,6 +68,12 @@ function Content() {
           type='radio'
           name='box'
           className={inputClassNameDot}
+          checked={formData.availability_mode === 'auto' }
+          onChange={() =>
+            setFormData(prev => ({
+              ...prev,
+              availability_mode: 'auto',
+          }))} 
         />
       </div>
 
@@ -85,6 +84,12 @@ function Content() {
           type='radio'
           name='box'
           className={inputClassNameDot}
+          checked={formData.availability_mode === 'manual' }
+          onChange={() =>
+            setFormData(prev => ({
+              ...prev,
+              availability_mode: 'manual',
+          }))}      
         />
       </div>
     </div>
@@ -102,18 +107,20 @@ function Content() {
         <div className='flex items-center gap-3   py-2'>
             
             <button
-              onClick={decrease}
+              type = 'button'
+              onClick={() => set('buffer_between_bookings_hours', Math.max(0, (Number(formData.buffer_between_bookings_hours) || 0) - 1))}
               className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer'
             >
               -
             </button>
 
             <span className='w-full h-11  text-[#4B5565] flex items-center justify-center font-medium  text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-[3px]'>
-              {count} {t('dayss')}
+              {formData.buffer_between_bookings_hours || 0} {t('dayss')}
             </span>
 
             <button
-              onClick={increase}
+              type = 'button'
+              onClick={() => set('buffer_between_bookings_hours', Math.max(0, (Number(formData.buffer_between_bookings_hours) || 0) + 1))}
               className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer'
             >
               +
@@ -130,7 +137,10 @@ function Content() {
         <span className='text-[#364152] text-base font-medium'>{t('Activate maintenance mode')}</span>
         <span className='text-[#697586] text-base font-normal'>{t('All bookings are blocked during maintenance.')}</span>
       </p>
-      <GreenSwitch/>
+      <GreenSwitch
+        checked={!!formData.maintenance_mode}
+        onChange={(e)=>set('maintenance_mode' , e.target.checked ? 1: 0)}
+      />
     </div>
     </>
   )
