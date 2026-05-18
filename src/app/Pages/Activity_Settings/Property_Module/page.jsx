@@ -28,7 +28,7 @@ function Property_ModulePage() {
     <MainLayout>
 
       <div className='"w-full '>
-        <div className='flex  border-b border-gray-300'>
+        <div className='flex gap-4 border-b border-gray-300 overflow-x-auto whitespace-nowrap scrollbar-hide '>
           {menuTabBar?.map((tab)=>(
             <button 
               key={tab.id}

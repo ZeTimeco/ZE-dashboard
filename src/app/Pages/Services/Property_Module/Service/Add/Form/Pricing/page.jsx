@@ -43,11 +43,25 @@ function PricingPage({prevStep , nextStep }) {
     security_deposit: '',
     cleaning_fee: '',
     cancellation_policy_id:'',
-
   })
+
+  const [fieldErrors, setFieldErrors] = useState({});
 
     const handleSubmit = async (e) => {
       e.preventDefault();
+
+      const errors = {};
+      if (!formData.base_price) errors.base_price = true;
+      if (!formData.security_deposit) errors.security_deposit = true;
+      if (!formData.cleaning_fee) errors.cleaning_fee = true;
+      if (!formData.cancellation_policy_id) errors.cancellation_policy_id = true;
+
+      if (Object.keys(errors).length > 0) {
+        setFieldErrors(errors);
+        return;
+      }
+      setFieldErrors({});
+
         try {
           const data = new FormData();
           data.append("property_id", property_id || "");
@@ -76,7 +90,7 @@ function PricingPage({prevStep , nextStep }) {
           <div className='border border-[#CDD5DF] my-4'></div>
         </div>
 
-        <PricingInfoPage           formData={formData} setFormData={setFormData}  />
+        <PricingInfoPage           formData={formData} setFormData={setFormData} fieldErrors={fieldErrors} setFieldErrors={setFieldErrors} />
         <CancellationPolicyPage    formData={formData} setFormData={setFormData} getPoliciesApproved={getPoliciesApproved}/>
         <PricingDetailsPage        formData={formData} setFormData={setFormData}  getPricingPolicies={getPricingPolicies}/>
 
@@ -85,7 +99,7 @@ function PricingPage({prevStep , nextStep }) {
           <div className='w-full '>
             <button
               onClick={prevStep}
-              className=" w-[25%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="w-[50%] lg1:w-[15%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('the previous')}
             </button>
@@ -93,14 +107,14 @@ function PricingPage({prevStep , nextStep }) {
           
           <div className='flex gap-2 justify-end w-full '>
             <button
-              className="h-15 w-[30%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="h-15 w-[50%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('Save draft')}
             </button>
 
             <button
               onClick={handleSubmit}
-              className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="h-15 w-[50%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('the next')}
             </button>

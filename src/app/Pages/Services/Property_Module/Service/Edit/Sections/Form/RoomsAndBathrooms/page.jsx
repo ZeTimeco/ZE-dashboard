@@ -342,14 +342,14 @@ function RoomsAndBathroomsPageContent() {
             <button
               type="button"
               onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
-              className="h-15 w-[15%] border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
             >
               {t('Return')}
             </button>
             <button
               type="button"
               onClick={handleSave}
-              className="h-15 w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
             >
               {t('Save changes')}
             </button>

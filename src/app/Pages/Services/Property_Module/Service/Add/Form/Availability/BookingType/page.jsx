@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BookingTypePage({formData, setFormData}) {
+function BookingTypePage({formData, setFormData, fieldErrors, setFieldErrors}) {
   const {t} = useTranslation()
   const [selectedPolicy, setSelectedPolicy] = useState('')
 
@@ -161,8 +161,17 @@ useEffect(() => {
 
           {/*Available on specified dates  */}
           <div 
-            className={`border flex justify-between  p-3 cursor-pointer rounded-[3px] ${selectedPolicy === '1' ? 'border-[var(--color-primary)]' : 'border-[#E3E8EF]'}`}
-            onClick={() => setSelectedPolicy('1')}
+            className={`border flex justify-between  p-3 cursor-pointer rounded-[3px] ${
+              selectedPolicy === '1' 
+                ? 'border-[var(--color-primary)]' 
+                : fieldErrors?.booking_type 
+                  ? 'border-[#F04438]' 
+                  : 'border-[#E3E8EF]'
+            }`}
+            onClick={() => {
+              setSelectedPolicy('1');
+              if (setFieldErrors) setFieldErrors(prev => ({...prev, booking_type: false}));
+            }}
           >
             <div>
               <div className='flex gap-2'>
@@ -184,8 +193,17 @@ useEffect(() => {
 
           {/*Always available  */}
           <div 
-            className={`border flex justify-between p-3 cursor-pointer rounded-[3px] ${selectedPolicy === '2' ? 'border-[var(--color-primary)]' : 'border-[#E3E8EF]'}`}
-            onClick={() => setSelectedPolicy('2')}
+            className={`border flex justify-between p-3 cursor-pointer rounded-[3px] ${
+              selectedPolicy === '2' 
+                ? 'border-[var(--color-primary)]' 
+                : fieldErrors?.booking_type 
+                  ? 'border-[#F04438]' 
+                  : 'border-[#E3E8EF]'
+            }`}
+            onClick={() => {
+              setSelectedPolicy('2');
+              if (setFieldErrors) setFieldErrors(prev => ({...prev, booking_type: false}));
+            }}
           >
             <div>
               <div className='flex gap-2'>

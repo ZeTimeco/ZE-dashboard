@@ -157,7 +157,7 @@ function RoomsAndBathroomsPage({prevStep , nextStep }) {
         <div className='w-full '>
           <button
             onClick={prevStep}
-            className=" w-[25%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            className="w-[50%] lg1:w-[15%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
           >
             {t('the previous')}
           </button>
@@ -165,7 +165,7 @@ function RoomsAndBathroomsPage({prevStep , nextStep }) {
         
         <div className='flex gap-2 justify-end w-full '>
           <button
-            className="h-15 w-[30%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            className="h-15 w-[50%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
           >
             {t('Save draft')}
           </button>
@@ -173,7 +173,7 @@ function RoomsAndBathroomsPage({prevStep , nextStep }) {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+            className="h-15 w-[50%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {loading ? t('Saving...') : t('the next')}
           </button>

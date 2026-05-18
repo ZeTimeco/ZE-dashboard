@@ -5,7 +5,7 @@ import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-function Receive_GuestsPage({setFormData ,formData}) {
+function Receive_GuestsPage({setFormData ,formData ,fieldErrors, setFieldErrors}) {
   const {t} = useTranslation()
   const [startTime, setStartTime] = useState(null);
   const [leaveTime, setLeaveTime] = useState(null);
@@ -21,6 +21,7 @@ function Receive_GuestsPage({setFormData ,formData}) {
         available_to: p.end.format('HH:mm')
       }));
       setFormData({ ...formData, availabilities: formattedPeriods });
+      if (setFieldErrors) setFieldErrors(prev => ({...prev, availabilities: false}));
 
       setStartTime(null);
       setLeaveTime(null);
@@ -88,14 +89,14 @@ function Receive_GuestsPage({setFormData ,formData}) {
                           height: "56px",
                           direction: "rtl",
                           "& fieldset": {
-                            borderColor: "#CDD5DF",
+                            borderColor: fieldErrors?.availabilities ? "#F04438" : "#CDD5DF",
                             borderRadius: "3px",
                           },
                           "&:hover fieldset": {
-                            borderColor: "#CDD5DF",
+                            borderColor: fieldErrors?.availabilities ? "#F04438" : "#CDD5DF",
                           },
                           "&.Mui-focused fieldset": {
-                            borderColor: "#CDD5DF",
+                            borderColor: fieldErrors?.availabilities ? "#F04438" : "#CDD5DF",
                             borderWidth: "1px",
                           },
                           "& input": {
@@ -146,14 +147,14 @@ function Receive_GuestsPage({setFormData ,formData}) {
                           height: "56px",
                           direction: "rtl",
                           "& fieldset": {
-                            borderColor: "#CDD5DF",
+                            borderColor: fieldErrors?.availabilities ? "#F04438" : "#CDD5DF",
                             borderRadius: "3px",
                           },
                           "&:hover fieldset": {
-                            borderColor: "#CDD5DF",
+                            borderColor: fieldErrors?.availabilities ? "#F04438" : "#CDD5DF",
                           },
                           "&.Mui-focused fieldset": {
-                            borderColor: "#CDD5DF",
+                            borderColor: fieldErrors?.availabilities ? "#F04438" : "#CDD5DF",
                             borderWidth: "1px",
                           },
                           "& input": {
@@ -195,16 +196,16 @@ function Receive_GuestsPage({setFormData ,formData}) {
                   {periods.map((period, index) => (
                     <div key={index} className='flex border border-[#CDD5DF]  rounded-[3px] py-4 px-3 w-full '>
                       <div className='flex gap-2 w-full'>
-                        <img src="/images/icons/clock-yellow.svg" alt="" />
-                        <p className='text-[#364152] text-base font-normal'>
+                        <img src="/images/icons/clock-yellow.svg" className="w-8 h-8"  />
+                        <p className='text-[#364152] text-base font-normal  w-full'>
                           {formatTime(period.start)} - {formatTime(period.end)}
                         </p>
                       </div>
                       <button 
                         onClick={() => handleRemovePeriod(index)}
-                        className='w-full flex justify-end cursor-pointer'
+                        className=' flex justify-end cursor-pointer '
                       >
-                        <img src="/images/icons/xxx.svg" alt="" />
+                        <img src="/images/icons/xxx.svg" className="w-10 h-10" />
                       </button>
                     </div>
                   ))}

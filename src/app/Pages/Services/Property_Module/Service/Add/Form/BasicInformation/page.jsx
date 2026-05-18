@@ -62,8 +62,22 @@ function BasicInformationPage({prevStep , nextStep }) {
     children_equivalent_to_adult:"",
   });
 
+  const [fieldErrors, setFieldErrors] = useState({});
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate required fields
+    const errors = {};
+    if (!formData.title.trim()) errors.title = true;
+    if (!formData.description.trim()) errors.description = true;
+    if (!formData.property_type_id) errors.property_type_id = true;
+
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+    setFieldErrors({});
 
     try {
       const data = new FormData();
@@ -106,9 +120,10 @@ function BasicInformationPage({prevStep , nextStep }) {
             type="text"
             name='title'
             placeholder='مثال : - فيلا حي الروابي' 
-            className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+            className={`w-full h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none ${fieldErrors.title ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
             onChange={(e)=>{
               setFormData({...formData, title: e.target.value});
+              if (e.target.value.trim()) setFieldErrors(prev => ({...prev, title: false}));
             }}
           />
         </div>
@@ -135,7 +150,7 @@ function BasicInformationPage({prevStep , nextStep }) {
                   setSelected1(null);
                 }}
 
-                className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+                className={`w-full h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none ${fieldErrors.property_type_id ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
               />
 
               <span className="absolute left-3 cursor-pointer">
@@ -184,10 +199,11 @@ function BasicInformationPage({prevStep , nextStep }) {
             onChange={(e) => {
               setCount(e.target.value.length);
               setFormData({ ...formData, description: e.target.value });
+              if (e.target.value.trim()) setFieldErrors(prev => ({...prev, description: false}));
             }}
             placeholder={t("Write a brief description of the property.")}
             maxLength={500}
-            className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
+            className={`w-full h-20 border rounded-[3px] p-3 text-sm text-[#7d8d84] outline-none ${fieldErrors.description ? 'border-[#F04438]' : 'border-[#C8C8C8]'}`}
           />
 
           {/* counter */}
@@ -359,7 +375,7 @@ function BasicInformationPage({prevStep , nextStep }) {
         <div className='w-full '>
           <button
             onClick={prevStep}
-            className=" w-[25%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            className="w-[50%] lg1:w-[15%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
           >
             {t('the previous')}
           </button>
@@ -367,14 +383,14 @@ function BasicInformationPage({prevStep , nextStep }) {
 
         <div className='flex gap-2 justify-end w-full '>
           <button
-            className="h-15 w-[30%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            className="h-15 w-[50%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
           >
             {t('Save draft')}
           </button>
 
           <button
             onClick={handleSubmit}
-            className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            className="h-15 w-[50%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('the next')}
           </button>

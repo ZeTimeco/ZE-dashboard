@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PricingInfoPage({formData , setFormData}) {
+function PricingInfoPage({formData , setFormData, fieldErrors, setFieldErrors}) {
   const {t} = useTranslation()
   return (
     <>
@@ -25,8 +25,11 @@ function PricingInfoPage({formData , setFormData}) {
             placeholder='1,500 جنية' 
             name='formData?.base_price'
             value={formData?.base_price}
-            onChange={(e) => setFormData({...formData, base_price: e.target.value})}
-            className='w-full h-14 mb-1.5 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+            onChange={(e) => {
+              setFormData({...formData, base_price: e.target.value});
+              if (e.target.value && setFieldErrors) setFieldErrors(prev => ({...prev, base_price: false}));
+            }}
+            className={`w-full h-14 mb-1.5 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none ${fieldErrors?.base_price ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
           />
           <p className='text-[#697586] text-xs font-normal'>{t('This is your base price before any fees or taxes.')}</p>
         </div>
@@ -41,8 +44,11 @@ function PricingInfoPage({formData , setFormData}) {
             placeholder='1,500 جنية'
             name='formData?.security_deposit'
             value={formData?.security_deposit}
-            onChange={(e) => setFormData({...formData, security_deposit: e.target.value})}
-            className='w-full mb-1.5 h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+            onChange={(e) => {
+              setFormData({...formData, security_deposit: e.target.value});
+              if (setFieldErrors) setFieldErrors(prev => ({...prev, security_deposit: false}));
+            }}
+            className={`w-full mb-1.5 h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none ${fieldErrors?.security_deposit ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
           />
           <p className='text-[#697586] text-xs font-normal'>{t('Refundable if no damage occurs')}</p>
         </div>
@@ -58,8 +64,11 @@ function PricingInfoPage({formData , setFormData}) {
           placeholder='1,500 جنية'
           name='formData?.cleaning_fee'
           value={formData?.cleaning_fee}
-          onChange={(e) => setFormData({...formData, cleaning_fee: e.target.value})}
-          className='w-full  h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+          onChange={(e) => {
+            setFormData({...formData, cleaning_fee: e.target.value});
+            if (setFieldErrors) setFieldErrors(prev => ({...prev, cleaning_fee: false}));
+          }}
+          className={`w-full h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none ${fieldErrors?.cleaning_fee ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
         />
       </div>
 

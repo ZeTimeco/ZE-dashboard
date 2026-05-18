@@ -42,7 +42,7 @@ const getStepMessages = (step) => {
         <p className=' text-[#364152] text-lg font-normal mb-6'>{t('Select the section you want to edit.')}</p>
         
 
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 lg1:grid-cols-2 gap-4'>
 
           {/* Basic Information */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
@@ -181,7 +181,7 @@ const getStepMessages = (step) => {
 
           {/* Property details */}
           <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
-            <div className='flex  gap-4'>
+            <div className='flex  gap-4 '>
               <div className='flex items-start'>
                 <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
                   <img src="/images/icons/building-white.svg" alt="" />
@@ -201,7 +201,7 @@ const getStepMessages = (step) => {
                           </ol>
                         }
                       >
-                        <p className="bg-[#F04438] text-xs px-3 py-1 rounded-full text-white cursor-pointer">
+                        <p className="bg-[#F04438] text-xs px-3 py-1  w-fit rounded-full text-white cursor-pointer">
                           {t('Procedure is needed')}
                         </p>
                       </Tooltip>
@@ -222,7 +222,7 @@ const getStepMessages = (step) => {
                   </p>
               </div>
             </div>
-            <div className='flex items-center'>
+            <div className='flex items-center '>
               <button 
                 onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/PropertyDetails?id=${id}`)}
                 className='bg-[#EEF2F6] rounded-full w-10 h-10 flex justify-center items-center cursor-pointer'>

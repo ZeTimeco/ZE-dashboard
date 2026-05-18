@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function InformationPage({setFormData ,formData}) {
+function InformationPage({setFormData ,formData ,fieldErrors, setFieldErrors}) {
   const {t} = useTranslation();
 
   /* Property area */
@@ -51,12 +51,15 @@ function InformationPage({setFormData ,formData}) {
                 {/* Input */}
                 <input
                   type="number"
-                  onChange={(e) => setFormData({...formData, area: e.target.value})}
+                  onChange={(e) => {
+                    setFormData({...formData, area: e.target.value});
+                    if (setFieldErrors) setFieldErrors(prev => ({...prev, area: false}));
+                  }}
                   name="area"
-                  className="w-[70%] px-3 py-2 h-14 p-3  border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-r-[3px] outline-none"
+                  className={`w-[70%] px-3 py-2 h-14 p-3 border text-sm text-[#7d8d84] rounded-r-[3px] outline-none ${fieldErrors?.area ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
                 />  
                 {/* Dropdown */}
-                <div className="relative w-[30%] h-14 p-3 border-l border-t border-b border-[#CDD5DF] text-sm text-[#7d8d84] rounded-l-[3px] outline-none">
+                <div className={`relative w-[30%] h-14 p-3 border-l border-t border-b text-sm text-[#7d8d84] rounded-l-[3px] outline-none ${fieldErrors?.area_unit ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}>
                   <button
                     type="button"
                     onClick={() => setOpen(!open)}
@@ -80,7 +83,8 @@ function InformationPage({setFormData ,formData}) {
                           onClick={() => {
                             setSelected(item);
                             setOpen(false);
-                            setFormData({...formData , area_unit:item?.value})
+                            setFormData({...formData , area_unit:item?.value});
+                            if (setFieldErrors) setFieldErrors(prev => ({...prev, area_unit: false}));
                           }}
                           className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                         >
@@ -108,6 +112,7 @@ function InformationPage({setFormData ,formData}) {
                       setIsGroundFloor(e.target.checked);
                       if (e.target.checked) {
                         setFormData({ ...formData, floor_number: 0 });
+                        if (setFieldErrors) setFieldErrors(prev => ({...prev, floor_number: false}));
                       } else {
                         setFormData({ ...formData, floor_number: "" });
                       }
@@ -123,9 +128,12 @@ function InformationPage({setFormData ,formData}) {
                 min="0" 
                 disabled={isGroundFloor}
                 value={formData.floor_number === 0 && isGroundFloor ? "" : formData.floor_number}
-                onChange={(e) => setFormData({ ...formData, floor_number: e.target.value })}
+                onChange={(e) => {
+                  setFormData({ ...formData, floor_number: e.target.value });
+                  if (setFieldErrors) setFieldErrors(prev => ({...prev, floor_number: false}));
+                }}
                 placeholder={t('Floor number')}
-                className="w-full  px-3 py-2 h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed"
+                className={`w-full  px-3 py-2 h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed ${fieldErrors?.floor_number ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
               />
             </div>
 
@@ -141,8 +149,9 @@ function InformationPage({setFormData ,formData}) {
                     onChange={(e) => {
                       setHasElevator('yes');
                       setFormData({ ...formData, has_elevator: 1 });
+                      if (setFieldErrors) setFieldErrors(prev => ({...prev, has_elevator: false}));
                     }}
-                    className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+                    className={`w-5 h-5 appearance-none border rounded-full bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 ${fieldErrors?.has_elevator ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
                   />
                   <p className='text-[#697586] text-sm select-none'>{t('yes')}</p>
                 </label>
@@ -154,8 +163,9 @@ function InformationPage({setFormData ,formData}) {
                     onChange={(e) => {
                       setHasElevator('no');
                       setFormData({ ...formData, has_elevator: 0 });
+                      if (setFieldErrors) setFieldErrors(prev => ({...prev, has_elevator: false}));
                     }}
-                    className="w-5 h-5 appearance-none border rounded-full border-[#CDD5DF] bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+                    className={`w-5 h-5 appearance-none border rounded-full bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2 checked:after:h-2 checked:after:bg-white checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 ${fieldErrors?.has_elevator ? 'border-[#F04438]' : 'border-[#CDD5DF]'}`}
                   />
                   <p className='text-[#697586] text-sm select-none'>{t('no')}</p>
                 </label>

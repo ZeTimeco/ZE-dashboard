@@ -5,7 +5,7 @@ import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
-function Arrival_DeparturePage({setFormData ,formData}) {
+function Arrival_DeparturePage({setFormData ,formData, fieldErrors, setFieldErrors}) {
   const {t} = useTranslation()
   const [startTime, setStartTime] = useState(null);
   const [leaveTime, setLeaveTime] = useState(null);
@@ -44,6 +44,7 @@ function Arrival_DeparturePage({setFormData ,formData}) {
                       setStartTime(newValue);
                       if (newValue) {
                         setFormData({ ...formData, check_in_time: newValue.format('HH:mm') });
+                        if (setFieldErrors) setFieldErrors(prev => ({...prev, check_in_time: false}));
                       }
                     }}
                     ampm={true}
@@ -57,14 +58,14 @@ function Arrival_DeparturePage({setFormData ,formData}) {
                             height: "56px",
                             direction: "rtl",
                             "& fieldset": {
-                              borderColor: "#CDD5DF",
+                              borderColor: fieldErrors?.check_in_time ? "#F04438" : "#CDD5DF",
                               borderRadius: "3px",
                             },
                             "&:hover fieldset": {
-                              borderColor: "#CDD5DF",
+                              borderColor: fieldErrors?.check_in_time ? "#F04438" : "#CDD5DF",
                             },
                             "&.Mui-focused fieldset": {
-                              borderColor: "#CDD5DF",
+                              borderColor: fieldErrors?.check_in_time ? "#F04438" : "#CDD5DF",
                               borderWidth: "1px",
                             },
                             "& input": {
@@ -108,6 +109,7 @@ function Arrival_DeparturePage({setFormData ,formData}) {
                       setLeaveTime(newValue);
                       if (newValue) {
                         setFormData({ ...formData, check_out_time: newValue.format('HH:mm') });
+                        if (setFieldErrors) setFieldErrors(prev => ({...prev, check_out_time: false}));
                       }
                     }}
                     ampm={true}
@@ -121,14 +123,14 @@ function Arrival_DeparturePage({setFormData ,formData}) {
                             height: "56px",
                             direction: "rtl",
                             "& fieldset": {
-                              borderColor: "#CDD5DF",
+                              borderColor: fieldErrors?.check_out_time ? "#F04438" : "#CDD5DF",
                               borderRadius: "3px",
                             },
                             "&:hover fieldset": {
-                              borderColor: "#CDD5DF",
+                              borderColor: fieldErrors?.check_out_time ? "#F04438" : "#CDD5DF",
                             },
                             "&.Mui-focused fieldset": {
-                              borderColor: "#CDD5DF",
+                              borderColor: fieldErrors?.check_out_time ? "#F04438" : "#CDD5DF",
                               borderWidth: "1px",
                             },
                             "& input": {

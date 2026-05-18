@@ -39,8 +39,21 @@ function AvailabilityPage({prevStep , nextStep }) {
 
   }, [addBasicProperty]);
   
+  const [fieldErrors, setFieldErrors] = useState({});
+
   const handleSubmit = async (e) => {
   e.preventDefault();
+
+  const errors = {};
+  const hasPolicy = formData.availability.all_avalable || formData.availability.slots.length > 0;
+  if (!hasPolicy) errors.booking_type = true;
+
+  if (Object.keys(errors).length > 0) {
+    setFieldErrors(errors);
+    return;
+  }
+  setFieldErrors({});
+
   try {
     // ابعت formData مباشرة كـ JSON مش FormData
     await dispatch(addAvailabilitySeasonsThunk({
@@ -73,7 +86,7 @@ function AvailabilityPage({prevStep , nextStep }) {
 
 
 
-        <BookingTypePage    formData={formData} setFormData={setFormData} />
+        <BookingTypePage    formData={formData} setFormData={setFormData} fieldErrors={fieldErrors} setFieldErrors={setFieldErrors} />
         <SpecialPricesPage  formData={formData} setFormData={setFormData} />
 
 
@@ -82,7 +95,7 @@ function AvailabilityPage({prevStep , nextStep }) {
         <div className='w-full '>
           <button
             onClick={prevStep}
-            className=" w-[25%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            className="w-[50%] lg1:w-[15%] h-15 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
           >
             {t('the previous')}
           </button>
@@ -90,14 +103,14 @@ function AvailabilityPage({prevStep , nextStep }) {
         
         <div className='flex gap-2 justify-end w-full '>
           <button
-            className="h-15 w-[30%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+            className="h-15 w-[50%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
           >
             {t('Save draft')}
           </button>
 
           <button
             onClick={handleSubmit}
-            className="h-15 w-[25%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            className="h-15 w-[50%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('the next')}
           </button>
