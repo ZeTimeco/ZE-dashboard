@@ -12,12 +12,12 @@ function ServicePage() {
       <>
         <Header/>
 
-        <div className="flex gap-4 mt-14">
-          <div className='w-[30%]' >
+        <div className="flex flex-col gap-6 mt-14">
+          <div className='w-full' >
             <SidebarMenuPage selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu}/>
           </div>
 
-          <div className='w-[70%]'>
+          <div className='w-full'>
             <SectionOfMenuPage selectedMenu={selectedMenu}/>
           </div>
         </div>

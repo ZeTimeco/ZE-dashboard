@@ -21,37 +21,32 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
     }
   return (
     <>
-          <ul className='py-6 px-4 shadow-[0_0_4px_0_rgba(0,0,0,0.25)]'>
+      <ul className='flex items-center gap-4 py-3 px-4 w-full overflow-x-auto whitespace-nowrap bg-gray-50 '>
         {menuItems.map((item) => {
           const isSelected = selectedMenu === item.id 
           
           return (
-          <div key={item.id}>
+          <div key={item.id} className="w-full ">
             <li 
-              className={`p-3 text-base font-normal cursor-pointer transition-colors flex items-center gap-3 justify-between ${
+              className={`px-4 py-3 w-full text-base font-normal cursor-pointer transition-colors flex items-center gap-3 rounded-[3px] ${
                 isSelected 
                   ? 'bg-[var(--color-primary)] text-white' 
-                  : 'hover:bg-gray-100 text-[#364152]'
+                  : '  text-[#364152] '
               }`}
                 onClick={() => {
                   setSelectedMenu(item.id)
                 }}
-              
             >
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3">
                 {isSelected ?(
                   <img src={item.iconSelected} alt={item.Label} className="w-5 h-5" />
                   ):(
                   <img src={item.icon} alt={item.Label} className="w-5 h-5" />
                   )
                 }
-                {item.name}
+                <span>{item.name}</span>
               </div>
-            
             </li>
-            
-          
-
           </div>
           )
         })}

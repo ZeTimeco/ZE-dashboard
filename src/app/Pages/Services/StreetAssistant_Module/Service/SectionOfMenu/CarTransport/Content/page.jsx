@@ -275,7 +275,7 @@ function ContentPage() {
           {/* btn */}
           <button 
             onClick={handleSave}
-            className='bg-[var(--color-primary)] text-white text-base font-medium h-15 w-[50%] rounded-[3px] my-6 cursor-pointer'>
+            className='bg-[var(--color-primary)] text-white text-base font-medium h-15 w-[25%] rounded-[3px] my-6 cursor-pointer'>
             {t('It was completed')}
           </button>
 

@@ -31,43 +31,43 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
     // 1440px and above
     <aside
       className={`
-        ${isSidebarOpen ? "block" : "hidden"}   /* ✅ في الموبايل/تابلت */
+        ${isSidebarOpen ? "block" : "hidden"}   
         lg1:flex flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200
-        ${open ? "w-70" : "w-18"}               /* ✅ ده بس للشاشات الكبيرة */
+        ${open ? "w-70" : "w-18"}          
         bg-white fixed lg:static z-50 top-0 right-0
       `}
     >
 
 
 
-      {/* Logo open and close */}
-      <button
-        onClick={() => {
-            // ✅ Desktop
-            if (window.innerWidth >= 1340) { 
-              setOpen(!open);
-            }
-          }}
-        className="w-full flex justify-center mt-8 mb-8 cursor-pointer "
-      >
-        {open ?(
-          <div className='flex gap-2 items-center'>
-            <img src='/images/LogoText.svg' alt="dd" />
-            <img src='/images/Logo.svg' alt="dd" />
-          </div>
-        
-        ):(
-          <div className='flex items-center '>
-            <img src='/images/Logo.svg' alt="dd" />
-          </div>
-        )}
-      </button>
+    {/* Logo open and close */}
+    <button
+      onClick={() => {
+          // ✅ Desktop
+          if (window.innerWidth >= 1340) { 
+            setOpen(!open);
+          }
+        }}
+      className="w-full flex justify-center mt-8 mb-8 cursor-pointer "
+    >
+      {open ?(
+        <div className='flex gap-2 items-center'>
+          <img src='/images/LogoText.svg' alt="dd" />
+          <img src='/images/Logo.svg' alt="dd" />
+        </div>
+      
+      ):(
+        <div className='flex items-center '>
+          <img src='/images/Logo.svg' alt="dd" />
+        </div>
+      )}
+    </button>
 
       {/* Navigation */}
       <nav className="flex-1">
         <ul className='flex flex-col h-full'>
           
-        {/* Dashboard */}
+        {/* Dashboard !!*/}
           <li className={`cursor-pointer  rounded ${pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
             <Link href="/Pages/Home"  >
                 {open?(
@@ -84,7 +84,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          {/* Requests */}
+          {/* Requests !!*/}
           <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/requests" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
@@ -135,7 +135,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          {/* Subscription */}
+          {/* Subscription !!*/}
           <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Subscription") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/Subscription" onClick={() => setIsSidebarOpen(false)}>
               {open?(
@@ -154,7 +154,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
             
-          {/* Conversations */}
+          {/* Conversations !!*/}
           <li  className={`cursor-pointer rounded ${pathname.startsWith("/Pages/conversations") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/conversations" onClick={() => setIsSidebarOpen(false)}>
               {open?(
