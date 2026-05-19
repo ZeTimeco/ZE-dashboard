@@ -5,12 +5,13 @@ import DetailsPage from './Details/page'
 import { useTranslation } from 'react-i18next'
 import CalenderDaysPage from './CalenderDays/page'
 
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 function CalendarPage() {
   const {t} = useTranslation()
   const router = useRouter()
-
+    const searchParams = useSearchParams();
+    const id = searchParams.get("id");
   return (
     <MainLayout>
       <div className='mb-10'>
@@ -25,7 +26,10 @@ function CalendarPage() {
       </div>
 
       <div className='my-6 flex gap-4'>
-        <button className='bg-[var(--color-primary)] text-white h-15 w-[20%] rounded-[3px]'>
+        <button
+          onClick={()=>router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/Availability?id=${id}`)}
+          className='bg-[var(--color-primary)] text-white h-15 w-[20%] rounded-[3px] cursor-pointer'
+        >
           {t('Add appointments')}
         </button>
         <button 

@@ -61,10 +61,25 @@ function Cardspage({topProperties}) {
               </div>
 
               {/* btn */}
-              <button className='flex gap-2 mt-3 cursor-pointer'>
-                <img src="/images/icons/calendar-yellow.svg" alt="" />
-                <p className='text-[var(--color-primary)] text-sm font-normal'>{t('Calendar view')} </p>
-              </button>
+
+              {property?.status === 'active' && (
+                <button 
+                  onClick={()=>router.push(`/Pages/Services/Property_Module/Service/Calendar?id=${property?.id}`)}
+                  className='flex gap-2 mt-3 cursor-pointer'>
+                  <img src="/images/icons/calendar-yellow.svg" alt="" />
+                  <p className='text-[var(--color-primary)] text-sm font-normal'>{t('Calendar view')} </p>
+                </button>
+              )}
+
+              {property?.status === 'inactive' && (
+                <button 
+                  onClick={()=>router.push(`/Pages/Services/Property_Module/Service/Edit?id=${property?.id}`)}
+                  className='flex gap-2 mt-3 cursor-pointer'>
+                  <img src="/images/icons/EditYellow.svg" className="w-4 h-4" />
+                  <p className='text-[var(--color-primary)] text-sm font-normal'>{t('modification')} </p>
+                </button>
+              )}
+              
 
             </div>
           </div>
