@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function BoxPage() {
+function BoxPage({getcounters}) {
   const {t} = useTranslation();
   
   return (
@@ -17,7 +17,7 @@ function BoxPage() {
           </p>
           <p className=''>{t('Today bookings')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>22</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{getcounters?.today_reservations_count}</p>
       </div>
     
       {/* Active tables */}
@@ -28,34 +28,33 @@ function BoxPage() {
           </p>
           <p className=''>{t('Active tables')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>22</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{getcounters?.active_tables_count}</p>
       
       </div>
 
-      {/* profits */}
+      {/* waiting list */}
       <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
         <div className='flex items-center gap-3'>
           <p className=' w-10 h-10 flex justify-center items-center bg-[#FEF0C7] rounded-md'>
-            <img src="/images/icons/profits-orange.svg" alt="" />
+            <img src="/images/icons/loading-yellow.svg" alt="" />
           </p>
-          <p className=''>{t('profits')}</p>
+          <p className=''>{t('waiting list')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>{t('today')} (22)</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{getcounters?.waitlist_count}</p>
       </div>
 
-      {/* Evaluation */}
+      {/* Complete */}
       <div className='border border-[#CDD5DF] rounded-[3px] p-4'>
         <div className='flex items-center gap-3'>
           <p className='w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
-            <img src="/images/icons/labor-blue.svg" alt="" />
+            <img src="/images/icons/tick-blue.svg" alt="" />
           </p>
-          <p>{t('Available technicians')}</p>
+          <p>{t('Complete')}</p>
         </div>
 
-        <div className='my-2.5 flex gap-1'>
+        <div className='my-2.5 '>
           <p className='text-[#121926] text-base font-medium'>
-            <span>11</span>{' '}
-            <span>{t('Technicians')}</span>
+            <span>{getcounters?.completed_count}</span>{' '}
           </p>
         </div>
       </div>
