@@ -4,6 +4,7 @@ import Home_Car_Street_Module from './Home_Car_Street_Module/Services/page';
 import Property_Module from './Property_Module/Services/page';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import { useTranslation } from 'react-i18next';
+import Queue_Module from './Queue_Module/Services/page';
 
 function HomePage() {
   const {t} = useTranslation();
@@ -31,6 +32,8 @@ function HomePage() {
       content = <Home_Car_Street_Module />
     } else if (current_module_key === 'property_rental') {
       content = <Property_Module />
+    }else if (current_module_key === 'queue'){
+      content = <Queue_Module />
     } else {
       content =(
         <MainLayout>
