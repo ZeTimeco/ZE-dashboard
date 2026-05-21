@@ -88,7 +88,9 @@ export const getPropertyBookingById = async(id)=>{
 
 //Queue_module
 /************************************************************ */
-export const getReservations = async()=>{
-  const response = await API.get('/provider/reservations')
+export const getReservations = async(params)=>{
+  const response = await API.get('/provider/reservations',{
+    params
+  })
   return  response.data
 }

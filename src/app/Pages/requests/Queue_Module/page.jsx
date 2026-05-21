@@ -15,9 +15,7 @@ function Queue_ModulePage() {
   const getReservationsSummary = getReservations?.summary
   const getReservationsData = getReservations?.data
 
-  useEffect(()=>{
-    dispatch(getReservationsThunk())
-  },[dispatch])
+
 
   return (
     <MainLayout>

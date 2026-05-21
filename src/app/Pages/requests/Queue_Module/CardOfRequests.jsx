@@ -1,10 +1,10 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import NotificationPage from './Dialog/Notification/page'
 
 function CardOfRequests({getReservationsData}) {
   const {t} =useTranslation()
-  const status ='no_show'
 
   // '!pending','!confirmed','!seated','!completed','!cancelled','no_show','!arrived','!rejected'
 
@@ -85,68 +85,94 @@ function CardOfRequests({getReservationsData}) {
       }
   };
 
+  const [openNotification , setOpenNotification] = useState(false)
+
   return (
     <>
-    <div className='grid grid-cols-2 gap-6 mt-10'>
+    {getReservationsData?.data.length > 0 ?(
+      <div className='grid grid-cols-2 gap-6 mt-10'>
+        {getReservationsData?.data.map((reservation)=>(
+          <div key={reservation?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10'>
+            {/* name & status  */}
+            <div className='flex justify-between'>
+              <div className='flex gap-3 items-center'>
+                <p className='w-15 h-14 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] rounded-[3px] flex items-center justify-center'>
+                  <span className='text-[#FCFCFD] text-lg font-normal'>#{reservation?.table_code}</span>
+                </p>
+                <p className='text-[#364152] text-lg font-medium'>{reservation?.guest_name}</p>
+              </div>
+              <div className='flex items-center'>
+                {StatusRender(reservation?.status)}
+              </div>
+            </div>
+            
+            {/*  */}
+            <div className='grid grid-cols-2 gap-3 my-3 '>
+              {/* guests */}
+              <div className='flex gap-1'>
+                <img src="/images/icons/user-group_grey.svg" alt="" />
+                <p className='text-[#697586] text-base font-normal'>{reservation?.guest_count} {t('guests')}</p>
+              </div>
 
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10'>
-        {/* name & status  */}
-        <div className='flex justify-between'>
-          <div className='flex gap-3 items-center'>
-            <p className='w-15 h-14 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] rounded-[3px] flex items-center justify-center'>
-              <span className='text-[#FCFCFD] text-lg font-normal'>#123</span>
-            </p>
-            <p className='text-[#364152] text-lg font-medium'>أحمد سمير</p>
+              {/* time */}
+              <div className=''>
+                <p className='text-[#697586] text-base font-normal'>
+                  {new Date(`1970-01-01T${reservation?.start_time}`).toLocaleTimeString('ar-EG', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true,
+                  })}
+                </p>
+              </div>
+
+              {/* hall time */}
+              <div className='flex gap-1'>
+                <img src="/images/icons/restaurant-gray.svg" alt="" />
+                <p className='text-[#364152] text-base font-normal'>{reservation?.hall_name}</p>
+              </div>
+
+              {/* hall view */}
+              <div className='flex gap-1'>
+                <img src="/images/icons/tree.svg" alt="" />
+                <p className='text-[#364152] text-base font-normal'> {reservation?.views?.[0]?.name}</p>
+              </div>
+
+            </div>
+
+            {/* btn */}
+            <div className='w-full mt-4 flex gap-6 '>
+              <button 
+                onClick={()=>setOpenNotification(true)}
+                className='w-[50%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium rounded-[3px] cursor-pointer'>
+                {t('notice')}
+              </button>
+
+              <button
+                onClick={() => window.location.href = `tel:${reservation?.guest_phone}`}
+                className='w-[50%] h-14 border border-[#CDD5DF] text-[#697586] text-base font-medium rounded-[3px] cursor-pointer'
+              >
+                {t('communication')}
+              </button>
+
+            </div>
+
           </div>
-          <div className='flex items-center'>
-            {StatusRender(status)}
-          </div>
-        </div>
-        
-        {/*  */}
-        <div className='grid grid-cols-2 gap-3 my-3 '>
-          {/* guests */}
-          <div className='flex gap-1'>
-            <img src="/images/icons/user-group_grey.svg" alt="" />
-            <p className='text-[#697586] text-base font-normal'>4 {t('guests')}</p>
-          </div>
-
-          {/* time */}
-          <div className=''>
-            <p className='text-[#697586] text-base font-normal'>7:30 مساءً</p>
-          </div>
-
-          {/* hall time */}
-          <div className='flex gap-1'>
-            <img src="/images/icons/restaurant-gray.svg" alt="" />
-            <p className='text-[#364152] text-base font-normal'>الصالة الرئيسية</p>
-          </div>
-
-          {/* hall view */}
-          <div className='flex gap-1'>
-            <img src="/images/icons/user-group_grey.svg" alt="" />
-            <p className='text-[#364152] text-base font-normal'>إطلالة على الحديقة</p>
-          </div>
-
-        </div>
-
-        {/* btn */}
-        <div className='w-full mt-4 flex gap-6 '>
-          <button className='w-[50%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium rounded-[3px] cursor-pointer'>
-            {t('notice')}
-          </button>
-
-          <button className='w-[50%] h-14 border border-[#CDD5DF] text-[#697586] text-base font-medium rounded-[3px] cursor-pointer'>
-            {t('communication')}
-          </button>
-
-        </div>
-
+        ))}
       </div>
-
+    ):(
+        <p className='text-center mt-10 text-[#697586]'>
+          {t('No reservations')}
+        </p>
+    )}
+    
+      
+    <NotificationPage
+      open={openNotification}
+      setOpen={setOpenNotification}
+    />
       
 
-    </div>
+      
 
     </>
   )

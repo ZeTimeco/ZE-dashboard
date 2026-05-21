@@ -145,9 +145,9 @@ export const getPropertyBookingByIdThunk = createAsyncThunk('Requests/getPropert
 /************************************************************ */
 
 export const getReservationsThunk = createAsyncThunk('request/getReservationsThunk',
-  async(_ , {rejectWithValue})=>{
+  async(params , {rejectWithValue})=>{
     try{
-      const response = await getReservations()
+      const response = await getReservations(params)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
