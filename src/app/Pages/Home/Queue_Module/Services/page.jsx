@@ -6,17 +6,18 @@ import UpcomingBookingsPage from './UpcomingBookings/page'
 import WaitingListPage from './WaitingList/page'
 import QuickProceduresPage from './QuickProcedures/page'
 import { useDispatch, useSelector } from 'react-redux'
-import { getcountersThunk, getUpcomingThunk } from '@/redux/slice/Home/HomeSlice'
+import { getcountersThunk, getUpcomingThunk, getWaitlistThunk } from '@/redux/slice/Home/HomeSlice'
 
 function ServicesPage() {
   const dispatch = useDispatch()
-  const {getcounters , getUpcoming} = useSelector((state)=>state.Home)
+  const {getcounters , getUpcoming ,getWaitlist} = useSelector((state)=>state.Home)
   useEffect(()=>{
     dispatch(getcountersThunk())
     dispatch(getUpcomingThunk())
+    dispatch(getWaitlistThunk())
   },[dispatch])
 
-  console.log('getUpcoming' ,getUpcoming);
+  console.log('getWaitlist' ,getWaitlist);
 
   return (
     <MainLayout>
@@ -24,7 +25,7 @@ function ServicesPage() {
 
       <div className='grid grid-cols-2 gap-4'>
         <UpcomingBookingsPage getUpcoming={getUpcoming}/>
-        <WaitingListPage />
+        <WaitingListPage getWaitlist={getWaitlist}/>
       </div>
 
       <QuickProceduresPage/>

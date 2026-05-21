@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -141,6 +141,20 @@ export const getPropertyBookingByIdThunk = createAsyncThunk('Requests/getPropert
   }
 )
 
+//Queue_module
+/************************************************************ */
+
+export const getReservationsThunk = createAsyncThunk('request/getReservationsThunk',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getReservations()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 const initialState = {
   loading: false,
   error: null,
@@ -159,6 +173,8 @@ const initialState = {
   getBookingDetails:null,
   getPropertiesFilter:[],
   getPropertyBooking:null,
+
+  getReservations:null,
 
 }
 
@@ -322,6 +338,20 @@ const RequestsSlice = createSlice({
         state.getPropertyBooking = action.payload;
       })
       .addCase(getPropertyBookingByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //getReservationsThunk
+      .addCase(getReservationsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getReservationsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getReservations = action.payload;
+      })
+      .addCase(getReservationsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

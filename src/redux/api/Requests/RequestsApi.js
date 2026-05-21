@@ -83,3 +83,12 @@ export const getPropertyBookingById = async(id)=>{
   const response = await API.get(`/properties/${id}/bookings`)
   return response.data
 }
+
+
+
+//Queue_module
+/************************************************************ */
+export const getReservations = async()=>{
+  const response = await API.get('/provider/reservations')
+  return  response.data
+}

@@ -86,12 +86,12 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
 
           {/* Requests !!*/}
           <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/requests" onClick={() => setIsSidebarOpen(false)}>
+            <Link href="/Pages/requests/Queue_Module" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center py-3 px-2'>
                     <img src="/images/icons/Requests.svg" alt="" className={pathname.startsWith("/Pages/requests") ? "invert" : ""}/>
-                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Requests')}</p>
+                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Reservations')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center py-2 px-2'>

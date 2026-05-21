@@ -67,3 +67,8 @@ export const getUpcoming = async()=>{
   const response = await API.get('/provider/dashboard/upcoming-preview')
   return response.data
 }
+
+export const getWaitlist = async()=>{
+  const response = await API.get('/provider/dashboard/waitlist-preview')
+  return  response.data
+}
