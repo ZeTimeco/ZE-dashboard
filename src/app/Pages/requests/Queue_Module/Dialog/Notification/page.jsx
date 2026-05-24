@@ -1,11 +1,27 @@
 "use client"
+import { notifyUserThunk } from '@/redux/slice/Requests/RequestsSlice'
 import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
 
 function NotificationPage({open , setOpen , reservationData}) {
   const {t} = useTranslation()
   const [count, setCount] = useState("");
+
+  const dispatch = useDispatch()
+  const [formData , setFormData]= useState({
+    reservation_id:'',
+    message:'',
+  })
+
+
+  const handleSubmit = ()=>{
+    dispatch(notifyUserThunk({
+      reservation_id:reservationData?.id,
+      message:formData?.message,
+    }))
+  }
   return (
     <>  
     <Dialog
@@ -43,8 +59,11 @@ function NotificationPage({open , setOpen , reservationData}) {
           </p>
           <div className="relative w-full">
             <textarea
-              value={count}
-              onChange={(e) => setCount(e.target.value)}
+              value={formData?.message}
+              onChange={(e) => setFormData({
+                ...formData,
+                message:e.target.value
+              })}
               placeholder={t("Write a brief description of the property.")}
               maxLength={500}
               className={`w-full h-50 border rounded-[3px] p-3 text-sm text-[#7d8d84] outline-none border-[#CDD5DF]`}
@@ -52,7 +71,7 @@ function NotificationPage({open , setOpen , reservationData}) {
 
             {/* counter */}
             <span className="absolute bottom-3 left-3 text-[#9A9A9A] text-sm">
-              {count.length}/500
+              {formData?.message.length}/500
             </span>
           </div>
         </section>
@@ -68,6 +87,7 @@ function NotificationPage({open , setOpen , reservationData}) {
           </button>
 
           <button
+            onClick={handleSubmit}
             className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('send')}

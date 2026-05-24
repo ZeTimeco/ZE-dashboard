@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, notifyUser, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -149,6 +149,17 @@ export const getReservationsThunk = createAsyncThunk('request/getReservationsThu
     try{
       const response = await getReservations(params)
       return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const notifyUserThunk = createAsyncThunk('request/notifyUserThunk',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await notifyUser(formData)
+      return response 
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -354,6 +365,19 @@ const RequestsSlice = createSlice({
       .addCase(getReservationsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      //notifyUserThunk
+      .addCase(notifyUserThunk.pending , (state)=>{
+        state.loading =true;
+        state.error = null;
+      })
+      .addCase(notifyUserThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(notifyUserThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
       })
 
       

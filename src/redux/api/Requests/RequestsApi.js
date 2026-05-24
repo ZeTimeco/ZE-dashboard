@@ -92,5 +92,10 @@ export const getReservations = async(params)=>{
   const response = await API.get('/provider/reservations',{
     params
   })
-  return  response.data
+  return response.data
+}
+
+export const notifyUser = async(formData)=>{
+  const response = await API.post('/provider/notify-user' , formData)
+  return response.data
 }
