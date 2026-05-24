@@ -87,9 +87,14 @@ function CardOfRequests({getReservationsData}) {
 
   const [openNotification , setOpenNotification] = useState(false)
 
+  const [selectedReservation , setSelectedReservation] = useState({
+    id:null ,
+    guest_name:''
+  })
+
   return (
     <>
-    {getReservationsData?.data.length > 0 ?(
+    {getReservationsData?.data.length > 0 ?(  
       <div className='grid grid-cols-2 gap-6 mt-10'>
         {getReservationsData?.data.map((reservation)=>(
           <div key={reservation?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10'>
@@ -142,7 +147,12 @@ function CardOfRequests({getReservationsData}) {
             {/* btn */}
             <div className='w-full mt-4 flex gap-6 '>
               <button 
-                onClick={()=>setOpenNotification(true)}
+                onClick={()=>{
+                  setSelectedReservation({
+                    id:reservation?.id,
+                    guest_name:reservation?.guest_name
+                  })
+                  setOpenNotification(true)}}
                 className='w-[50%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium rounded-[3px] cursor-pointer'>
                 {t('notice')}
               </button>
@@ -169,6 +179,7 @@ function CardOfRequests({getReservationsData}) {
     <NotificationPage
       open={openNotification}
       setOpen={setOpenNotification}
+      reservationData={selectedReservation}
     />
       
 

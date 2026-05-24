@@ -3,7 +3,7 @@ import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function NotificationPage({open , setOpen}) {
+function NotificationPage({open , setOpen , reservationData}) {
   const {t} = useTranslation()
   const [count, setCount] = useState("");
   return (
@@ -34,7 +34,7 @@ function NotificationPage({open , setOpen}) {
         <section className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 rounded-[3px] mb-4 flex gap-1'>
           <img src="/images/icons/user_gray.svg" alt="" />
           <p className='text-[#697586] text-base font-normal'>{t('guest')} : </p>
-          <p className='text-[#364152] text-base font-normal'>أحمد سمير</p>
+          <p className='text-[#364152] text-base font-normal'>{reservationData?.guest_name}</p>
         </section>
 
         <section className="flex flex-col mb-3">
