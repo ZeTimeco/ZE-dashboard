@@ -2,12 +2,12 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import NotificationPage from './Dialog/Notification/page'
+import DetailsPage from './Dialog/Details/page'
 
 function CardOfRequests({getReservationsData}) {
   const {t} =useTranslation()
 
   // '!pending','!confirmed','!seated','!completed','!cancelled','no_show','!arrived','!rejected'
-
   const StatusRender = (status) => {
     switch (status) {
       case "confirmed": //مؤكد
@@ -92,12 +92,18 @@ function CardOfRequests({getReservationsData}) {
     guest_name:''
   })
 
+  const [openDetails , setOpenDetails] = useState(false)
+
   return (
     <>
     {getReservationsData?.data.length > 0 ?(  
       <div className='grid grid-cols-2 gap-6 mt-10'>
         {getReservationsData?.data.map((reservation)=>(
-          <div key={reservation?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10'>
+          <div 
+            onClick={()=>setOpenDetails(true)}
+            key={reservation?.id} 
+            className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10'
+          >
             {/* name & status  */}
             <div className='flex justify-between'>
               <div className='flex gap-3 items-center'>
@@ -179,6 +185,12 @@ function CardOfRequests({getReservationsData}) {
     <NotificationPage
       open={openNotification}
       setOpen={setOpenNotification}
+      reservationData={selectedReservation}
+    />
+
+    <DetailsPage 
+      open={openDetails}
+      setOpen={setOpenDetails}
       reservationData={selectedReservation}
     />
       

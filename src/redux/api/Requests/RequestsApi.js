@@ -99,3 +99,13 @@ export const notifyUser = async(formData)=>{
   const response = await API.post('/provider/notify-user' , formData)
   return response.data
 }
+
+export const getHalls = async()=>{
+  const response = await API.get('/provider/reservation/halls')
+  return response.data
+}
+
+export const getViews = async()=>{
+  const response = await API.get('/provider/reservation/views')
+  return response.data
+}

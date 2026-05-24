@@ -1,0 +1,56 @@
+"use client"
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+
+function Seating_detailsPage() {
+  const {t} = useTranslation()
+  return (
+    <>
+      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+        <p className='flex gap-1'>
+          <img src="/images/icons/restaurant-yellow.svg" alt="" />
+          <span className='text-[#364152] text-xl font-medium'>{t('Seating details')}</span>
+        </p>
+
+        <div className='mt-6 grid grid-cols-4 gap-6'>
+          {/* The hall */}
+          <div className='font-normal'>
+            <p className='text-[#697586] text-base'>{t('The hall')}</p>
+            <p className='text-[#364152] text-lg'>رووف </p>
+          </div>
+          {/* The view */}
+          <div className='font-normal '>
+            <p className='text-[#697586] text-base'>{t('The view')}</p>
+            <p className='text-[#364152] text-lg'>الحديقة</p>
+          </div>
+          {/* The table */}
+          <div className='font-normal'>
+            <p className='text-[#697586] text-base'>{t('The table')}</p>
+            <p className='text-[#364152] text-lg'> T12</p>
+          </div>
+
+          {/* Special requests */}
+          <div className='font-normal'>
+            <p className='text-[#697586] text-base'>{t('Special requests')}</p>
+            <p className='text-[#364152] text-lg'> كرسي إطفال </p>
+          </div>
+          
+        </div>
+
+        {/*notifications  */}
+        <div className='mt-4'>
+          <p className='text-[#364152] text-base mb-1'>{t('notifications')}</p>
+          <div className='flex gap-4'>
+            <p className='bg-[var(--color-primary)] w-fit h-10 px-3 rounded-full flex  items-center'>
+              <span className='text-white'>ممنوع التدخين</span>
+            </p>
+            
+          </div>
+          
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default Seating_detailsPage
