@@ -4,6 +4,7 @@ import { getReservationsThunk } from '@/redux/slice/Requests/RequestsSlice'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
+import FilterPage from './Dialog/Filter/page'
 
 function NavRequest() {
   const { t } = useTranslation()
@@ -37,11 +38,13 @@ function NavRequest() {
     console.log(item.status);
   }
 
+  const [openFilter , setOpenFilter] = useState(false)
+
   return (
     <>
       <section className='flex gap-6'>
         <SearchForm placeholderKey="Search by order number" />
-        <FilterBtn />
+        <FilterBtn  onClick={()=>setOpenFilter(true)}/>
       </section>
 
       <section className='grid grid-cols-4 gap-6 mt-10'>
@@ -62,6 +65,11 @@ function NavRequest() {
           </button>
         ))}
       </section>
+
+      <FilterPage
+        open={openFilter}
+        setOpen={setOpenFilter}
+      />
     </>
   )
 }
