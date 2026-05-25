@@ -109,3 +109,18 @@ export const getViews = async()=>{
   const response = await API.get('/provider/reservation/views')
   return response.data
 }
+
+export const getReservationsById = async(id)=>{
+  const response = await API.get(`/provider/reservations/${id}`)
+  return response.data
+}
+
+export const confirmReservation = async(id)=>{
+  const response = await API.post(`/provider/reservation/${id}/confirm`)
+  return response.data
+}
+
+export const rejectReservation = async(id)=>{
+  const response = await API.post(`/provider/reservation/${id}/reject`)
+  return response.data
+}

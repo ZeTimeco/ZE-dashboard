@@ -1083,6 +1083,9 @@
   "Deposit amount":"Deposit amount",
   "Refunds are available up to 12 hours before booking.":"Refunds are available up to 12 hours before booking.",
   "Booking confirmation":"Booking confirmation",
+  "Are you sure you want to reject this reservation?":"Are you sure you want to reject this reservation?",
+  "This reservation request will be rejected and the customer will be notified immediately.":"This reservation request will be rejected and the customer will be notified immediately.",
+  "Reject reservation":"Reject reservation",
   
 
 

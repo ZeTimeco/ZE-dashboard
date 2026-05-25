@@ -100,7 +100,13 @@ function CardOfRequests({getReservationsData}) {
       <div className='grid grid-cols-2 gap-6 mt-10'>
         {getReservationsData?.data.map((reservation)=>(
           <div 
-            onClick={()=>setOpenDetails(true)}
+            onClick={()=>{
+              setSelectedReservation({
+                id:reservation?.id,
+              })
+              setOpenDetails(true)
+            }
+            }
             key={reservation?.id} 
             className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10 cursor-pointer'
           >

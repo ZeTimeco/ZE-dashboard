@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Seating_detailsPage() {
+function Seating_detailsPage({getReservationsById}) {
   const {t} = useTranslation()
   return (
     <>
@@ -12,27 +12,27 @@ function Seating_detailsPage() {
           <span className='text-[#364152] text-xl font-medium'>{t('Seating details')}</span>
         </p>
 
-        <div className='mt-6 grid grid-cols-4 gap-6'>
+        <div className='mt-6 grid grid-cols-3 gap-6'>
           {/* The hall */}
           <div className='font-normal'>
             <p className='text-[#697586] text-base'>{t('The hall')}</p>
-            <p className='text-[#364152] text-lg'>رووف </p>
+            <p className='text-[#364152] text-lg'>{getReservationsById?.seating_details?.hall} </p>
           </div>
           {/* The view */}
           <div className='font-normal '>
             <p className='text-[#697586] text-base'>{t('The view')}</p>
-            <p className='text-[#364152] text-lg'>الحديقة</p>
+            <p className='text-[#364152] text-lg'>{getReservationsById?.seating_details?.views?.[0]?.name}</p>
           </div>
           {/* The table */}
           <div className='font-normal'>
             <p className='text-[#697586] text-base'>{t('The table')}</p>
-            <p className='text-[#364152] text-lg'> T12</p>
+            <p className='text-[#364152] text-lg'> {getReservationsById?.seating_details?.table}</p>
           </div>
 
           {/* Special requests */}
-          <div className='font-normal'>
+          <div className='font-normal col-span-3'>
             <p className='text-[#697586] text-base'>{t('Special requests')}</p>
-            <p className='text-[#364152] text-lg'> كرسي إطفال </p>
+            <p className='text-[#364152] text-lg'>{getReservationsById?.notes} </p>
           </div>
           
         </div>
@@ -41,9 +41,12 @@ function Seating_detailsPage() {
         <div className='mt-4'>
           <p className='text-[#364152] text-base mb-1'>{t('notifications')}</p>
           <div className='flex gap-4'>
-            <p className='bg-[var(--color-primary)] w-fit h-10 px-3 rounded-full flex  items-center'>
-              <span className='text-white'>ممنوع التدخين</span>
-            </p>
+            {getReservationsById?.notifications?.map((item , index)=>(
+              <p key={index} className='bg-[var(--color-primary)] w-fit h-10 px-3 rounded-full flex  items-center'>
+                <span className='text-white'> {item}</span>
+              </p>
+            ))}
+            
             
           </div>
           

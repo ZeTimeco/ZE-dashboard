@@ -1084,6 +1084,9 @@
   "Deposit amount":"مبلغ العربون",
   "Refunds are available up to 12 hours before booking.":"الاسترداد متاح حتى 12 ساعة قبل الحجز.",
   "Booking confirmation":"تأكيد الحجز",
+  "Are you sure you want to reject this reservation?":"هل أنت متأكد أنك تريد رفض هذا الحجز؟",
+  "This reservation request will be rejected and the customer will be notified immediately.":"سيتم رفض طلب الحجز وإشعار العميل بذلك فورًا.",
+  "Reject reservation":"رفض الحجز",
   
 
 

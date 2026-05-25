@@ -1,14 +1,27 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Guest_InformationPage from './Guest_Information/page'
 import Seating_detailsPage from './Seating_details/page'
 import PaymentPage from './Payment/page'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { getReservationsByIdThunk, confirmReservationThunk } from '@/redux/slice/Requests/RequestsSlice'
+import DeletePage from '../Delete/page'
 
 function DetailsPage({open , setOpen , reservationData}) {
   const {t} = useTranslation()
+  const [openDelete , setOpenDelete] = useState(false)
+  //API
+  const dispatch = useDispatch()
+  const {getReservationsById} = useSelector((state)=>state.requests)
+  useEffect(() => {
+    if (reservationData?.id) {
+      dispatch(getReservationsByIdThunk(reservationData.id));
+    }
+  }, [dispatch, reservationData?.id]);
 
+  console.log('reservationData.id',reservationData.id);
 
   return (
     <>
@@ -37,28 +50,49 @@ function DetailsPage({open , setOpen , reservationData}) {
 
 
       <section className='p-6 flex flex-col gap-6'>
-        <Guest_InformationPage/>
-        <Seating_detailsPage/>
-        <PaymentPage/>
+        <Guest_InformationPage getReservationsById={getReservationsById}/>
+        <Seating_detailsPage getReservationsById={getReservationsById}/>
+        <PaymentPage getReservationsById={getReservationsById}/>
       </section>
 
+      {getReservationsById?.status === 'confirmed' ? null :
+      (
         <div className='px-6 pb-6 flex gap-3'>
-          <button 
-            className=' w-[40%] h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '
-          >
-            {t('Booking confirmation')}
-          </button>
+      <button 
+        onClick={() => {
+          if (reservationData?.id) {
+            dispatch(confirmReservationThunk(reservationData.id)).then((res) => {
+              if (!res.error) {
+                setOpen(false)
+                window.location.reload()
+              }
+            })
+          }
+        }}
+        className=' w-[40%] h-13.5 bg-[var(--color-primary)] text-[#fff] text-base font-medium rounded-[3px] cursor-pointer '
+      >
+        {t('Booking confirmation')}
+      </button>
 
-          <button 
-            className=' w-[20%] h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '
-          >
-            {t('reject')}
-          </button>
-          
+      <button 
+        onClick={()=>setOpenDelete(true)}
+        className=' w-[20%] h-13.5 border border-[#B42318] text-[#B42318] text-base font-medium rounded-[3px] cursor-pointer '
+      >
+        {t('reject')}
+      </button>
+
         </div>
+      )}
+    
 
     </Dialog>
 
+
+    <DeletePage
+      open={openDelete}
+      setOpen={setOpenDelete}
+      reservationData={reservationData}
+    />
     </>
   )
 }
