@@ -102,7 +102,7 @@ function CardOfRequests({getReservationsData}) {
           <div 
             onClick={()=>setOpenDetails(true)}
             key={reservation?.id} 
-            className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10'
+            className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10 cursor-pointer'
           >
             {/* name & status  */}
             <div className='flex justify-between'>
