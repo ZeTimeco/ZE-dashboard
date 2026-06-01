@@ -19,7 +19,7 @@ function RoomPage({ rooms, updateRoom, deleteRoom, addRoom }) {
 
   return (
     <>
-      {rooms.map((room, index) => (
+      {rooms?.map((room, index) => (
         <div key={room.id} className='border border-[#CDD5DF] rounded-[3px] mt-4'>
           {/* Card accordion header */}
           <button

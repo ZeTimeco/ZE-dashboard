@@ -17,7 +17,7 @@ function BathroomPage({ bathrooms, updateBathroom, deleteBathroom, addBathroom }
 
   return (
     <>
-      {bathrooms.map((bathroom, index) => (
+      {bathrooms?.map((bathroom, index) => (
         <div key={bathroom.id} className='border border-[#CDD5DF] rounded-[3px] mt-4'>
           {/* Card accordion header */}
           <button
