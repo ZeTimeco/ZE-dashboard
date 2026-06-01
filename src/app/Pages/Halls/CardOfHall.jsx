@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -8,12 +9,39 @@ function CardOfHall() {
   const toggleMenu = (index) => {
     setOpenMenuIndex(prev => (prev === index ? null : index));
   };
+  const status = false; 
+  const StatusRender = (status) => {
+    switch(status) {
+      case true: //نشط 
+        return (
+          <div className=' bg-[#fff] border border-[#17B26A] text-[#067647] w-fit  h-7.5 rounded-full flex justify-center items-center '>
+            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center gap-1'>
+              <img src="/images/icons/true_green.svg" alt="" className='w-3.5 h-3.5' />
+              <span className='text-xs lg1:text-sm'>{t('active')}</span>
+            </div>
+          </div>
+        );
+    
+    case false: //مغلق
+        return (
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  h-7.5 rounded-full flex  items-center '>
+            <div className='py-1 px-2 flex  items-center  gap-1'>
+              <img src="/images/icons/refused Status.svg" alt="" className='w-4 h-4' />
+              <span className='text-xs lg1:text-sm'>{t('closed')}</span>
+            </div>
+          </div>
+        );
+    
+    }
+  }
+
+  const router = useRouter()
   return (
     <>
     <div className='grid  grid-cols-2'>
       <div className='relative shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-3 grid grid-cols-4 gap-4 '>
         {/* image */}
-        <div>
+        <div className='w-full h-full'>
           <img src="/images/P.p.svg" alt="" />
         </div>
         <div className='col-span-3'>
@@ -26,7 +54,7 @@ function CardOfHall() {
           </div>
           {/* dropdown */}
           {openMenuIndex && (
-            <div className='absolute top-9 left-4 p-3  w-47 bg-white border border-[#EEE] rounded-[3px] shadow-md z-10'>
+            <div className='absolute top-9 left-4 p-3  w-47 shadow-[0_0_4px_0_rgba(0,0,0,0.25)] rounded-[3px] bg-white z-10'>
 
               <button 
                 // onClick={() => router.push(`/Pages/Services/Property_Module/Service/View?id=${property.id}`)} 
@@ -48,24 +76,37 @@ function CardOfHall() {
           )}
 
           {/*  */}
-          <p className='text-[#4B5565] text-base font-normal mb-4'> 8 {t('tables')}</p>
+          <div className='flex justify-between mt-4'>
+            <p className='text-[#4B5565] text-base font-normal mb-4'> 8 {t('tables')}</p>
+            <div>
+              {StatusRender(status)}
+            </div>
+          </div>
+          
 
           {/* btns */}
           <div className='flex gap-2'>
-            <button className='flex items-center justify-center gap-1.5 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'> 
+            <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'> 
               <img src="/images/icons/copy_yellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('copies')}</p>
             </button>
 
-            <button className='flex items-center justify-center gap-1.5 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
+            <button onClick={() => router.push(`/Pages/Halls/Edit`)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
             </button>
 
-            <button className='flex items-center justify-center gap-1.5 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
+            {status ? (
+            <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
               <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('closing')}</p>
             </button>
+            ) : (
+            <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-14 w-full cursor-pointer'>
+              <img src="/images/icons/checkmark-circle-true.svg" className='w-5 h-5' alt="" />
+              <p className='text-[#364152] text-sm font-normal'>{t('reactivation')}</p>
+            </button>
+            )}
           </div>
 
         </div>

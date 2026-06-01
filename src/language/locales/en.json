@@ -1096,8 +1096,23 @@
   "copies":"copies",
   "views":"views",
   "Hall organization":"Hall organization",
+  "Photos of the hall":"Photos of the hall",
+  "Hall type":"Hall type",
+  "Hall Name":"Hall Name",
+  "Write the name of the hall":"Write the name of the hall",
+  "default booking duration":"default booking duration",
+  "Select the default booking duration":"Select the default booking duration",
+  "The buffer time between bookings":"The buffer time between bookings",
+  "Select the buffer time between bookings":"Select the buffer time between bookings",
+  "Hall condition":"Hall condition",
+  "Make this lounge available for bookings":"Make this lounge available for bookings",
+  "Hall renovation":"Hall renovation",
+  "Enter the details of the new lounge to start offering it to your customers.":"Enter the details of the new lounge to start offering it to your customers.",
+  "reactivation":"reactivation",
+  "closed":"closed",
   
 
+  
 
   
 

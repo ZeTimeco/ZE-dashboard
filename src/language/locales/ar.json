@@ -1097,8 +1097,21 @@
   "copies":"نسخ",
   "views":"الاطلالات",
   "Hall organization":"تنظيم الصالة",
+  "Photos of the hall":"صور الصالة",
+  "Hall type":"نوع الصالة",
+  "Hall Name":"اسم الصالة",
+  "Write the name of the hall":"اكتب اسم الصالة",
+  "default booking duration":"مدة الحجز الافتراضية",
+  "Enter the default duration for bookings in this hall.":"أدخل المدة الافتراضية للحجوزات في هذه الصالة",
+  "The buffer time between bookings":"وقت الفاصل بين الحجوزات",
+  "Enter the buffer time between bookings in this hall.":"أدخل وقت الفاصل بين الحجوزات في هذه الصالة",
+  "Hall condition":"حالة الصالة",
+  "Make this lounge available for bookings":"جعل هذه الصالة متاحة للحجوزات",
+  "Hall renovation":"تعديل الصالة",
+  "Enter the details of the new lounge to start offering it to your customers.":"أدخل بيانات الصالة الجديدة لبدء تقدمها لعملائك",
+  "reactivation":"إعادة تنشيط",
+  "closed":"مغلق",
   
-
 
 
 
