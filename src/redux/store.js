@@ -6,6 +6,7 @@ import financeReducer from "./slice/Finance/FinanceSlice";
 import settingReducer from './slice/Setting/SettingSlice.js';
 import HomeReducer from './slice/Home/HomeSlice';
 import requestsReducer from './slice/Requests/RequestsSlice'
+import hallsReducer from './slice/Halls/HallsSlice'
 export const store = configureStore({
   reducer:{
     auth: authReducer,
@@ -15,6 +16,7 @@ export const store = configureStore({
     setting:settingReducer,
     Home:HomeReducer,
     requests:requestsReducer,
+    halls:hallsReducer,
 
   }
 })

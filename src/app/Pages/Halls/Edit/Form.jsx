@@ -3,98 +3,95 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form() {
+function Form({getHallType , formData, setFormData}) {
   const {t} = useTranslation();
-    // =========================
-    const [open1, setOpen1] = useState(false);
-    const [selected1, setSelected1] = useState(null);
-    const [searchValue1, setSearchValue1] = useState("");
-    const dropdownRef1 = useRef(null);
-    const optionHallType = ['Hall 1', 'Hall 2', 'Hall 3', 'Hall 4', 'Hall 5'];
+  // =========================
+  const [open1, setOpen1] = useState(false);
+  const [selected1, setSelected1] = useState(null);
+  const [searchValue1, setSearchValue1] = useState("");
+  const dropdownRef1 = useRef(null);
+  const optionHallType = getHallType?.data;
 
 
-    // Floor number
-    const [isGroundFloor, setIsGroundFloor] = useState(false);
-    const [floorNumber, setFloorNumber] = useState("");
-
-    // =========================
-    const [open2, setOpen2] = useState(false);
-    const [selected2, setSelected2] = useState(null);
-    const [searchValue2, setSearchValue2] = useState("");
-    const dropdownRef2 = useRef(null);
-
-    const optionDefaultBookingDuration = ['60', '90', '120', '180'];
-
-    //=====================
-    const [open3, setOpen3] = useState(false);
-    const [selected3, setSelected3] = useState(null);
-    const [searchValue3, setSearchValue3] = useState("");
-    const dropdownRef3 = useRef(null);
-    const optionBufferTimeBetweenBookings = ['10', '15', '20', '30'];
 
 
-    //==================
-    const GreenSwitch = styled(Switch)(({ theme }) => ({
-      width: 53,
-      height: 24,
+  // =========================
+  const [open2, setOpen2] = useState(false);
+  const [selected2, setSelected2] = useState(null);
+  const [searchValue2, setSearchValue2] = useState("");
+  const dropdownRef2 = useRef(null);
+
+  const optionDefaultBookingDuration = ['60', '90', '120', '180'];
+
+  const [open3, setOpen3] = useState(false);
+  const [selected3, setSelected3] = useState(null);
+  const [searchValue3, setSearchValue3] = useState("");
+  const dropdownRef3 = useRef(null);
+  const optionBufferTimeBetweenBookings = ['10', '15', '20', '30'];
+
+
+  //==================
+  const GreenSwitch = styled(Switch)(({ theme }) => ({
+    width: 53,
+    height: 24,
+    padding: 0,
+
+    "& .MuiSwitch-switchBase": {
+      margin: 3,
       padding: 0,
+      transitionDuration: `${theme.transitions.duration.standard}ms`,
 
-      "& .MuiSwitch-switchBase": {
-        margin: 3,
-        padding: 0,
-        transitionDuration: `${theme.transitions.duration.standard}ms`,
+      "&.Mui-checked": {
+        transform: "translateX(29px)",
+        color: "#fff",
 
-        "&.Mui-checked": {
-          transform: "translateX(29px)",
-          color: "#fff",
-
-          "& + .MuiSwitch-track": {
-            backgroundColor: "#10B981",
-            opacity: 1,
-            border: 0,
-          },
-
-          "&.Mui-disabled + .MuiSwitch-track": {
-            opacity: 0.5,
-          },
+        "& + .MuiSwitch-track": {
+          backgroundColor: "#10B981",
+          opacity: 1,
+          border: 0,
         },
 
-        "&.Mui-focusVisible .MuiSwitch-thumb": {
-          border: "4px solid #fff",
-        },
-
-        "&.Mui-disabled .MuiSwitch-thumb": {
-          color: theme.palette.grey[300],
+        "&.Mui-disabled + .MuiSwitch-track": {
+          opacity: 0.5,
         },
       },
 
-      "& .MuiSwitch-thumb": {
-        width: 18,
-        height: 18,
-        boxSizing: "border-box",
+      "&.Mui-focusVisible .MuiSwitch-thumb": {
+        border: "4px solid #fff",
       },
 
-      "& .MuiSwitch-track": {
-        borderRadius: 12,
-        backgroundColor: "#E9E9EA",
-        opacity: 1,
-        transition: theme.transitions.create("background-color", {
-          duration: theme.transitions.duration.standard,
-        }),
+      "&.Mui-disabled .MuiSwitch-thumb": {
+        color: theme.palette.grey[300],
       },
-    }));
+    },
 
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
-        if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
-        // if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
-        // if (dropdownRef4.current && !dropdownRef4.current.contains(event.target)) setOpen4(false);
-      };
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-    
+    "& .MuiSwitch-thumb": {
+      width: 18,
+      height: 18,
+      boxSizing: "border-box",
+    },
+
+    "& .MuiSwitch-track": {
+      borderRadius: 12,
+      backgroundColor: "#E9E9EA",
+      opacity: 1,
+      transition: theme.transitions.create("background-color", {
+        duration: theme.transitions.duration.standard,
+      }),
+    },
+  }));
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
+      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  
+
   return (
     <>
     <div className='grid grid-cols-2 gap-6'>
@@ -110,7 +107,8 @@ function Form() {
         name='title'
         placeholder={t('Write the name of the hall')}
         className={`w-full h-14 p-3 border border-[#C8C8C8]  text-sm text-[#7d8d84] rounded-[3px] outline-none `}
-        
+        value={formData?.name || ''}
+        onChange={(e)=>setFormData({...formData , name:e.target.value})}
       />
       </div>
 
@@ -129,7 +127,13 @@ function Form() {
             <input
               type="text"
               placeholder={t("Choose the type of hall")}
-              value={searchValue1 || selected1|| ""}
+              value={
+                searchValue1 ||
+                optionHallType?.find(
+                  item => item.id === formData.type_id
+                )?.name ||
+                ""
+              }
               onChange={(e) => {
                 setSearchValue1(e.target.value);
                 setOpen1(true);
@@ -151,19 +155,23 @@ function Form() {
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionHallType
                 .filter((opt) =>
-                  opt.toLowerCase().includes(searchValue1.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                 )
                 .map((opt) => (
                   <li
-                    key={opt}
+                    key={opt?.id}
                     onClick={() => {
-                      setSelected1(opt);
-                      setSearchValue1("");
-                      setOpen1(false);
-                    }}
+                    setFormData({
+                      ...formData,
+                      type_id: opt.id,
+                    });
+
+                    setSearchValue1("");
+                    setOpen1(false);
+                  }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
                 ))}
             </ul>
@@ -180,17 +188,15 @@ function Form() {
           </label>
 
           <label className="flex gap-2 items-center cursor-pointer">
+            
             <input
               type="checkbox"
-              checked={isGroundFloor}
+              checked={Number(formData.floor_number) === 0}
               onChange={(e) => {
-                setIsGroundFloor(e.target.checked);
-
-                if (e.target.checked) {
-                  setFloorNumber(0);
-                } else {
-                  setFloorNumber("");
-                }
+                setFormData({
+                  ...formData,
+                  floor_number: e.target.checked ? 0 : "",
+                });
               }}
               className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
             />
@@ -200,16 +206,21 @@ function Form() {
             </p>
           </label>
         </div>
-
         <input
           type="number"
           min="0"
-          disabled={isGroundFloor}
-          value={isGroundFloor ? "" : floorNumber}
-          onChange={(e) => setFloorNumber(e.target.value)}
-          placeholder={t("Floor number")}
-          className="w-full px-3 py-2 h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed border-[#CDD5DF]"
+          disabled={Number(formData.floor_number) === 0}
+          value={Number(formData.floor_number) === 0 ? "" : formData.floor_number}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              floor_number: e.target.value,
+            })
+          }
+        placeholder={t("Floor number")}
+        className="w-full px-3 py-2 h-14 border text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed border-[#CDD5DF]"
         />
+      
       </div>
 
       {/* ========== default booking duration  ========== */}
@@ -225,7 +236,7 @@ function Form() {
           <input
             type="text"
             placeholder={t("Enter the default duration for bookings in this hall.")}
-            value={searchValue2 || selected2 || ""}
+            value={searchValue2 || formData.default_reservation_duration_min || ""}
             onChange={(e) => {
               setSearchValue2(e.target.value);
               setOpen2(true);
@@ -253,7 +264,11 @@ function Form() {
                 <li
                   key={opt}
                   onClick={() => {
-                    setSelected2(opt);
+                    setFormData({
+                      ...formData,
+                      default_reservation_duration_min: opt,
+                    });
+
                     setSearchValue2("");
                     setOpen2(false);
                   }}
@@ -280,7 +295,7 @@ function Form() {
           <input
             type="text"
             placeholder={t("Enter the buffer time between bookings in this hall.")}
-            value={searchValue3 || selected3 || ""}
+            value={searchValue3 || formData.buffer_time_min || ""}
             onChange={(e) => {
               setSearchValue3(e.target.value);
               setOpen3(true);
@@ -308,7 +323,10 @@ function Form() {
                 <li
                   key={opt}
                   onClick={() => {
-                    setSelected3(opt);
+                    setFormData({
+                      ...formData,
+                      buffer_time_min: opt,
+                    });
                     setSearchValue3("");
                     setOpen3(false);
                   }}
@@ -333,7 +351,15 @@ function Form() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={Boolean(formData.status)}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                status: e.target.checked ? 1 : 0,
+              })
+            }
+          />
         </div>
       </div>
 
