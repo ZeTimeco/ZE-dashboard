@@ -188,10 +188,9 @@ function Form({getHallType , formData, setFormData}) {
           </label>
 
           <label className="flex gap-2 items-center cursor-pointer">
-            
             <input
               type="checkbox"
-              checked={Number(formData.floor_number) === 0}
+              checked={formData.floor_number === 0 || formData.floor_number === '0'}
               onChange={(e) => {
                 setFormData({
                   ...formData,
@@ -209,18 +208,16 @@ function Form({getHallType , formData, setFormData}) {
         <input
           type="number"
           min="0"
-          disabled={Number(formData.floor_number) === 0}
-          value={Number(formData.floor_number) === 0 ? "" : formData.floor_number}
+          value={formData.floor_number}
           onChange={(e) =>
             setFormData({
               ...formData,
-              floor_number: e.target.value,
+              floor_number: e.target.value === "" ? "" : Number(e.target.value),
             })
           }
-        placeholder={t("Floor number")}
-        className="w-full px-3 py-2 h-14 border text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed border-[#CDD5DF]"
+          placeholder={t("Floor number")}
+          className="w-full px-3 py-2 h-14 border text-sm text-[#7d8d84] rounded-[3px] outline-none border-[#CDD5DF]"
         />
-      
       </div>
 
       {/* ========== default booking duration  ========== */}

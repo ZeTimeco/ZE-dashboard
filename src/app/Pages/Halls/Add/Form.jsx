@@ -3,23 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form({getHallType}) {
+function Form({getHallType, formData, setFormData}) {
   const {t} = useTranslation();
     // =========================
     const [open1, setOpen1] = useState(false);
-    const [selected1, setSelected1] = useState(null);
     const [searchValue1, setSearchValue1] = useState("");
     const dropdownRef1 = useRef(null);
     const optionHallType = getHallType?.data;
 
-
-    // Floor number
-    const [isGroundFloor, setIsGroundFloor] = useState(false);
-    const [floorNumber, setFloorNumber] = useState("");
-
     // =========================
     const [open2, setOpen2] = useState(false);
-    const [selected2, setSelected2] = useState(null);
     const [searchValue2, setSearchValue2] = useState("");
     const dropdownRef2 = useRef(null);
 
@@ -27,11 +20,16 @@ function Form({getHallType}) {
 
     //=====================
     const [open3, setOpen3] = useState(false);
-    const [selected3, setSelected3] = useState(null);
     const [searchValue3, setSearchValue3] = useState("");
     const dropdownRef3 = useRef(null);
     const optionBufferTimeBetweenBookings = ['10', '15', '20', '30'];
 
+    // الحصول على اسم نوع القاعة من الـ id
+    const getHallTypeName = () => {
+      if (!formData.hall_type_id || !optionHallType) return "";
+      const found = optionHallType.find(opt => opt.id === formData.hall_type_id || opt.id === Number(formData.hall_type_id));
+      return found ? found.name : "";
+    };
 
     //==================
     const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -107,9 +105,10 @@ function Form({getHallType}) {
       <input 
         type="text"
         name='title'
+        value={formData.name}
+        onChange={(e) => setFormData({...formData, name: e.target.value})}
         placeholder={t('Write the name of the hall')}
         className={`w-full h-14 p-3 border border-[#C8C8C8]  text-sm text-[#7d8d84] rounded-[3px] outline-none `}
-        
       />
       </div>
 
@@ -128,11 +127,10 @@ function Form({getHallType}) {
             <input
               type="text"
               placeholder={t("Choose the type of hall")}
-              value={searchValue1 || selected1|| ""}
+              value={searchValue1 || getHallTypeName() || ""}
               onChange={(e) => {
                 setSearchValue1(e.target.value);
                 setOpen1(true);
-                setSelected1(null);
               }}
               className="h-14 p-3 w-full text-[#364152] focus:outline-none"
             />
@@ -149,14 +147,14 @@ function Form({getHallType}) {
           {open1 && (
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {optionHallType
-                .filter((opt) =>
+                ?.filter((opt) =>
                   opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                 )
                 .map((opt) => (
                   <li
                     key={opt?.id}
                     onClick={() => {
-                      setSelected1(opt?.name);
+                      setFormData({...formData, hall_type_id: opt?.id});
                       setSearchValue1("");
                       setOpen1(false);
                     }}
@@ -180,15 +178,12 @@ function Form({getHallType}) {
           <label className="flex gap-2 items-center cursor-pointer">
             <input
               type="checkbox"
-              checked={isGroundFloor}
+              checked={formData.floor_number === 0 || formData.floor_number === '0'}
               onChange={(e) => {
-                setIsGroundFloor(e.target.checked);
-
-                if (e.target.checked) {
-                  setFloorNumber(0);
-                } else {
-                  setFloorNumber("");
-                }
+                setFormData({
+                  ...formData,
+                  floor_number: e.target.checked ? 0 : "",
+                });
               }}
               className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
             />
@@ -202,11 +197,15 @@ function Form({getHallType}) {
         <input
           type="number"
           min="0"
-          disabled={isGroundFloor}
-          value={isGroundFloor ? "" : floorNumber}
-          onChange={(e) => setFloorNumber(e.target.value)}
+          value={formData.floor_number}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              floor_number: e.target.value === "" ? "" : Number(e.target.value),
+            })
+          }
           placeholder={t("Floor number")}
-          className="w-full px-3 py-2 h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none disabled:bg-[#f1f5f9] disabled:cursor-not-allowed border-[#CDD5DF]"
+          className="w-full px-3 py-2 h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none border-[#CDD5DF]"
         />
       </div>
 
@@ -223,11 +222,10 @@ function Form({getHallType}) {
           <input
             type="text"
             placeholder={t("Enter the default duration for bookings in this hall.")}
-            value={searchValue2 || selected2 || ""}
+            value={searchValue2 || formData.default_reservation_duration_min || ""}
             onChange={(e) => {
               setSearchValue2(e.target.value);
               setOpen2(true);
-              setSelected2(null);
             }}
             className="h-14 p-3 w-full text-[#364152] focus:outline-none"
           />
@@ -251,7 +249,7 @@ function Form({getHallType}) {
                 <li
                   key={opt}
                   onClick={() => {
-                    setSelected2(opt);
+                    setFormData({...formData, default_reservation_duration_min: opt});
                     setSearchValue2("");
                     setOpen2(false);
                   }}
@@ -278,11 +276,10 @@ function Form({getHallType}) {
           <input
             type="text"
             placeholder={t("Enter the buffer time between bookings in this hall.")}
-            value={searchValue3 || selected3 || ""}
+            value={searchValue3 || formData.buffer_time_min || ""}
             onChange={(e) => {
               setSearchValue3(e.target.value);
               setOpen3(true);
-              setSelected3(null);
             }}
             className="h-14 p-3 w-full text-[#364152] focus:outline-none"
           />
@@ -306,7 +303,7 @@ function Form({getHallType}) {
                 <li
                   key={opt}
                   onClick={() => {
-                    setSelected3(opt);
+                    setFormData({...formData, buffer_time_min: opt});
                     setSearchValue3("");
                     setOpen3(false);
                   }}
@@ -331,7 +328,10 @@ function Form({getHallType}) {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData.status === 1}
+            onChange={(e) => setFormData({...formData, status: e.target.checked ? 1 : 0})}
+          />
         </div>
       </div>
 
