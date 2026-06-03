@@ -1,4 +1,4 @@
-import { AddHall, EditHall, getHallById, getHalls, getHallType } from "@/redux/api/Halls/HallsApi";
+import { AddHall, dublicateHall, EditHall, getHallById, getHalls, getHallType, toggleViews } from "@/redux/api/Halls/HallsApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const getHallsThunk = createAsyncThunk('halls/getHalls',
@@ -56,6 +56,27 @@ export const AddHallThunk = createAsyncThunk('halls/AddHall',
   }
 )
 
+export const toggleViewsThunk = createAsyncThunk('halls/toggleViews',
+  async(id , {rejectWithValue})=>{
+    try {
+      const response = await toggleViews(id);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    } 
+  }
+)
+
+export const dublicateHallThunk = createAsyncThunk('halls/dublicateHall',
+  async(formData , {rejectWithValue})=>{
+    try {
+      const response = await dublicateHall(formData);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    } 
+  }
+)
 
 
 const initailState = {
@@ -133,6 +154,30 @@ const HallsSlice =createSlice({
         state.loading = false;
       })
       .addCase(AddHallThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //toggleViewsThunk
+      .addCase(toggleViewsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(toggleViewsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(toggleViewsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //dublicateHallThunk
+      .addCase(dublicateHallThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(dublicateHallThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(dublicateHallThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

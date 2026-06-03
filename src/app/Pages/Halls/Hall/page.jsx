@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getHallsThunk } from '@/redux/slice/Halls/HallsSlice'
 
 
-function HallsPage() {
+function HallPage() {
   const {t} = useTranslation()
 
   //api
@@ -19,12 +19,15 @@ function HallsPage() {
     dispatch(getHallsThunk());
   }, [dispatch])
 
-  console.log(halls?.data?.images);
+  
   return (
     <MainLayout>
       <>
-      {/* <No_Halls_Add /> */}
-      <div>
+
+      {halls?.data?.label === 0 ? (
+        <No_Halls_Add />
+      ):(
+        <div>
         {/* header */}
         <div className=" flex justify-between mb-8">
           <div>
@@ -32,7 +35,7 @@ function HallsPage() {
             <p className='text-[#697586] text-xl font-normal'>{t("It was equipped")}  {halls?.active_halls}  {t("hall")}</p>
           </div>
           <AddBtn               
-            href="/Pages/Halls/Add"
+            href="/Pages/Halls/Hall/Add"
             label="Adding a new hall" 
           />
         </div>
@@ -44,11 +47,13 @@ function HallsPage() {
         
 
 
-      </div>
+        </div>
+      )}
+      
       
       </>
     </MainLayout>
   )
 }
 
-export default HallsPage
+export default HallPage

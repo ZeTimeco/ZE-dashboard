@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { IMAGE_BASE_URL } from '../../../../../config/imageUrl';
+import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl';
 
 function ImageUpload({formData, setFormData}) {
   const {t} = useTranslation()
@@ -9,7 +9,6 @@ function ImageUpload({formData, setFormData}) {
   const [previewImage, setPreviewImage] = useState('');
   const [existingImage, setExistingImage] = useState(null);
 
-  // عرض الصورة الموجودة من الـ API عند التحميل (مرة واحدة بس)
   useEffect(() => {
     if (formData?.image && typeof formData.image === 'string' && !existingImage) {
       setExistingImage(formData.image);
@@ -17,20 +16,17 @@ function ImageUpload({formData, setFormData}) {
     }
   }, [formData?.image, existingImage]);
 
-  // دالة ذكية لبناء رابط الصورة بشكل صحيح مهما كان شكل القيمة الراجعة من الـ API
   const getImageUrl = (src) => {
     if (!src) return '';
     if (src.startsWith('blob:') || src.startsWith('http://') || src.startsWith('https://')) {
       return src;
     }
-    // إذا كان المسار يبدأ بـ /storage/ أو storage/ نقوم ببناء الرابط المناسب
     if (src.startsWith('/storage/')) {
-      return `https://api.zetime.co${src}`;
+      return `${IMAGE_BASE_URL}${src}`;
     }
     if (src.startsWith('storage/')) {
-      return `https://api.zetime.co/${src}`;
+      return `${IMAGE_BASE_URL}/${src}`;
     }
-    // افتراضياً نلحق مسار الـ IMAGE_BASE_URL
     return `${IMAGE_BASE_URL}${src}`;
   };
 

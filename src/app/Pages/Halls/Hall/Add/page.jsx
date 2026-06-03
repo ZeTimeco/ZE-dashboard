@@ -51,7 +51,7 @@ function AddPage() {
     try {
       await dispatch(AddHallThunk(data)).unwrap();
 
-      router.push('/Pages/Halls');
+      router.push('/Pages/Halls/Hall');
     } catch (error) {
       console.log(error);
     }
@@ -66,7 +66,7 @@ function AddPage() {
           <p className='text-[#4B5565] text-base font-normal'>{t('Enter the details of the new lounge to start offering it to your customers.')}</p>
         </div>
         
-        <button onClick={() => router.push('/Pages/Halls')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
+        <button onClick={() => router.push('/Pages/Halls/Hall')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
           <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
         </button>
       </div>

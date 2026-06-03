@@ -57,46 +57,46 @@ function EditPage() {
     }
   },[getHallById])
 
-const handleSubmit = async () => {
-  console.log("Sending Data:", formData);
+  const handleSubmit = async () => {
+    console.log("Sending Data:", formData);
 
-  const data = new FormData();
-  data.append('_method', 'POST');
-  data.append('name', formData.name);
-  data.append('type_id', formData.type_id);
-  data.append('status', formData.status);
-  data.append(
-    'default_reservation_duration_min',
-    formData.default_reservation_duration_min
-  );
-  data.append('buffer_time_min', formData.buffer_time_min);
-  data.append('floor_number', formData.floor_number);
+    const data = new FormData();
+    data.append('_method', 'POST');
+    data.append('name', formData.name);
+    data.append('type_id', formData.type_id);
+    data.append('status', formData.status);
+    data.append(
+      'default_reservation_duration_min',
+      formData.default_reservation_duration_min
+    );
+    data.append('buffer_time_min', formData.buffer_time_min);
+    data.append('floor_number', formData.floor_number);
 
-  if (formData.image instanceof File) {
-    data.append('image', formData.image);
-  }
+    if (formData.image instanceof File) {
+      data.append('image', formData.image);
+    }
 
-  try {
-    const result = await dispatch(
-      EditHallThunk({
-        id: formData.id,
-        data,
-      })
-    ).unwrap();
+    try {
+      const result = await dispatch(
+        EditHallThunk({
+          id: formData.id,
+          data,
+        })
+      ).unwrap();
 
-    console.log('Hall updated successfully:', result);
+      console.log('Hall updated successfully:', result);
 
-    router.push('/Pages/Halls');
-  } catch (error) {
-    console.error('Failed to update hall:', error);
-  }
-};
+      router.push('/Pages/Halls/Hall');
+    } catch (error) {
+      console.error('Failed to update hall:', error);
+    }
+  };
   return (
     <MainLayout>
       
       <div className='flex justify-between mb-10'>
         <p className='text-[#364152] text-2xl font-medium '>{t('Hall renovation')}</p>
-        <button onClick={() => router.push('/Pages/Halls')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
+        <button onClick={() => router.push('/Pages/Halls/Hall')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
           <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
         </button>
       </div>
