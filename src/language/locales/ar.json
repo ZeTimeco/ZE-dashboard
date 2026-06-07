@@ -1118,6 +1118,21 @@
   "Main Hall":"القاعة الرئيسية",
   "Available for booking":"قابل للحجز",
   "Not available for booking":"غير قابل للحجز",
+  "Configuring table settings":"تكوين إعدادات الطاولة",
+  "Table name/number":"أسم الطاولة / الرقم",
+  "Write the table/number":"اكتب الطاولة / الرقم",
+  "Table type":"نوع الطاولة",
+  "Choose the type of table":"اختار نوع الطاولة",
+  "Choose the looks":"اختار الاطلالات",
+  "Number of guests":"عدد الضيوف",
+  "slogans":"شعارات",
+  "Allowing customers to book this table online":"السماح للعملاء بحجز هذه الطاولة عبر الإنترنت",
+  "Make this table available for use.":"اجعل هذة الطاولة متاحًا للاستخدام",
+  "Table adjustment":"تعديل طاولة",
+  "round":"دائري",
+  "square":"مربع",
+  "rectangle":"مستطيل",
+  "oval":"بيضاوي",
   
 
 

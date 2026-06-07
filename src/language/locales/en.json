@@ -1117,6 +1117,21 @@
   "Main Hall":"Main Hall",
   "Available for booking":"Available for booking",
   "Not available for booking":"Not available for booking",
+  "Configuring table settings":"Configuring table settings",
+  "Table name/number":"Table name/number",
+  "Write the table/number":"Write the table/number",
+  "Table type":"Table type",
+  "Choose the type of table":"Choose the type of table",
+  "Choose the looks":"Choose the looks",
+  "Number of guests":"Number of guests",
+  "slogans":"slogans",
+  "Allowing customers to book this table online":"Allowing customers to book this table online",
+  "Make this table available for use.":"Make this table available for use.",
+  "Table adjustment":"Table adjustment",
+  "round":"round",
+  "square":"square",
+  "rectangle":"rectangle",
+  "oval":"oval",
   
 
   

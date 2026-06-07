@@ -100,10 +100,11 @@ function CardOfTable() {
           <div className='grid grid-cols-3 gap-4 col-span-4 w-full '>
             
 
-          <button  className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+          <button onClick={()=>router.push(`/Pages/Halls/Tables/Edit`)}  className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
             <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
             <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
           </button>
+
           {status ? (
               <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
                 <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
