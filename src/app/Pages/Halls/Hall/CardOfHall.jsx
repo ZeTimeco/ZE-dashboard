@@ -57,12 +57,7 @@ function CardOfHall({ halls }) {
       <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
         {halls?.data?.map((hall) => (
           <div
-            onClick={() => {
-              console.log("Hall ID:", hall?.id);
-
-              router.push(`/Pages/Halls/Tables?id=${hall?.id}`);
-              setSelectedHall(hall?.id);
-            }}
+            
             key={hall?.id}
             className={`relative  cursor-pointer rounded-[3px] p-3 grid grid-cols-4 gap-4 hover:shadow-[0_0_8px_var(--color-primary)] 
                         ${selectedHall === hall?.id ? ' shadow-[0_0_8px_var(--color-primary)] ' : 'shadow-[0_0_4px_0_rgba(0,0,0,0.20)]'}
@@ -76,7 +71,13 @@ function CardOfHall({ halls }) {
             <div className='col-span-3'>
               {/*  */}
               <div className='flex justify-between items-center mb-2 '>
-                <p className='text-[#364152] text-xl font-medium'>{hall?.name}</p>
+                <p 
+                onClick={() => {
+                  router.push(`/Pages/Halls/Tables?id=${hall?.id}`);
+                  setSelectedHall(hall?.id);
+                }}
+                  className='text-[#364152] text-xl font-medium'
+                >{hall?.name}</p>
                 <p onClick={() => toggleMenu(hall?.id)} className='bg-[#EEF2F6] w-6 h-6 rounded-full flex items-center justify-center cursor-pointer'>
                   <img src="/images/icons/dots.svg" alt="" />
                 </p>
@@ -86,7 +87,7 @@ function CardOfHall({ halls }) {
                 <div className='absolute top-9 left-4 p-3  w-47 shadow-[0_0_4px_0_rgba(0,0,0,0.25)] rounded-[3px] bg-white z-10'>
 
                   <button
-                    // onClick={() => router.push(`/Pages/Services/Property_Module/Service/View?id=${property.id}`)} 
+                    onClick={() => router.push(`/Pages/Halls/Views?id=${hall?.id}`)} 
                     className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'
                   >
                     <img src="/images/icons/eye_black.svg" className='w-5 h-5' alt="" />

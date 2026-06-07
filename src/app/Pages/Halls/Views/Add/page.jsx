@@ -1,16 +1,12 @@
-'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
-import No_Views_Add from './No_Views_Add'
 
-function ViewsPage() {
+function AddPage() {
   return (
     <MainLayout>
-      
-      <No_Views_Add/>
-
+      AddPage
     </MainLayout>
   )
 }
 
-export default ViewsPage
+export default AddPage
