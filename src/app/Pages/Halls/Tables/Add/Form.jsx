@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form() {
+function Form({ getTage,  formData, setFormData }) {
   const {t} = useTranslation();
 
   // =========================
@@ -38,7 +38,7 @@ function Form() {
   //---------------------
   const [guests, setGuests] = useState(1); 
 
-  const [selected, setSelected] = useState(false);
+const [selectedTag, setSelectedTag] = useState(null);
 
   //==================
   const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -94,6 +94,7 @@ function Form() {
   return (
     <>
     <div className='grid grid-cols-2 gap-6'>
+      
       {/* ========== Table name/number  ========== */}
       <div className='w-full'>
         <p className='text-sm font-medium mb-1.5'>
@@ -250,32 +251,36 @@ function Form() {
       <div className="w-full flex flex-col gap-1.5 col-span-2">
         <p className="text-sm font-medium text-[#364152]">الشعارات</p>
 
-        <div className="flex gap-3">
-          <button
-            onClick={() => setSelected(true)}
+        <div className="grid grid-cols-6  gap-3">
+          {getTage?.tags?.map((tag)=>(
+            <button
+            key={tag?.id}
+            onClick={() => setSelectedTag(tag.id)}
             className={`
-              h-10 px-4 flex items-center gap-2 text-sm font-normal rounded-full border transition-all 
+              min-h-10 px-4 py-2 flex  justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all 
               ${
-                selected
+                selectedTag === tag.id
                   ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
                   : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
               }
             `}
           >
-            التدخين
+            {tag?.name}
 
-            {selected && (
+            {selectedTag === tag.id && (
               <span
                 onClick={(e) => {
                   e.stopPropagation();
-                  setSelected(false);
+                  setSelectedTag(null);
                 }}
                 className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
               >
                 <img src="/images/icons/x_white.svg" alt="" />
               </span>
             )}
-          </button>
+            </button>
+          ))}
+          
         </div>
       </div>
 

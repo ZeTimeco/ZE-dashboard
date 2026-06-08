@@ -23,7 +23,7 @@ function TablesPage() {
     }
   },[dispatch,id])
 
-  console.log('getTables///' , getTables);
+  
 
   return (
     <MainLayout>

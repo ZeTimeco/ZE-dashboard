@@ -1,14 +1,24 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTageThunk } from '@/redux/slice/Halls/HallsSlice'
 
 function AddPage() {
   const {t} = useTranslation()
   const router = useRouter()
 
+  //api
+  const dispatch = useDispatch()
+  const {getTage} = useSelector((state)=>state.halls)
+  useEffect(()=>{
+    dispatch(getTageThunk())
+  },[dispatch])
+
+  console.log('getTage' , getTage);
   return (
     <MainLayout>
 
@@ -25,7 +35,7 @@ function AddPage() {
 
 
 
-      <Form/>
+      <Form getTage={getTage}/>
 
       <button className='bg-[var(--color-primary)] text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
         {t('save')}

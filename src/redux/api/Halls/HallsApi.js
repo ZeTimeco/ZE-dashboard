@@ -53,3 +53,13 @@ export const getTables = async(id)=>{
   const response = await API.get(`/provider/restaurant/tables/hall/${id}`)
   return response.data
 }
+
+export const addTable = async(id , formData)=>{
+  const response = await API.post(`/provider/restaurant/tables/hall/${id}`,formData)
+  return response.data
+}
+
+export const getTage = async()=>{
+  const response = await API.get('/provider/Tag')
+  return response.data
+}
