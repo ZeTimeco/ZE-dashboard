@@ -1,13 +1,17 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React from 'react'
+import React, { useState } from 'react'
 import No_Views_Add from './No_Views_Add'
 import CardOfViews from './CardOfViews'
 import { useTranslation } from 'react-i18next'
 import AddBtn from '@/app/Components/Buttons/AddBtn'
+import AddPage from './Add/page'
 
 function ViewsPage() {
   const {t} = useTranslation()
+
+  const [openAdd , setOpenAdd] = useState(false)
+
 
   return (
     <MainLayout>
@@ -21,10 +25,15 @@ function ViewsPage() {
             <p className='text-[#364152] text-2xl font-medium'>{t("Lounge view")}</p>
             <p className='text-[#697586] text-xl font-normal'>{t("Identifying aspects of the showroom offered to customers")}</p>
           </div>
-          <AddBtn               
-            href="/Pages/Halls/Views/Add"
-            label="Add new view" 
-          />
+          <button
+            onClick={()=>setOpenAdd(true)}
+            className='w-[20%] h-14 flex items-center justify-center gap-2  bg-[var(--color-primary)] text-[white] text- cursor-pointer'
+          >
+            <span>
+              <img src="/images/icons/AddIcon.svg" alt="" />
+            </span>
+            <span>{t('Add new view')}</span>
+          </button>
         </div>
 
         {/* cards */}
@@ -32,11 +41,18 @@ function ViewsPage() {
           <CardOfViews />
         </div>
         
+      </div>
 
 
-        </div>
+
+      <AddPage
+        open={openAdd}
+        setOpen={setOpenAdd}
+      />
 
     </MainLayout>
+
+
   )
 }
 

@@ -1,13 +1,29 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React from 'react'
+import React, { useEffect } from 'react'
 import No_Tables_Add from './No_Tables_Add';
 import CardOfTable from './CardOfTable';
 import { useTranslation } from 'react-i18next';
 import AddBtn from '@/app/Components/Buttons/AddBtn';
+import { useDispatch, useSelector } from 'react-redux';
+import { useSearchParams } from 'next/navigation';
+import { getTablesThunk } from '@/redux/slice/Halls/HallsSlice';
 
 function TablesPage() {
   const {t} = useTranslation()
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  const dispatch = useDispatch()
+  const {getTables}=useSelector((state)=>state.halls)
+  
+  useEffect(()=>{
+    if(id){
+      dispatch(getTablesThunk(id))
+    }
+  },[dispatch,id])
+
+  console.log('getTables///' , getTables);
 
   return (
     <MainLayout>
@@ -28,7 +44,7 @@ function TablesPage() {
   
           {/* cards */}
           <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
-            <CardOfTable />
+            <CardOfTable getTables={getTables}/>
           </div>
           
   

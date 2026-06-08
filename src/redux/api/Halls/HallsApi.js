@@ -1,5 +1,7 @@
 import API from "../../../../config/api"
 
+/*********Hall */
+//----------------
 
 export const getHalls = async () => {
   const response = await API.get('/provider/hall')
@@ -43,4 +45,11 @@ export const toggleViews = async (id) => {
 export const dublicateHall = async (formData) => {
   const response = await API.post('/provider/dublicate-hall', formData)
   return response.data;
+}
+
+/*********Tables */
+//----------------
+export const getTables = async(id)=>{
+  const response = await API.get(`/provider/restaurant/tables/hall/${id}`)
+  return response.data
 }

@@ -1,7 +1,8 @@
 'use client'
 import { styled, Switch } from "@mui/material";
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from "react-i18next";
+import EditPage from "./Edit/page";
 
 function CardOfViews() {
   const {t} = useTranslation()
@@ -97,10 +98,12 @@ function CardOfViews() {
 
     }
   }
-  
+
+  const [openEdit , setOpenEdit] = useState(false)
+
 
   return (
-    <div>
+    <>
 
       <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
         <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] cursor-pointer rounded-[3px] p-3 '>
@@ -131,7 +134,7 @@ function CardOfViews() {
 
           {/* btn */}
           <div className="grid grid-cols-2 gap-6 mt-4">
-            <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button onClick={()=>setOpenEdit(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
             </button>
@@ -147,7 +150,14 @@ function CardOfViews() {
 
         </div>
       </div>
-    </div>
+
+      <EditPage
+        open={openEdit}
+        setOpen={setOpenEdit}
+      />
+
+    </>
+    
   )
 }
 

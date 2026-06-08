@@ -4,7 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 
-function AddPage({open , setOpen}) {
+function EditPage({open , setOpen}) {
   const{t} = useTranslation()
 
   return (
@@ -25,7 +25,7 @@ function AddPage({open , setOpen}) {
         </button>
       </section>
       <section className="mt-4 px-6">
-        <p className="text-[#364152] text-2xl font-medium mb-3">{t("Add a look")}</p>
+        <p className="text-[#364152] text-2xl font-medium mb-3">{t("Edit a look")}</p>
         <p className="text-[#4B5565] text-xl font-normal mb-5">
           {t("Configuring appearance settings")}
         </p>
@@ -36,7 +36,7 @@ function AddPage({open , setOpen}) {
       <Form/>
       <div className='px-6'>
         <button className=' bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
-          {t('save')}
+          {t('Save changes')}
         </button>
       </div>
     
@@ -46,4 +46,4 @@ function AddPage({open , setOpen}) {
   )
 }
 
-export default AddPage
+export default EditPage

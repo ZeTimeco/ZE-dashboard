@@ -4,14 +4,14 @@ import { IMAGE_BASE_URL } from '../../../../../config/imageUrl';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
-function CardOfTable() {
+function CardOfTable({getTables}) {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const status = 1
   const StatusRender = (status) => {
     switch (status) {
       case 1: //نشط 
+      case true :
         return (
           <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit  h-7.5 rounded-full flex justify-center items-center '>
             <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center justify-center gap-1'>
@@ -21,6 +21,7 @@ function CardOfTable() {
         );
 
       case 0: //مغلق
+      case false :
         return (
           <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  h-7.5 rounded-full flex  items-center '>
             <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
@@ -34,6 +35,7 @@ function CardOfTable() {
   const StatusRender2 = (status) => {
     switch (status) {
       case 1: //قابل للحجز 
+      case true :
         return (
           <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit  h-7.5 rounded-full flex justify-center items-center '>
             <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center justify-center gap-1'>
@@ -44,6 +46,7 @@ function CardOfTable() {
         );
 
       case 0: //غير قابل للحجز
+      case false :
         return (
           <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  h-7.5 rounded-full flex  items-center '>
             <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
@@ -62,12 +65,15 @@ function CardOfTable() {
   return (
     <>
       <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
-      
-        <div className={`relative  shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-3 grid grid-cols-4 gap-4   `}>
+        {getTables?.data?.tables?.map((table , index)=>(
+          <div 
+            key={table?.id}
+            className={`relative  shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-3 grid grid-cols-4 gap-4   `}
+          >
           
           {/* image */}
           <div className='bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] flex justify-center items-center rounded-[3px] text-[#FCFCFD] text-[28px] font-medium'>
-            <p>T1</p>
+            <p>{table?.code}</p>
           </div>
 
           <div className='col-span-3 '>
@@ -75,20 +81,20 @@ function CardOfTable() {
             {/*  */}
             <div className='flex justify-between mt-4'>
               <div className='flex flex-col gap-2'>
-                <p className='text-[#364152] text-lg font-normal '>إطلالة على الرووف</p>
+                <p className='text-[#364152] text-lg font-normal '>{table?.views?.[0]?.name ?? 'Not Found'}</p>
                 <p className='flex gap-1 border border-[#9AA4B2] bg-[#EEF2F6] w-fit px-2  rounded-full'>
                   <span className='flex items-center'>
                     <img src="/images/icons/user-group_grey.svg" className="w-4 h-4" />
                   </span>
                   
-                  <span className='text-[#697586] text-base font-normal'>8</span>
+                  <span className='text-[#697586] text-base font-normal'>{table?.capacity}</span>
                 </p>
 
               </div>
 
               <div className='flex flex-col gap-2'>
-                {StatusRender2(status)}
-                {StatusRender(status)}
+                {StatusRender2(table?.is_bookable)}
+                {StatusRender(table?.is_active)}
               </div>
             </div>
 
@@ -105,7 +111,7 @@ function CardOfTable() {
             <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
           </button>
 
-          {status ? (
+          {table?.is_active ? (
               <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
                 <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
                 <p className='text-[#364152] text-sm font-normal'>{t('closing')}</p>
@@ -124,7 +130,9 @@ function CardOfTable() {
             
           </div>
 
-        </div>
+          </div>
+        ))}
+        
       
   
       </div>

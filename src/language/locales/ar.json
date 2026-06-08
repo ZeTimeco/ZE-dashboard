@@ -1139,7 +1139,16 @@
   "Add new view":"أضافة مشاهدة جديدة",
   "Lounge view":"إطلالة الصالة",
   "Identifying aspects of the showroom offered to customers":"تحديد جوانب الصالة المعروضة للعملاء",
-  
+  "Configuring appearance settings":"تكوين إعدادات الاطلالة", 
+  "Name of the view":"أسم الاطلالة",
+  "Write the name of the view":"اكتب اسم الاطلالة",
+  "Choose the icon":"أختار الايقون",
+  "Choose the direction of the view":"اختر  اتجاه الاطلالة",
+  "description":"وصف",
+  "Write a brief description":"اكتب وصف مختصر",
+  "This description helps customers understand the offer.":"يساعد هذا الوصف العملاء على فهم العرض",
+  "Edit a look":"تعديل إطلالة",
+
 
 
 
