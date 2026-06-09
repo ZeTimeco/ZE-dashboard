@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form({ getTage,getHallsView,  formData, setFormData }) {
+function Form({ getTage, getHallsView, formData, setFormData }) {
   const {t} = useTranslation();
 
   // =========================
@@ -29,16 +29,28 @@ function Form({ getTage,getHallsView,  formData, setFormData }) {
     const handleClickOutside = (event) => {
       if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
       if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
-      // if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  //---------------------
-  const [guests, setGuests] = useState(1); 
+  useEffect(() => {
+    if (formData?.shape) {
+      const found = option1.find(opt => opt.value === formData.shape);
+      if (found) setSelected1(found.name);
+    } else {
+      setSelected1(null);
+    }
+  }, [formData?.shape]);
 
-const [selectedTag, setSelectedTag] = useState(null);
+  useEffect(() => {
+    if (formData?.views && formData.views.length > 0 && option2) {
+      const found = option2.find(opt => opt.id === formData.views[0]);
+      if (found) setSelected2(found.name);
+    } else {
+      setSelected2(null);
+    }
+  }, [formData?.views, option2]);
 
   //==================
   const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -103,7 +115,9 @@ const [selectedTag, setSelectedTag] = useState(null);
         </p>
         <input 
           type="text"
-          name='title'
+          name='code'
+          value={formData?.code || ''}
+          onChange={(e) => setFormData({ ...formData, code: e.target.value })}
           placeholder={t('Write the table/number')}
           className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -152,6 +166,7 @@ const [selectedTag, setSelectedTag] = useState(null);
                     key={opt?.value}
                     onClick={() => {
                       setSelected1(opt?.name);
+                      setFormData({ ...formData, shape: opt?.value });
                       setSearchValue1("");
                       setOpen1(false);
                     }}
@@ -208,6 +223,7 @@ const [selectedTag, setSelectedTag] = useState(null);
                     key={opt?.id}
                     onClick={() => {
                       setSelected2(opt?.name);
+                      setFormData({ ...formData, views: [opt?.id] });
                       setSearchValue2("");
                       setOpen2(false);
                     }}
@@ -227,19 +243,19 @@ const [selectedTag, setSelectedTag] = useState(null);
 
         <div className=" h-14 px-3 flex items-center justify-between rounded-[3px] border border-[#EEF2F6] bg-[#F8FAFC]  ">
           <button
-            onClick={() => setGuests((prev) => prev + 1)}
+            onClick={() => setFormData({ ...formData, capacity: (formData?.capacity || 1) + 1 })}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-[white] text-lg text-[#0F022E]"
           >
             +
           </button>
 
           <div className="text-center">
-            <p className="text-xl font-medium text-[var(--color-primary)]">{guests}</p>
+            <p className="text-xl font-medium text-[var(--color-primary)]">{formData?.capacity || 1}</p>
             <p className="text-sm text-[#364152]">{t('Guests')}</p>
           </div>
 
           <button
-            onClick={() => setGuests((prev) => Math.max(1, prev - 1))}
+            onClick={() => setFormData({ ...formData, capacity: Math.max(1, (formData?.capacity || 1) - 1) })}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-[white] text-lg text-[#0F022E]"
           >
             -
@@ -252,35 +268,53 @@ const [selectedTag, setSelectedTag] = useState(null);
         <p className="text-sm font-medium text-[#364152]">{t('slogans')}</p>
 
         <div className="grid grid-cols-6  gap-3">
-          {getTage?.tags?.map((tag)=>(
-            <button
-            key={tag?.id}
-            onClick={() => setSelectedTag(tag.id)}
-            className={`
-              min-h-10 px-4 py-2 flex  justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all 
-              ${
-                selectedTag === tag.id
-                  ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                  : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
-              }
-            `}
-          >
-            {tag?.name}
-
-            {selectedTag === tag.id && (
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedTag(null);
+          {getTage?.tags?.map((tag)=>{
+            const isSelected = formData?.tags?.includes(tag?.name);
+            return (
+              <button
+                key={tag?.id}
+                type="button"
+                onClick={() => {
+                  if (isSelected) {
+                    setFormData({
+                      ...formData,
+                      tags: (formData?.tags || []).filter((t) => t !== tag?.name)
+                    });
+                  } else {
+                    setFormData({
+                      ...formData,
+                      tags: [...(formData?.tags || []), tag?.name]
+                    });
+                  }
                 }}
-                className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
+                className={`
+                  min-h-10 px-4 py-2 flex  justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all 
+                  ${
+                    isSelected
+                      ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
+                      : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
+                  }
+                `}
               >
-                <img src="/images/icons/x_white.svg" alt="" />
-              </span>
-            )}
-            </button>
-          ))}
-          
+                {tag?.name}
+
+                {isSelected && (
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFormData({
+                        ...formData,
+                        tags: (formData?.tags || []).filter((t) => t !== tag?.name)
+                      });
+                    }}
+                    className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
+                  >
+                    <img src="/images/icons/x_white.svg" alt="" />
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -295,7 +329,10 @@ const [selectedTag, setSelectedTag] = useState(null);
           </p>
         </div>
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={!!formData?.is_bookable}
+            onChange={(e) => setFormData({ ...formData, is_bookable: e.target.checked })}
+          />
         </div>
       </div>
 
@@ -310,7 +347,10 @@ const [selectedTag, setSelectedTag] = useState(null);
           </p>
         </div>
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={!!formData?.is_active}
+            onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
+          />
         </div>
       </div>
 

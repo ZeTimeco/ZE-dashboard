@@ -248,6 +248,18 @@ const HallsSlice =createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      //addTableThunk
+      .addCase(addTableThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addTableThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(addTableThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       //getTageThunk
       .addCase(getTageThunk.pending, (state) => {
         state.loading = true;
