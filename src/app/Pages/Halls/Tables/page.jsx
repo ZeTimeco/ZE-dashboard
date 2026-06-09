@@ -11,20 +11,21 @@ import { getTablesThunk } from '@/redux/slice/Halls/HallsSlice';
 
 function TablesPage() {
   const {t} = useTranslation()
+
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const hall_id = searchParams.get("hall_id");
 
   const dispatch = useDispatch()
   const {getTables}=useSelector((state)=>state.halls)
   
   useEffect(()=>{
-    if(id){
-      dispatch(getTablesThunk(id))
+    if(hall_id){
+      dispatch(getTablesThunk(hall_id))
     }
-  },[dispatch,id])
+  },[dispatch,hall_id])
 
   
-
+console.log('hall' , hall_id);
   return (
     <MainLayout>
       
@@ -37,14 +38,14 @@ function TablesPage() {
               <p className='text-[#697586] text-xl font-normal'>{t("Main Hall")} -  2  {t("tables")}</p>
             </div>
             <AddBtn               
-              href="/Pages/Halls/Tables/Add"
+              href={`/Pages/Halls/Tables/Add?hall_id=${hall_id}`}
               label="Add a new table" 
             />
           </div>
   
           {/* cards */}
           <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
-            <CardOfTable getTables={getTables}/>
+            <CardOfTable getTables={getTables} HallId={hall_id}/>
           </div>
           
   

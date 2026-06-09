@@ -63,3 +63,8 @@ export const getTage = async()=>{
   const response = await API.get('/provider/Tag')
   return response.data
 }
+
+export const getHallsView = async(id)=>{
+  const response = await API.get(`/provider/halls/${id}/views`)
+  return response.data
+}

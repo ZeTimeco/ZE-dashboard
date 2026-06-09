@@ -8,11 +8,17 @@ import { IMAGE_BASE_URL } from '../../../../../config/imageUrl';
 
 function CardOfHall({ halls }) {
   const { t } = useTranslation()
+  const router = useRouter()
+
   const dispatch = useDispatch()
+
+
   const [openMenuIndex, setOpenMenuIndex] = useState(false);
   const toggleMenu = (id) => {
     setOpenMenuIndex(prev => (prev === id ? null : id));
   };
+
+
 
   const handleDuplicate = (hallId) => {
     dispatch(dublicateHallThunk({ hall_id: hallId }))
@@ -49,7 +55,6 @@ function CardOfHall({ halls }) {
     }
   }
 
-  const router = useRouter()
   const [selectedHall, setSelectedHall] = useState(null);
 
   return (
@@ -73,7 +78,7 @@ function CardOfHall({ halls }) {
               <div className='flex justify-between items-center mb-2 '>
                 <p 
                 onClick={() => {
-                  router.push(`/Pages/Halls/Tables?id=${hall?.id}`);
+                  router.push(`/Pages/Halls/Tables?hall_id=${hall?.id}`);
                   setSelectedHall(hall?.id);
                 }}
                   className='text-[#364152] text-xl font-medium'

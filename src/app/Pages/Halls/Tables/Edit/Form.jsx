@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form() {
+function Form({getTage , getHallsView}) {
   const {t} = useTranslation();
 
   // =========================
@@ -23,7 +23,7 @@ function Form() {
   const [selected2, setSelected2] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
-  const option2 = ['1' , '2'];
+  const option2 = getHallsView?.data;
 //round,square,rectangle,oval
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -38,7 +38,7 @@ function Form() {
   //---------------------
   const [guests, setGuests] = useState(1); 
 
-  const [selected, setSelected] = useState(false);
+  const [selectedTag, setSelectedTag] = useState(null);
 
   //==================
   const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -201,19 +201,19 @@ function Form() {
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option2
                 ?.filter((opt) =>
-                  opt.toLowerCase().includes(searchValue2.toLowerCase())
+                  opt?.name.toLowerCase().includes(searchValue2.toLowerCase())
                 )
                 .map((opt) => (
                   <li
-                    key={opt}
+                    key={opt?.id}
                     onClick={() => {
-                      setSelected2(opt);
+                      setSelected2(opt?.name);
                       setSearchValue2("");
                       setOpen2(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
                 ))}
             </ul>
@@ -247,36 +247,40 @@ function Form() {
         </div>
       </div>
 
-      {/* ========= slogans ============ */}
+    {/* ========= slogans ============ */}
       <div className="w-full flex flex-col gap-1.5 col-span-2">
-        <p className="text-sm font-medium text-[#364152]">الشعارات</p>
+        <p className="text-sm font-medium text-[#364152]">{t('slogans')}</p>
 
-        <div className="flex gap-3">
-          <button
-            onClick={() => setSelected(true)}
+        <div className="grid grid-cols-6  gap-3">
+          {getTage?.tags?.map((tag)=>(
+            <button
+            key={tag?.id}
+            onClick={() => setSelectedTag(tag.id)}
             className={`
-              h-10 px-4 flex items-center gap-2 text-sm font-normal rounded-full border transition-all 
+              min-h-10 px-4 py-2 flex  justify-center items-center gap-2 text-sm font-normal rounded-full border transition-all 
               ${
-                selected
+                selectedTag === tag.id
                   ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
                   : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
               }
             `}
           >
-            التدخين
+            {tag?.name}
 
-            {selected && (
+            {selectedTag === tag.id && (
               <span
                 onClick={(e) => {
                   e.stopPropagation();
-                  setSelected(false);
+                  setSelectedTag(null);
                 }}
                 className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
               >
-                <img src="/images/icons/x_white.svg" alt="" />
+              <img src="/images/icons/x_white.svg" alt="" />
               </span>
             )}
-          </button>
+            </button>
+          ))}
+          
         </div>
       </div>
 

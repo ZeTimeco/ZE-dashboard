@@ -20,6 +20,7 @@ function HallPage() {
   }, [dispatch])
 
   
+  
   return (
     <MainLayout>
       <>

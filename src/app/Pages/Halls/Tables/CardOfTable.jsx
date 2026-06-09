@@ -4,7 +4,7 @@ import { IMAGE_BASE_URL } from '../../../../../config/imageUrl';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
-function CardOfTable({getTables}) {
+function CardOfTable({getTables ,HallId}) {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -106,7 +106,7 @@ function CardOfTable({getTables}) {
           <div className='grid grid-cols-3 gap-4 col-span-4 w-full '>
             
 
-          <button onClick={()=>router.push(`/Pages/Halls/Tables/Edit`)}  className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+          <button onClick={()=>router.push(`/Pages/Halls/Tables/Edit?id=${table?.id}&hall_id=${HallId}`)}  className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
             <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
             <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
           </button>

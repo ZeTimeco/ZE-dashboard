@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
 
-function Form({ getTage,  formData, setFormData }) {
+function Form({ getTage,getHallsView,  formData, setFormData }) {
   const {t} = useTranslation();
 
   // =========================
@@ -23,7 +23,7 @@ function Form({ getTage,  formData, setFormData }) {
   const [selected2, setSelected2] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
-  const option2 = ["1", "2"];
+  const option2 = getHallsView?.data;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -201,19 +201,19 @@ const [selectedTag, setSelectedTag] = useState(null);
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option2
                 ?.filter((opt) =>
-                  opt.toLowerCase().includes(searchValue2.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue2.toLowerCase())
                 )
                 .map((opt) => (
                   <li
-                    key={opt}
+                    key={opt?.id}
                     onClick={() => {
-                      setSelected2(opt);
+                      setSelected2(opt?.name);
                       setSearchValue2("");
                       setOpen2(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
                 ))}
             </ul>
@@ -249,7 +249,7 @@ const [selectedTag, setSelectedTag] = useState(null);
 
       {/* ========= slogans ============ */}
       <div className="w-full flex flex-col gap-1.5 col-span-2">
-        <p className="text-sm font-medium text-[#364152]">الشعارات</p>
+        <p className="text-sm font-medium text-[#364152]">{t('slogans')}</p>
 
         <div className="grid grid-cols-6  gap-3">
           {getTage?.tags?.map((tag)=>(
