@@ -1148,7 +1148,13 @@
   "Write a brief description":"اكتب وصف مختصر",
   "This description helps customers understand the offer.":"يساعد هذا الوصف العملاء على فهم العرض",
   "Edit a look":"تعديل إطلالة",
-
+  "Top side":"الجانب العلوي",
+  "Right side":"الجانب الايمن",
+  "Bottom side":"الجانب السفلي",
+  "Left side":"الجانب الأيسر",
+  "Visible to customers":"مرئي للعملاء",
+  "Invisible to customers":"غير مرئي للعملاء",
+  
 
 
 

@@ -85,3 +85,8 @@ export const DeleteTable = async(Tableid)=>{
   const response = await API.delete(`/provider/restaurant/tables/${Tableid}`)
   return response.data
 }
+
+export const getViews = async(id)=>{
+  const response = await API.get(`/provider/halls/${id}/views`)
+  return response.data
+}

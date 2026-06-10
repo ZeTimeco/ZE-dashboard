@@ -1,18 +1,33 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import No_Views_Add from './No_Views_Add'
 import CardOfViews from './CardOfViews'
 import { useTranslation } from 'react-i18next'
-import AddBtn from '@/app/Components/Buttons/AddBtn'
 import AddPage from './Add/page'
+import { useDispatch, useSelector } from 'react-redux'
+import { useSearchParams } from 'next/navigation'
+import { getViewsThunk } from '@/redux/slice/Halls/HallsSlice'
 
 function ViewsPage() {
   const {t} = useTranslation()
 
   const [openAdd , setOpenAdd] = useState(false)
 
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+  console.log(id);
+    
+  //api
+  const dispatch = useDispatch()
+  const {getViews} = useSelector((state)=>state.halls)
+  useEffect(()=>{
+    if(id){
+      dispatch(getViewsThunk(id))
+    }
+  },[dispatch , id])
 
+  console.log('getViews',getViews);
   return (
     <MainLayout>
       
@@ -38,7 +53,7 @@ function ViewsPage() {
 
         {/* cards */}
         <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
-          <CardOfViews />
+          <CardOfViews  getViews={getViews}/>
         </div>
         
       </div>

@@ -3,8 +3,9 @@ import { styled, Switch } from "@mui/material";
 import React, { useState } from 'react'
 import { useTranslation } from "react-i18next";
 import EditPage from "./Edit/page";
+import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 
-function CardOfViews() {
+function CardOfViews({getViews}) {
   const {t} = useTranslation()
   const GreenSwitch = styled(Switch)(({ theme }) => ({
     width: 53,
@@ -56,7 +57,6 @@ function CardOfViews() {
     },
   }));
 
-  const status = 'left'
   const StatusRender = (status) => {
     switch (status) {
 
@@ -64,7 +64,7 @@ function CardOfViews() {
         return (
           <div className=' bg-[#FEE4E2] border border-[#F04438] text-[#F04438] w-fit  h-7.5 rounded-full flex justify-center items-center '>
             <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center justify-center gap-1'>
-              <span className='text-xs lg1:text-sm'>{t('right')}</span>
+              <span className='text-xs lg1:text-sm'>{t('Right side')}</span>
             </div>
           </div>
         );
@@ -73,7 +73,7 @@ function CardOfViews() {
         return (
           <div className=' bg-[#DAECFF] border border-[#007AFF] text-[#007AFF] w-fit  h-7.5 rounded-full flex  items-center '>
             <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
-              <span className='text-xs lg1:text-sm'>{t('left')}</span>
+              <span className='text-xs lg1:text-sm'>{t('Left side')}</span>
             </div>
           </div>
         );
@@ -82,7 +82,7 @@ function CardOfViews() {
         return (
           <div className=' bg-[#FFEFD8] border border-[#FF9500] text-[#FF9500] w-fit  h-7.5 rounded-full flex  items-center '>
             <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
-              <span className='text-xs lg1:text-sm'>{t('top')}</span>
+              <span className='text-xs lg1:text-sm'>{t('Top side')}</span>
             </div>
           </div>
         );
@@ -91,7 +91,7 @@ function CardOfViews() {
         return (
           <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#17B26A] w-fit  h-7.5 rounded-full flex  items-center '>
             <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
-              <span className='text-xs lg1:text-sm'>{t('bottom')}</span>
+              <span className='text-xs lg1:text-sm'>{t('Bottom side')}</span>
             </div>
           </div>
         );
@@ -106,33 +106,39 @@ function CardOfViews() {
     <>
 
       <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
-        <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] cursor-pointer rounded-[3px] p-3 '>
+        {getViews?.data?.map((view)=>(
+          <div key={view?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] cursor-pointer rounded-[3px] p-3 '>
 
           {/*  */}
           <div className="flex justify-between">
             <div className='flex gap-4'>
-              <p className='w-15 h-14 bg-[linear-gradient(180deg,_#FFC65D_23.17%,_#DE9819_100%)] flex items-center justify-center rounded-[3px] '>
-                <img src="/images/icons/Wheel repair.svg" alt="" />
+              <p
+                className="w-15 h-14 flex items-center justify-center rounded-[3px]"
+                style={{ background: view?.hex_code }}
+              >
+                <img src={`${IMAGE_BASE_URL}${view?.icon}`} alt="" />
               </p>
-              <p className='text-[#364152] text-xl font-normal flex items-center'>إطلالة علي الشارع</p>
+              <p className='text-[#364152] text-xl font-normal flex items-center'>{view?.name}</p>
 
             </div>
 
             <div className="flex items-center">
-              <GreenSwitch/>
+              <GreenSwitch checked={view?.status}/>
             </div>
 
           </div>
 
           {/*  */}
           <div className="flex justify-between mt-2">
-            <p className="text-[#697586] text-base font-normal">مرئية للعملاء  </p>
+            <p className="text-[#697586] text-base font-normal"> 
+              {view?.status === true ? t('Visible to customers') : t('Invisible to customers')}
+            </p>
             <div>
-              {StatusRender(status)}
+              {StatusRender(view?.side)}
             </div>
           </div>
 
-          {/* btn */}
+          {/* btn */} 
           <div className="grid grid-cols-2 gap-6 mt-4">
             <button onClick={()=>setOpenEdit(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
@@ -148,7 +154,9 @@ function CardOfViews() {
 
           
 
-        </div>
+          </div>
+        ))}
+        
       </div>
 
       <EditPage
