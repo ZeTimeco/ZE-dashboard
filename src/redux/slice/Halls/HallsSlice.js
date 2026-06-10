@@ -1,4 +1,4 @@
-import { AddHall, addTable, dublicateHall, EditHall, getHallById, getHalls, getHallsView, getHallType, getTables, getTage, toggleViews } from "@/redux/api/Halls/HallsApi";
+import { AddHall, addTable, DeleteTable, dublicateHall, EditHall, EditRestaurantTable, getHallById, getHalls, getHallsView, getHallType, getRestaurantTable, getTables, getTage, toggleViews } from "@/redux/api/Halls/HallsApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /*********hall */
@@ -128,6 +128,38 @@ export const getHallsViewThunk = createAsyncThunk('halls/getHallsView',
   }
 )
 
+export const getRestaurantTableThunk = createAsyncThunk('halls/getRestaurantTable',
+  async(id, {rejectWithValue})=>{
+    try{
+      const response = await getRestaurantTable(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const EditRestaurantTableThunk = createAsyncThunk('halls/EditRestaurantTable',
+  async({id , formData}, {rejectWithValue})=>{
+    try{
+      const response = await EditRestaurantTable(id , formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const DeleteTableThunk = createAsyncThunk('halls/DeleteTable',
+  async(Tableid , {rejectWithValue})=>{
+    try{
+      const response = await DeleteTable(Tableid)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 const initailState = {
   loading:false,
@@ -138,6 +170,9 @@ const initailState = {
   getTables:[],
   getTage:[],
   getHallsView:[],
+  getRestaurantTable:null,
+  DeleteTable:[],
+
 
 }
 
@@ -283,6 +318,44 @@ const HallsSlice =createSlice({
         state.getHallsView = action.payload;
       })
       .addCase(getHallsViewThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getRestaurantTableThunk
+      .addCase(getRestaurantTableThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRestaurantTableThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getRestaurantTable = action.payload;
+      })
+      .addCase(getRestaurantTableThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //EditRestaurantTableThunk
+      .addCase(EditRestaurantTableThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(EditRestaurantTableThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(EditRestaurantTableThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //DeleteTableThunk
+      .addCase(DeleteTableThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(DeleteTableThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.DeleteTable = action.payload;
+      })
+      .addCase(DeleteTableThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

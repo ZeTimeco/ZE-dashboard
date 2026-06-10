@@ -3,10 +3,20 @@ import React, { useState } from 'react'
 import { IMAGE_BASE_URL } from '../../../../../config/imageUrl';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { DeleteTableThunk, getTablesThunk } from '@/redux/slice/Halls/HallsSlice';
 
 function CardOfTable({getTables ,HallId}) {
   const { t } = useTranslation()
   const router = useRouter()
+  const dispatch = useDispatch()
+
+  const handleDelete = async (tableId) => {
+    const result = await dispatch(DeleteTableThunk(tableId))
+    if (!result.error) {
+      dispatch(getTablesThunk(HallId))
+    }
+  }
 
   const StatusRender = (status) => {
     switch (status) {
@@ -123,7 +133,7 @@ function CardOfTable({getTables ,HallId}) {
               </button>
             )}
 
-          <button className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+          <button onClick={() => handleDelete(table?.id)} className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
             <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
             <p className='text-[#364152] text-sm font-normal'>{t('delete')}</p>
           </button>
