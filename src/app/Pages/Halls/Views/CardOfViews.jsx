@@ -1,11 +1,12 @@
 'use client'
-import { styled, Switch } from "@mui/material";
+import { styled, Switch, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@mui/material";
 import React, { useState } from 'react'
 import { useTranslation } from "react-i18next";
 import EditPage from "./Edit/page";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
+import ConfirmDelete from "./ConfirmDelete";
 
-function CardOfViews({getViews}) {
+function CardOfViews({getViews , handleDelete}) {
   const {t} = useTranslation()
   const GreenSwitch = styled(Switch)(({ theme }) => ({
     width: 53,
@@ -100,8 +101,9 @@ function CardOfViews({getViews}) {
   }
 
   const [openEdit , setOpenEdit] = useState(false)
+  const [deleteId, setDeleteId] = useState(null)
 
-
+console.log(getViews);
   return (
     <>
 
@@ -145,7 +147,7 @@ function CardOfViews({getViews}) {
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
             </button>
 
-            <button className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button onClick={() => setDeleteId(view?.id)} className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
               <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('delete')}</p>
             </button>
@@ -163,6 +165,13 @@ function CardOfViews({getViews}) {
         open={openEdit}
         setOpen={setOpenEdit}
       />
+
+      {/* Confirm Delete Dialog */}
+          <ConfirmDelete 
+          deleteId={deleteId}
+          setDeleteId={setDeleteId}
+          handleDelete={handleDelete}
+          />
 
     </>
     

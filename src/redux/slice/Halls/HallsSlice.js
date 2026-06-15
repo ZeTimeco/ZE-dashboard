@@ -1,4 +1,4 @@
-import { AddHall, addTable, DeleteTable, dublicateHall, EditHall, EditRestaurantTable, getHallById, getHalls, getHallsView, getHallType, getRestaurantTable, getTables, getTage, getViews, toggleViews } from "@/redux/api/Halls/HallsApi";
+import { AddHall, addHallView, addTable, DeleteTable, deleteView, dublicateHall, EditHall, EditRestaurantTable, getHallById, getHalls, getHallsView, getHallType, getHallView, getRestaurantTable, getTables, getTage, getViews, toggleViews } from "@/redux/api/Halls/HallsApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /*********hall */
@@ -172,6 +172,38 @@ export const getViewsThunk = createAsyncThunk('halls/getViews',
   }
 )
 
+export const getHallViewThunk = createAsyncThunk('/halls/getHallView',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getHallView()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const addHallViewThunk = createAsyncThunk('halls/addHallView',
+  async({hallid , formData},{rejectWithValue})=>{
+    try{
+      const response = await addHallView(hallid , formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const deleteViewThunk = createAsyncThunk('halls/deleteView',
+  async(id,{rejectWithValue})=>{
+    try{
+      const response = await deleteView(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 const initailState = {
@@ -186,6 +218,8 @@ const initailState = {
   getRestaurantTable:null,
   DeleteTable:[],
   getViews:[],
+  getHallView:null,
+  deleteView:null,
 
 
 
@@ -387,7 +421,44 @@ const HallsSlice =createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
+      //getHallViewThunk
+      .addCase(getHallViewThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getHallViewThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getHallView = action.payload;
+      })
+      .addCase(getHallViewThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //addHallViewThunk
+      .addCase(addHallViewThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addHallViewThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(addHallViewThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //deleteViewThunk
+      .addCase(deleteViewThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteViewThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.deleteView = action.payload;
+      })
+      .addCase(deleteViewThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   }
 })
 
