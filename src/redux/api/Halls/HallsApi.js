@@ -41,7 +41,6 @@ export const toggleViews = async (id) => {
   const response = await API.patch(`/provider/views/${id}/toggle`)
   return response.data;
 }
-
 export const dublicateHall = async (formData) => {
   const response = await API.post('/provider/dublicate-hall', formData)
   return response.data;

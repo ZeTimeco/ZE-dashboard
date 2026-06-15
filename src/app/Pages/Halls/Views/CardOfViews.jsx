@@ -6,7 +6,7 @@ import EditPage from "./Edit/page";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 import ConfirmDelete from "./ConfirmDelete";
 
-function CardOfViews({getViews , handleDelete}) {
+function CardOfViews({getViews , handleDelete ,handleToggle}) {
   const {t} = useTranslation()
   const GreenSwitch = styled(Switch)(({ theme }) => ({
     width: 53,
@@ -125,7 +125,7 @@ console.log(getViews);
             </div>
 
             <div className="flex items-center">
-              <GreenSwitch checked={view?.status}/>
+              <GreenSwitch checked={view?.status} onChange={() => handleToggle(view?.id)}/>
             </div>
 
           </div>
