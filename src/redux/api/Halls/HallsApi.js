@@ -104,3 +104,13 @@ export const deleteView = async(id)=>{
   const response = await API.delete(`/provider/views/${id}/delete`)
   return response.data
 }
+
+export const getViewsById = async(id)=>{
+  const response = await API.get(`/provider/show/views/${id}`)
+  return response.data
+}
+
+export const editViews = async(id , formData)=>{
+  const response = await API.post(`/provider/views/${id}/update`,formData)
+  return response.data
+}

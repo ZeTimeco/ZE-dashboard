@@ -66,7 +66,7 @@ function ViewsPage() {
 
         {/* cards */}
         <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
-          <CardOfViews  getViews={getViews} handleDelete={handleDelete} handleToggle={handleToggle}/>
+          <CardOfViews  getViews={getViews} handleDelete={handleDelete} handleToggle={handleToggle} refreshViews={() => dispatch(getViewsThunk(id))}/>
         </div>
         
       </div>

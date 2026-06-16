@@ -6,7 +6,7 @@ import EditPage from "./Edit/page";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 import ConfirmDelete from "./ConfirmDelete";
 
-function CardOfViews({getViews , handleDelete ,handleToggle}) {
+function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
   const {t} = useTranslation()
   const GreenSwitch = styled(Switch)(({ theme }) => ({
     width: 53,
@@ -104,6 +104,7 @@ function CardOfViews({getViews , handleDelete ,handleToggle}) {
   const [deleteId, setDeleteId] = useState(null)
 
 console.log(getViews);
+const [selectedViewId, setSelectedViewId] = useState(null);
   return (
     <>
 
@@ -142,7 +143,13 @@ console.log(getViews);
 
           {/* btn */} 
           <div className="grid grid-cols-2 gap-6 mt-4">
-            <button onClick={()=>setOpenEdit(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button  
+              onClick={() => {
+                setSelectedViewId(view?.id);
+                setOpenEdit(true);
+              }} 
+              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'
+            >
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
             </button>
@@ -164,6 +171,8 @@ console.log(getViews);
       <EditPage
         open={openEdit}
         setOpen={setOpenEdit}
+        viewId={selectedViewId}
+        refreshViews={refreshViews}
       />
 
       {/* Confirm Delete Dialog */}

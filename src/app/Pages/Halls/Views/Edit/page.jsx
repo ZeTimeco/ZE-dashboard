@@ -1,22 +1,67 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { Dialog } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { getHallViewThunk } from '@/redux/slice/Halls/HallsSlice'
+import { editViewsThunk, getHallViewThunk, getViewsByIdThunk } from '@/redux/slice/Halls/HallsSlice'
 
-function EditPage({open , setOpen}) {
+function EditPage({open , setOpen , viewId, refreshViews}) {
   const{t} = useTranslation()
 
   //api
   const dispatch = useDispatch()
-  const {getHallView} = useSelector((state)=>state.halls)
+  const {getHallView ,getViewsById} = useSelector((state)=>state.halls)
   useEffect(()=>{
     dispatch(getHallViewThunk())
   },[dispatch])
 
-  console.log('getHallView',getHallView);
+
+  const [formData , setFormData] = useState({
+    view_id:'',
+    name:'',
+    side:'',
+    description:'',
+
+  })
+
+  useEffect(() => {
+    if (viewId) {
+      dispatch(getViewsByIdThunk(viewId));
+    }
+  }, [dispatch, viewId]);
+
+  useEffect(() => {
+      console.log("API DATA", getViewsById);
+
+    if (getViewsById) {
+      const selectedView = getViewsById.all_views?.find((v) => v.is_selected);
+      setFormData({
+        view_id: getViewsById.view_id || selectedView?.id || '',
+        name: getViewsById.name || '',
+        side: getViewsById.side || '',
+        description: getViewsById.description || '',
+      });
+    }
+  }, [getViewsById]);
+
+  const handleSubmit = async () => {
+    try {
+      await dispatch(
+        editViewsThunk({
+          id: viewId,
+          formData,
+        })
+      ).unwrap();
+      if (refreshViews) {
+        refreshViews();
+      }
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+console.log('getViewsById',getViewsById);
   return (
     <>
     <Dialog
@@ -43,9 +88,11 @@ function EditPage({open , setOpen}) {
       <span className="border-[0.5px] border-[#E3E8EF]" />
 
       {/*  */}
-      <Form getHallView={getHallView}/>
+      <Form getHallView={getHallView} formData={formData} setFormData={setFormData} getViewsById={getViewsById}/>
+
+      {/* btn */}
       <div className='px-6'>
-        <button className=' bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
+        <button onClick={handleSubmit} className=' bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
           {t('Save changes')}
         </button>
       </div>

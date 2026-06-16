@@ -1,4 +1,4 @@
-import { AddHall, addHallView, addTable, DeleteTable, deleteView, dublicateHall, EditHall, EditRestaurantTable, getHallById, getHalls, getHallsView, getHallType, getHallView, getRestaurantTable, getTables, getTage, getViews, toggleViews } from "@/redux/api/Halls/HallsApi";
+import { AddHall, addHallView, addTable, DeleteTable, deleteView, dublicateHall, EditHall, EditRestaurantTable, editViews, getHallById, getHalls, getHallsView, getHallType, getHallView, getRestaurantTable, getTables, getTage, getViews, getViewsById, toggleViews } from "@/redux/api/Halls/HallsApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /*********hall */
@@ -205,6 +205,27 @@ export const deleteViewThunk = createAsyncThunk('halls/deleteView',
   }
 )
 
+export const getViewsByIdThunk = createAsyncThunk('halls/getViewsById',
+  async(id,{rejectWithValue})=>{
+    try{
+      const response = await getViewsById(id)
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+export const editViewsThunk = createAsyncThunk('halls/editViews',
+  async({id , formData},{rejectWithValue})=>{
+    try{
+      const response = await editViews(id , formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initailState = {
   loading:false,
@@ -220,6 +241,8 @@ const initailState = {
   getViews:[],
   getHallView:null,
   deleteView:null,
+  getViewsById:null,
+
 
 
 
@@ -456,6 +479,31 @@ const HallsSlice =createSlice({
         state.deleteView = action.payload;
       })
       .addCase(deleteViewThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getViewsByIdThunk
+      .addCase(getViewsByIdThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getViewsByIdThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getViewsById = action.payload;
+      })
+      .addCase(getViewsByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editViewsThunk
+      .addCase(editViewsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editViewsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(editViewsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
