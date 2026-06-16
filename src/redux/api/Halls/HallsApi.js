@@ -114,3 +114,19 @@ export const editViews = async(id , formData)=>{
   const response = await API.post(`/provider/views/${id}/update`,formData)
   return response.data
 }
+
+/********* Hall Layout *********/
+export const getHallLayout = async (hallId) => {
+  const response = await API.get(`/provider/restaurant/hall/${hallId}/layout`)
+  return response.data
+}
+
+export const randomizeHallLayout = async (hallId) => {
+  const response = await API.post(`/provider/restaurant/hall/${hallId}/layout/randomize`)
+  return response.data
+}
+
+export const saveHallLayout = async (hallId, data) => {
+  const response = await API.post(`/provider/restaurant/hall/${hallId}/layout/save`, data)
+  return response.data
+}

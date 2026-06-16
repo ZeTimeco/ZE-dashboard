@@ -100,7 +100,7 @@ function CardOfHall({ halls }) {
                   </button>
 
                   <button
-                    // onClick={() => router.push(`/Pages/Services/Property_Module/Service/View?id=${property.id}`)} 
+                    onClick={() => router.push(`/Pages/Halls/Views/Layout?id=${hall?.id}`)} 
                     className='w-full flex gap-2 p-1 cursor-pointer hover:bg-[#EEE]'
                   >
                     <img src="/images/icons/restaurant-black.svg" className='w-5 h-5' alt="" />

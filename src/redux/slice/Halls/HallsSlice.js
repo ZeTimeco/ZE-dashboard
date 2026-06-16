@@ -1,4 +1,4 @@
-import { AddHall, addHallView, addTable, DeleteTable, deleteView, dublicateHall, EditHall, EditRestaurantTable, editViews, getHallById, getHalls, getHallsView, getHallType, getHallView, getRestaurantTable, getTables, getTage, getViews, getViewsById, toggleViews } from "@/redux/api/Halls/HallsApi";
+import { AddHall, addHallView, addTable, DeleteTable, deleteView, dublicateHall, EditHall, EditRestaurantTable, editViews, getHallById, getHalls, getHallsView, getHallType, getHallView, getRestaurantTable, getTables, getTage, getViews, getViewsById, toggleViews, getHallLayout, randomizeHallLayout, saveHallLayout } from "@/redux/api/Halls/HallsApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 /*********hall */
@@ -226,6 +226,39 @@ export const editViewsThunk = createAsyncThunk('halls/editViews',
   }
 )
 
+export const getHallLayoutThunk = createAsyncThunk('halls/getHallLayout',
+  async(hallId , {rejectWithValue})=>{
+    try {
+      const response = await getHallLayout(hallId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const randomizeHallLayoutThunk = createAsyncThunk('halls/randomizeHallLayout',
+  async(hallId , {rejectWithValue})=>{
+    try {
+      const response = await randomizeHallLayout(hallId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const saveHallLayoutThunk = createAsyncThunk('halls/saveHallLayout',
+  async({ hallId, data } , {rejectWithValue})=>{
+    try {
+      const response = await saveHallLayout(hallId, data);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initailState = {
   loading:false,
@@ -242,6 +275,7 @@ const initailState = {
   getHallView:null,
   deleteView:null,
   getViewsById:null,
+  getHallLayout:null,
 
 
 
@@ -504,6 +538,46 @@ const HallsSlice =createSlice({
         state.loading = false;
       })
       .addCase(editViewsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //getHallLayoutThunk
+      .addCase(getHallLayoutThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getHallLayoutThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getHallLayout = action.payload;
+      })
+      .addCase(getHallLayoutThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //randomizeHallLayoutThunk
+      .addCase(randomizeHallLayoutThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(randomizeHallLayoutThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(randomizeHallLayoutThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //saveHallLayoutThunk
+      .addCase(saveHallLayoutThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(saveHallLayoutThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(saveHallLayoutThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
