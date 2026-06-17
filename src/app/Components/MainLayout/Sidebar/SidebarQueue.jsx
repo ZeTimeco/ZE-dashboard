@@ -101,18 +101,18 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          {/* Pending */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/workers") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/workers" onClick={() => setIsSidebarOpen(false)}>
+          {/* pending list */}
+          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Pending_List") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+            <Link href="/Pages/Pending_List" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/workers") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/workers") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Pending')}</p>
+                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/Pending_List") ? "invert" : ""}/>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Pending_List") ? "text-[#fff]" : "text-[#364152]"}`}>{t('pending list')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/workers") ? "invert" : ""}/>
+                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/Pending_List") ? "invert" : ""}/>
                 </div>
               )}
             </Link>

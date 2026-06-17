@@ -12,7 +12,7 @@ function AddBtn({ label, href ,className}) {
           className={`
             flex gap-2 
             justify-center items-center 
-            bg-[#C69815] 
+            bg-[var(--color-primary)] 
             w-fit h-14 
             rounded-[3px] 
             px-3
