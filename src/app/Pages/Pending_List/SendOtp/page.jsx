@@ -11,7 +11,8 @@ function SendOtpPage({open , setOpen}) {
   const [openWrongOtp , setWrongOtp] = useState(false)
   const [openDetailsBookingLogin , setOpenDetailsBookingLogin] = useState(false)
   
-  const isValid = false
+  const isValid = true
+  
   const handleClick = () => {
   if (isValid) {
     setOpenDetailsBookingLogin(true);

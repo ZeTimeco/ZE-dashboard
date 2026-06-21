@@ -1,8 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Box() {
+function Box({getwaitlistAnalysis}) {
   const {t} = useTranslation()
+  const getwaitlistAnalysisData = getwaitlistAnalysis?.data
   return (
     <>
 
@@ -24,7 +25,7 @@ function Box() {
           </div>
         </div>
         <p className='text-[#202939] text-lg font-medium my-2.5'>
-          <span>18</span> <span>{t('during')}</span>  {' '}
+          <span>{getwaitlistAnalysisData?.waitinglist_count}</span> <span>{t('during')}</span>  {' '}
           <span>3</span>  <span>{t('past hours')}</span>
         </p>
       </div>
@@ -38,7 +39,8 @@ function Box() {
           <p className='text-[#4B5565] text-base font-normal'>{t('Average wait time')}</p>
         </div>
         <p className=' text-lg  my-2.5'>
-          <span className='text-[#202939] font-medium'>3</span> <span className='text-[#4B5565] font-normal '>{t('minute')}</span>
+          <span className='text-[#202939] font-medium'>{getwaitlistAnalysisData?.avg_wait_time}</span> 
+          <span className='text-[#4B5565] font-normal '>{t('minute')}</span>
         </p>
       </div>
 
@@ -50,7 +52,7 @@ function Box() {
           </p>
           <p className='text-[#4B5565] text-base font-normal'>{t('Ready for the seat')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>3</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{getwaitlistAnalysisData?.available_tables}</p>
       </div>
 
     </div>

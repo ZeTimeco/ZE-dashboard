@@ -7,6 +7,8 @@ import settingReducer from './slice/Setting/SettingSlice.js';
 import HomeReducer from './slice/Home/HomeSlice';
 import requestsReducer from './slice/Requests/RequestsSlice'
 import hallsReducer from './slice/Halls/HallsSlice'
+import Pending_ListReducer from './slice/Pending_List/Pending_ListSlice'
+
 export const store = configureStore({
   reducer:{
     auth: authReducer,
@@ -17,6 +19,7 @@ export const store = configureStore({
     Home:HomeReducer,
     requests:requestsReducer,
     halls:hallsReducer,
+    PendingList:Pending_ListReducer
 
   }
 })
