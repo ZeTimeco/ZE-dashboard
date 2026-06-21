@@ -2,10 +2,15 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SendNotificationPage from '../SendNotification/page';
+import DelayPage from '../Delay/page';
+import SendOtpPage from '../SendOtp/page';
 
 function Cards({ activeTab }) {
   const {t} = useTranslation()
   const [openNotification , setOpenNotification] = useState(false)
+  const [openDelay , setOpenDelay] = useState(false)
+  const [openOtp , setOpenOtp] = useState(false)
+
   return (
     <>
       <div className='grid grid-cols-2 gap-6 my-6'>
@@ -56,7 +61,7 @@ function Cards({ activeTab }) {
             </p>
           </div>
             {/* btns */} 
-            <div className='grid grid-cols-3 gap-4  w-full '>
+          <div className='grid grid-cols-3 gap-4  w-full '>
               
 
             <button onClick={()=>setOpenNotification(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
@@ -64,11 +69,11 @@ function Cards({ activeTab }) {
             </button>
 
             
-            <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button onClick={()=>setOpenOtp(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
               <p className='text-[#364152] text-sm font-normal'>{t('Seating')}</p>
             </button>
           
-            <button  className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button onClick={()=>setOpenDelay(true)}  className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
               <p className='text-[#364152] text-sm font-normal'>{t('delay')}</p>
             </button>
               
@@ -83,6 +88,16 @@ function Cards({ activeTab }) {
       <SendNotificationPage
         open={openNotification}
         setOpen={setOpenNotification}
+      />
+
+      <DelayPage
+        open={openDelay}
+        setOpen={setOpenDelay}
+      />
+
+      <SendOtpPage
+        open={openOtp}
+        setOpen={setOpenOtp}
       />
     </>
   );

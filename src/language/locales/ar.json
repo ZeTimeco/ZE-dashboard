@@ -1184,9 +1184,21 @@
   "Write a brief comments":"اكتب تعليقًا موجزًا",
   "Add to the queue":"إضافة للطابور",
   "Send notification":"إرسال إشعار",
+  "Guest delay":"تأجيل الضيف",
+  "Delay confirmed":"تأكيد التأجيل",
+  "Delay period":"مدة التأجيل",
+  "Enter the booking code":"إدخال رمز الحجز",
+  "Enter the 6-letter/number code":"أدخل الرمز المكون من 6 حروف/أرقام",
+  "Invalid code":"الرمز  غير صالح",
+  "This code does not match a valid reservation for this restaurant.":"هذا الرمز لا يتطابق مع حجز صالح لهذا المطعم",
+  "Please check:":"يرجي التحقق من:",
+  "The symbol belongs to this branch.":"الرمز ينتمي إلى هذا الفرع",
+  "The reservation has not been cancelled.":"الحجز لم يتم إلغاؤه",
+  "The date and time are correct.":"التاريخ والوقت صحيحان",
+  "Re-search":"إعادة البحث",
+  "Do you need help?":"هل تحتاج مساعدة؟",
+  "Contact technical support":"اتصل بالدعم الفني",
   
-
-
 
 
 
