@@ -2,10 +2,14 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Form() {
+function Form({getViews, formData ,setFormData}) {
   const {t} = useTranslation();
   const [guests, setGuests] = useState(1);
   const [description, setDescription] = useState('');
+
+  const [selectedView, setSelectedView] = useState(null);
+
+  console.log(formData);
   return (
     <>
     <div className='p-6'>
@@ -18,6 +22,8 @@ function Form() {
         <input 
           type="text"
           name='title'
+          value={formData?.name}
+          onChange={(e)=>setFormData({...formData , name:e.target.value})}
           placeholder={t("Write the guest's name")}
           className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -34,6 +40,8 @@ function Form() {
         <input 
           type="text"
           name='title'
+          value={formData?.phone}
+          onChange={(e)=>setFormData({...formData , phone:e.target.value})}
           placeholder='xxxxxxxxxxx'
           className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -47,8 +55,17 @@ function Form() {
 
         <div className="h-14 px-3 flex items-center justify-between rounded-[3px] border border-[#EEF2F6] bg-[#F8FAFC]">
 
-          <button
-            onClick={() => setGuests(prev => prev + 1)}
+        <button
+          onClick={() => {
+            const newGuests = guests + 1;
+            setGuests(newGuests);
+
+            setFormData((prev) => ({
+              ...prev,
+              number_of_guests: newGuests,
+            }));
+          }}
+
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-white text-lg text-[#0F022E]"
           >
             +
@@ -62,7 +79,15 @@ function Form() {
           </div>
 
           <button
-            onClick={() => setGuests(prev => Math.max(1, prev - 1))}
+            onClick={() => {
+              const newGuests = Math.max(1, guests - 1);
+              setGuests(newGuests);
+
+              setFormData((prev) => ({
+                ...prev,
+                number_of_guests: newGuests,
+              }));
+            }}
             className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-white text-lg text-[#0F022E]"
           >
             -
@@ -73,17 +98,35 @@ function Form() {
 
       {/*Favorite look  */}
       <div className='mt-4'>
-        <p className=' font-normal'>
-          <span className='text-[#364152] text-base'>{t('Favorite look')}</span> {' '}
+        <p className='font-normal'>
+          <span className='text-[#364152] text-base'>{t('Favorite look')}</span>{" "}
           <span className='text-[#697586] text-sm'>({t('optional')})</span>
         </p>
-        <div className='grid grid-cols-2 gap-4 my-3'>
-          <div className='bg-[#FFFDF5] border border-[var(--color-primary)] py-2.5 px-2 flex justify-center items-center rounded-[3px]'>
-            <p className='text-[#364152] text-base font-normal'>الاطلالة علي الحديقة</p>
-          </div>
-          
-        </div>
 
+        <div className='grid grid-cols-2 gap-4 my-3'>
+          {getViews?.data?.map((item) => (
+            <div
+              key={item?.id}
+              onClick={() => {
+                setFormData((prev)=>({
+                  ...formData , 
+                  favourite_view_id : item.id
+                }))
+
+              }}
+              className={`py-2.5 px-2 flex justify-center items-center rounded-[3px] cursor-pointer transition-all
+                ${
+                    formData.favourite_view_id === item.id
+                    ? "bg-[#FFFDF5] border border-[var(--color-primary)]"
+                    : "bg-white border border-[#D5D7DA]"
+                }`}
+            >
+              <p className='text-[#364152] text-base font-normal'>
+                {item?.name}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* comments */}
@@ -95,15 +138,20 @@ function Form() {
 
         <div className="relative">
           <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            value={formData?.notes}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                notes: e.target.value,
+              }))
+            }
             maxLength={100}
             placeholder={t('Write a brief comments')}
             className="w-full h-40 rounded-[3px] border border-[#CDD5DF] p-3 text-[#364152] outline-none resize-none"
           />
 
           <span className="absolute bottom-2 left-3 text-sm text-gray-400">
-            {description.length}/100
+            {formData?.notes.length}/100
           </span>
         </div>
 

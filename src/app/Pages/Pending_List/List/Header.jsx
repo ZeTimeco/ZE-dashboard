@@ -3,9 +3,8 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import AddPage from '../Add/page';
 
-function Header() {
+function Header({openAdd , setOpenAdd}) {
   const {t} = useTranslation();
-  const [openAdd , setOpenAdd] = useState(false)
   return (
     <>
       <header className='flex justify-between items-center'>
