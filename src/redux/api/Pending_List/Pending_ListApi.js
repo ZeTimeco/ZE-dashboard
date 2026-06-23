@@ -38,3 +38,9 @@ export const getScanWaitlist = async(formData)=>{
   })
   return response.data
 }
+
+
+export const delayWaitlist = async(formData)=>{
+  const response = await API.post('/provider/waitlist/delay',formData)
+  return response.data
+}

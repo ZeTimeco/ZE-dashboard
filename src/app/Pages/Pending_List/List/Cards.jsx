@@ -114,7 +114,13 @@ function Cards({ activeTab , getWaitingList, refresh }) {
           <div className='grid grid-cols-3 gap-4  w-full '>
               
 
-            <button onClick={()=>setOpenNotification(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button 
+              onClick={()=>{
+                setOpenNotification(true)
+                setSelectedId(items?.id)
+                setSelectedDetails(items)
+              }} 
+              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
               <p className='text-[#364152] text-sm font-normal'>{t('notice')}</p>
             </button>
 
@@ -141,7 +147,13 @@ function Cards({ activeTab , getWaitingList, refresh }) {
               </button>
             )}
           
-            <button onClick={()=>setOpenDelay(true)}  className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button 
+              onClick={()=>{
+                setOpenDelay(true)
+                setSelectedId(items?.id)
+                setSelectedDetails(items)
+              }}
+              className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
               <p className='text-[#364152] text-sm font-normal'>{t('delay')}</p>
             </button>
               
@@ -160,12 +172,16 @@ function Cards({ activeTab , getWaitingList, refresh }) {
       <SendNotificationPage
         open={openNotification}
         setOpen={setOpenNotification}
+        guestID={selectedId}
+        guestDetails={selectedDetails}
       
       />
 
       <DelayPage
         open={openDelay}
         setOpen={setOpenDelay}
+        guestID={selectedId}
+        guestDetails={selectedDetails}
       />
 
       <SendOtpPage

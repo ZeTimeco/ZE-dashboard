@@ -1,4 +1,4 @@
-import { addWaitlist, arrivedWaitlist, getScanWaitlist, getWaitingList, getwaitlistAnalysis, scanWaitlist, seatedWaitlist } from "@/redux/api/Pending_List/Pending_ListApi";
+import { addWaitlist, arrivedWaitlist, delayWaitlist, getScanWaitlist, getWaitingList, getwaitlistAnalysis, scanWaitlist, seatedWaitlist } from "@/redux/api/Pending_List/Pending_ListApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -72,7 +72,6 @@ export const getScanWaitlistThunk = createAsyncThunk('PendingList/getScanWaitlis
   async(formData , {rejectWithValue})=>{
     try{
       const response = await getScanWaitlist(formData)
-        console.log('API Response:', response);
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
@@ -80,6 +79,16 @@ export const getScanWaitlistThunk = createAsyncThunk('PendingList/getScanWaitlis
   }
 )
 
+export const delayWaitlistThunk = createAsyncThunk('PendingList/delayWaitlist',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await delayWaitlist(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 
@@ -196,6 +205,19 @@ const Pending_ListSlice = createSlice({
         state.error = null;
       })
       .addCase(getScanWaitlistThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //delayWaitlistThunk
+      .addCase(delayWaitlistThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(delayWaitlistThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(delayWaitlistThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

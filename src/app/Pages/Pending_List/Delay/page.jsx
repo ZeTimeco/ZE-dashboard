@@ -1,12 +1,62 @@
 "use client"
+import { delayWaitlistThunk } from '@/redux/slice/Pending_List/Pending_ListSlice'
 import { Dialog } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
 
-function DelayPage({open , setOpen }) {
+function DelayPage({open , setOpen , guestID , guestDetails }) {
   const{t} = useTranslation()
-  const [ message , setMessage] = useState('')
+// console.log("guestDetails_______" ,guestDetails);
+// console.log('guestID' , guestID);
+  const dispatch = useDispatch();
 
+
+  
+
+
+
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedReason, setSelectedReason] = useState(null);
+
+  const DelayTime = [
+    {name:5 , value:5},
+    {name:10 , value:10},
+    {name:15 , value:15},
+    {name:20 , value:20},
+  ]
+
+  const DelayReason = [
+    {id:1 , name:t("It hasn't arrived yet.") , value:'did_not_arrive'},
+    {id:2 , name:t("Request for postponement") , value:'asked_for_delay'},
+    {id:3 , name:t("No response") , value:'do_not_answer'},
+    {id:4 , name:t("Another reason") , value:'other'},
+  ]
+
+  const [formData , setFormData] = useState({
+    delay_time:'',
+    reason:'',
+
+  })
+
+  const handleSubmit = async () => {
+    try {
+      await dispatch(
+        delayWaitlistThunk({
+          reservation_id: guestID,
+          delay_time: formData.delay_time,
+          reason: formData.reason,
+        })
+      ).unwrap();
+
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  console.log('formData',formData);
 
   return (
     <Dialog
@@ -37,7 +87,7 @@ function DelayPage({open , setOpen }) {
         <section className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 rounded-[3px] mb-4 flex gap-1'>
           <img src="/images/icons/user_gray.svg" alt="" />
           <p className='text-[#697586] text-base font-normal'>{t('guest')} : </p>
-          <p className='text-[#364152] text-base font-normal'>احمد سعيد</p>
+          <p className='text-[#364152] text-base font-normal'>{guestDetails?.guest_name} </p>
         </section>
 
       
@@ -48,10 +98,27 @@ function DelayPage({open , setOpen }) {
           </p>
           
           <div className='grid grid-cols-2 gap-4 my-1.5'>
-            <div className=' border border-[#E3E8EF] py-2.5 px-2 flex gap-2 justify-center items-center rounded-[3px]'>
-              <img src="/images/icons/clock-gray.svg" alt="" />
-              <p className='text-[#364152] text-base font-normal'>5 دقائق</p>
-            </div>
+            {DelayTime?.map((item, index)=>(
+              <div 
+                key={index} 
+                onClick={() => {
+                  setSelectedTime(index)
+                  setFormData((prev)=>({
+                    ...prev,
+                    delay_time:item?.value
+                  }))
+                }}
+                className={`py-2.5 px-2 flex gap-2 justify-center items-center rounded-[3px] cursor-pointer border ${
+                  selectedTime === index
+                    ? 'border-[var(--color-primary)] bg-[#FFFDF5]'
+                    : 'border-[#E3E8EF]'
+                }`}
+              >
+                <img src="/images/icons/clock-gray.svg" alt="" />
+                <p className='text-[#364152] text-base font-normal'>{item?.name} دقائق</p>
+              </div>
+            ))}
+            
             
           </div>
 
@@ -64,9 +131,27 @@ function DelayPage({open , setOpen }) {
           </p>
           
           <div className='grid grid-cols-1 gap-4 my-1.5'>
-            <div className=' border border-[#E3E8EF] py-2.5 px-2 flex  items-center rounded-[3px]'>
-              <p className='text-[#364152] text-base font-normal'>الاطلالة علي الحديقة</p>
-            </div>
+            {DelayReason?.map((item)=>(
+              <div  
+                key={item?.id} 
+                onClick={() =>{
+                  setSelectedReason(item.id)
+                  setFormData((prev)=>({
+                    ...prev,
+                    reason:item?.value,
+
+                  }))
+                }}
+                className={`py-2.5 px-2 flex items-center rounded-[3px] cursor-pointer border ${
+                  selectedReason === item.id
+                    ? 'border-[var(--color-primary)] bg-[#FFFDF5]'
+                    : 'border-[#E3E8EF] bg-white'
+                }`}
+              >
+                <p className='text-[#364152] text-base font-normal'>{item?.name}</p>
+              </div>
+            ))}
+          
           </div>
 
         </div>
@@ -85,7 +170,7 @@ function DelayPage({open , setOpen }) {
           </button>
 
           <button
-          
+            onClick={handleSubmit}
             className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('Delay confirmed')}
