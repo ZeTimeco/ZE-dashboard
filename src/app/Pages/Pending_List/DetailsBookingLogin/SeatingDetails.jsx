@@ -2,8 +2,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function SeatingDetails() {
+function SeatingDetails({getScanWaitlist}) {
   const {t} = useTranslation()
+  const getScanWaitlistData = getScanWaitlist?.data
+
   
   return (
     <>
@@ -18,17 +20,17 @@ function SeatingDetails() {
           {/* The hall */}
           <div className='font-normal'>
             <p className='text-[#697586] text-base'>{t('The hall')}</p>
-            <p className='text-[#364152] text-lg'>القاعة الرئيسية</p>
+            <p className='text-[#364152] text-lg'>{getScanWaitlistData?.hall?.name} </p>
           </div>
           {/* The view */}
           <div className='font-normal '>
             <p className='text-[#697586] text-base'>{t('Table number')}</p>
-            <p className='text-[#364152] text-lg'>t5</p>
+            <p className='text-[#364152] text-lg'>{getScanWaitlistData?.hall?.code}</p>
           </div>
           {/* The table */}
           <div className='font-normal'>
             <p className='text-[#697586] text-base'>{t('The view')}</p>
-            <p className='text-[#364152] text-lg'> الاطلالة علي الحديقة</p>
+            <p className='text-[#364152] text-lg'>  {getScanWaitlistData?.selected_view?.name} </p>
           </div>
 
           
@@ -38,10 +40,13 @@ function SeatingDetails() {
         <div className='mt-4'>
           <p className='text-[#697586] text-base mb-1'>{t('Special Notes')}</p>
           <div className='flex gap-4'>
-            <p className='bg-[#EDE7FD] border border-[#E2E2E2] w-fit h-10 px-3 rounded-full flex  items-center'>
-              <span className='text-[#505050]'> ممنوع التدخين</span>
-            </p>
+            {getScanWaitlistData?.table?.tags?.map((item , index)=>(
+              <p key={index} className='bg-[#EDE7FD] border border-[#E2E2E2] w-fit h-10 px-3 rounded-full flex  items-center'>
+                <span className='text-[#505050]'> {item} </span>
+              </p>
 
+            ))}
+          
           </div>
           
         </div>

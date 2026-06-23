@@ -1,13 +1,52 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import SeatingDetails from './SeatingDetails'
 import GuestInformation from './GuestInformation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getScanWaitlistThunk, seatedWaitlistThunk } from '@/redux/slice/Pending_List/Pending_ListSlice'
+import { toast } from 'react-toastify'
 
-function DetailsBookingLoginPage({open , setOpen}) {
+function DetailsBookingLoginPage({open , setOpen ,guestID, refresh ,token}) {
   const {t} = useTranslation()
-  
+
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
+  console.log('token===' , token);
+
+  const handleSeated = async () => {
+    try {
+      setLoading(true)
+      const payload = {
+        reservation_id: guestID
+      }
+      await dispatch(seatedWaitlistThunk(payload)).unwrap()
+      toast.success(t('Guest seated successfully'))
+      setOpen(false)
+      if (refresh) {
+        refresh()
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error(error?.message || t('Failed to seat guest'))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const {getScanWaitlist} = useSelector((state)=>state.PendingList)
+  useEffect(() => {
+  if (token) {
+    dispatch(
+      getScanWaitlistThunk({
+        qr_token: token,
+      })
+    );
+  }
+}, [dispatch, token]);
+
+console.log('getScanWaitlist+++++++' , getScanWaitlist);
   return (
     <Dialog
       open={open}
@@ -51,8 +90,8 @@ function DetailsBookingLoginPage({open , setOpen}) {
 
         </div>
 
-        <GuestInformation />
-        <SeatingDetails   />
+        <GuestInformation  getScanWaitlist={getScanWaitlist} />
+        <SeatingDetails    getScanWaitlist={getScanWaitlist} />
 
 
         {/* btn */}
@@ -66,9 +105,11 @@ function DetailsBookingLoginPage({open , setOpen}) {
           </button>
 
           <button
-            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            onClick={handleSeated}
+            disabled={loading}
+            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer disabled:opacity-50"
           >
-            {t('Successfully seated')}
+            {loading ? t('Loading...') : t('Successfully seated')}
           </button>
         </div>
       </div>

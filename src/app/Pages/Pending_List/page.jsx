@@ -36,6 +36,11 @@ function Pending_ListPage() {
     setCurrentPage(1);
   };
 
+  const handleRefresh = () => {
+    dispatch(getWaitingListThunk({ page: currentPage, type: activeTab }))
+    dispatch(getwaitlistAnalysisThunk())
+  };
+
   const pageNumber = getWaitingList?.current_page || getWaitingList?.meta?.current_page || getWaitingList?.pagination?.current_page || currentPage;
   const totalPages = getWaitingList?.last_page || getWaitingList?.meta?.last_page || getWaitingList?.pagination?.last_page || 1;
 
@@ -54,7 +59,7 @@ function Pending_ListPage() {
           <No_Guest_Add setOpenAdd={setOpenAdd}/>
         ):(
           <>
-            <Cards  activeTab={activeTab} getWaitingList={getWaitingList}/>
+            <Cards  activeTab={activeTab} getWaitingList={getWaitingList} refresh={handleRefresh}/>
             <Pagination
               currentPage={pageNumber}
               totalPages={totalPages}

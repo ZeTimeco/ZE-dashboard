@@ -4,26 +4,62 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import WrongOtpPage from './WrongOtp/page'
 import DetailsBookingLoginPage from '../DetailsBookingLogin/page'
+import { useDispatch } from 'react-redux'
+import { scanWaitlistThunk } from '@/redux/slice/Pending_List/Pending_ListSlice'
 
-function SendOtpPage({open , setOpen}) {
+function SendOtpPage({open , setOpen , guestID ,guestDetails, refresh}) {
   const {t} = useTranslation()
-
   const [openWrongOtp , setWrongOtp] = useState(false)
   const [openDetailsBookingLogin , setOpenDetailsBookingLogin] = useState(false)
-  
-  const isValid = true
-  
-  const handleClick = () => {
-  if (isValid) {
-    setOpenDetailsBookingLogin(true);
-  } else {
-    setWrongOtp(true);
-  }
 
-  setTimeout(() => {
-    setOpen(false);
-  }, 100);
+  const [bookingToken, setBookingToken] = useState('');
+  //api
+  const dispatch = useDispatch()
+  console.log('guestDetails====' , guestDetails);
+
+  const [formData , setFormData] = useState({
+    qr_token:'',
+  })
+
+const handleSubmit = async () => {
+  try {
+    const payload = {
+      qr_token: formData.qr_token,
+      reservation_id: guestID,
+    };
+
+    const result = await dispatch(scanWaitlistThunk(payload)).unwrap();
+
+    console.log(result);
+
+    if (result?.code === 422) {
+      setWrongOtp(true);
+      return;
+    }
+
+    setBookingToken(formData.qr_token)
+    setOpenDetailsBookingLogin(true);
+
+    setTimeout(() => {
+      setOpen(false);
+    }, 100);
+
+  } catch (error) {
+    console.log(error);
+
+    setWrongOtp(true);
+
+    setTimeout(() => {
+      setOpen(false);
+    }, 100);
+  }
 };
+
+
+
+
+  
+  
 
   return (
   <>
@@ -59,8 +95,15 @@ function SendOtpPage({open , setOpen}) {
           <input 
             type="text"
             name='title'
+            value={formData.qr_token}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                qr_token: e.target.value,
+              }))
+            }
             placeholder='XXXXXX'
-            maxLength={6}
+          
             className={`w-full h-14 text-center  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
         </div>
@@ -79,7 +122,7 @@ function SendOtpPage({open , setOpen}) {
           </button>
 
           <button
-            onClick={handleClick}
+            onClick={handleSubmit}
             className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
           >
             {t('confirmation')}
@@ -104,6 +147,9 @@ function SendOtpPage({open , setOpen}) {
     <DetailsBookingLoginPage
       open={openDetailsBookingLogin}
       setOpen={setOpenDetailsBookingLogin}
+      guestID={guestID}
+      refresh={refresh}
+      token={bookingToken}
     />
 
 

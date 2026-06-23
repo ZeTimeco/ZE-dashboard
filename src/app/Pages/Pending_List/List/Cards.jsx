@@ -4,13 +4,39 @@ import { useTranslation } from 'react-i18next';
 import SendNotificationPage from '../SendNotification/page';
 import DelayPage from '../Delay/page';
 import SendOtpPage from '../SendOtp/page';
+import { useDispatch } from 'react-redux';
+import { arrivedWaitlistThunk } from '@/redux/slice/Pending_List/Pending_ListSlice';
+import { toast } from 'react-toastify';
 
-function Cards({ activeTab , getWaitingList }) {
+function Cards({ activeTab , getWaitingList, refresh }) {
   const {t} = useTranslation()
+  const dispatch = useDispatch()
+  const [loadingId, setLoadingId] = useState(null)
   const [openNotification , setOpenNotification] = useState(false)
   const [openDelay , setOpenDelay] = useState(false)
   const [openOtp , setOpenOtp] = useState(false)
 
+  const [selectedId, setSelectedId] = useState(null);
+  const [selectedDetails, setSelectedDetails] = useState(null);
+
+  const handleArrived = async (id) => {
+    try {
+      setLoadingId(id)
+      await dispatch(arrivedWaitlistThunk({ reservation_id: id })).unwrap()
+      toast.success(t('Guest marked as arrived'))
+      if (refresh) {
+        refresh()
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error(error?.message || t('Failed to mark guest as arrived'))
+    } finally {
+      setLoadingId(null)
+    }
+  }
+
+
+  
   return (
     <>
       <div className='grid grid-cols-2 gap-6 my-6'>
@@ -95,13 +121,24 @@ function Cards({ activeTab , getWaitingList }) {
             
           
             {items?.status === 'arrived' ?(
-            <button onClick={()=>setOpenOtp(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
-              <p className='text-[#364152] text-sm font-normal'>{t('Seating')}</p>
-            </button>
+              <button  
+                onClick={()=>{
+                setSelectedId(items?.id)
+                setSelectedDetails(items)
+                setOpenOtp(true)
+                }}   
+                className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+                <p className='text-[#364152] text-sm font-normal'>{t('Seating')}</p>
+              </button>
             ):(
-            <button onClick={()=>setOpenOtp(true)} className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
-              <p className='text-[#364152] text-sm font-normal'>{t('arrived')}</p>
-            </button>
+              <button 
+                onClick={() => handleArrived(items?.id)}
+                disabled={loadingId === items?.id}
+                className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer disabled:opacity-50'>
+                <p className='text-[#364152] text-sm font-normal'>
+                  {loadingId === items?.id ? t('loading...') : t('arrived')}
+                </p>
+              </button>
             )}
           
             <button onClick={()=>setOpenDelay(true)}  className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
@@ -123,6 +160,7 @@ function Cards({ activeTab , getWaitingList }) {
       <SendNotificationPage
         open={openNotification}
         setOpen={setOpenNotification}
+      
       />
 
       <DelayPage
@@ -133,6 +171,9 @@ function Cards({ activeTab , getWaitingList }) {
       <SendOtpPage
         open={openOtp}
         setOpen={setOpenOtp}
+        guestID={selectedId}
+        guestDetails={selectedDetails}
+        refresh={refresh}
       />
     </>
   );
