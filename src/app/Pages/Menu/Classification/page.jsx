@@ -3,20 +3,32 @@ import React, { useState } from 'react'
 import NoClassification from './NoClassification'
 import { useTranslation } from 'react-i18next'
 import AddPage from './Add/page'
+import EditPage from './Edit/page'
+import ClassificationListPage from './ClassificationList/page'
 
-function ClassificationPage() {
+function ClassificationPage({openAdd , setOpenAdd}) {
   const {t} = useTranslation()
-  const [openAdd , setOpenAdd]= useState(false)
+  const [openEdit , setOpenEdit]= useState(false)
+
+
+
   return (
     <>
       <div>
-        <NoClassification setOpenAdd={setOpenAdd}/>
+        {/* <NoClassification setOpenAdd={setOpenAdd}/> */}
+        <ClassificationListPage setOpenEdit={setOpenEdit} />
+
       </div>
 
 
       <AddPage
         open={openAdd}
         setOpen={setOpenAdd}
+      />
+
+      <EditPage
+        open={openEdit}
+        setOpen={setOpenEdit}
       />
 
     </>

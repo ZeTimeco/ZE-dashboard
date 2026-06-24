@@ -4,7 +4,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 
-function AddPage({open , setOpen}) {
+function EditPage({open , setOpen}) {
   const {t} = useTranslation()
   
   return (
@@ -25,7 +25,7 @@ function AddPage({open , setOpen}) {
         </button>
       </section>
       <section className="mt-4 px-6">
-        <p className="text-[#364152] text-2xl font-medium mb-3">{t("Add category")}</p>
+        <p className="text-[#364152] text-2xl font-medium mb-3">{t("Edit classification")}</p>
         <p className="text-[#697586] text-xl font-normal mb-5">
           {t("Enter the classification data to view it more clearly.")}
         </p>
@@ -38,9 +38,9 @@ function AddPage({open , setOpen}) {
       </div>
 
       {/* btn */}
-      <div className='px-6 flex gap-4 mb-6'>
+      <div className='px-6 flex  gap-4 mb-6'>
         <button  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
-          {t('Save the classification')}
+          {t('Save changes')}
         </button>
         <button onClick={()=>setOpen(false)} className='w-[20%] border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('cancel')}
@@ -54,4 +54,4 @@ function AddPage({open , setOpen}) {
   )
 }
 
-export default AddPage
+export default EditPage
