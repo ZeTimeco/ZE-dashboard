@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Card from './Card'
 
-function ClassificationListPage({setOpenEdit}) {
+function ClassificationListPage({setOpenEdit, setShowSecond}) {
   const {t} = useTranslation()
   return (
     <>
@@ -10,7 +10,7 @@ function ClassificationListPage({setOpenEdit}) {
           <p className='text-[#364152] text-xl font-medium mb-6'>{t('List categories')}</p>
 
           <div className='grid grid-cols-2 gap-6'>
-            <Card setOpenEdit={setOpenEdit}/>
+            <Card setOpenEdit={setOpenEdit} setShowSecond={setShowSecond}/>
           </div>
       </div>
     </>

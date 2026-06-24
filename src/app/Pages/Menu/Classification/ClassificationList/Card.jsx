@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Card({setOpenEdit}) {
+function Card({setOpenEdit, setShowSecond}) {
   const {t} = useTranslation()
 
   const status = 1
@@ -52,7 +52,7 @@ function Card({setOpenEdit}) {
             </button>
             
             {/* second */}
-            <button className='w-8 h-8 mt-3 bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
+            <button onClick={() => setShowSecond(true)} className='w-8 h-8 mt-3 bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
               <img src="/images/icons/arrow-right-blackk.svg" className="w-6 h-6" />
             </button>
 

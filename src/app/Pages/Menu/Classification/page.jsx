@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next'
 import AddPage from './Add/page'
 import EditPage from './Edit/page'
 import ClassificationListPage from './ClassificationList/page'
+import SecondClassificationListPage from './SecondClassificationList/page'
 
 function ClassificationPage({openAdd , setOpenAdd}) {
   const {t} = useTranslation()
   const [openEdit , setOpenEdit]= useState(false)
+  const [showSecond, setShowSecond] = useState(false)
 
 
 
@@ -16,7 +18,11 @@ function ClassificationPage({openAdd , setOpenAdd}) {
     <>
       <div>
         {/* <NoClassification setOpenAdd={setOpenAdd}/> */}
-        <ClassificationListPage setOpenEdit={setOpenEdit} />
+        {showSecond ? (
+          <SecondClassificationListPage setOpenEdit={setOpenEdit} setShowSecond={setShowSecond} />
+        ) : (
+          <ClassificationListPage setOpenEdit={setOpenEdit} setShowSecond={setShowSecond} />
+        )}
 
       </div>
 
