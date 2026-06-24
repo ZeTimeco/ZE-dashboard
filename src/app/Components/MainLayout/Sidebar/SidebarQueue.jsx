@@ -120,7 +120,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
           
             {/* Menu and Prices */}
           <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Menu") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Services" onClick={() => setIsSidebarOpen(false)}>
+            <Link href="/Pages/Menu" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center py-3 px-2'>
