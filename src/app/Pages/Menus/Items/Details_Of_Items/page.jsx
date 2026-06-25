@@ -2,6 +2,7 @@
 import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import Data from './Data'
 
 function Details_Of_ItemsPage({open , setOpen}) {
     const {t} = useTranslation()
@@ -28,8 +29,8 @@ function Details_Of_ItemsPage({open , setOpen}) {
         </section>
         <span className="border-[0.5px] border-[#E3E8EF]" />
 
-        <div>
-          Details_Of_ItemsPage
+        <div className='p-6'>
+          <Data/>
         </div>
       </Dialog>
       

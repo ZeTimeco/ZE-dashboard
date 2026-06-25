@@ -6,24 +6,27 @@ import ItemsPage from './Items/page'
 import CategoryPage from './Category/page'
 import Add_CategoryPage from './Category/Add_Category/page'
 import Item_Of_CategoryPage from './Items/Item_Of_Category/page'
+import Add_ItemsPage from './Items/Add_Items/page'
 
 function MenusPage() {
   const {t} = useTranslation( )
   const [activeTab, setActiveTab] = useState('Category')
   const [openAdd , setOpenAdd]= useState(false)
+  const [openAddItem , setOpenAddItem]= useState(false)
+
   
   return (
     <MainLayout>
       {/*  */}
       <div className='flex justify-between mb-5'>
         <p className='text-[#364152] text-2xl font-medium '>{t('menu')}</p>
-        {(activeTab==='Category' || activeTab==='Item_Of_Category') ?(
+        {(activeTab==='Category') ?(
           <button onClick={()=>setOpenAdd(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[20%] rounded-[3px] cursor-pointer'>
             <p>  <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
             <p className='text-white text-base font-medium'>{t('Add a new category')}</p>
           </button>
         ):(
-          <button className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[20%] rounded-[3px] cursor-pointer'>
+          <button onClick={()=>setOpenAddItem(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[20%] rounded-[3px] cursor-pointer'>
             <p> <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
             <p className='text-white text-base font-medium'>{t('Add a new category')}</p>
           </button>
@@ -95,7 +98,11 @@ function MenusPage() {
       <Add_CategoryPage 
       open={openAdd}
       setOpen={setOpenAdd}
-      
+      />
+
+      <Add_ItemsPage 
+      open={openAddItem}
+      setOpen={setOpenAddItem}
       />
     </MainLayout>
   )
