@@ -1,11 +1,14 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Data from './Data'
+import Edit_ItemsPage from '../Edit_Items/page'
 
 function Details_Of_ItemsPage({open , setOpen}) {
-    const {t} = useTranslation()
+  const {t} = useTranslation()
+  const [openEditItem , setOpenEditItem] = useState()
+
   return (
     <>
       <Dialog
@@ -32,9 +35,27 @@ function Details_Of_ItemsPage({open , setOpen}) {
         <div className='p-6'>
           <Data/>
         </div>
+
+        <span className="border-[0.5px] border-[#E3E8EF] my-5" />
+
+      {/* btn */}
+      <div className='px-6 flex gap-4 mb-6'>
+        <button onClick={()=>setOpenEditItem(true)}  className=' flex justify-center gap-3 w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          {t('Service modification')} <img src="/images/icons/edit.svg" className="w-5 h-5" />
+        </button>
+        <button  className='w-[20%] border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          {t('delete')}
+        </button>
+        
+      </div>
+
+
       </Dialog>
       
-
+      <Edit_ItemsPage
+        open={openEditItem}
+        setOpen={setOpenEditItem}
+      />
     </>
   )
 }

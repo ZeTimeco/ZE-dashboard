@@ -86,7 +86,7 @@ function MenusPage() {
         )}
         {activeTab === 'items' && (
           <ItemsPage 
-            setOpenAdd ={setOpenAdd}
+            setOpenAddItem ={setOpenAddItem}
           />
         )}
         {activeTab === 'Item_Of_Category' && (
