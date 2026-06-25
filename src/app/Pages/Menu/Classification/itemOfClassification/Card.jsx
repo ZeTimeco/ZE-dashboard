@@ -1,10 +1,12 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import DetailsPage from './Details/page'
 
-function Card({setOpenEdit, setShowSecond}) {
+function Card() {
   const {t} = useTranslation()
 
+  const [openDetails , setOpenDetails] = useState(false)
 
   
   return (
@@ -23,8 +25,8 @@ function Card({setOpenEdit, setShowSecond}) {
           </div>
           <div className='flex items-center '>
           
-            {/* second */}
-            <button className='w-8 h-8  bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
+            {/* detail */}
+            <button onClick={()=>setOpenDetails(true)} className='w-8 h-8  bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
               <img src="/images/icons/arrow-right-blackk.svg" className="w-6 h-6" />
             </button>
 
@@ -32,6 +34,10 @@ function Card({setOpenEdit, setShowSecond}) {
         </div>
       </div>
       
+      <DetailsPage
+        open={openDetails}
+        setOpen={setOpenDetails}
+      />
     </>
   )
 }
