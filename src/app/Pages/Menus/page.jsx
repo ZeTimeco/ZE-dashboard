@@ -15,6 +15,8 @@ function MenusPage() {
   const [openAddItem , setOpenAddItem]= useState(false)
 
   
+  const [selectedCategory, setSelectedCategory] = useState(null)
+
   return (
     <MainLayout>
       {/*  */}
@@ -80,7 +82,10 @@ function MenusPage() {
         {/* Content */}
         {activeTab === 'Category' && (
           <CategoryPage 
-            onViewCategoryItems={() => setActiveTab('Item_Of_Category')} 
+            onViewCategoryItems={(category) => {
+              setSelectedCategory(category)
+              setActiveTab('Item_Of_Category')
+            }} 
             setOpenAdd ={setOpenAdd}
           />
         )}
@@ -90,7 +95,10 @@ function MenusPage() {
           />
         )}
         {activeTab === 'Item_Of_Category' && (
-          <Item_Of_CategoryPage onClickBack={() => setActiveTab('Category')} />
+          <Item_Of_CategoryPage 
+            selectedCategory={selectedCategory} 
+            onClickBack={() => setActiveTab('Category')} 
+          />
         )}
       </div>
 

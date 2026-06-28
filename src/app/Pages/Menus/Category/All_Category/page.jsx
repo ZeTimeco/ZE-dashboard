@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Card from './Card'
 import Pagination from './Pagination'
 
-function All_CategoryPage({ onViewCategoryItems , getCategories }) {
+function All_CategoryPage({ onViewCategoryItems, getCategories, meta, currentPage, onPageChange }) {
   const {t} = useTranslation()
   return (
     <>
@@ -15,7 +15,11 @@ function All_CategoryPage({ onViewCategoryItems , getCategories }) {
             <Card onViewCategoryItems={onViewCategoryItems} getCategories={getCategories}/>
           </div>
           
-          <Pagination/>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={meta?.last_page || 1}
+            onPageChange={onPageChange}
+          />
       </div>
     </>
   )

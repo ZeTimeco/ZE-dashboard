@@ -1,8 +1,10 @@
 import API from "../../../../config/api"
 
 
-export const getCategories = async()=>{
-  const response = await API.get('/provider/menu-categories')
+export const getCategories = async(page = 1)=>{
+  const response = await API.get('/provider/menu-categories', {
+    params: { page }
+  })
   return response.data
 }
 
@@ -15,5 +17,10 @@ export const addCategory = async(formData)=>{
   const response = await API.post('/provider/menu-categories', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
+  return response.data
+}
+
+export const getItemById = async(id)=>{
+  const response = await API.get(`/provider/menu-item/menu-categories/${id}`)
   return response.data
 }

@@ -35,7 +35,7 @@ function Card({ onViewCategoryItems , getCategories }) {
   
   return (
     <>
-      {getCategories?.data?.map((category)=>(
+      {getCategories?.map((category)=>(
         <div key={category?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-4'>
           <div className=' flex justify-between'>
             <div className=''>
@@ -55,7 +55,7 @@ function Card({ onViewCategoryItems , getCategories }) {
               
               {/* second */}
               <button 
-                onClick={onViewCategoryItems}
+                onClick={() => onViewCategoryItems(category)}
                 className='w-8 h-8 mt-3 bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'
               >
                 <img src="/images/icons/arrow-right-blackk.svg" className="w-6 h-6" />

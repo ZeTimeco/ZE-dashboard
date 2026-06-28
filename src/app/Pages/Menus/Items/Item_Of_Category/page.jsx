@@ -1,17 +1,28 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Card from './Card'
+import { useDispatch, useSelector } from 'react-redux'
+import { getItemByIdThunk } from '@/redux/slice/Menus/MenusSlice'
 
-function Item_Of_CategoryPage({ onClickBack }) {
-  const {t} = useTranslation()
-  
+function Item_Of_CategoryPage({ onClickBack, selectedCategory }) {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { getItemById, loading } = useSelector((state) => state.Menus)
+
+  useEffect(() => {
+    if (selectedCategory?.id) {
+      dispatch(getItemByIdThunk(selectedCategory.id))
+    }
+  }, [dispatch, selectedCategory?.id])
+
+  const items = getItemById?.data ?? (Array.isArray(getItemById) ? getItemById : [])
+
   return (
     <>
       <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
           <div className='flex justify-between items-center gap-3 mb-6'>
-            
-            <p className='text-[#364152] text-xl font-medium'>المقبلات</p>
+            <p className='text-[#364152] text-xl font-medium'>{selectedCategory?.name || t('Classification')}</p>
             <button 
               onClick={onClickBack}
               className='w-10 h-10 bg-[var(--color-primary)] rounded-[3px] flex justify-center items-center cursor-pointer '
@@ -19,9 +30,18 @@ function Item_Of_CategoryPage({ onClickBack }) {
               <img src="/images/icons/arrow-right-go.svg" className="w-5 h-5" alt="back" />
             </button>
           </div>
-          <div className='grid grid-cols-2 gap-6'>
-            <Card  />
-          </div>
+          
+          {loading ? (
+            <div className="text-center py-6 text-[#697586]">{t('Loading...')}</div>
+          ) : items.length === 0 ? (
+            <div className="text-center py-6 text-[#697586]">{t('No items found in this category')}</div>
+          ) : (
+            <div className='grid grid-cols-2 gap-6'>
+              {items.map((item) => (
+                <Card key={item?.id} item={item} />
+              ))}
+            </div>
+          )}
       </div>
     </>
   )
