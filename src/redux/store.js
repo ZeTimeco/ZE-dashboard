@@ -8,6 +8,7 @@ import HomeReducer from './slice/Home/HomeSlice';
 import requestsReducer from './slice/Requests/RequestsSlice'
 import hallsReducer from './slice/Halls/HallsSlice'
 import Pending_ListReducer from './slice/Pending_List/Pending_ListSlice'
+import MenusReducer from './slice/Menus/MenusSlice'
 
 export const store = configureStore({
   reducer:{
@@ -19,7 +20,8 @@ export const store = configureStore({
     Home:HomeReducer,
     requests:requestsReducer,
     halls:hallsReducer,
-    PendingList:Pending_ListReducer
+    PendingList:Pending_ListReducer,
+    Menus:MenusReducer
 
   }
 })

@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Card from './Card'
 
-function All_CategoryPage({ onViewCategoryItems }) {
+function All_CategoryPage({ onViewCategoryItems , getCategories }) {
   const {t} = useTranslation()
   return (
     <>
@@ -11,7 +11,7 @@ function All_CategoryPage({ onViewCategoryItems }) {
           <p className='text-[#364152] text-xl font-medium mb-6'>{t('List categories')}</p>
 
           <div className='grid grid-cols-2 gap-6'>
-            <Card onViewCategoryItems={onViewCategoryItems}/>
+            <Card onViewCategoryItems={onViewCategoryItems} getCategories={getCategories}/>
           </div>
       </div>
     </>
