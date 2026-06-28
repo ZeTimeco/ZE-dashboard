@@ -14,7 +14,7 @@ function CategoryPage({setOpenAdd,  onViewCategoryItems }) {
     dispatch(getCategoriesThunk())
   },[dispatch])
 
-  console.log('getCategories' , getCategories);
+  // console.log('getCategories' , getCategories);
 
   return (
     <div>

@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Card from './Card'
 
-function All_ItemsPage() {
+function All_ItemsPage({getItems}) {
     const {t} = useTranslation()
   
   return (
@@ -14,7 +14,7 @@ function All_ItemsPage() {
             <p className='text-[#364152] text-xl font-medium'>{t('List of items')} </p>
           </div>
           <div className='grid grid-cols-2 gap-6'>
-            <Card  />
+            <Card  getItems={getItems}/>
           </div>
         </div>
         </>

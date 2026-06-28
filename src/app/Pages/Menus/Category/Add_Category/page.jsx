@@ -1,11 +1,40 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
+import { useDispatch } from 'react-redux'
+import { addCategoryThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function Add_CategoryPage({open , setOpen}) {
     const {t} = useTranslation()
+    const dispatch = useDispatch()
+    const [formData, setFormData] = useState({
+      name: {
+        ar: "",
+        en: "",
+      },
+      description: {
+        ar: "",
+        en: "",
+      },
+      status: 1,
+      is_visible: 1,
+    });
+
+    const handleSubmit = async () => {
+      console.log(formData);
+      try {
+        const result = await dispatch(addCategoryThunk(formData)).unwrap();
+        console.log(result);
+  
+        setOpen(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+
   return (
     <>
       <Dialog
@@ -33,12 +62,12 @@ function Add_CategoryPage({open , setOpen}) {
     
           
           <div className='p-6'>
-            <Form/>
+            <Form formData={formData} setFormData={setFormData}/>
           </div>
     
           {/* btn */}
           <div className='px-6 flex gap-4 mb-6'>
-            <button  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+            <button onClick={handleSubmit}  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
               {t('Save the classification')}
             </button>
             <button onClick={()=>setOpen(false)} className='w-[20%] border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>

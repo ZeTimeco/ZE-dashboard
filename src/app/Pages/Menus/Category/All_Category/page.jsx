@@ -2,6 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Card from './Card'
+import Pagination from './Pagination'
 
 function All_CategoryPage({ onViewCategoryItems , getCategories }) {
   const {t} = useTranslation()
@@ -13,6 +14,8 @@ function All_CategoryPage({ onViewCategoryItems , getCategories }) {
           <div className='grid grid-cols-2 gap-6'>
             <Card onViewCategoryItems={onViewCategoryItems} getCategories={getCategories}/>
           </div>
+          
+          <Pagination/>
       </div>
     </>
   )

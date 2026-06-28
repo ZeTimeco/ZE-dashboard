@@ -28,7 +28,7 @@ function MenusPage() {
         ):(
           <button onClick={()=>setOpenAddItem(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[20%] rounded-[3px] cursor-pointer'>
             <p> <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
-            <p className='text-white text-base font-medium'>{t('Add a new category')}</p>
+            <p className='text-white text-base font-medium'>{t('Add a new item')}</p>
           </button>
         )}
       </div>
