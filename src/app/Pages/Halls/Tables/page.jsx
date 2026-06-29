@@ -1,6 +1,6 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import No_Tables_Add from './No_Tables_Add';
 import CardOfTable from './CardOfTable';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 import { getTablesThunk } from '@/redux/slice/Halls/HallsSlice';
 
-function TablesPage() {
+function TablesContent() {
   const {t} = useTranslation()
 
   const searchParams = useSearchParams();
@@ -55,4 +55,10 @@ console.log('hall' , hall_id);
   )
 }
 
-export default TablesPage
+export default function TablesPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TablesContent />
+    </Suspense>
+  );
+}

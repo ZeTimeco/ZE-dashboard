@@ -1,14 +1,14 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHallsViewThunk, getTageThunk, addTableThunk } from '@/redux/slice/Halls/HallsSlice'
 import { toast } from 'react-toastify'
 
-function AddPage() {
+function AddContent() {
   const {t} = useTranslation()
   const router = useRouter()
 
@@ -112,4 +112,11 @@ function AddPage() {
   )
 }
 
-export default AddPage
+
+export default function AddPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddContent />
+    </Suspense>
+  );
+}

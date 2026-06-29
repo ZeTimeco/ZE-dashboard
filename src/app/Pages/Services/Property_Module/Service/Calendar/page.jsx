@@ -1,13 +1,13 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React from 'react'
+import React, { Suspense } from 'react'
 import DetailsPage from './Details/page'
 import { useTranslation } from 'react-i18next'
 import CalenderDaysPage from './CalenderDays/page'
 
 import { useRouter, useSearchParams } from 'next/navigation'
 
-function CalendarPage() {
+function CalendarContent() {
   const {t} = useTranslation()
   const router = useRouter()
     const searchParams = useSearchParams();
@@ -44,4 +44,11 @@ function CalendarPage() {
   )
 }
 
-export default CalendarPage
+
+export default function CalendarPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CalendarContent />
+    </Suspense>
+  );
+}

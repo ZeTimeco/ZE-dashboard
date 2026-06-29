@@ -69,9 +69,9 @@ function BasicInformationPage({prevStep , nextStep }) {
 
     // Validate required fields
     const errors = {};
-    if (!formData.title.trim()) errors.title = true;
-    if (!formData.description.trim()) errors.description = true;
-    if (!formData.property_type_id) errors.property_type_id = true;
+    if (!formData?.title.trim()) errors.title = true;
+    if (!formData?.description.trim()) errors.description = true;
+    if (!formData?.property_type_id) errors.property_type_id = true;
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -81,9 +81,9 @@ function BasicInformationPage({prevStep , nextStep }) {
 
     try {
       const data = new FormData();
-      data.append("title", formData.title);
-      data.append("description", formData.description);
-      data.append("property_type_id", formData.property_type_id);
+      data.append("title", formData?.title);
+      data.append("description", formData?.description);
+      data.append("property_type_id", formData?.property_type_id);
       data.append("max_children", childrenCounter);
       data.append("max_adults", adultsCounter);
       data.append("children_equivalent_to_adult", canReplaceAdults ? childrenReplacementCounter : 1);

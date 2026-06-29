@@ -1,14 +1,14 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHallsViewThunk, getRestaurantTableThunk, EditRestaurantTableThunk } from '@/redux/slice/Halls/HallsSlice'
 import { toast } from 'react-toastify'
 
-function EditPage() {
+function EditContent() {
   const {t} = useTranslation()
   const router = useRouter()
 
@@ -133,4 +133,12 @@ function EditPage() {
   )
 }
 
-export default EditPage
+
+
+export default function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditContent />
+    </Suspense>
+  );
+}

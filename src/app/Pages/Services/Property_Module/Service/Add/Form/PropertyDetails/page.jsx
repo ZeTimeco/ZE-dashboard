@@ -45,13 +45,13 @@ function PropertyDetailsPage({prevStep , nextStep }) {
     e.preventDefault();
 
     const errors = {};
-    if (!formData.check_in_time) errors.check_in_time = true;
-    if (!formData.check_out_time) errors.check_out_time = true;
-    if (formData.floor_number === "" && formData.floor_number !== 0) errors.floor_number = true;
-    if (formData.has_elevator === "") errors.has_elevator = true;
-    if (!formData.availabilities || formData.availabilities.length === 0) errors.availabilities = true;
-    if (!formData.area) errors.area = true;
-    if (!formData.area_unit) errors.area_unit = true;
+    if (!formData?.check_in_time) errors.check_in_time = true;
+    if (!formData?.check_out_time) errors.check_out_time = true;
+    if (formData?.floor_number === "" && formData?.floor_number !== 0) errors.floor_number = true;
+    if (formData?.has_elevator === "") errors.has_elevator = true;
+    if (!formData?.availabilities || formData?.availabilities.length === 0) errors.availabilities = true;
+    if (!formData?.area) errors.area = true;
+    if (!formData?.area_unit) errors.area_unit = true;
 
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -62,15 +62,15 @@ function PropertyDetailsPage({prevStep , nextStep }) {
     try {
       const data = new FormData();
       data.append("property_id", property_id || "");
-      data.append("area", formData.area);
-      data.append("area_unit", formData.area_unit);
-      data.append("has_elevator", formData.has_elevator);
-      data.append("check_in_time", formData.check_in_time);
-      data.append("check_out_time", formData.check_out_time);
-      data.append("floor_number", formData.floor_number);
+      data.append("area", formData?.area);
+      data.append("area_unit", formData?.area_unit);
+      data.append("has_elevator", formData?.has_elevator);
+      data.append("check_in_time", formData?.check_in_time);
+      data.append("check_out_time", formData?.check_out_time);
+      data.append("floor_number", formData?.floor_number);
       formData.availabilities.forEach((item, index) => {
-        data.append(`availabilities[${index}][available_from]`, item.available_from || "");
-        data.append(`availabilities[${index}][available_to]`, item.available_to || "");
+        data.append(`availabilities[${index}][available_from]`, item?.available_from || "");
+        data.append(`availabilities[${index}][available_to]`, item?.available_to || "");
       });
       await dispatch(addPropertyDetailsThunk(data)).unwrap();
       nextStep();

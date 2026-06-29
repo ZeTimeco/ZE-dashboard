@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import MapLayout from './MapLayout'
 import { useTranslation } from 'react-i18next'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getHallLayoutThunk, randomizeHallLayoutThunk, saveHallLayoutThunk } from '@/redux/slice/Halls/HallsSlice'
 import { toast } from 'react-toastify'
 
-function Layoutpage() {
+function LayoutContent() {
   const { t } = useTranslation()
   const router = useRouter()
   const dispatch = useDispatch()
@@ -128,4 +128,11 @@ function Layoutpage() {
   )
 }
 
-export default Layoutpage
+
+export default function LayoutPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LayoutContent />
+    </Suspense>
+  );
+}

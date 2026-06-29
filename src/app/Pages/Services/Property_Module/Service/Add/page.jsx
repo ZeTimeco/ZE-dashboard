@@ -1,6 +1,6 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Suspense } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 import BasicInformationPage from './Form/BasicInformation/page'
@@ -14,7 +14,7 @@ import MediaPage from './Form/Media/page'
 
 
 
-function AddPage() {
+function AddContent() {
   const {t} = useTranslation()
 
   const router = useRouter()
@@ -126,4 +126,11 @@ function AddPage() {
   )
 }
 
-export default AddPage
+
+export default function AddPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddContent />
+    </Suspense>
+  );
+}

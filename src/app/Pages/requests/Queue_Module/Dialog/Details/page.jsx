@@ -17,11 +17,11 @@ function DetailsPage({open , setOpen , reservationData}) {
   const {getReservationsById} = useSelector((state)=>state.requests)
   useEffect(() => {
     if (reservationData?.id) {
-      dispatch(getReservationsByIdThunk(reservationData.id));
+      dispatch(getReservationsByIdThunk(reservationData?.id));
     }
   }, [dispatch, reservationData?.id]);
 
-  console.log('reservationData.id',reservationData.id);
+  console.log('reservationData.id',reservationData?.id);
 
   return (
     <>
@@ -61,7 +61,7 @@ function DetailsPage({open , setOpen , reservationData}) {
       <button 
         onClick={() => {
           if (reservationData?.id) {
-            dispatch(confirmReservationThunk(reservationData.id)).then((res) => {
+            dispatch(confirmReservationThunk(reservationData?.id)).then((res) => {
               if (!res.error) {
                 setOpen(false)
                 window.location.reload()

@@ -54,7 +54,7 @@ function FacilitiesPage({prevStep , nextStep }) {
         const data = new FormData();
         data.append("property_id", property_id || addBasicProperty?.data?.id || addBasicProperty?.id || "");
         
-        formData.amenities.forEach((id, index) => {
+        formData?.amenities.forEach((id, index) => {
           data.append(`amenities[${index}]`, id);
         });
 
@@ -97,7 +97,7 @@ function FacilitiesPage({prevStep , nextStep }) {
                   <div>
                     <input 
                       type="checkbox"
-                      checked={formData.amenities.includes(amenity?.id)}
+                      checked={formData?.amenities.includes(amenity?.id)}
                       onChange={() => handleCheckboxChange(amenity?.id)}
                       className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"  
                     />

@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -68,6 +68,51 @@ export const addItemThunk = createAsyncThunk('Menus/addItem',
   }
 )
 
+export const showFullItemThunk = createAsyncThunk('Menus/showFullItem',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await showFullItem(id);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }  
+  }
+)
+
+export const editItemThunk = createAsyncThunk('Menus/editItem',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await editItem(id);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }  
+  }
+)
+
+export const showFullCategoryThunk = createAsyncThunk('Menus/showFullCategory',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await showFullCategory(id);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }  
+  }
+)
+
+export const editCategoryThunk = createAsyncThunk('Menus/editCategory',
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await editCategory(id);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }  
+  }
+)
+
+
 const initialState = {
   loading: false,
   error: null,
@@ -81,6 +126,10 @@ const initialState = {
   getItems: [],
   getItemById : [],
   getItemsDetails:null,
+  showFullItem:null,
+  showFullCategory:null,
+
+
 
 }
 
@@ -172,6 +221,60 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(addItemThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //showFullItemThunk
+      .addCase(showFullItemThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(showFullItemThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.showFullItem = action.payload; 
+        state.error = null;
+      })
+      .addCase(showFullItemThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //editItemThunk
+      .addCase(editItemThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(editItemThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(editItemThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //showFullCategoryThunk
+      .addCase(showFullCategoryThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(showFullCategoryThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.showFullCategory = action.payload; 
+        state.error = null;
+      })
+      .addCase(showFullCategoryThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //editCategoryThunk
+      .addCase(editCategoryThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(editCategoryThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(editCategoryThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

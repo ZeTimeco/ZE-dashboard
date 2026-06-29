@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import SectionsPage from './Sections/page'
 import Loader from '@/app/Components/Loader/Loader'
 
-function EditPage() {
+function EditContent() {
   const {t} = useTranslation()
   return (
     <MainLayout>
@@ -24,4 +24,12 @@ function EditPage() {
   )
 }
 
-export default EditPage
+
+
+export default function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditContent />
+    </Suspense>
+  );
+}

@@ -1,6 +1,6 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import No_Views_Add from './No_Views_Add'
 import CardOfViews from './CardOfViews'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'next/navigation'
 import { deleteViewThunk, getViewsThunk, toggleViewsThunk } from '@/redux/slice/Halls/HallsSlice'
 
-function ViewsPage() {
+function ViewsContent() {
   const {t} = useTranslation()
 
   const [openAdd , setOpenAdd] = useState(false)
@@ -85,4 +85,12 @@ function ViewsPage() {
   )
 }
 
-export default ViewsPage
+
+
+export default function ViewsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ViewsContent />
+    </Suspense>
+  );
+}

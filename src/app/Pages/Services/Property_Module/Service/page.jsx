@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import No_services_Add from './No_services_Add'
 import CardOfService from './CardOfService'
@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useSelect } from '@heroui/react'
 import { getAllPropertiesThunk } from '@/redux/slice/Services/ServicesSlice'
 
-function ServicePage() {
+function ServiceContent() {
   const {t} = useTranslation()
 
   const [open, setOpen] = useState(false);
@@ -90,4 +90,11 @@ function ServicePage() {
   )
 }
 
-export default ServicePage
+
+export default function ServicePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ServiceContent />
+    </Suspense>
+  );
+}

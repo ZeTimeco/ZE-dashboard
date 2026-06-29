@@ -45,7 +45,7 @@ function AvailabilityPage({prevStep , nextStep }) {
   e.preventDefault();
 
   const errors = {};
-  const hasPolicy = formData.availability.all_avalable || formData.availability.slots.length > 0;
+  const hasPolicy = formData?.availability?.all_avalable || formData?.availability?.slots.length > 0;
   if (!hasPolicy) errors.booking_type = true;
 
   if (Object.keys(errors).length > 0) {
@@ -57,11 +57,11 @@ function AvailabilityPage({prevStep , nextStep }) {
   try {
     // ابعت formData مباشرة كـ JSON مش FormData
     await dispatch(addAvailabilitySeasonsThunk({
-      property_id: formData.property_id,
+      property_id: formData?.property_id,
       formData: {
-        property_id: formData.property_id,
-        availability: formData.availability,
-        seasonal_pricing: formData.seasonal_pricing
+        property_id: formData?.property_id,
+        availability: formData?.availability,
+        seasonal_pricing: formData?.seasonal_pricing
       }
     })).unwrap();
 

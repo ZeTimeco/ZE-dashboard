@@ -43,12 +43,12 @@ function MainLayout({ children }) {
         />
       )}
 
-      {current_module_key === "delivery" && (
+      {/* {current_module_key === "delivery" && (
         <SidebarDelivery
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-      )}
+      )} */}
 
 
 

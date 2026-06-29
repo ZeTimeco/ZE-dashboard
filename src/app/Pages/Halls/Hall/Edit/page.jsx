@@ -1,6 +1,6 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import ImageUpload from './ImageUpload'
 import Form from './Form'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { EditHallThunk, getHallByIdThunk, getHallTypeThunk } from '@/redux/slice/Halls/HallsSlice'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-function EditPage() {
+function EditContent() {
   const {t} = useTranslation();
   //api
   const router = useRouter();
@@ -114,4 +114,11 @@ function EditPage() {
   )
 }
 
-export default EditPage
+
+export default function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditContent />
+    </Suspense>
+  );
+}

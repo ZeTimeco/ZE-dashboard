@@ -1,12 +1,12 @@
-import MainLayout from '@/app/Components/MainLayout/MainLayout'
+'use client'
 import { Dialog } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { editViewsThunk, getHallViewThunk, getViewsByIdThunk } from '@/redux/slice/Halls/HallsSlice'
 
-function EditPage({open , setOpen , viewId, refreshViews}) {
+function EditContent({open , setOpen , viewId, refreshViews}) {
   const{t} = useTranslation()
 
   //api
@@ -103,4 +103,11 @@ console.log('getViewsById',getViewsById);
   )
 }
 
-export default EditPage
+
+export default function EditPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditContent />
+    </Suspense>
+  );
+}

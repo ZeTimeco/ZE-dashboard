@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import All_ItemsPage from './All_Items/page'
 import No_Items from './No_Items'

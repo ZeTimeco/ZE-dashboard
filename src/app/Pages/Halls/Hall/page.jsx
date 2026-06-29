@@ -1,6 +1,6 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import No_Halls_Add from './No_Halls_Add'
 import { useTranslation } from 'react-i18next'
 import AddBtn from '@/app/Components/Buttons/AddBtn'
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getHallsThunk } from '@/redux/slice/Halls/HallsSlice'
 
 
-function HallPage() {
+function HallContent() {
   const {t} = useTranslation()
 
   //api
@@ -57,4 +57,11 @@ function HallPage() {
   )
 }
 
-export default HallPage
+
+export default function HallPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HallContent />
+    </Suspense>
+  );
+}

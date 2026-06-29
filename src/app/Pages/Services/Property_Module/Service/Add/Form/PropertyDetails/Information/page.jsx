@@ -127,7 +127,7 @@ function InformationPage({setFormData ,formData ,fieldErrors, setFieldErrors}) {
                 type="number"
                 min="0" 
                 disabled={isGroundFloor}
-                value={formData.floor_number === 0 && isGroundFloor ? "" : formData.floor_number}
+                value={formData?.floor_number === 0 && isGroundFloor ? "" : formData?.floor_number}
                 onChange={(e) => {
                   setFormData({ ...formData, floor_number: e.target.value });
                   if (setFieldErrors) setFieldErrors(prev => ({...prev, floor_number: false}));

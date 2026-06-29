@@ -85,7 +85,7 @@ function LoginPage() {
               //     router.push('/Pages/dashboard/Main');
               //               break;
               // }
-            router.push('/Pages/Home/Services')
+            router.push('/Pages/Home')
             } else {
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
             }

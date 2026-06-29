@@ -1,12 +1,12 @@
-import MainLayout from '@/app/Components/MainLayout/MainLayout'
+'use client'
 import { Dialog } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { addHallViewThunk, getHallViewThunk, getViewsThunk } from '@/redux/slice/Halls/HallsSlice'
 
-function AddPage({open , setOpen , Hallid}) {
+function AddContent({open , setOpen , Hallid}) {
   const{t} = useTranslation()
   console.log('Hallid' , Hallid);
   
@@ -82,4 +82,11 @@ function AddPage({open , setOpen , Hallid}) {
   )
 }
 
-export default AddPage
+
+export default function AddPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AddContent />
+    </Suspense>
+  );
+}

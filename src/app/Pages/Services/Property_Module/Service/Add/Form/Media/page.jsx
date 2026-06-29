@@ -39,11 +39,11 @@ function MediaPage({prevStep , nextStep }) {
 
     // --- Frontend validation ---
     const validationErrors = [];
-    if (formData.images.length < MIN_IMAGES) {
+    if (formData?.images.length < MIN_IMAGES) {
       validationErrors.push(t(`Please upload at least ${MIN_IMAGES} images.`));
     }
-    const hasPrimary = formData.images.some((img) => img.is_primary === 1);
-    if (formData.images.length > 0 && !hasPrimary) {
+    const hasPrimary = formData?.images.some((img) => img.is_primary === 1);
+    if (formData?.images.length > 0 && !hasPrimary) {
       validationErrors.push(t('Please select a primary image (click the star icon).'));
     }
     if (validationErrors.length > 0) {
@@ -56,23 +56,23 @@ function MediaPage({prevStep , nextStep }) {
 
     try {
       setLoading(true);
-      data.append("property_id", formData.property_id);
+      data.append("property_id", formData?.property_id);
 
-      formData.images.forEach((img, index) => {
+      formData?.images.forEach((img, index) => {
         data.append(`images[${index}][file]`, img.file);
         data.append(`images[${index}][sort_order]`, img.sort_order);
         data.append(`images[${index}][is_primary]`, img.is_primary);
       });
 
-      if (formData.vr_path) {
-        data.append("vr_path", formData.vr_path);
+      if (formData?.vr_path) {
+        data.append("vr_path", formData?.vr_path);
       }
 
-      if (formData.video) {
-        data.append("video", formData.video);
+      if (formData?.video) {
+        data.append("video", formData?.video);
       }
       await dispatch(addMediaThunk(data)).unwrap();
-      router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${formData.property_id}`);
+      router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${formData?.property_id}`);
     } catch (error) {
       console.log(error);
       const serverErrors = error?.errors
