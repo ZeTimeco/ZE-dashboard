@@ -1,11 +1,21 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCategoriesThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function Edit_ItemsPage({open , setOpen}) {
   const {t} = useTranslation()
+
+  //api
+  const dispatch = useDispatch()
+  const {getCategories} = useSelector((state)=>state.Menus)
+  useEffect(()=>{
+    dispatch(getCategoriesThunk())
+  },[dispatch])
+
   return (
     <>
 
@@ -34,7 +44,7 @@ function Edit_ItemsPage({open , setOpen}) {
   
         
         <div className='p-6'>
-          <Form/>
+          <Form  getCategories={getCategories}/>
         </div>
   
         <span className="border-[0.5px] border-[#E3E8EF] my-5" />

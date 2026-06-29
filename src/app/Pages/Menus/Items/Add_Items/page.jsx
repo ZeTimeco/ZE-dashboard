@@ -1,11 +1,52 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItemThunk, getCategoriesThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function Add_ItemsPage({open , setOpen}) {
-  const {t} = useTranslation()
+  const {t} = useTranslation() 
+  //api
+  const dispatch = useDispatch()
+  const {getCategories} = useSelector((state)=>state.Menus)
+  useEffect(()=>{
+    dispatch(getCategoriesThunk())
+  },[dispatch])
+
+  const [formData , setFormData] = useState({
+      name: {
+        ar: "",
+        en: "",
+      },
+      description: {
+        ar: "",
+        en: "",
+      },
+      category_id:'',
+      images:[],
+      base_price:'',
+      prep_time_min:'',
+      calories:'',
+      availability_type:'',
+      status: 1,
+      is_visible: 1,
+  })
+
+    const handleSubmit = async () => {
+      console.log(formData);
+      // formData.images.forEach((file) => {
+      //   data.append("images[]", file);
+      // });
+      try {
+        const result = await dispatch(addItemThunk(formData)).unwrap();
+        console.log(result);
+        setOpen(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
   return (
     <>
     <Dialog
@@ -33,14 +74,14 @@ function Add_ItemsPage({open , setOpen}) {
 
       
       <div className='p-6'>
-        <Form/>
+        <Form getCategories={getCategories} formData={formData} setFormData={setFormData}/>
       </div>
 
       <span className="border-[0.5px] border-[#E3E8EF] my-5" />
 
       {/* btn */}
       <div className='px-6 flex gap-4 mb-6'>
-        <button  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+        <button onClick={handleSubmit}  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('Preserving the item')}
         </button>
         <button onClick={()=>setOpen(false)} className='w-[20%] border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>

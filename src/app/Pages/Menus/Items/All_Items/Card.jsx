@@ -7,7 +7,7 @@ import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl'
 function Card({getItems}) {
     const {t} = useTranslation()
     const [openDetailsItem , setOpenDetailsItem] = useState(false)
-  
+    const [selectItemID , setSelectItemID] = useState(null) 
   return (
     <>
       {getItems?.data?.map((item)=>(
@@ -25,7 +25,13 @@ function Card({getItems}) {
             <div className='flex items-center '>
             
               {/* details */}
-              <button onClick={()=>setOpenDetailsItem(true)}  className='w-8 h-8  bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
+              <button
+                onClick={()=>{
+                setOpenDetailsItem(true)
+                setSelectItemID(item.id)
+                }
+                }  
+                className='w-8 h-8  bg-[#EEF2F6] rounded-full flex justify-center items-center cursor-pointer'>
                 <img src="/images/icons/arrow-right-blackk.svg" className="w-6 h-6" />
               </button>
 
@@ -38,6 +44,7 @@ function Card({getItems}) {
       <Details_Of_ItemsPage
         open={openDetailsItem}
         setOpen={setOpenDetailsItem}
+        itemID = {selectItemID}
       />
 
       

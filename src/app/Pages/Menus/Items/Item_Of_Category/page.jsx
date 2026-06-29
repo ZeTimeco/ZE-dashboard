@@ -17,7 +17,7 @@ function Item_Of_CategoryPage({ onClickBack, selectedCategory }) {
   }, [dispatch, selectedCategory?.id])
 
   const items = getItemById?.data ?? (Array.isArray(getItemById) ? getItemById : [])
-
+  console.log(items);
   return (
     <>
       <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
@@ -31,17 +31,11 @@ function Item_Of_CategoryPage({ onClickBack, selectedCategory }) {
             </button>
           </div>
           
-          {loading ? (
-            <div className="text-center py-6 text-[#697586]">{t('Loading...')}</div>
-          ) : items.length === 0 ? (
-            <div className="text-center py-6 text-[#697586]">{t('No items found in this category')}</div>
-          ) : (
-            <div className='grid grid-cols-2 gap-6'>
-              {items.map((item) => (
-                <Card key={item?.id} item={item} />
-              ))}
-            </div>
-          )}
+          <div className='grid grid-cols-2 gap-6'>
+            {items.map((item) => (
+              <Card key={item?.id} item={item} />
+            ))}
+          </div>
       </div>
     </>
   )

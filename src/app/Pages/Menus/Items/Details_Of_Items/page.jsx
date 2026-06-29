@@ -1,14 +1,24 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Data from './Data'
 import Edit_ItemsPage from '../Edit_Items/page'
+import { useDispatch, useSelector } from 'react-redux'
+import { getItemsDetailsThunk } from '@/redux/slice/Menus/MenusSlice'
 
-function Details_Of_ItemsPage({open , setOpen}) {
+function Details_Of_ItemsPage({open , setOpen ,itemID}) {
   const {t} = useTranslation()
   const [openEditItem , setOpenEditItem] = useState()
-
+  // console.log('itemID' , itemID);
+  const dispatch = useDispatch()
+  const {getItemsDetails } = useSelector((state)=>state.Menus)
+  useEffect(() => {
+    if (open && itemID) {
+      dispatch(getItemsDetailsThunk(itemID))
+    }
+  }, [dispatch, open, itemID])
+  // console.log('getItemsDetails*/*/*' , getItemsDetails);  
   return (
     <>
       <Dialog
@@ -33,7 +43,7 @@ function Details_Of_ItemsPage({open , setOpen}) {
         <span className="border-[0.5px] border-[#E3E8EF]" />
 
         <div className='p-6'>
-          <Data/>
+          <Data getItemsDetails={getItemsDetails}/>
         </div>
 
         <span className="border-[0.5px] border-[#E3E8EF] my-5" />

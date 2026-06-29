@@ -64,7 +64,7 @@ function Form({formData , setFormData}) {
     },
   }));
 
-  console.log('formData',formData);
+  // console.log('formData',formData);
   return (
     <>
     <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>

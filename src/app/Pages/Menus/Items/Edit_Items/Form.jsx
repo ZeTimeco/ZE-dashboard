@@ -1,11 +1,25 @@
 'use client'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
 
-function Form() {
+function Form({getCategories}) {
   const {t} = useTranslation()
+  // =========================
+  const [open1, setOpen1] = useState(false);
+  const [searchValue1, setSearchValue1] = useState("");
+  const dropdownRef1 = useRef(null);
+  const categoryType =getCategories;
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+      
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const [images, setImages] = useState([])
   const fileInputRef = useRef(null)
 
@@ -116,6 +130,61 @@ function Form() {
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
         </div>
+
+        {/* ========== category type 1  ========== */}
+        <div className="flex flex-col">
+          <p className='text-sm font-medium mb-1.5'>
+            <span className='text-[#364152] '>{t('Classification')} </span>
+          </p>
+
+          <div className="relative w-full" ref={dropdownRef1}>
+            <div
+              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+              onClick={() => setOpen1(!open1)}
+            >
+              <input
+                type="text"
+                placeholder={t("Classification")}
+                value={searchValue1}
+                onChange={(e) => {
+                  setSearchValue1(e.target.value);
+                  setOpen1(true);
+                }}
+                className="h-14 p-3 w-full text-[#364152] focus:outline-none"
+              />
+
+              <span className="absolute left-3 cursor-pointer">
+                {open1 ? (
+                  <img src="/images/icons/ArrowUp.svg" alt="up" />
+                ) : (
+                  <img src="/images/icons/ArrowDown.svg" alt="down" />
+                )}
+              </span>
+            </div>
+
+            {open1 && (
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                {categoryType
+                  ?.filter((opt) =>
+                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                  )
+                  .map((opt) => (
+                    <li
+                      key={opt?.id}
+                      onClick={() => {
+                        setSearchValue1(opt?.name);
+                        setOpen1(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
+                    >
+                      {opt?.name}
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
 
         {/*description (Arabic)  */}
         <div className='w-full flex flex-col gap-1.5'>

@@ -12,7 +12,7 @@ function ItemsPage({setOpenAddItem}) {
     dispatch(getItemsThunk())
   },[dispatch])
 
-  console.log('getItems' , getItems);
+  // console.log('getItems' , getItems);
 
   return (
     <>
