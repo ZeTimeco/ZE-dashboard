@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -72,7 +72,7 @@ export const showFullItemThunk = createAsyncThunk('Menus/showFullItem',
   async(id , {rejectWithValue})=>{
     try{
       const response = await showFullItem(id);
-      return response
+      return response.data
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
     }  
@@ -80,9 +80,9 @@ export const showFullItemThunk = createAsyncThunk('Menus/showFullItem',
 )
 
 export const editItemThunk = createAsyncThunk('Menus/editItem',
-  async(id , {rejectWithValue})=>{
+  async({id , formData} , {rejectWithValue})=>{
     try{
-      const response = await editItem(id);
+      const response = await editItem(id , formData);
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
@@ -102,9 +102,20 @@ export const showFullCategoryThunk = createAsyncThunk('Menus/showFullCategory',
 )
 
 export const editCategoryThunk = createAsyncThunk('Menus/editCategory',
+  async({id , formData} , {rejectWithValue})=>{
+    try{
+      const response = await editCategory(id , formData);
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }  
+  }
+)
+
+export const deleteItemThunk = createAsyncThunk('Menus/deleteItem',
   async(id , {rejectWithValue})=>{
     try{
-      const response = await editCategory(id);
+      const response = await deleteItem(id);
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
@@ -275,6 +286,19 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(editCategoryThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //deleteItemThunk
+      .addCase(deleteItemThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(deleteItemThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(deleteItemThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

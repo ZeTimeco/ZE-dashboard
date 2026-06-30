@@ -32,11 +32,16 @@ function Card({ onViewCategoryItems , getCategories }) {
 
     }
   }
+
+  const [selectCategoryID , setSelectCategoryID]= useState(null)
   
   return (
     <>
       {getCategories?.map((category)=>(
-        <div key={category?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-4'>
+        <div 
+          key={category?.id} 
+          className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-4'
+        >
           <div className=' flex justify-between'>
             <div className=''>
               <p className='text-[#364152] text-xl font-normal mb-1.5'>{category?.name}</p>
@@ -49,7 +54,13 @@ function Card({ onViewCategoryItems , getCategories }) {
             </div>
             <div className='flex gap-4 '>
               {/* edit */}
-              <button onClick={()=>setOpenEditCategory(true)}  className='cursor-pointer'>
+              <button 
+                onClick={()=>{
+                  setSelectCategoryID(category?.id)
+                  setOpenEditCategory(true)
+                }}  
+                className='cursor-pointer'
+              >
                 <img src="/images/icons/EditBlack.svg" className="w-5 h-5" />
               </button>
               
@@ -71,6 +82,7 @@ function Card({ onViewCategoryItems , getCategories }) {
       <Edit_CategoryPage
         open={openEditCategory}
         setOpen={setOpenEditCategory}
+        categoryID={selectCategoryID}
       
       />
     </>

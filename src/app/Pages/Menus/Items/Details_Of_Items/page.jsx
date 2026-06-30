@@ -5,13 +5,25 @@ import { useTranslation } from 'react-i18next'
 import Data from './Data'
 import Edit_ItemsPage from '../Edit_Items/page'
 import { useDispatch, useSelector } from 'react-redux'
-import { getItemsDetailsThunk } from '@/redux/slice/Menus/MenusSlice'
+import { getItemsDetailsThunk, deleteItemThunk, getItemsThunk, getItemByIdThunk } from '@/redux/slice/Menus/MenusSlice'
+import DeleteItems from './DeleteItems'
 
-function Details_Of_ItemsPage({open , setOpen ,itemID}) {
+function Details_Of_ItemsPage({open , setOpen ,itemID , selectedCategoryId}) {
   const {t} = useTranslation()
   const [openEditItem , setOpenEditItem] = useState()
-  // console.log('itemID' , itemID);
   const dispatch = useDispatch()
+  const [deleteId , setDeleteId] = useState(null)
+
+  const handleDelete = (id) => {
+    dispatch(deleteItemThunk(id)).then(() => {
+      setOpen(false)
+      dispatch(getItemsThunk())
+      if (selectedCategoryId) {
+        dispatch(getItemByIdThunk(selectedCategoryId))
+      }
+    })
+  }
+  // console.log('itemID' , itemID);
   const {getItemsDetails } = useSelector((state)=>state.Menus)
   useEffect(() => {
     if (open && itemID) {
@@ -53,7 +65,7 @@ function Details_Of_ItemsPage({open , setOpen ,itemID}) {
         <button onClick={()=>setOpenEditItem(true)}  className=' flex justify-center gap-3 w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('Service modification')} <img src="/images/icons/edit.svg" className="w-5 h-5" />
         </button>
-        <button  className='w-[20%] border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+        <button onClick={() => setDeleteId(itemID)} className='w-[20%] border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('delete')}
         </button>
         
@@ -65,7 +77,17 @@ function Details_Of_ItemsPage({open , setOpen ,itemID}) {
       <Edit_ItemsPage
         open={openEditItem}
         setOpen={setOpenEditItem}
+        itemID={itemID}
+        categoryID={selectedCategoryId}
       />
+
+      <DeleteItems
+        deleteId={deleteId}
+        setDeleteId={setDeleteId}
+        handleDelete={handleDelete}
+      />
+
+      
     </>
   )
 }

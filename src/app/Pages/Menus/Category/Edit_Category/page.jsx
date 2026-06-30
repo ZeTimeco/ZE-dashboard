@@ -1,13 +1,71 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
+import { useDispatch, useSelector } from 'react-redux'
+import { editCategoryThunk, getCategoriesThunk, showFullCategoryThunk } from '@/redux/slice/Menus/MenusSlice'
 
-function Edit_CategoryPage({open , setOpen}) {
+function Edit_CategoryPage({open , setOpen , categoryID}) {
   const {t} = useTranslation()
+  
+  console.log('categoryID', categoryID);
+  const dispatch = useDispatch()
+  const {showFullCategory} = useSelector((state)=>state.Menus)
+  
+  useEffect(()=>{
+    if(categoryID){
+      dispatch(showFullCategoryThunk(categoryID))
+    }
+  },[dispatch ,categoryID])
+  
+  const [formData, setFormData] = useState({
+    name: {
+      ar: "",
+      en: "",
+    },
+    description: {
+      ar: "",
+      en: "",
+    },
+    status: 1,
+    is_visible: 1,
+  });
 
-  return (
+  useEffect(()=>{
+    if(showFullCategory){
+      setFormData({
+      name: {
+        ar: showFullCategory.name?.ar || "",
+        en: showFullCategory.name?.en || "",
+      },
+      description: {
+        ar: showFullCategory.description?.ar || "",
+        en: showFullCategory.description?.en || "",
+      },
+      status: showFullCategory.status === "active" ? 1 : 0,      
+      is_visible: showFullCategory.is_visible ?? 1,
+    });
+    }
+  }, [showFullCategory])
+
+const handleSubmit = async () => {
+  try {
+    await dispatch(
+      editCategoryThunk({
+        id: categoryID,
+        formData, 
+      })
+    ).unwrap();
+    await dispatch(getCategoriesThunk()).unwrap();
+    setOpen(false);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+return (
     <>
       <Dialog
       open={open}
@@ -34,12 +92,12 @@ function Edit_CategoryPage({open , setOpen}) {
 
       
       <div className='p-6'>
-        <Form/>
+        <Form formData={formData} setFormData={setFormData}/>
       </div>
 
       {/* btn */}
       <div className='px-6 flex  gap-4 mb-6'>
-        <button  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+        <button onClick={handleSubmit}  className=' w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('Save changes')}
         </button>
         <button onClick={()=>setOpen(false)} className='w-[20%] border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>

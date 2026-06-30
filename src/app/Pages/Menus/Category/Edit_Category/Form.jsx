@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
 
-function Form() {
+function Form({formData , setFormData}) {
   const {t} = useTranslation()
+
+  console.log('formData' , formData);
 
   const GreenSwitch = styled((props) => (
   <Switch
@@ -80,6 +82,14 @@ function Form() {
           <input 
             type="text"
             name='title'
+            value={formData?.name?.ar}
+            onChange={(e)=>setFormData((prev)=>({
+              ...prev,
+              name:{
+                ...prev.name,
+                ar:e.target.value
+              }
+            }))}
             placeholder={t("Classification name")}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -93,6 +103,15 @@ function Form() {
           <input 
             type="text"
             name='title'
+            value={formData?.name?.en}
+            onChange={(e)=>setFormData((prev)=>({
+              ...prev,
+              name:{
+                ...prev.name,
+                en:e.target.value
+              }
+
+            }))}
             placeholder={t("Classification name")}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -106,6 +125,16 @@ function Form() {
           </p>  
           <textarea
             name="description"
+            value={formData?.description?.ar}
+            onChange={(e)=>setFormData(
+              (prev)=>({
+                ...prev,
+                description:{
+                  ...prev.description,
+                  ar:e.target.value
+                }
+              })
+            )}
             placeholder={t("Write a brief description")}
             className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
           />
@@ -119,6 +148,17 @@ function Form() {
           </p>  
           <textarea
             name="description"
+            value={formData?.description?.en}
+            onChange={(e)=>setFormData(
+              (prev)=>({
+                ...prev,
+                description:{
+                  ...prev.description,
+                  en:e.target.value
+                }
+
+              })
+            )}
             placeholder={t("Write a brief description")}
             className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
           />
@@ -137,7 +177,15 @@ function Form() {
         </div>
 
         <div>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData.status === 1}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                status: e.target.checked ? 1 : 0,
+              }))
+            }
+          />
         </div>
       </div>
     </div>
@@ -153,7 +201,15 @@ function Form() {
         </div>
 
         <div>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData.is_visible === 1}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                is_visible: e.target.checked ? 1 : 0,
+              }))
+            }
+          />
         </div>
       </div>
     </div>

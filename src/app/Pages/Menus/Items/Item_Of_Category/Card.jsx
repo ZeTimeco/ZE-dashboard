@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Details_Of_ItemsPage from '../Details_Of_Items/page'
 import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl'
 
-function Card({ item }) {
+function Card({ item, selectedCategoryId }) {
     const {t} = useTranslation()
     const [openDetailsItem , setOpenDetailsItem] = useState(false)
     const [selectItemID , setSelectItemID] = useState(null)
@@ -45,6 +45,7 @@ function Card({ item }) {
         open={openDetailsItem}
         setOpen={setOpenDetailsItem}
         itemID = {selectItemID}
+        selectedCategoryId={selectedCategoryId}
       />
 
     </>

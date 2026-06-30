@@ -2,42 +2,74 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
+import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl'
 
 
-function Form({getCategories}) {
+function Form({getCategories ,formData , setFormData}) {
   const {t} = useTranslation()
+
   // =========================
   const [open1, setOpen1] = useState(false);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const categoryType =getCategories;
+  const categoryType = getCategories;
+
+  // Initialise category label when formData loads
+  useEffect(() => {
+    if (formData?.category_id && categoryType?.length) {
+      const found = categoryType.find((c) => c.id === formData.category_id);
+      if (found) setSearchValue1(found.name);
+    }
+  }, [formData?.category_id, categoryType]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
-      
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const [images, setImages] = useState([])
   const fileInputRef = useRef(null)
+
+  // Derive display images: existing URLs from API + newly picked File objects
+  const images = (formData?.images || []).map((img) => {
+    if (img instanceof File) {
+      return { id: img.name + img.size, url: URL.createObjectURL(img), name: img.name, file: img }
+    }
+    // already a URL string coming from the server
+    if (typeof img === 'string') {
+      const url = img.startsWith('http') ? img : `${IMAGE_BASE_URL}${img}`
+      return { id: img, url, name: img }
+    }
+    // object from API: { id, image }
+    const rawUrl = img.image ?? img.url ?? ''
+    const url = rawUrl.startsWith('http') ? rawUrl : `${IMAGE_BASE_URL}${rawUrl}`
+    return { id: img.id ?? rawUrl, url, name: img.image ?? img.name ?? '' }
+  })
 
   const handleAddImage = (e) => {
     const files = Array.from(e.target.files)
     if (!files.length) return
-    const remaining = 5 - images.length
-    const toAdd = files.slice(0, remaining).map((file) => ({
-      id: Math.random().toString(36).slice(2),
-      url: URL.createObjectURL(file),
-      name: file.name,
+    const remaining = 5 - (formData?.images?.length || 0)
+    const toAdd = files.slice(0, remaining)
+    setFormData((prev) => ({
+      ...prev,
+      images: [...(prev.images || []), ...toAdd],
     }))
-    setImages((prev) => [...prev, ...toAdd])
     e.target.value = ''
   }
 
   const handleRemoveImage = (id) => {
-    setImages((prev) => prev.filter((img) => img.id !== id))
+    setFormData((prev) => ({
+      ...prev,
+      images: (prev.images || []).filter((img) => {
+        if (img instanceof File) return (img.name + img.size) !== id
+        if (typeof img === 'string') return img !== id
+        // API object: { id, image }
+        return (img.id ?? img.image ?? img.url) !== id
+      }),
+    }))
   }
 
   const GreenSwitch = styled((props) => (
@@ -113,6 +145,14 @@ function Form({getCategories}) {
           <input 
             type="text"
             name='title'
+            value={formData?.name?.ar}
+            onChange={(e)=>setFormData((prev)=>({
+              ...prev,
+              name:{
+                ...prev.name,
+                ar:e.target.value
+              }
+            }))}
             placeholder={t("Classification name")}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -126,6 +166,14 @@ function Form({getCategories}) {
           <input 
             type="text"
             name='title'
+            value={formData?.name?.en}
+            onChange={(e)=>setFormData((prev)=>({
+              ...prev,
+              name:{
+                ...prev.name,
+                en:e.target.value
+              }
+            }))}
             placeholder={t("Classification name")}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -173,6 +221,7 @@ function Form({getCategories}) {
                       key={opt?.id}
                       onClick={() => {
                         setSearchValue1(opt?.name);
+                        setFormData((prev) => ({ ...prev, category_id: opt?.id }));
                         setOpen1(false);
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
@@ -194,6 +243,16 @@ function Form({getCategories}) {
           </p>  
           <textarea
             name="description"
+            value={formData?.description?.ar}
+            onChange={(e)=>setFormData(
+              (prev)=>({
+                ...prev,
+                description:{
+                  ...prev.description,
+                  ar:e.target.value
+                }
+              })
+            )}
             placeholder={t("Write a brief description")}
             className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
           />
@@ -207,6 +266,17 @@ function Form({getCategories}) {
           </p>  
           <textarea
             name="description"
+            value={formData?.description?.en}
+            onChange={(e)=>setFormData(
+              (prev)=>({
+                ...prev,
+                description:{
+                  ...prev.description,
+                  en:e.target.value
+                }
+
+              })
+            )}
             placeholder={t("Write a brief description")}
             className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
           />
@@ -234,7 +304,7 @@ function Form({getCategories}) {
         <div className='grid grid-cols-5 gap-3 mb-3'>
           {images.map((img) => (
             <div key={img.id} className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'>
-              <img src={img.url} alt={img.name} className='w-full h-full object-cover' />
+              <img src={img.url} alt={img.name} className='w-full h-full object-cover ' />
               <button
                 type='button'
                 onClick={() => handleRemoveImage(img.id)}
@@ -275,6 +345,11 @@ function Form({getCategories}) {
         <input 
           type="text"
           name='title'
+          value={formData?.base_price}
+          onChange={(e)=>setFormData({
+            ...formData,
+            base_price:e.target.value
+          })}
           placeholder='0:00'
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -292,7 +367,9 @@ function Form({getCategories}) {
         </p>  
         <input 
           type="number"
-          name='title'
+          name='prep_time_min'
+          value={formData?.prep_time_min}
+          onChange={(e) => setFormData((prev) => ({ ...prev, prep_time_min: e.target.value }))}
           placeholder='0:00'
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -305,7 +382,9 @@ function Form({getCategories}) {
         </p>  
         <input 
           type="number"
-          name='title'
+          name='calories'
+          value={formData?.calories}
+          onChange={(e) => setFormData((prev) => ({ ...prev, calories: e.target.value }))}
           placeholder='0:00'
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -323,7 +402,15 @@ function Form({getCategories}) {
         </div>
 
         <div>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.availability_type === 'all_day'}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                availability_type: e.target.checked ? 'all_day' : 'scheduled',
+              }))
+            }
+          />
         </div>
       </div>
     </div>
@@ -339,7 +426,12 @@ function Form({getCategories}) {
         </div>
 
         <div>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.status === 'active'}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, status: e.target.checked ? 'active' : 'hidden' }))
+            }
+          />
         </div>
       </div>
 
@@ -354,7 +446,12 @@ function Form({getCategories}) {
         </div>
 
         <div>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.is_visible === 1}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, is_visible: e.target.checked ? 1 : 0 }))
+            }
+          />
         </div>
       </div>
 

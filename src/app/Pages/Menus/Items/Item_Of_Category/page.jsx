@@ -33,7 +33,7 @@ function Item_Of_CategoryPage({ onClickBack, selectedCategory }) {
           
           <div className='grid grid-cols-2 gap-6'>
             {items.map((item) => (
-              <Card key={item?.id} item={item} />
+              <Card key={item?.id} item={item} selectedCategoryId={selectedCategory?.id} />
             ))}
           </div>
       </div>
