@@ -53,7 +53,7 @@ function Queue_ModulePage() {
           ))}
         </div>
         
-        <div className='p-6'>
+        <div className='mt-4'>
           {activeTab===1 && <Restaurant_informationPage/>}
           {activeTab===2 && <Booking_settingsPage/>}
           {activeTab===3 && <Queue_settingsPage/>}
