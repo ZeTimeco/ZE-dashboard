@@ -33,7 +33,7 @@ function Queue_ModulePage() {
     <MainLayout>
       
       <div>
-        <div className='flex  gap-4 border-b border-gray-200 overflow-x-auto whitespace-nowrap scrollbar-hide '>
+        <div className='flex  gap-4 border-b border-gray-200 overflow-x-auto whitespace-nowrap scrollbar-none '>
           {menuTabBar?.map((tab)=>(
             <button 
               key={tab.id}

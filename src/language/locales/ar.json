@@ -1273,6 +1273,19 @@
   "Accepting all bookings and waiting lists as normal":"قبول جميع الحجوزات وقوائم الانتظار بشكل طبيعي",
   "landline phone":"الهاتف الارضي",
   "Mobile Number":"رقم الجوال",
+  "Booking Confirmation":"تأكيد الحجز",
+  "Booking Timeline":"توقيت الحجز",
+  "Booking Rules":"قواعد الحجز",
+  "Modification and Cancellation":"التعديل والإلغاء",
+  "Automatic booking confirmation":"تأكيد الحجوزات تلقائياً",
+  "Duration of the time period":"مدة الفترة الزمنية",
+  "earliest time allowed for booking":"أقرب وقت مسموح للحجز",
+  "an hour before":"ساعة قبل",
+  "Minimum number of guests":"الحد الأدنى من الضيوف",
+  "Allow modification up to":"السماح بالتعديل حتى",
+  "Free cancellation period":"فترة الإلغاء المجاني",
+  "Free cancellation up to 24 hours before the booking date.":"إلغاء مجاني حتى 24 ساعة قبل موعد الحجز.",
+  "Policy text":"نص السياسة",
   
 
 
