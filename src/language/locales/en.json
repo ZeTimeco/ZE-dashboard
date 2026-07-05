@@ -1289,6 +1289,15 @@
   "Waiting Time Logic":"Waiting Time Logic",
   "No-Show Rules":"No-Show Rules",
   "Close Queue":"Close Queue",
+  "Activate the waiting list":"Activate the waiting list",
+  "Allow direct access":"Allow direct access",
+  "default waiting time for each group":"default waiting time for each group",
+  "Allow manual overshoot of expected time":"Allow manual overshoot of expected time",
+  "Mark absence after":"Mark absence after",
+  "Automatic removal from the list":"Automatic removal from the list",
+  "The menu closes automatically at the end of working hours.":"The menu closes automatically at the end of working hours.",
+  "The waiting list will close automatically when the restaurant closes.":"The waiting list will close automatically when the restaurant closes.",
+  
   
 
 

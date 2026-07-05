@@ -1290,6 +1290,14 @@
   "Waiting Time Logic":"منطق وقت الانتظار",
   "No-Show Rules":"قواعد عدم الحضور",
   "Close Queue":"إغلاق قائمة الانتظار",
+  "Activate the waiting list":"تفعيل قائمة الانتظار",
+  "Allow direct access":"السماح بالدخول المباشر",
+  "default waiting time for each group":"وقت الانتظار الافتراضي لكل مجموعة",
+  "Allow manual overshoot of expected time":"السماح بتجاوز الوقت المتوقع يدوياً",
+  "Mark absence after":"وضع علامة عدم الحضور بعد",
+  "Automatic removal from the list":"الإزالة التلقائية من القائمة",
+  "The menu closes automatically at the end of working hours.":"إغلاق القائمة تلقائياً عند نهاية ساعات العمل",
+  "The waiting list will close automatically when the restaurant closes.":"سيتم إغلاق قائمة الانتظار تلقائياً عند إغلاق المطعم",
   
 
 
