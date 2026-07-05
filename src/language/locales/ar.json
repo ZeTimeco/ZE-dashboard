@@ -1298,6 +1298,23 @@
   "Automatic removal from the list":"الإزالة التلقائية من القائمة",
   "The menu closes automatically at the end of working hours.":"إغلاق القائمة تلقائياً عند نهاية ساعات العمل",
   "The waiting list will close automatically when the restaurant closes.":"سيتم إغلاق قائمة الانتظار تلقائياً عند إغلاق المطعم",
+  "Seating Options":"طريقة الجلوس",
+  "Automatic Control":"التحكم التلقائي",
+  "QR Login":"تسجيل الدخول بـ QR",
+  "Table Control":"التحكم بالطاولات",
+  "The customer chooses the table.":"العميل يختار الطاولة",
+  "The restaurant assigns the table.":"المطعم يحدد الطاولة",
+  "Automatic suggestion for the next group when a table is available":"اقتراح تلقائي للمجموعة التالية عند توفر طاولة0",
+  "The system suggests the best match from the waiting list.":"يقترح النظام أفضل مطابقة من قائمة الانتظار",
+  "Grace period for late bookings":"فترة السماح للحجوزات المتأخرة",
+  "Scanning the QR code is required to sit down.":"يتطلب مسح رمز QR للجلوس",
+  "Allow manual code entry":"السماح بإدخال الرمز يدوياً",
+  "Allowing employees to block tables from their mobile phones":"السماح للموظفين بحجب الطاولات من الموبايل",
+  "Staff can mark tables as temporarily unavailable":"يمكن للموظفين وضع علامة غير متاح على الطاولات مؤقتاً",
+  "Hall Management":"إدارة القاعات",
+  "Views/Aspects":"المشاهد / الجوانب",
+  "Edit Layout":"تعديل المخطط",
+  "Default Settings":"الإعدادات الافتراضية",
   
 
 

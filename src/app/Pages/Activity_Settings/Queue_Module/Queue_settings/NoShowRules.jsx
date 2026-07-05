@@ -68,7 +68,7 @@ function NoShowRules() {
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const option1 =['10' , '15' , '30', '60']
+  const option1 =['30' , '60' , '90']
   
 
   useEffect(() => {
