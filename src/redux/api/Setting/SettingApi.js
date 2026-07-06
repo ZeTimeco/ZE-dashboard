@@ -199,6 +199,8 @@ export const getRestaurantInformation = async()=>{
 }
 
 export const editRestaurantInformation = async(formData)=>{
-  const response = await API.post('/provider/restaurant/profile' , formData  )
-  return response.data
+  const response = await API.post('/provider/restaurant/profile', formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
 }

@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BasicInformation({getRestaurantTypes}) {
+function BasicInformation({getRestaurantTypes , formData , setFormData ,currentLang}) {
   const {t} = useTranslation()
   // =========================
   const [open1, setOpen1] = useState(false);
@@ -19,7 +19,7 @@ function BasicInformation({getRestaurantTypes}) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   
-  
+  console.log('formData',formData);
   return (
     <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
       <p className='text-[#364152] text-base font-normal'>{t('Basic Information')}</p>
@@ -35,6 +35,16 @@ function BasicInformation({getRestaurantTypes}) {
           <input 
             type="text"
             name='code'
+            value={formData?.name[currentLang]}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                name: {
+                  ...prev.name,
+                  [currentLang]: e.target.value,
+                },
+              }))
+            }
             placeholder={t('Restaurant name')}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -49,6 +59,14 @@ function BasicInformation({getRestaurantTypes}) {
           <input 
             type="text"
             name='code'
+            value={formData?.branch_name[currentLang]}
+            onChange={(e)=>setFormData((prev)=>({
+              ...prev,
+              branch_name:{
+                ...prev.branch_name,
+                [currentLang]:e.target.value
+              }
+            }))}
             placeholder={t('Branch name')}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -69,7 +87,7 @@ function BasicInformation({getRestaurantTypes}) {
             <input
               type="text"
               placeholder={t("Restaurant type")}
-              value={searchValue1 || selected1|| ""}
+              value={searchValue1 || option1?.find((item) => item.id === formData?.restaurant_type_id)?.name ||""}
               onChange={(e) => {
                 setSearchValue1(e.target.value);
                 setOpen1(true);
@@ -99,6 +117,11 @@ function BasicInformation({getRestaurantTypes}) {
                       setSelected1(opt?.name);
                       setSearchValue1("");
                       setOpen1(false);
+                      setFormData((prev)=>({
+                        ...prev,
+                        restaurant_type_id:opt?.id
+
+                      }))
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
@@ -118,6 +141,14 @@ function BasicInformation({getRestaurantTypes}) {
           <input 
             type="text"
             name='code'
+            value={formData?.description[currentLang]}
+            onChange={(e)=>setFormData((prev)=>({
+              ...prev,
+              description:{
+                ...prev.description,
+                [currentLang]:e.target.value
+              }
+            }))}
             placeholder={t('Restaurant description')}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-[3px] outline-none `}
           />

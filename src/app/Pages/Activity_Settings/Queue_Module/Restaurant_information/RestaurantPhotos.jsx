@@ -1,29 +1,51 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl'
 
-function RestaurantPhotos() {
+function RestaurantPhotos({formData , setFormData}) {
   const {t} = useTranslation()
-  const [images, setImages] = useState([])
   const fileInputRef = useRef(null)
+
+  const images = (formData.images || []).map((img) => {
+    if (img instanceof File) {
+      return {
+        id: img.name + img.size,
+        url: URL.createObjectURL(img),
+        name: img.name,
+      };
+    }
+
+    return {
+      id: img.id,
+      url: `${IMAGE_BASE_URL}${img.image}`,
+      name: img.image,
+    };
+  });
 
   const handleAddImage = (e) => {
     const files = Array.from(e.target.files);
+    if (!files.length) return;
   
-    const newImages = files.map((file) => ({
-      id: Date.now() + Math.random(),
-      file,
-      url: URL.createObjectURL(file),
-      name: file.name,
+    const remaining = 5 - (formData?.images?.length || 0);
+    const toAdd = files.slice(0, remaining);
+  
+    setFormData((prev) => ({
+      ...prev,
+      images: [...(prev.images || []), ...toAdd],
     }));
-  
-    const updatedImages = [...images, ...newImages].slice(0, 5);
-    setImages(updatedImages);
     e.target.value = "";
   };
+
   const handleRemoveImage = (id) => {
-    const updatedImages = images.filter((img) => img.id !== id);
-    setImages(updatedImages);
+    setFormData((prev) => ({
+      ...prev,
+      images: (prev.images || []).filter((img) => {
+        if (img instanceof File) return (img.name + img.size) !== id;
+        if (typeof img === 'string') return img !== id;
+        return (img.id ?? img.image ?? img.image_path ?? img.url) !== id;
+      }),
+    }));
   };
 
   return (
@@ -45,7 +67,7 @@ function RestaurantPhotos() {
 
       {/* image preview cards */}
       {images.length > 0 && (
-        <div className='grid grid-cols-5 gap-3 mb-3'>
+        <div className='grid grid-cols-5 gap-3 mb-3 mt-5'>
           {images.map((img) => (
             <div key={img.id} className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'>
               <img src={img.url} alt={img.name} className='w-full h-full object-cover' />

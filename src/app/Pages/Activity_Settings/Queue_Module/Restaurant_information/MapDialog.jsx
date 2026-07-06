@@ -45,36 +45,64 @@ function LocationPicker({ position, setPosition }) {
   ) : null;
 }
 
-export default function MapDialog({ open, handleClose, onConfirm }) {
+export default function MapDialog({ open, handleClose, onConfirm, formData }) {
   const { t } = useTranslation();
   const [mapPosition, setMapPosition] = useState([24.7136, 46.6753]); // Default: Riyadh
 
-  // Detect user's current location on open
+  // Detect user's current location or existing restaurant location on open
   useEffect(() => {
-    if (open && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setMapPosition([pos.coords.latitude, pos.coords.longitude]);
-        },
-        () => {},
-        { enableHighAccuracy: true }
-      );
+    if (open) {
+      if (formData?.latitude && formData?.longitude) {
+        setMapPosition([parseFloat(formData.latitude), parseFloat(formData.longitude)]);
+      } else if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            setMapPosition([pos.coords.latitude, pos.coords.longitude]);
+          },
+          () => {},
+          { enableHighAccuracy: true }
+        );
+      }
     }
-  }, [open]);
+  }, [open, formData?.latitude, formData?.longitude]);
 
-  const handleConfirm = async () => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${mapPosition[0]}&lon=${mapPosition[1]}`
-      );
-      const data = await response.json();
-      onConfirm?.(data.display_name || `${mapPosition[0].toFixed(5)}, ${mapPosition[1].toFixed(5)}`);
-    } catch (error) {
-      console.error("Error fetching address:", error);
-      onConfirm?.(`${mapPosition[0].toFixed(5)}, ${mapPosition[1].toFixed(5)}`);
-    }
-    handleClose();
-  };
+const handleConfirm = async () => {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${mapPosition[0]}&lon=${mapPosition[1]}&addressdetails=1&zoom=14`
+    );
+    const data = await response.json();
+    const addr = data.address || {};
+
+    onConfirm?.({
+      address: data.display_name || `${mapPosition[0].toFixed(5)}, ${mapPosition[1].toFixed(5)}`,
+      latitude: mapPosition[0],
+      longitude: mapPosition[1],
+      country: addr.country || '',
+      city:
+        addr.city ||
+        addr.town ||
+        addr.village ||
+        addr.municipality ||
+        addr.county ||
+        addr.state_district ||
+        addr.state ||
+        '',
+      area: addr.suburb || addr.neighbourhood || addr.quarter || addr.county || '',
+    });
+  } catch (error) {
+    console.error("Error fetching address:", error);
+    onConfirm?.({
+      address: `${mapPosition[0].toFixed(5)}, ${mapPosition[1].toFixed(5)}`,
+      latitude: mapPosition[0],
+      longitude: mapPosition[1],
+      country: '',
+      city: '',
+      area: '',
+    });
+  }
+  handleClose();
+};
 
   return (
     <Dialog
