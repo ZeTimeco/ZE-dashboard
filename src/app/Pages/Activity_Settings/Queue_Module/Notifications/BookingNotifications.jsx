@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function TableControl() {
+function BookingNotifications() {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -66,19 +66,37 @@ function TableControl() {
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
-        <p className='text-[#364152] text-base font-medium'>{t('Table Control')}</p>
+        <p className='text-[#364152] text-base font-medium'>{t('Booking notifications')}</p>
 
-        <div className='flex justify-between items-center mt-4'>
-          <div>
-            <p className='text-[#364152] text-sm font-normal'>{t('Allowing employees to block tables from their mobile phones')}</p>
-            <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Staff can mark tables as temporarily unavailable')}</p>
+        <div>
+          {/*  */}
+          <div className='flex justify-between items-center mt-4'>
+            <p className='text-[#364152] text-sm font-normal'>{t('Booking confirmation')}</p>
+            <p><GreenSwitch/></p>
           </div>
-          <p><GreenSwitch/></p>
+
+          <div className='border border-[#E3E8EF] my-3'></div>
+
+          {/*  */}
+          <div className='flex justify-between items-center mt-4'>
+            <p className='text-[#364152] text-sm font-normal'>{t('Reminder 24 hours before')}</p>
+            <p><GreenSwitch/></p>
+          </div>
+
+          <div className='border border-[#E3E8EF] my-3'></div>
+
+          {/*  */}
+          <div className='flex justify-between items-center mt-4'>
+            <p className='text-[#364152] text-sm font-normal'>{t('Reminder 1 hour before')}</p>
+            <p><GreenSwitch/></p>
+          </div>
+
         </div>
+
       </div>
 
     </>
   )
 }
 
-export default TableControl
+export default BookingNotifications
