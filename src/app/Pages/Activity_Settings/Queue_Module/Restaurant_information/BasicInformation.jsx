@@ -2,14 +2,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BasicInformation() {
+function BasicInformation({getRestaurantTypes}) {
   const {t} = useTranslation()
   // =========================
   const [open1, setOpen1] = useState(false);
   const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const option1 =['1','5']
+  const option1 =getRestaurantTypes?.data
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -90,19 +90,19 @@ function BasicInformation() {
             <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option1
                 ?.filter((opt) =>
-                  opt?.toLowerCase().includes(searchValue1.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                 )
                 .map((opt) => (
                   <li
-                    key={opt}
+                    key={opt?.id}
                     onClick={() => {
-                      setSelected1(opt);
+                      setSelected1(opt?.name);
                       setSearchValue1("");
                       setOpen1(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
               ))}
             </ul>

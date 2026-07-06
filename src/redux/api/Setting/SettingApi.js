@@ -182,3 +182,23 @@ export const AdvancedSetting = async(formData)=>{
   const response = await API.post('/provider/advanced-settings' , formData)
   return response.data
 }
+
+
+
+//---------------------------------------------------------------------------------------
+/* Queue_Module */
+
+export const getRestaurantTypes = async()=>{
+  const response = await API.get('/provider/restaurant/types')
+  return response.data
+}
+
+export const getRestaurantInformation = async()=>{
+  const response = await API.get('/provider/restaurant/profile')
+  return response.data
+}
+
+export const editRestaurantInformation = async(formData)=>{
+  const response = await API.post('/provider/restaurant/profile' , formData  )
+  return response.data
+}

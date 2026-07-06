@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -136,6 +136,8 @@ export const updateProfileImageThunk = createAsyncThunk('setting/updateProfileIm
 /***************************************************** */
 //******Activity_Settings
 
+
+//---------------------------------------------------------------------------------------
 /* Home-Car-Street_module */
 export const getPoliciesThunk = createAsyncThunk('setting/getPoliciesThunk' , 
   async(_ , {rejectWithValue})=>{
@@ -271,7 +273,7 @@ export const uploadDocumentThunk = createAsyncThunk('setting/uploadDocumentThunk
 )
 
 
-
+//---------------------------------------------------------------------------------------
 /* property_module */
 
 export const getBookingSettingThunk = createAsyncThunk('setting/getBookingSettingThunk',
@@ -363,6 +365,45 @@ export const AdvancedSettingThunk = createAsyncThunk('setting/AdvancedSettingThu
 )
 
 
+//---------------------------------------------------------------------------------------
+/* Queue_Module */
+
+export const getRestaurantTypesThunk = createAsyncThunk('setting/getRestaurantTypes',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getRestaurantTypes()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getRestaurantInformationThunk = createAsyncThunk('setting/getRestaurantInformation',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getRestaurantInformation()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const editRestaurantInformationThunk = createAsyncThunk('setting/editRestaurantInformation',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editRestaurantInformation(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
+
+
 const initialState ={
   success:false,
   loading: false,
@@ -406,6 +447,10 @@ const initialState ={
   RuleSetting:null,
   getAdvancedSetting:null,
   AdvancedSetting:null,
+
+
+  getRestaurantTypes:null,
+  getRestaurantInformation:null
 
 
 
@@ -859,6 +904,47 @@ const settingSlice = createSlice({
         state.AdvancedSetting = action.payload;
       })
       .addCase(AdvancedSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // ---------------------------------------------------------------------------------------
+
+      //getRestaurantTypesThunk
+      .addCase(getRestaurantTypesThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRestaurantTypesThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getRestaurantTypes = action.payload;
+      })
+      .addCase(getRestaurantTypesThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getRestaurantInformationThunk
+      .addCase(getRestaurantInformationThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRestaurantInformationThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getRestaurantInformation = action.payload;
+      })
+      .addCase(getRestaurantInformationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editRestaurantInformationThunk
+      .addCase(editRestaurantInformationThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editRestaurantInformationThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editRestaurantInformationThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
