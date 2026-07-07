@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -423,7 +423,49 @@ export const editBookingSettingsThunk = createAsyncThunk('setting/editBookingSet
   }
 )
 
+export const getWaitlistSettingsThunk = createAsyncThunk('setting/getWaitlistSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getWaitlistSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
+export const editWaitlistSettingsThunk = createAsyncThunk('setting/editWaitlistSettings',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editWaitlistSettings(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const getSeatingSettingsThunk = createAsyncThunk('setting/getSeatingSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getSeatingSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const editSeatingSettingsThunk = createAsyncThunk('setting/editSeatingSettings',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editSeatingSettings(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 const initialState ={
@@ -474,6 +516,9 @@ const initialState ={
   getRestaurantTypes:null,
   getRestaurantInformation:null,
   getBookingSettings:null,
+  getWaitlistSettings:null,
+  getSeatingSettings:null,
+
 
 
 
@@ -993,6 +1038,56 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(editBookingSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getWaitlistSettingsThunk
+      .addCase(getWaitlistSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getWaitlistSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getWaitlistSettings = action.payload;
+      })
+      .addCase(getWaitlistSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editWaitlistSettingsThunk
+      .addCase(editWaitlistSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editWaitlistSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editWaitlistSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getSeatingSettingsThunk
+      .addCase(getSeatingSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getSeatingSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getSeatingSettings = action.payload;
+      })
+      .addCase(getSeatingSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editSeatingSettingsThunk
+      .addCase(editSeatingSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editSeatingSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editSeatingSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

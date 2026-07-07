@@ -216,3 +216,23 @@ export const editBookingSettings = async(formData)=>{
   });
   return response.data;
 }
+
+export const getWaitlistSettings = async()=>{
+  const response = await API.get('/provider/restaurant/waitlist-settings')
+  return response.data
+}
+
+export const editWaitlistSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/waitlist-settings', formData);
+  return response.data;
+}
+
+export const getSeatingSettings = async()=>{
+  const response = await API.get('/provider/restaurant/seating-settings')
+  return response.data
+}
+
+export const editSeatingSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/seating-settings', formData);
+  return response.data;
+}

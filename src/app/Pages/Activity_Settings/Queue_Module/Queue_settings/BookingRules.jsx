@@ -2,12 +2,21 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BookingRules() {
+function BookingRules({formData , setFormData}) {
   const {t} = useTranslation() 
 
-  const [maxGuests, setMaxGuests] = useState(0);
-  const increaseMaxGuests = () => setMaxGuests((prev) => prev + 1);
-  const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
+  const increaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      waitlist_max_party_size: Number(prev.waitlist_max_party_size) + 1 
+    }))
+  };
+  const decreaseMaxGuests = () =>{
+    setFormData((prev)=>({
+      ...prev, 
+      waitlist_max_party_size : Number(prev.waitlist_max_party_size) - 1
+    }))
+  };
 
   
   return (
@@ -29,7 +38,7 @@ function BookingRules() {
 
             <div className=" mx-5">
               <p className="text-sm font-normal text-[#364152]">
-                {maxGuests}
+                {formData?.waitlist_max_party_size}
               </p>
             </div>
 

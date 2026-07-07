@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function WaitingTimeLogic() {
+function WaitingTimeLogic({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -99,7 +99,7 @@ function WaitingTimeLogic() {
                   placeholder={t("minute")}
                   value={
                     searchValue1 ||
-                    (selected1 ? `${selected1} ${t("minute")}` : "")
+                    (formData?.default_wait_minutes ? `${formData?.default_wait_minutes} ${t("minute")}` : "")
                   }
                   onChange={(e) => {
                     setSearchValue1(e.target.value);
@@ -129,6 +129,10 @@ function WaitingTimeLogic() {
                           setSelected1(opt);
                           setSearchValue1("");
                           setOpen1(false);
+                          setFormData((prev)=>({
+                            ...prev,
+                            default_wait_minutes:opt
+                          }))
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
@@ -145,7 +149,17 @@ function WaitingTimeLogic() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Allow manual overshoot of expected time')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.allow_manual_eta_adjust}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    allow_manual_eta_adjust : e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function NoShowRules() {
+function NoShowRules({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -99,7 +99,7 @@ function NoShowRules() {
                   placeholder={t("minute")}
                   value={
                     searchValue1 ||
-                    (selected1 ? `${selected1} ${t("minute")}` : "")
+                    (formData?.mark_no_show_after_minutes ? `${formData?.mark_no_show_after_minutes} ${t("minute")}` : "")
                   }
                   onChange={(e) => {
                     setSearchValue1(e.target.value);
@@ -126,9 +126,12 @@ function NoShowRules() {
                       <li
                         key={opt}
                         onClick={() => {
-                          setSelected1(opt);
                           setSearchValue1("");
                           setOpen1(false);
+                          setFormData((prev)=>({
+                            ...prev,
+                            mark_no_show_after_minutes:opt
+                          }))
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
@@ -145,7 +148,18 @@ function NoShowRules() {
           {/* Automatic removal from the list */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Automatic removal from the list')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.auto_remove_no_show}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    auto_remove_no_show : e.target.checked ? 1 : 0
+                  }))
+
+                }}
+              />
+            </p>
           </div>
           
         </div>

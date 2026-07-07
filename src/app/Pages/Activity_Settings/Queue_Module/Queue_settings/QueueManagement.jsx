@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function QueueManagement() {
+function QueueManagement({formData , setFormData}) {
   const {t} = useTranslation()
   
   const GreenSwitch = styled((props) => (
@@ -73,7 +73,18 @@ function QueueManagement() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Activate the waiting list')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.waitlist_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    waitlist_enabled:e.target.checked ? 1 : 0
+                  }))
+                }}
+              
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -81,7 +92,17 @@ function QueueManagement() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Allow direct access')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.allow_walk_in}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    allow_walk_in:e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
         </div>
       </div>

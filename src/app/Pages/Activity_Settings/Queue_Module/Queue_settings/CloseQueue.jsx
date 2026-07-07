@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function CloseQueue() {
+function CloseQueue({formData , setFormData}) {
     const {t} = useTranslation() 
     const GreenSwitch = styled((props) => (
     <Switch
@@ -74,7 +74,18 @@ function CloseQueue() {
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('The waiting list will close automatically when the restaurant closes.')}</p>
 
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.auto_close_waitlist_end_of_day}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    auto_close_waitlist_end_of_day : e.target.checked ? 1 : 0
+                  }))
+
+                }}
+            />
+          </p>
         </div>
 
       </div>
