@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -401,6 +401,28 @@ export const editRestaurantInformationThunk = createAsyncThunk('setting/editRest
   }
 )
 
+export const getBookingSettingsThunk = createAsyncThunk('setting/getBookingSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getBookingSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const editBookingSettingsThunk = createAsyncThunk('setting/editBookingSettings',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editBookingSettings(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -450,7 +472,8 @@ const initialState ={
 
 
   getRestaurantTypes:null,
-  getRestaurantInformation:null
+  getRestaurantInformation:null,
+  getBookingSettings:null,
 
 
 
@@ -945,6 +968,31 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(editRestaurantInformationThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getBookingSettingsThunk
+      .addCase(getBookingSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getBookingSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getBookingSettings = action.payload;
+      })
+      .addCase(getBookingSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editBookingSettingsThunk
+      .addCase(editBookingSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editBookingSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editBookingSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

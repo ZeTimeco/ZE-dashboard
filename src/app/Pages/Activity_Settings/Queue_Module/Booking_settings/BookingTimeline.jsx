@@ -2,11 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BookingTimeline() {
+function BookingTimeline({formData , setFormData}) {
   const {t} = useTranslation() 
   // =========================
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
   const option1 =['60' , '90' , '120', '180']
@@ -14,7 +13,6 @@ function BookingTimeline() {
 
   // =========================
   const [open2, setOpen2] = useState(false);
-  const [selected2, setSelected2] = useState(null);
   const [searchValue2, setSearchValue2] = useState("");
   const dropdownRef2 = useRef(null);
   const option2 =['10' , '15' , '20' , '30']
@@ -49,7 +47,7 @@ function BookingTimeline() {
                   placeholder={t("minute")}
                   value={
                     searchValue1 ||
-                    (selected1 ? `${selected1} ${t("minute")}` : "")
+                    (formData?.reservation_duration_minutes ? `${formData?.reservation_duration_minutes} ${t("minute")}` : "")
                   }
                   onChange={(e) => {
                     setSearchValue1(e.target.value);
@@ -76,9 +74,11 @@ function BookingTimeline() {
                       <li
                         key={opt}
                         onClick={() => {
-                          setSelected1(opt);
-                          setSearchValue1("");
                           setOpen1(false);
+                          setFormData((prev)=>({
+                            ...prev,
+                            reservation_duration_minutes:opt
+                          }))
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
@@ -105,7 +105,7 @@ function BookingTimeline() {
                   placeholder={t("minute")}
                   value={
                     searchValue2 ||
-                    (selected2 ? `${selected2} ${t("minute")}` : "")
+                    (formData?.gap_between_reservations_minutes ? `${formData?.gap_between_reservations_minutes} ${t("minute")}` : "")
                   }
                   onChange={(e) => {
                     setSearchValue2(e.target.value);
@@ -132,9 +132,12 @@ function BookingTimeline() {
                       <li
                         key={opt}
                         onClick={() => {
-                          setSelected2(opt);
                           setSearchValue2("");
                           setOpen2(false);
+                          setFormData((prev)=>({
+                            ...prev,
+                            gap_between_reservations_minutes:opt
+                          }))
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >

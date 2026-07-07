@@ -22,7 +22,6 @@ function Restaurant_informationPage() {
     dispatch(getRestaurantInformationThunk())
   },[dispatch])
 
-  console.log('getRestaurantInformation?.name' ,getRestaurantInformation?.name);
   const [formData , setFormData] = useState({
     restaurant_type_id:'',
     name:{ar:'' , en:''},
@@ -82,61 +81,61 @@ function Restaurant_informationPage() {
   }, [getRestaurantInformation , currentLang]);
 
 
-const handleSubmit = async () => {
+  const handleSubmit = async () => {
 
-  const data = new FormData();
+    const data = new FormData();
 
-  data.append("restaurant_type_id", formData.restaurant_type_id || "");
+    data.append("restaurant_type_id", formData.restaurant_type_id || "");
 
-  if (formData.name) {
-    data.append("name[ar]", formData?.name?.ar || "");
-    data.append("name[en]", formData?.name?.en || "");
-  }
-  if (formData.branch_name) {
-    data.append("branch_name[ar]", formData?.branch_name?.ar || "");
-    data.append("branch_name[en]", formData?.branch_name?.en || "");
-  }
-  if (formData.description) {
-    data.append("description[ar]", formData?.description?.ar || "");
-    data.append("description[en]", formData?.description?.en || "");
-  }
+    if (formData.name) {
+      data.append("name[ar]", formData?.name?.ar || "");
+      data.append("name[en]", formData?.name?.en || "");
+    }
+    if (formData.branch_name) {
+      data.append("branch_name[ar]", formData?.branch_name?.ar || "");
+      data.append("branch_name[en]", formData?.branch_name?.en || "");
+    }
+    if (formData.description) {
+      data.append("description[ar]", formData?.description?.ar || "");
+      data.append("description[en]", formData?.description?.en || "");
+    }
 
-  data.append("latitude",       formData?.latitude       || "");
-  data.append("longitude",      formData?.longitude      || "");
-  data.append("phone_landline", formData?.phone_landline || "");
-  data.append("phone_1",        formData?.phone_1        || "");
-  data.append("phone_2",        formData?.phone_2        || "");
-  data.append("whatsapp_phone", formData?.whatsapp_phone || "");
-  data.append("email",          formData?.email          || "");
-  data.append("country",        formData?.country        || "");
-  data.append("city",           formData?.city           || "");
-  data.append("area",           formData?.area           || "");
-  data.append("address",        formData?.address        || "");
-  data.append("status",         formData?.status         || "");
+    data.append("latitude",       formData?.latitude       || "");
+    data.append("longitude",      formData?.longitude      || "");
+    data.append("phone_landline", formData?.phone_landline || "");
+    data.append("phone_1",        formData?.phone_1        || "");
+    data.append("phone_2",        formData?.phone_2        || "");
+    data.append("whatsapp_phone", formData?.whatsapp_phone || "");
+    data.append("email",          formData?.email          || "");
+    data.append("country",        formData?.country        || "");
+    data.append("city",           formData?.city           || "");
+    data.append("area",           formData?.area           || "");
+    data.append("address",        formData?.address        || "");
+    data.append("status",         formData?.status         || "");
 
-  // Split images: existing ones (from API) go as existing_images[i] = id
-  //               new File objects go as images[i] = file
-  if (formData?.images && Array.isArray(formData?.images)) {
-    let newIndex = 0;
-    let existingIndex = 0;
-    formData?.images.forEach((img) => {
-      if (img instanceof File) {
-        data.append(`images[${newIndex}]`, img);
-        newIndex++;
-      } else if (img && typeof img === "object" && img.id) {
-        data.append(`existing_images[${existingIndex}]`, img.id);
-        existingIndex++;
-      }
-    });
-  }
+    // Split images: existing ones (from API) go as existing_images[i] = id
+    //               new File objects go as images[i] = file
+    if (formData?.images && Array.isArray(formData?.images)) {
+      let newIndex = 0;
+      let existingIndex = 0;
+      formData?.images.forEach((img) => {
+        if (img instanceof File) {
+          data.append(`images[${newIndex}]`, img);
+          newIndex++;
+        } else if (img && typeof img === "object" && img.id) {
+          data.append(`existing_images[${existingIndex}]`, img.id);
+          existingIndex++;
+        }
+      });
+    }
 
-  try {
-    await dispatch(editRestaurantInformationThunk(data)).unwrap();
-    dispatch(getRestaurantInformationThunk());
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+      await dispatch(editRestaurantInformationThunk(data)).unwrap();
+      dispatch(getRestaurantInformationThunk());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 
 

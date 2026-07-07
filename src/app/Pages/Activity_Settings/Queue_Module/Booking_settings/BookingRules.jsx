@@ -2,11 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BookingRules() {
+function BookingRules({formData , setFormData}) {
   const {t} = useTranslation() 
   // =========================
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
   const option1 =[ '3', '6' , '12' , '24']
@@ -20,14 +19,33 @@ function BookingRules() {
   }, []);
 
 
-const [minGuests, setMinGuests] = useState(0);
-const [maxGuests, setMaxGuests] = useState(0);
 
-const increaseMinGuests = () => setMinGuests((prev) => prev + 1);
-const decreaseMinGuests = () => setMinGuests((prev) => Math.max(0, prev - 1));
 
-const increaseMaxGuests = () => setMaxGuests((prev) => prev + 1);
-const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
+  const increaseMinGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      min_party_size:Number(prev.min_party_size) + 1
+    }))
+  }
+  const decreaseMinGuests = () =>{
+    setFormData((prev)=>({
+      ...prev,
+      min_party_size:Number(prev.min_party_size) - 1
+    }))
+  };
+
+  const increaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      max_party_size:Number(prev.max_party_size) + 1
+    }))
+  }
+  const decreaseMaxGuests = () =>{
+    setFormData((prev)=>({
+      ...prev, 
+      max_party_size:Number(prev.max_party_size) - 1
+    }))
+  }
 
   return (
     <>
@@ -47,7 +65,7 @@ const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
                 placeholder={t("an hour before")}
                 value={
                   searchValue1 ||
-                  (selected1 ? `${selected1} ${t("an hour before")}` : "")
+                  (formData?.booking_cutoff_minutes ? `${formData?.booking_cutoff_minutes} ${t("an hour before")}` : "")
                 }
                 onChange={(e) => {
                   setSearchValue1(e.target.value);
@@ -74,9 +92,13 @@ const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
                     <li
                       key={opt}
                       onClick={() => {
-                        setSelected1(opt);
                         setSearchValue1("");
                         setOpen1(false);
+                        setFormData((prev)=>({
+                          ...prev,
+                          booking_cutoff_minutes:opt
+
+                        }))
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
@@ -105,7 +127,7 @@ const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
 
             <div className=" mx-5">
               <p className="text-sm font-normal text-[#364152]">
-                {minGuests}
+                {formData?.min_party_size}
               </p>
             </div>
 
@@ -136,7 +158,7 @@ const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
 
             <div className=" mx-5">
               <p className="text-sm font-normal text-[#364152]">
-                {maxGuests}
+                {formData?.max_party_size}
               </p>
             </div>
 

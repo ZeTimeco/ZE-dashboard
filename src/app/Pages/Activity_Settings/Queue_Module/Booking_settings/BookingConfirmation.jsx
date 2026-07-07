@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function BookingConfirmation() {
+function BookingConfirmation({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -73,7 +73,21 @@ function BookingConfirmation() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Automatic booking confirmation')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.reservation_confirmation_mode === 'auto_confirm'}
+                onChange={(e)=>{
+                  if(e.target.checked){
+                    setFormData(
+                      (prev)=>({
+                        ...prev,
+                        reservation_confirmation_mode:'auto_confirm'
+                      })
+                    )
+                  }
+                }}
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -81,7 +95,21 @@ function BookingConfirmation() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Manual approval is required')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.reservation_confirmation_mode==='host_approval'}
+                onChange={(e)=>{
+                  if(e.target.checked){
+                    setFormData(
+                      (prev)=>({
+                        ...prev,
+                        reservation_confirmation_mode:'host_approval'
+                      })
+                    )
+                  }
+                }}
+              />
+            </p>
           </div>
         </div>
       </div>

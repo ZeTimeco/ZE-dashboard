@@ -2,11 +2,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function ModificationaAndCancellation() {
+function ModificationaAndCancellation({formData , setFormData}) {
   const {t} = useTranslation() 
   // =========================
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState(null);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
   const option1 =['2' , '6' , '12' , '24']
@@ -47,7 +46,7 @@ function ModificationaAndCancellation() {
                   placeholder={t("an hour before")}
                   value={
                     searchValue1 ||
-                    (selected1 ? `${selected1} ${t("an hour before")}` : "")
+                    (formData?.allow_modify_until_minutes ? `${formData?.allow_modify_until_minutes} ${t("an hour before")}` : "")
                   }
                   onChange={(e) => {
                     setSearchValue1(e.target.value);
@@ -74,9 +73,11 @@ function ModificationaAndCancellation() {
                       <li
                         key={opt}
                         onClick={() => {
-                          setSelected1(opt);
-                          setSearchValue1("");
                           setOpen1(false);
+                          setFormData((prev)=>({
+                            ...prev,
+                            allow_modify_until_minutes:opt
+                          }))
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
@@ -103,7 +104,7 @@ function ModificationaAndCancellation() {
                   placeholder={t("an hour before")}
                   value={
                     searchValue2 ||
-                    (selected2 ? `${selected2} ${t("an hour before")}` : "")
+                    (formData?.free_cancel_until_minutes ? `${formData?.free_cancel_until_minutes} ${t("an hour before")}` : "")
                   }
                   onChange={(e) => {
                     setSearchValue2(e.target.value);
@@ -130,9 +131,12 @@ function ModificationaAndCancellation() {
                       <li
                         key={opt}
                         onClick={() => {
-                          setSelected2(opt);
                           setSearchValue2("");
                           setOpen2(false);
+                          setFormData((prev)=>({
+                            ...prev,
+                            free_cancel_until_minutes:opt
+                          }))
                         }}
                         className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                       >
@@ -151,7 +155,14 @@ function ModificationaAndCancellation() {
             <p className='text-sm font-normal mb-1.5'>
               <span className='text-[#364152] '>{t('Policy text')} </span>
             </p>
-            <textarea
+            <textarea 
+              value={formData?.reservation_policy_text}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  reservation_policy_text: e.target.value,
+                }))
+              }
               placeholder={t("Free cancellation up to 24 hours before the booking date.")}
               className="w-full h-20 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
             />
