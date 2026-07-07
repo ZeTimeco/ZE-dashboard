@@ -1,14 +1,57 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './Header'
 import SeatingOptions from './SeatingOptions'
 import AutomaticControl from './AutomaticControl'
 import QR_Login from './QR_Login'
 import TableControl from './TableControl'
 import { useTranslation } from 'react-i18next'
+import { useDispatch, useSelector } from 'react-redux'
+import { editSeatingSettingsThunk, getSeatingSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function Seating_tablesPage() {
   const {t} = useTranslation()
+  const dispatch = useDispatch();
+  const {getSeatingSettings} = useSelector((state)=>state.setting)
+  useEffect(()=>{
+    dispatch(getSeatingSettingsThunk())
+  },[dispatch])
+
+  console.log('getSeatingSettings' , getSeatingSettings);
+
+  const [formData , setFormData] = useState({
+    seating_mode:'',
+    auto_suggest_table:1,
+    late_grace_minutes:'',
+    qr_checkin_enabled:1,
+    qr_manual_code_enabled:1,
+    staff_table_control_mobile:1,
+  })
+
+  useEffect(() => {
+    if (getSeatingSettings) {
+      setFormData({
+        seating_mode: getSeatingSettings.seating_mode ?? "",
+        auto_suggest_table: getSeatingSettings.auto_suggest_table ?? true,
+        late_grace_minutes: getSeatingSettings.late_grace_minutes ?? "",
+        qr_checkin_enabled: getSeatingSettings.qr_checkin_enabled ?? true,
+        qr_manual_code_enabled: getSeatingSettings.qr_manual_code_enabled ?? true,
+        staff_table_control_mobile:
+          getSeatingSettings.staff_table_control_mobile ?? true,
+      });
+    }
+  }, [getSeatingSettings]);
+
+  const handleSubmit = async ()=>{
+    try{
+      await dispatch(editSeatingSettingsThunk(formData)).unwrap()
+      await dispatch(getSeatingSettings())
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+
   return (
     <>
 
@@ -18,12 +61,12 @@ function Seating_tablesPage() {
           </div>
     
           <div className='p-6 flex flex-col gap-4'>
-            <SeatingOptions/>
-            <AutomaticControl/>
-            <QR_Login/>
-            <TableControl/>
+            <SeatingOptions formData={formData} setFormData={setFormData} />
+            <AutomaticControl formData={formData} setFormData={setFormData}/>
+            <QR_Login formData={formData} setFormData={setFormData}/>
+            <TableControl formData={formData} setFormData={setFormData}/>
         
-            <button className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
+            <button onClick={handleSubmit} className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
             {t('Save changes')}
           </button>
           </div>

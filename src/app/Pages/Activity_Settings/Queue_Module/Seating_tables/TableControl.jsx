@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function TableControl() {
+function TableControl({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -73,7 +73,17 @@ function TableControl() {
             <p className='text-[#364152] text-sm font-normal'>{t('Allowing employees to block tables from their mobile phones')}</p>
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Staff can mark tables as temporarily unavailable')}</p>
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.staff_table_control_mobile}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  staff_table_control_mobile: e.target.checked ? 1 : 0
+                }))
+              }}
+            />
+          </p>
         </div>
       </div>
 

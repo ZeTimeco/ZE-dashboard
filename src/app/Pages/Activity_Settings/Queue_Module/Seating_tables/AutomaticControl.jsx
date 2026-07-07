@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function AutomaticControl() {
+function AutomaticControl({formData , setFormData}) {
   const {t} = useTranslation() 
   const GreenSwitch = styled((props) => (
   <Switch
@@ -89,7 +89,17 @@ function AutomaticControl() {
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('The system suggests the best match from the waiting list.')}</p>
 
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.auto_suggest_table}
+              onChange={(e)=>
+                setFormData((prev)=>({
+                  ...prev,
+                  auto_suggest_table: e.target.checked ? 1 : 0
+                }))
+              }
+            />
+          </p>
         </div>
 
         <div className='border border-[#E3E8EF] my-3'></div>
@@ -107,7 +117,7 @@ function AutomaticControl() {
                 placeholder={t("minute")}
                 value={
                   searchValue1 ||
-                  (selected1 ? `${selected1} ${t("minute")}` : "")
+                  (formData?.late_grace_minutes ? `${formData?.late_grace_minutes} ${t("minute")}` : "")
                 }
                 onChange={(e) => {
                   setSearchValue1(e.target.value);
@@ -134,9 +144,12 @@ function AutomaticControl() {
                     <li
                       key={opt}
                       onClick={() => {
-                        setSelected1(opt);
                         setSearchValue1("");
                         setOpen1(false);
+                        setFormData((prev)=>({
+                          ...prev,
+                          late_grace_minutes:opt
+                        }))
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >

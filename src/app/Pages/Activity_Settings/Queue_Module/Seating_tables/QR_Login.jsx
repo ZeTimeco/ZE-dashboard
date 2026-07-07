@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function QR_Login() {
+function QR_Login({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -72,7 +72,17 @@ function QR_Login() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Scanning the QR code is required to sit down.')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.qr_checkin_enabled}
+                onChange={(e)=>
+                  setFormData((prev)=>({
+                    ...prev,
+                    qr_checkin_enabled:e.target.checked ? 1 : 0
+                  }))
+                }
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -80,7 +90,17 @@ function QR_Login() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Allow manual code entry')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.qr_manual_code_enabled}
+                onChange={(e)=>
+                  setFormData((prev)=>({
+                    ...prev,
+                    qr_manual_code_enabled: e.target.checked ? 1 : 0
+                  }))
+                }
+              />
+            </p>
           </div>
         </div>
 

@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 
-function SeatingOptions() {
+function SeatingOptions({formData , setFormData}) {
   const {t} = useTranslation() 
 
     const GreenSwitch = styled((props) => (
@@ -72,7 +72,19 @@ function SeatingOptions() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('The customer chooses the table.')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.seating_mode==='manual'}
+                onChange={(e)=>{
+                  if(e.target.checked){
+                    setFormData((prev)=>({
+                      ...prev,
+                      seating_mode:'manual'
+                    }))
+                  }
+                }}
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -80,7 +92,19 @@ function SeatingOptions() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('The restaurant assigns the table.')}</p>
-            <p><GreenSwitch/></p>
+              <p>
+              <GreenSwitch
+                checked={formData?.seating_mode==='auto_assign'}
+                onChange={(e)=>{
+                  if(e.target.checked){
+                    setFormData((prev)=>({
+                      ...prev,
+                      seating_mode:'auto_assign'
+                    }))
+                  }
+                }}
+              />
+            </p>
           </div>
         </div>
 
