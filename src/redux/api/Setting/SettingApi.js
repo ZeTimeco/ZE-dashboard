@@ -236,3 +236,18 @@ export const editSeatingSettings = async(formData)=>{
   const response = await API.post('/provider/restaurant/seating-settings', formData);
   return response.data;
 }
+
+export const getRestaurantViews = async()=>{
+  const response = await API.get('/provider/restaurant/Views')
+  return response.data
+}
+
+export const getFloorplanSettings = async()=>{
+  const response = await API.get('/provider/restaurant/floorplan-settings')
+  return response.data
+}
+
+export const editFloorplanSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/floorplan-settings', formData);
+  return response.data;
+}

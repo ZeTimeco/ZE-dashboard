@@ -17,7 +17,6 @@ function Seating_tablesPage() {
     dispatch(getSeatingSettingsThunk())
   },[dispatch])
 
-  console.log('getSeatingSettings' , getSeatingSettings);
 
   const [formData , setFormData] = useState({
     seating_mode:'',
