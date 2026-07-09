@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material';
 
-function HallManagement() {
+function HallManagement({formData , setFormData}) {
   const {t} = useTranslation() 
   const GreenSwitch = styled((props) => (
   <Switch
@@ -74,7 +74,18 @@ function HallManagement() {
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Activate this option if your restaurant has multiple seating areas.')}</p>
 
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.multi_halls_enabled}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  multi_halls_enabled: e.target.checked ? 1 : 0
+                }))
+
+              }}
+            />
+          </p>
         </div>
       </div>
 

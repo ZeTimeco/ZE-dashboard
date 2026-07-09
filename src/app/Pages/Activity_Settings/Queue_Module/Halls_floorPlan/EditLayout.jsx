@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function EditLayout() {
+function EditLayout({formData , setFormData}) {
   const {t} = useTranslation() 
   
   const GreenSwitch = styled((props) => (
@@ -65,10 +65,14 @@ function EditLayout() {
 
   //=======================================
   const [open1, setOpen1] = useState(false);
-  const [selected1, setSelected1] = useState(null);
-  const [searchValue1, setSearchValue1] = useState("");
+  const [selected1, setSelected1] = useState([]);
+
   const dropdownRef1 = useRef(null);
-  const option1 =['q' , 'dq', 'd']
+  const option1 =[
+    {name:t('manager') , value:'manager'},
+    {name:t('staff') , value:'staff'},
+    {name:t('receptionist') , value:'receptionist'},
+  ]
   
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -77,7 +81,6 @@ function EditLayout() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
 
   return (
     <>
@@ -91,64 +94,124 @@ function EditLayout() {
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Save the plans as a draft before publishing')}</p>
 
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.floor_plan_edit_enabled}
+              onChange={(e)=>{
+                setFormData(((prev)=>({
+                  ...prev,
+                  floor_plan_edit_enabled: e.target.checked ? 1 : 0
+                })))
+              }}
+            />
+          </p>
         </div>
 
         <div className='border border-[#E3E8EF] my-3'></div>
 
         {/*  */}
-        <div className='flex justify-between items-center mt-4 w-full'>
-          <p className='text-[#364152] text-sm font-normal w-[85%]'>{t('Who can modify the plan?')}</p>
-          <div className="relative w-[15%]" ref={dropdownRef1}>
-            <div
-              className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer"
-              onClick={() => setOpen1(!open1)}
-            >
-              <input
-                type="text"
-                placeholder={t("minute")}
-                value={
-                  searchValue1 ||
-                  (selected1 ? `${selected1}` : "")
-                }
-                onChange={(e) => {
-                  setSearchValue1(e.target.value);
-                  setOpen1(true);
-                }}
-                className=" p-3 w-full text-sm text-[#364152] focus:outline-none"
-              />
+    {/* Who can modify the plan? */}
+<div className="flex justify-between items-center mt-4 w-full">
+  <p className="text-[#364152] text-sm font-normal w-[50%]">
+    {t("Who can modify the plan?")}
+  </p>
 
-              <span className="absolute left-3 cursor-pointer">
-                {open1 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
-                ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
-                )}
+  <div className="relative w-[35%]" ref={dropdownRef1}>
+    {/* Trigger */}
+    <div
+      className="relative min-h-8 flex flex-wrap items-center gap-1 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer px-2 py-1"
+      onClick={() => setOpen1(!open1)}
+    >
+      {formData.who_can_edit_floor_plan.length > 0 ? (
+        formData.who_can_edit_floor_plan.map((val) => {
+          const item = option1.find((o) => o.value === val);
+
+          return (
+            <span
+              key={val}
+              className="flex items-center gap-1 bg-[#EEF2FF] text-[#364152] text-xs rounded px-1.5 py-0.5"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {item?.name || val}
+
+              <button
+                type="button"
+                className="text-[#364152] hover:text-red-500 leading-none"
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  setFormData((prev) => ({
+                    ...prev,
+                    who_can_edit_floor_plan:
+                      prev.who_can_edit_floor_plan.filter(
+                        (v) => v !== val
+                      ),
+                  }));
+                }}
+              >
+                ×
+              </button>
+            </span>
+          );
+        })
+      ) : (
+        <span className="text-sm text-[#9AA4B2] w-full">
+          {t("Who can modify the plan?")}
+        </span>
+      )}
+
+      <span className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none">
+        {open1 ? (
+          <img src="/images/icons/ArrowUp.svg" alt="up" />
+        ) : (
+          <img src="/images/icons/ArrowDown.svg" alt="down" />
+        )}
+      </span>
+    </div>
+
+    {/* Dropdown */}
+    {open1 && (
+      <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+        {option1.map((opt) => {
+          const isChecked =
+            formData.who_can_edit_floor_plan.includes(opt.value);
+
+          return (
+            <li
+              key={opt.value}
+              onClick={(e) => {
+                e.stopPropagation();
+
+                setFormData((prev) => ({
+                  ...prev,
+                  who_can_edit_floor_plan: isChecked
+                    ? prev.who_can_edit_floor_plan.filter(
+                        (v) => v !== opt.value
+                      )
+                    : [
+                        ...prev.who_can_edit_floor_plan,
+                        opt.value,
+                      ],
+                }));
+              }}
+              className={`flex items-center justify-between p-3 hover:bg-[#F5F5F5] cursor-pointer ${
+                isChecked ? "bg-[#F0F4FF]" : ""
+              }`}
+            >
+              <span className="text-sm text-[#364152]">
+                {opt.name}
               </span>
-            </div>
-            {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {option1
-                  ?.filter((opt) =>
-                    opt?.toLowerCase().includes(searchValue1.toLowerCase())
-                  )
-                  .map((opt) => (
-                    <li
-                      key={opt}
-                      onClick={() => {
-                        setSelected1(opt);
-                        setSearchValue1("");
-                        setOpen1(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {opt}
-                    </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>    
+
+              {isChecked && (
+                <img src="/images/icons/xx.svg" alt="selected" />
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </div>
+</div>
       
       
       </div>

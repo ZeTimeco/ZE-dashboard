@@ -251,3 +251,23 @@ export const editFloorplanSettings = async(formData)=>{
   const response = await API.post('/provider/restaurant/floorplan-settings', formData);
   return response.data;
 }
+
+export const addTags = async(formData)=>{
+  const response = await API.post('/provider/Tag', formData);
+  return response.data;
+}
+
+export const deleteTags = async(id)=>{
+  const response = await API.delete(`/provider/Tag/${id}`);
+  return response.data;
+}
+
+export const getNotificationSettings = async()=>{
+  const response = await API.get('/provider/restaurant/notification-settings')
+  return response.data
+}
+
+export const editNotificationSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/notification-settings', formData);
+  return response.data;
+}

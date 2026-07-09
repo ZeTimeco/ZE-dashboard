@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Header from './Header'
 import EditLayout from './EditLayout'
@@ -7,18 +7,45 @@ import Views_Aspects from './Views_Aspects'
 import HallManagement from './HallManagement'
 import DefaultSettings from './DefaultSettings'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRestaurantViewsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { editFloorplanSettingsThunk, getFloorplanSettingsThunk, getRestaurantViewsThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function Halls_floorPlanPage() {
     const {t} = useTranslation() 
     const dispatch = useDispatch()
-    const {getRestaurantViews} = useSelector((state)=>state.setting)
-
+    const {getRestaurantViews , getFloorplanSettings} = useSelector((state)=>state.setting)
+    const getFloorplanSettingsData = getFloorplanSettings?.data
     useEffect(()=>{
       dispatch(getRestaurantViewsThunk())
+      dispatch(getFloorplanSettingsThunk())
     },[dispatch])
 
-    console.log('getRestaurantViews' , getRestaurantViews);
+
+    const [formData , setFormData] = useState({
+        'who_can_edit_floor_plan':[],
+        'multi_halls_enabled':1,
+        'floor_plan_edit_enabled':1
+    })
+
+    useEffect(() => {
+      if (getFloorplanSettingsData) {
+        setFormData({
+          who_can_edit_floor_plan: getFloorplanSettingsData.who_can_edit_floor_plan ?? [],
+          multi_halls_enabled: getFloorplanSettingsData.multi_halls_enabled ?? 1,
+          floor_plan_edit_enabled: getFloorplanSettingsData.floor_plan_edit_enabled ?? 1,
+        });
+      }
+    }, [getFloorplanSettings]);
+
+      const handleSubmit = async ()=>{
+    try{
+      await dispatch(editFloorplanSettingsThunk(formData)).unwrap()
+      await dispatch(getFloorplanSettingsThunk())
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  console.log('*/',getFloorplanSettings);
   
   return (
     <>
@@ -29,12 +56,12 @@ function Halls_floorPlanPage() {
           </div>
     
           <div className='p-6 flex flex-col gap-4'>
-            <HallManagement/>
-            <Views_Aspects getRestaurantViews={getRestaurantViews}/>
-            <EditLayout/>
-            <DefaultSettings/>
+            <HallManagement formData={formData} setFormData={setFormData} />
+            <Views_Aspects getRestaurantViews={getRestaurantViews} formData={formData} setFormData={setFormData}/>
+            <EditLayout formData={formData} setFormData={setFormData} />
+            <DefaultSettings getFloorplanSettings={getFloorplanSettings} formData={formData} setFormData={setFormData}/>
         
-            <button className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
+            <button onClick={handleSubmit} className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
             {t('Save changes')}
           </button>
           </div>

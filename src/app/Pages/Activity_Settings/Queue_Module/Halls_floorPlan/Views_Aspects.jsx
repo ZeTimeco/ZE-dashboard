@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
 
-function Views_Aspects({getRestaurantViews}) {
+function Views_Aspects({getRestaurantViews , formData , setFormData}) {
   const {t} = useTranslation() 
   const router = useRouter()
   

@@ -2,7 +2,7 @@ import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function AddDialog({open , setOpen}) {
+function AddDialog({open , setOpen , handleAddTag , dataSend , setDataSend , currentLang}) {
   const {t} = useTranslation()
   return (
     <>
@@ -37,6 +37,16 @@ function AddDialog({open , setOpen}) {
             <input 
               type="text"
               name='title'
+              value={dataSend.name[currentLang]}
+              onChange={(e) =>
+                setDataSend((prev) => ({
+                  ...prev,
+                  name: {
+                    ...prev.name,
+                    [currentLang]: e.target.value,
+                  },
+                }))
+              }
               placeholder={t("Tag name / logo")}
               className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
             />
@@ -50,7 +60,7 @@ function AddDialog({open , setOpen}) {
           <button onClick={()=>setOpen(false)} className='w-full border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
             {t('cancel')}
           </button>
-          <button   className=' w-full bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          <button onClick={handleAddTag}  className=' w-full bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
             {t('save')}
           </button>
           
