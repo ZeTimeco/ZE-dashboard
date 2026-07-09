@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function BookingNotifications() {
+function BookingNotifications({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -72,7 +72,17 @@ function BookingNotifications() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Booking confirmation')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.notify_reservation_confirmed_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    notify_reservation_confirmed_enabled:e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -80,7 +90,17 @@ function BookingNotifications() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Reminder 24 hours before')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.notify_reminder_24h_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    notify_reminder_24h_enabled:e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -88,7 +108,17 @@ function BookingNotifications() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Reminder 1 hour before')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.notify_reminder_1h_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    notify_reminder_1h_enabled:e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
 
         </div>

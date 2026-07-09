@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function ProviderAlerts() {
+function ProviderAlerts({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -75,7 +75,17 @@ function ProviderAlerts() {
               <p className='text-[#364152] text-sm font-normal'>{t('Overbooking alert')}</p>
               <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Alert when bookings exceed capacity')}</p>
             </div>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.notify_overload_booking_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    notify_overload_booking_enabled: e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -86,7 +96,17 @@ function ProviderAlerts() {
               <p className='text-[#364152] text-sm font-normal'>{t('Long wait alert')}</p>
               <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Alert when the waiting time exceeds 45 minutes')}</p>
             </div>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.notify_long_waiting_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    notify_long_waiting_enabled: e.target.checked ? 1 : 0 
+                  }))
+                }}
+              />
+            </p>
           </div>
 
         </div>

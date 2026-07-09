@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function QueueingListNotifications() {
+function QueueingListNotifications({formData , setFormData}) {
   const {t} = useTranslation() 
 
   const GreenSwitch = styled((props) => (
@@ -72,7 +72,17 @@ function QueueingListNotifications() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('The table is ready')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.notify_waitlist_table_ready_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    notify_waitlist_table_ready_enabled: e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
 
           <div className='border border-[#E3E8EF] my-3'></div>
@@ -80,7 +90,17 @@ function QueueingListNotifications() {
           {/*  */}
           <div className='flex justify-between items-center mt-4'>
             <p className='text-[#364152] text-sm font-normal'>{t('Expected time updates')}</p>
-            <p><GreenSwitch/></p>
+            <p>
+              <GreenSwitch
+                checked={formData?.notify_refresh_waiting_time_enabled}
+                onChange={(e)=>{
+                  setFormData((prev)=>({
+                    ...prev,
+                    notify_refresh_waiting_time_enabled: e.target.checked ? 1 : 0
+                  }))
+                }}
+              />
+            </p>
           </div>
 
         </div>
