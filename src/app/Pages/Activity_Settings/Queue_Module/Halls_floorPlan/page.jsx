@@ -36,16 +36,22 @@ function Halls_floorPlanPage() {
       }
     }, [getFloorplanSettings]);
 
-      const handleSubmit = async ()=>{
-    try{
-      await dispatch(editFloorplanSettingsThunk(formData)).unwrap()
-      await dispatch(getFloorplanSettingsThunk())
-    }catch(error){
-      console.log(error);
+    const [loading, setLoading] = useState(false);
+    const handleSubmit = async ()=>{
+      setLoading(true);
+      try{
+        await dispatch(editFloorplanSettingsThunk(formData)).unwrap()
+        await dispatch(getFloorplanSettingsThunk())
+        alert(t('Restaurant information updated successfully.'));
+      }catch(error){
+        console.log(error);
+        alert(error?.message || "Something went wrong.");
+      } finally {
+        setLoading(false);
     }
-  }
+    }
 
-  console.log('*/',getFloorplanSettings);
+  // console.log('*/',getFloorplanSettings);
   
   return (
     <>
@@ -61,8 +67,17 @@ function Halls_floorPlanPage() {
             <EditLayout formData={formData} setFormData={setFormData} />
             <DefaultSettings getFloorplanSettings={getFloorplanSettings} formData={formData} setFormData={setFormData}/>
         
-            <button onClick={handleSubmit} className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
-            {t('Save changes')}
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className={`w-[30%] h-14 rounded-[3px] text-white transition
+              ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[var(--color-primary)] cursor-pointer"
+              }`}
+          >
+            {loading ? t("Saving...") : t("Save changes")}
           </button>
           </div>
     

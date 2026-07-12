@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function NoShowFees() {
+function NoShowFees({formData,setFormData}) {
   const {t} = useTranslation() 
 
     const GreenSwitch = styled((props) => (
@@ -75,7 +75,17 @@ function NoShowFees() {
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Retain the deposit in case the client does not attend')}</p>
 
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.no_show_fee_enabled}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  no_show_fee_enabled: e.target.checked ? 1 : 0
+                }))
+              }}
+            />
+          </p>
         </div>
 
       </div>

@@ -80,9 +80,10 @@ function Restaurant_informationPage() {
     }
   }, [getRestaurantInformation , currentLang]);
 
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-
+    setLoading(true);
     const data = new FormData();
 
     data.append("restaurant_type_id", formData.restaurant_type_id || "");
@@ -132,8 +133,12 @@ function Restaurant_informationPage() {
     try {
       await dispatch(editRestaurantInformationThunk(data)).unwrap();
       dispatch(getRestaurantInformationThunk());
+      alert(t('Restaurant information updated successfully.'));
     } catch (error) {
-      console.log(error);
+        console.log(error);
+        alert(error?.message || "Something went wrong.");
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -155,12 +160,18 @@ function Restaurant_informationPage() {
 
 
 
-        <button 
+        <button
           onClick={handleSubmit}
-          className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'
+          disabled={loading}
+          className={`w-[30%] h-14 rounded-[3px] text-white transition
+            ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[var(--color-primary)] cursor-pointer"
+            }`}
         >
-        {t('Save changes')}
-      </button>
+          {loading ? t("Saving...") : t("Save changes")}
+        </button>
       </div>
 
       

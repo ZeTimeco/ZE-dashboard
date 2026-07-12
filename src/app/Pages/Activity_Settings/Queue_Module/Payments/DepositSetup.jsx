@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DepositSetup() {
+function DepositSetup({formData,setFormData}) {
   const {t} = useTranslation() 
     
     const GreenSwitch = styled((props) => (
@@ -68,7 +68,9 @@ function DepositSetup() {
     const [selected1, setSelected1] = useState(null);
     const [searchValue1, setSearchValue1] = useState("");
     const dropdownRef1 = useRef(null);
-    const option1 =['q' , 'dq', 'd']
+    const option1 =[
+      {name:t('fixed') , value:'fixed'}
+    ]
     
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -81,8 +83,18 @@ function DepositSetup() {
 
     const [amount, setAmount] = useState(0);
     
-    const increaseAmount = () => setAmount((prev) => prev + 1);
-    const decreaseAmount = () => setAmount((prev) => Math.max(0, prev - 1));
+    const increaseAmount = () => {
+      setFormData((prev)=>({
+        ...prev,
+        deposit_value:Number(prev.deposit_value) + 1
+      }))
+    };
+    const decreaseAmount = () =>{
+      setFormData((prev)=>({
+        ...prev,
+        deposit_value:Number(prev.deposit_value) - 1
+      }))
+    };
     
   
   return (
@@ -103,7 +115,7 @@ function DepositSetup() {
                 placeholder={t("Type")}
                 value={
                   searchValue1 ||
-                  (selected1 ? `${selected1}` : "")
+                  option1.find((item) => item.value === formData.deposit_type)?.name || ""
                 }
                 onChange={(e) => {
                   setSearchValue1(e.target.value);
@@ -124,19 +136,23 @@ function DepositSetup() {
               <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
                 {option1
                   ?.filter((opt) =>
-                    opt?.toLowerCase().includes(searchValue1.toLowerCase())
+                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                   )
                   .map((opt) => (
                     <li
-                      key={opt}
+                      key={opt?.value}
                       onClick={() => {
-                        setSelected1(opt);
+                        setSelected1(opt?.name);
                         setSearchValue1("");
                         setOpen1(false);
+                        setFormData((prev)=>({
+                          ...prev,
+                          deposit_type:opt?.value
+                        }))
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
-                      {opt}
+                      {opt?.name}
                     </li>
                 ))}
               </ul>
@@ -162,7 +178,7 @@ function DepositSetup() {
 
             <div className=" mx-5">
               <p className="text-sm font-normal text-[#364152]">
-                {amount}
+                {formData?.deposit_value}
               </p>
             </div>
 
@@ -186,7 +202,17 @@ function DepositSetup() {
           <div>
             <p className='text-[#364152] text-sm font-normal'>{t('Applying the deposit to the invoice')}</p>
           </div>
-          <p><GreenSwitch/></p>
+          <p>
+            <GreenSwitch
+              checked={formData?.apply_deposit_to_invoice}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  apply_deposit_to_invoice:e.target.checked ? 1 : 0
+                }))
+              }}
+            />
+          </p>
         </div>
 
         

@@ -41,12 +41,18 @@ function Seating_tablesPage() {
     }
   }, [getSeatingSettings]);
 
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async ()=>{
+    setLoading(true);
     try{
       await dispatch(editSeatingSettingsThunk(formData)).unwrap()
-      await dispatch(getSeatingSettings())
+      await dispatch(getSeatingSettingsThunk())
+      alert(t('Restaurant information updated successfully.'));
     }catch(error){
       console.log(error);
+      alert(error?.message || "Something went wrong.");
+    } finally {
+        setLoading(false);
     }
   }
 
@@ -65,9 +71,18 @@ function Seating_tablesPage() {
             <QR_Login formData={formData} setFormData={setFormData}/>
             <TableControl formData={formData} setFormData={setFormData}/>
         
-            <button onClick={handleSubmit} className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
-            {t('Save changes')}
-          </button>
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className={`w-[30%] h-14 rounded-[3px] text-white transition
+            ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[var(--color-primary)] cursor-pointer"
+            }`}
+        >
+          {loading ? t("Saving...") : t("Save changes")}
+        </button>
           </div>
     
           
