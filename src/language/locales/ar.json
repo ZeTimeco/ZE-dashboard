@@ -1371,6 +1371,9 @@
   "Opening Hours":"ساعات العمل",
   "Hidden Dates":"التواريخ المحجوبة",
   "Hidden Tables":"حجب الطاولات",
+  "Allowing tables to be temporarily blocked":"السماح بحجب الطاولات مؤقتاً",
+  "Employees can temporarily block access to certain tables.":"يمكن للموظفين حجب طاولات معينة مؤقتاً",
+  "Add hidden date":"إضافة تاريخ محجوب",
   
 
 
