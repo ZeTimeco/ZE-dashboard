@@ -1,12 +1,14 @@
 
 
 "use client"
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function WaitingListPage({getWaitlist}) {
   const{t}  = useTranslation()
   const getWaitlistData = getWaitlist?.data
+  const router = useRouter()
 
   return (
   <>
@@ -17,7 +19,9 @@ function WaitingListPage({getWaitlist}) {
           {t('waiting list')}
         </p>
 
-        <button className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
+        <button 
+          onClick={()=>router.push(`/Pages/Pending_List`)}
+          className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
           {t('More')}
         </button>
       </div>

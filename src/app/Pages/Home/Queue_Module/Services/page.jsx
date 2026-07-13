@@ -28,7 +28,7 @@ function ServicesPage() {
         <WaitingListPage getWaitlist={getWaitlist}/>
       </div>
 
-      <QuickProceduresPage/>
+      <QuickProceduresPage getcounters={getcounters}/>
 
     </MainLayout>
   )

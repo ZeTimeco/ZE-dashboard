@@ -1,9 +1,14 @@
 "use client"
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import AddPage from '@/app/Pages/Pending_List/Add/page'
 
-function QuickProceduresPage() {
+function QuickProceduresPage({getcounters}) {
   const {t} = useTranslation()
+  const router = useRouter()
+  const [openAdd, setOpenAdd] = useState(false)
+
   return (
     <>
 
@@ -11,27 +16,41 @@ function QuickProceduresPage() {
       <p className='text-[#364152] text-xl font-medium mb-4'>{t('Quick procedures')}</p>
 
       <div className='grid grid-cols-4 gap-4'>
-        <button className='group  flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'>
+        <button   
+          onClick={()=>router.push(`/Pages/Menus`)} 
+          className='group  flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'
+        >
           <img src="/images/icons/menu-square.svg" alt="" className='w-6 h-8' />
           <p className='text-[#2C2C2C] text-base font-normal group-hover:text-[var(--color-primary)] group-active:text-[var(--color-primary)] transition duration-200'>{t('Menu and Prices')}</p>
         </button>
 
-        <button className='group flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'>
+        <button   
+          onClick={()=>router.push(`/Pages/Halls/Views/Layout?id=${getcounters?.main_hall_id}`)} 
+          className='group  flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'
+        >         
           <img src="/images/icons/restaurant-yellow.svg" alt="" className='w-8 h-8' />
           <p className='text-[#2C2C2C] text-base font-normal group-hover:text-[var(--color-primary)] group-active:text-[var(--color-primary)] transition duration-200'>{t('Hall layout')}</p>
         </button>
 
-        <button className='group flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'>
+        <button   
+          onClick={()=>setOpenAdd(true)} 
+          className='group  flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'
+        >
           <img src="/images/icons/add-circle.svg" alt="" className='w-6 h-8' />
           <p className='text-[#2C2C2C] text-base font-normal group-hover:text-[var(--color-primary)] group-active:text-[var(--color-primary)] transition duration-200'>{t('Add booking')}</p>
         </button>
 
-        <button className='group flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'>
+        <button   
+          onClick={()=>router.push(`/Pages/Halls/Hall`)} 
+          className='group  flex flex-col gap-2 border border-[#E4E7EC] rounded-[3px] p-4 items-center hover:border-[var(--color-primary)] transition duration-200 active:border-[var(--color-primary)] cursor-pointer'
+        >
           <img src="/images/icons/dish-yellow.svg" alt="" className='w-6 h-8' />
           <p className='text-[#2C2C2C] text-base font-normal group-hover:text-[var(--color-primary)] group-active:text-[var(--color-primary)] transition duration-200'>{t('Halls')}</p>
         </button>
       </div>
     </div>
+
+    <AddPage open={openAdd} setOpen={setOpenAdd} />
     </>
   )
 }

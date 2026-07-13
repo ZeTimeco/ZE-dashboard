@@ -1,10 +1,15 @@
 "use client"
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import DetailsPage from '@/app/Pages/requests/Queue_Module/Dialog/Details/page'
 
 function UpcomingBookingsPage({getUpcoming}) {
   const{t}  = useTranslation()
   const getUpcomingData = getUpcoming?.data
+  const router = useRouter()
+  const [openDetails, setOpenDetails] = useState(false)
+  const [selectedReservation, setSelectedReservation] = useState(null)
 
   return (
   <>
@@ -16,7 +21,9 @@ function UpcomingBookingsPage({getUpcoming}) {
           {t('Upcoming bookingss')}
         </p>
 
-        <button className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
+        <button 
+          onClick={()=>router.push(`/Pages/requests/Queue_Module`)}
+          className='flex gap-2 mt-1 cursor-pointer text-[var(--color-primary)] text-base font-normal'>
           {t('More')}
         </button>
       </div>
@@ -31,8 +38,7 @@ function UpcomingBookingsPage({getUpcoming}) {
 
             <p className='w-10 h-10 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] rounded-[3px] flex items-center justify-center'>
               <span className='text-[#FCFCFD] text-base font-normal'>
-                {/* {Upcoming?.guest_name} */}
-                j
+                {Upcoming?.guest_name.charAt(0)}
               </span>
             </p>
 
@@ -61,7 +67,12 @@ function UpcomingBookingsPage({getUpcoming}) {
           </div>
 
           {/* Arrow Button */}
-          <button className='bg-[#EEF2F6] w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'>
+          <button 
+            onClick={()=>{
+              setSelectedReservation(Upcoming);
+              setOpenDetails(true);
+            }}
+            className='bg-[#EEF2F6] w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'>
             <img src="/images/icons/arrow-right-blackk.svg" alt="" />
           </button>
 
@@ -69,6 +80,14 @@ function UpcomingBookingsPage({getUpcoming}) {
       </div>
     ))}
     </div>
+
+    {openDetails && (
+      <DetailsPage 
+        open={openDetails} 
+        setOpen={setOpenDetails} 
+        reservationData={selectedReservation} 
+      />
+    )}
   </>
   )
 }
