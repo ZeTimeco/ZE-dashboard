@@ -1,13 +1,48 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Header from './Header'
 import Role from './Role'
 import ReceptionistPrivileges from './ReceptionistPrivileges'
+import { editPaymentSettingsThunk, getPaymentSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 function Staff_AuthoritiesPage() {
   const {t} = useTranslation() 
-
+  
+    //api
+    const dispatch = useDispatch()
+    const {getPaymentSettings} = useSelector((state)=>state.setting)
+    useEffect(()=>{
+      dispatch(getPaymentSettingsThunk())
+    },[dispatch])
+  
+    const[formData , setFormData] = useState({
+      roles:[]
+    })
+    useEffect(() => {
+      if (getPaymentSettings) {
+        setFormData({
+          roles: getPaymentSettings.roles || [],
+        });
+      }
+    }, [getPaymentSettings]);
+  
+    const [loading, setLoading] = useState(false);
+    const handleSubmit = async ()=>{
+      setLoading(true);
+      try{
+        await dispatch(editPaymentSettingsThunk(formData)).unwrap()
+        await dispatch(getPaymentSettingsThunk())
+        alert(t('Restaurant information updated successfully.'));
+      }catch(error){
+        console.log(error);
+        alert(error?.message || "Something went wrong.");
+      } finally {
+          setLoading(false);
+      }
+    }
+    
 
   return (
     <>

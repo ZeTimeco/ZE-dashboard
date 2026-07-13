@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -566,6 +566,28 @@ export const editPaymentSettingsThunk = createAsyncThunk('setting/editPaymentSet
   }
 )
 
+export const getWorkingTimesSettingsThunk = createAsyncThunk('setting/getWorkingTimesSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getWorkingTimesSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const editWorkingTimesSettingsThunk = createAsyncThunk('setting/editWorkingTimesSettings',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editWorkingTimesSettings(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 const initialState ={
   success:false,
@@ -621,6 +643,7 @@ const initialState ={
   getFloorplanSettings:null,
   getNotificationSettings:null,
   getPaymentSettings:null,
+  getWorkingTimesSettings:null,
 
 
 }
@@ -1300,6 +1323,31 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(editPaymentSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getWorkingTimesSettingsThunk*
+      .addCase(getWorkingTimesSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getWorkingTimesSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getWorkingTimesSettings = action.payload;
+      })
+      .addCase(getWorkingTimesSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editWorkingTimesSettingsThunk
+      .addCase(editWorkingTimesSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editWorkingTimesSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editWorkingTimesSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

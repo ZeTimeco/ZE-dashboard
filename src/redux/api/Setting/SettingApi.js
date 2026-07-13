@@ -281,3 +281,13 @@ export const editPaymentSettings = async(formData)=>{
   const response = await API.post('/provider/restaurant/payment-settings', formData);
   return response.data;
 }
+
+export const getWorkingTimesSettings = async()=>{
+  const response = await API.get('/provider/restaurant/working-times')
+  return response.data
+}
+
+export const editWorkingTimesSettings = async(formData)=>{
+  const response = await API.post('/provider/restaurant/working-times', formData);
+  return response.data;
+}

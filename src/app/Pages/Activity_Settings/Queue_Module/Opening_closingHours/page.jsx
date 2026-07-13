@@ -1,14 +1,58 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Header from './Header'
 import OpeningHours from './OpeningHours'
 import HiddenDates from './HiddenDates'
 import HiddenTables from './HiddenTables'
+import { useDispatch, useSelector } from 'react-redux'
+import { editWorkingTimesSettingsThunk, getWorkingTimesSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
 
 
 function Opening_closingHoursPage() {
   const {t} = useTranslation() 
+
+  const dispatch = useDispatch()
+  const {getWorkingTimesSettings} = useSelector((state)=>state.setting)
+
+  useEffect(()=>{
+    dispatch(getWorkingTimesSettingsThunk())
+  },[dispatch])
+
+  const [formData , setFormData] = useState({
+    'working_times':[],
+    'banned_dates':[],
+    'staff_can_ban_tables':1
+  })
+
+  useEffect(() => {
+    if (getWorkingTimesSettings) {
+      setFormData({
+        working_times: getWorkingTimesSettings.working_times || [],
+        banned_dates: getWorkingTimesSettings.banned_dates || [],
+        staff_can_ban_tables:
+          getWorkingTimesSettings.staff_can_ban_tables ?? 1,
+      });
+    }
+  }, [getWorkingTimesSettings]);
+
+    const [loading, setLoading] = useState(false);
+    const handleSubmit = async ()=>{
+      setLoading(true);
+      try{
+        await dispatch(editWorkingTimesSettingsThunk(formData)).unwrap()
+        await dispatch(getWorkingTimesSettingsThunk())
+        alert(t('Restaurant information updated successfully.'));
+      }catch(error){
+        console.log(error);
+        alert(error?.message || "Something went wrong.");
+      } finally {
+          setLoading(false);
+      }
+    }
+    
+
+
 
 
   return (
@@ -27,9 +71,18 @@ function Opening_closingHoursPage() {
 
 
             {/* btn */}
-            <button className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
-            {t('Save changes')}
-            </button>
+            <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className={`w-[30%] h-14 rounded-[3px] text-white transition
+              ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[var(--color-primary)] cursor-pointer"
+              }`}
+          >
+            {loading ? t("Saving...") : t("Save changes")}
+          </button>
 
           </div>
     
