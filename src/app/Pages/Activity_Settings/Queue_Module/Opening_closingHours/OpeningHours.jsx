@@ -3,8 +3,24 @@ import { LocalizationProvider, MobileTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import dayjs from 'dayjs'
 
-function TimeSlotRow({ slot, readOnly, onChange }) {
+const parseTimeString = (timeStr) => {
+  if (!timeStr) return null;
+  if (dayjs.isDayjs(timeStr)) return timeStr;
+  const [hours, minutes] = timeStr.split(':').map(Number);
+  return dayjs().hour(hours).minute(minutes).second(0).millisecond(0);
+};
+
+const formatTimeDayjs = (date) => {
+  if (!date) return '';
+  return dayjs(date).format('HH:mm');
+};
+
+function TimeSlotRow({ slot = {}, readOnly, onChange }) {
+  const fromVal = parseTimeString(slot?.from);
+  const toVal = parseTimeString(slot?.to);
+
   return (
     <div className="flex gap-6 flex-1">
       {/* From Time */}
@@ -14,7 +30,7 @@ function TimeSlotRow({ slot, readOnly, onChange }) {
             ampm
             views={["hours", "minutes"]}
             sx={{ width: "100%" }}
-            value={slot.from}
+            value={fromVal}
             onChange={(val) => onChange('from', val)}
             readOnly={readOnly}
             slotProps={{
@@ -31,7 +47,7 @@ function TimeSlotRow({ slot, readOnly, onChange }) {
             ampm
             views={["hours", "minutes"]}
             sx={{ width: "100%" }}
-            value={slot.to}
+            value={toVal}
             onChange={(val) => onChange('to', val)}
             readOnly={readOnly}
             slotProps={{
@@ -44,29 +60,68 @@ function TimeSlotRow({ slot, readOnly, onChange }) {
   )
 }
 
-function DayBlock({ label }) {
+function DayBlock({ label, dayKey, formData, setFormData }) {
   const [editableSlot, setEditableSlot] = useState({ from: null, to: null })
-  const [savedSlots, setSavedSlots] = useState([])
+
+  const dayData = formData?.working_times?.find((item) => item.day?.toLowerCase() === dayKey.toLowerCase()) || { day: dayKey.toLowerCase(), times: [] };
+  const savedSlots = dayData.times || [];
 
   const handleAdd = () => {
-    setSavedSlots(prev => [...prev, { ...editableSlot }])
+    const fromStr = formatTimeDayjs(editableSlot.from)
+    const toStr = formatTimeDayjs(editableSlot.to)
+
+    setFormData(prev => {
+      const workingTimes = prev.working_times || []
+      const existingDayIdx = workingTimes.findIndex(d => d.day?.toLowerCase() === dayKey.toLowerCase())
+      let newWorkingTimes = [...workingTimes]
+
+      if (existingDayIdx > -1) {
+        const dayObj = { ...newWorkingTimes[existingDayIdx] }
+        dayObj.times = [...(dayObj.times || []), { from: fromStr, to: toStr }]
+        newWorkingTimes[existingDayIdx] = dayObj
+      } else {
+        newWorkingTimes.push({
+          day: dayKey.toLowerCase(),
+          times: [{ from: fromStr, to: toStr }]
+        })
+      }
+
+      return { ...prev, working_times: newWorkingTimes }
+    })
+
     setEditableSlot({ from: null, to: null })
   }
 
   const handleDelete = (index) => {
-    setSavedSlots(prev => prev.filter((_, i) => i !== index))
+    setFormData(prev => {
+      const workingTimes = prev.working_times || []
+      const existingDayIdx = workingTimes.findIndex(d => d.day?.toLowerCase() === dayKey.toLowerCase())
+      if (existingDayIdx === -1) return prev
+
+      let newWorkingTimes = [...workingTimes]
+      const dayObj = { ...newWorkingTimes[existingDayIdx] }
+      dayObj.times = (dayObj.times || []).filter((_, i) => i !== index)
+
+      if (dayObj.times.length === 0) {
+        newWorkingTimes = newWorkingTimes.filter(d => d.day?.toLowerCase() !== dayKey.toLowerCase())
+      } else {
+        newWorkingTimes[existingDayIdx] = dayObj
+      }
+
+      return { ...prev, working_times: newWorkingTimes }
+    })
   }
 
   const handleEditableChange = (field, value) => {
     setEditableSlot(prev => ({ ...prev, [field]: value }))
   }
 
-  const isDuplicate = savedSlots.some(
-    (s) =>
-      s.from?.isSame(editableSlot.from) &&
-      s.to?.isSame(editableSlot.to)
-  )
-  const canAdd = editableSlot.from && editableSlot.to && !isDuplicate
+  const isDuplicate = savedSlots.some((s) => {
+    const fromStr = formatTimeDayjs(editableSlot.from)
+    const toStr = formatTimeDayjs(editableSlot.to)
+    return s.from === fromStr && s.to === toStr
+  })
+  const canAdd = editableSlot.from?.isValid() && editableSlot.to?.isValid() && !isDuplicate
 
   return (
     <div className='mt-4'>
@@ -119,7 +174,7 @@ function DayBlock({ label }) {
   )
 }
 
-function OpeningHours() {
+function OpeningHours({ formData, setFormData }) {
   const { t } = useTranslation()
 
   const days = [
@@ -138,7 +193,13 @@ function OpeningHours() {
         <p className='text-[#364152] text-base font-medium'>{t('Opening Hours')}</p>
 
         {days.map((day) => (
-          <DayBlock key={day} label={t(day)} />
+          <DayBlock 
+            key={day} 
+            label={t(day)} 
+            dayKey={day}
+            formData={formData}
+            setFormData={setFormData}
+          />
         ))}
       </div>
     </>

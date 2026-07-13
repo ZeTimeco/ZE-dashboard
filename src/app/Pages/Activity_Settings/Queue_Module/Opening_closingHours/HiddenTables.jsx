@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function HiddenTables() {
+function HiddenTables({formData , setFormData}) {
   const {t}= useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -78,7 +78,13 @@ function HiddenTables() {
           </div>
           <p>
             <GreenSwitch
-          
+              checked={formData?.staff_can_ban_tables}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  staff_can_ban_tables : e.target.checked ? 1 : 0
+                }))
+              }}
             />
           </p>
         </div>

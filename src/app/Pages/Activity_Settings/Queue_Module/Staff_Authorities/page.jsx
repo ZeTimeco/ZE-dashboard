@@ -16,23 +16,49 @@ function Staff_AuthoritiesPage() {
     useEffect(()=>{
       dispatch(getPaymentSettingsThunk())
     },[dispatch])
-  
+    
+    console.log('getPaymentSettings' , getPaymentSettings);
+    const [selectedRoleKey, setSelectedRoleKey] = useState('');
     const[formData , setFormData] = useState({
       roles:[]
     })
     useEffect(() => {
       if (getPaymentSettings) {
         setFormData({
-          roles: getPaymentSettings.roles || [],
+          roles: getPaymentSettings || [],
         });
       }
     }, [getPaymentSettings]);
+
+    useEffect(() => {
+      if (getPaymentSettings && getPaymentSettings.length > 0 && !selectedRoleKey) {
+        setSelectedRoleKey(getPaymentSettings[0].role_key);
+      }
+    }, [getPaymentSettings, selectedRoleKey]);
   
     const [loading, setLoading] = useState(false);
+
     const handleSubmit = async ()=>{
+      const roleWithNoPermission = formData.roles.find(
+        (role) => !role.permissions.some((perm) => perm.is_selected)
+      );
+      if (roleWithNoPermission) {
+        alert(t('Please select at least one permission for every role before saving.'));
+        return;
+      }
+
       setLoading(true);
       try{
-        await dispatch(editPaymentSettingsThunk(formData)).unwrap()
+        const payload = {
+          roles: formData.roles.map((role) => ({
+            role_key: role.role_key,
+            permissions: role.permissions
+              .filter((perm) => perm.is_selected)
+              .map((perm) => perm.key),
+          })),
+        };
+        console.log('payload to send', payload);
+        await dispatch(editPaymentSettingsThunk(payload)).unwrap()
         await dispatch(getPaymentSettingsThunk())
         alert(t('Restaurant information updated successfully.'));
       }catch(error){
@@ -53,8 +79,19 @@ function Staff_AuthoritiesPage() {
           </div>
     
           <div className='p-6 flex flex-col gap-4'>
-            <Role/>
-            <ReceptionistPrivileges/>
+            <Role 
+              formData={formData} 
+              setFormData={setFormData} 
+              getPaymentSettings={getPaymentSettings}
+              selectedRoleKey={selectedRoleKey}
+              setSelectedRoleKey={setSelectedRoleKey}
+            />
+            <ReceptionistPrivileges 
+              formData={formData} 
+              setFormData={setFormData}
+              getPaymentSettings={getPaymentSettings}
+              selectedRoleKey={selectedRoleKey}
+            />
 
             {/* note */}
             <div className='flex gap-2 border border-[#48A1FF] bg-[#EFF6FF] rounded-[3px] p-3'>
@@ -67,13 +104,18 @@ function Staff_AuthoritiesPage() {
               </div>
             </div>
 
-
-
-
-
             {/* btn */}
-            <button className='w-[30%] bg-[var(--color-primary)] text-white h-14 rounded-[3px] cursor-pointer'>
-            {t('Save changes')}
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className={`w-[30%] h-14 rounded-[3px] text-white transition
+                ${
+                  loading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[var(--color-primary)] cursor-pointer"
+                }`}
+            >
+              {loading ? t("Saving...") : t("Save changes")}
             </button>
 
           </div>

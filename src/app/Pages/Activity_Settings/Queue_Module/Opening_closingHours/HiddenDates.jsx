@@ -1,23 +1,34 @@
 'use client'
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function HiddenDates() {
+function HiddenDates({formData , setFormData}) {
   const {t}= useTranslation()
   const [selectedDate, setSelectedDate] = useState(null);
   const [reason, setReason] = useState('');
   const [hiddenDates, setHiddenDates] = useState([]);
   const [open , setOpen] = useState(false)
 
-  const handleAdd = () => {
-    if (!selectedDate) return;
-    setHiddenDates(prev => [...prev, { date: selectedDate, reason }]);
-    setSelectedDate(null);
-    setReason('');
-    setOpen(false);
+const handleAdd = () => {
+  if (!selectedDate) return;
+
+  const newDate = {
+    date: selectedDate.format("YYYY-MM-DD"),
+    reason,
   };
+
+  setFormData((prev) => ({
+    ...prev,
+    banned_dates: [...prev.banned_dates, newDate],
+  }));
+
+  setSelectedDate(null);
+  setReason("");
+  setOpen(false);
+};
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
@@ -25,14 +36,19 @@ function HiddenDates() {
 
 
         <div className='flex flex-col gap-2 mt-4'>
-          {hiddenDates.map((item, index) => (
+          {formData?.banned_dates.map((item, index) => (
             <div key={index} className='flex items-center justify-between  border border-[#E3E8EF] rounded-[3px] px-4 py-3'>
               <div className='flex flex-col'>
-                <span className='text-[#364152] text-sm font-normal'>{item.date.format('DD/MM/YYYY')}</span>
+                <span className='text-[#364152] text-sm font-normal'>{dayjs(item.date).format("DD/MM/YYYY")}</span>
                 {item.reason && <span className='text-[#4B5565] text-xs font-normal mt-0.5'>{item.reason}</span>}
               </div>
               <button
-                onClick={() => setHiddenDates(prev => prev.filter((_, i) => i !== index))}
+                onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      banned_dates: prev.banned_dates.filter((_, i) => i !== index),
+                    }))
+                  }
                 className='text-red-400 hover:text-red-600 text-base cursor-pointer'
               >
                 ✕

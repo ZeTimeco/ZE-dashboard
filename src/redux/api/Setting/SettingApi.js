@@ -273,12 +273,12 @@ export const editNotificationSettings = async(formData)=>{
 }
 
 export const getPaymentSettings = async()=>{
-  const response = await API.get('/provider/restaurant/payment-settings')
+  const response = await API.get('/provider/restaurant/access-control-settings')
   return response.data
 }
 
 export const editPaymentSettings = async(formData)=>{
-  const response = await API.post('/provider/restaurant/payment-settings', formData);
+  const response = await API.post('/provider/restaurant/access-control-settings', formData);
   return response.data;
 }
 
