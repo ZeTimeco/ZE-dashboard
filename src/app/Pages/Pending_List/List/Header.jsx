@@ -13,7 +13,7 @@ function Header({openAdd , setOpenAdd}) {
           <p className='text-[#697586] text-xl font-normal'>{t('Guests expected to arrive soon')}</p>
         </div>
         {/* btn add */}
-        <button onClick={()=>setOpenAdd(true)} className='flex justify-center items-center gap-3 w-[20%] h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer'>
+        <button onClick={()=>setOpenAdd(true)} className='flex justify-center items-center gap-3 w-fit px-4 h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer'>
           <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" />
           <span className="text-[#fff] text-base font-medium">{t('Add a new guest')}</span>
         </button>

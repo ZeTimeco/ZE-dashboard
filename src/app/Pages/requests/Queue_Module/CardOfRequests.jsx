@@ -12,34 +12,34 @@ function CardOfRequests({getReservationsData}) {
     switch (status) {
       case "confirmed": //مؤكد
         return (
-          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
+          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit   h-9 lg1:h-9.5 rounded-3xl'>
           <div className='py-1.5 px-3 flex gap-1'>
             <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-            <span className=''>{t('certain')}</span>
+            <span className='text-xs flex items-center'>{t('certain')}</span>
           </div>
         </div>
         );
       case "completed"://مكتملة
         return (
-          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
+          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit   h-9 lg1:h-9.5 rounded-3xl'>
           <div className='py-1.5 px-3 flex gap-1'>
             <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-            <span className=''>{t('Complete')}</span>
+            <span className='text-xs flex items-center'>{t('Complete')}</span>
           </div>
         </div>
         );
       case "pending": //قيد الانتظار          
         return (
-          <div className=' bg-[#FFFAEB] border  border-[#F79009] text-[#DC6803] w-fit h-9.5 rounded-3xl'>
+          <div className=' bg-[#FFFAEB] border  border-[#F79009] text-[#DC6803] w-fit h-9 lg1:h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
-              <span className=''>{t('Pending')}</span>
+              <span className='text-xs flex items-center'>{t('Pending')}</span>
             </div>
           </div>
         );
       case "arrived": // وصل
         return (
-          <div className=' bg-[#F9F5E8] border border-[#9E7A11] text-[#9E7A11] w-fit h-9.5 rounded-3xl'>
+          <div className=' bg-[#F9F5E8] border border-[#9E7A11] text-[#9E7A11] w-fit  h-9 lg1:h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/tabler_map-pin-check.svg" alt="" className=' mt-1' />
               <span className=''>{t('receipt')}</span>
@@ -57,16 +57,16 @@ function CardOfRequests({getReservationsData}) {
       );
       case "no_show": // لم يحضر
         return (
-          <div className=' bg-[#EDE7FD] border border-[#713DEC] text-[#713DEC] w-fit h-9.5 rounded-3xl'>
+          <div className=' bg-[#EDE7FD] border border-[#713DEC] text-[#713DEC] w-fit  h-9 lg1:h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/tabler_map-pin-x.svg" alt="" className=' mt-1'/>
-              <span className=''>{t('not_attend')}</span>
+              <span className='text-xs flex items-center  '>{t('not_attend')}</span>
             </div>
           </div>
         );
       case "canceled": // ملغيه
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit   h-9 lg1:h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('cancelled')}</span>
@@ -75,7 +75,7 @@ function CardOfRequests({getReservationsData}) {
         );
       case "rejected": // مرفوضه
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  h-9 lg1:h-9.5  rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
               <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('rejected')}</span>
@@ -111,12 +111,12 @@ function CardOfRequests({getReservationsData}) {
             className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-10 cursor-pointer'
           >
             {/* name & status  */}
-            <div className='flex justify-between'>
+            <div className='flex justify-between '>
               <div className='flex gap-3 items-center'>
-                <p className='w-15 h-14 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] rounded-[3px] flex items-center justify-center'>
+                <p className='lg1:w-15 lg1:h-14  w-12.5 h-11.5 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] rounded-[3px] flex items-center justify-center'>
                   <span className='text-[#FCFCFD] text-lg font-normal'>#{reservation?.table_code}</span>
                 </p>
-                <p className='text-[#364152] text-lg font-medium'>{reservation?.guest_name}</p>
+                <p className='text-[#364152] text-base font-medium'>{reservation?.guest_name}</p>
               </div>
               <div className='flex items-center'>
                 {StatusRender(reservation?.status)}
@@ -124,11 +124,15 @@ function CardOfRequests({getReservationsData}) {
             </div>
             
             {/*  */}
-            <div className='grid grid-cols-2 gap-3 my-3 '>
+            <div className='flex justify-between   my-3 '>
               {/* guests */}
               <div className='flex gap-1'>
                 <img src="/images/icons/user-group_grey.svg" alt="" />
-                <p className='text-[#697586] text-base font-normal'>{reservation?.guest_count} {t('guests')}</p>
+                <p className='text-[#697586] text-base font-normal flex gap-1'>
+                  <span>{reservation?.guest_count} </span>
+                  <span>{t('guests')}</span>
+                  
+                </p>
               </div>
 
               {/* time */}
@@ -142,18 +146,20 @@ function CardOfRequests({getReservationsData}) {
                 </p>
               </div>
 
+            </div>
+            
+            <div className='flex justify-between  my-3  '>
               {/* hall time */}
               <div className='flex gap-1'>
-                <img src="/images/icons/restaurant-gray.svg" alt="" />
+                <img src="/images/icons/restaurant-gray.svg" className="w-6 h-6" />
                 <p className='text-[#364152] text-base font-normal'>{reservation?.hall_name}</p>
               </div>
 
               {/* hall view */}
               <div className='flex gap-1'>
-                <img src="/images/icons/tree.svg" alt="" />
+                <img src="/images/icons/tree.svg" className="w-6 h-6" />
                 <p className='text-[#364152] text-base font-normal'> {reservation?.views?.[0]?.name}</p>
               </div>
-
             </div>
 
             {/* btn */}

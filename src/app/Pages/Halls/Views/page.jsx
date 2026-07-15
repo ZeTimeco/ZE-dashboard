@@ -55,7 +55,7 @@ function ViewsContent() {
           </div>
           <button
             onClick={()=>setOpenAdd(true)}
-            className='w-[20%] h-14 flex items-center justify-center gap-2  bg-[var(--color-primary)] text-[white] text- cursor-pointer'
+            className='lg1:w-[20%] w-[30%] h-14 flex items-center justify-center gap-2  bg-[var(--color-primary)] text-[white] text- cursor-pointer rounded-[3px]'
           >
             <span>
               <img src="/images/icons/AddIcon.svg" alt="" />

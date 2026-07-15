@@ -104,10 +104,10 @@ console.log('getViewsById',getViewsById);
 }
 
 
-export default function EditPage() {
+export default function EditPage(props) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <EditContent />
+      <EditContent {...props} />
     </Suspense>
   );
 }

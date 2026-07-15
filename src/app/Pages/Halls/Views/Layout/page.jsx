@@ -118,7 +118,7 @@ function LayoutContent() {
       <div className='flex justify-end mt-8 mb-6'>
         <button
           onClick={handleSaveLayout}
-          className='bg-[var(--color-primary)] text-white text-base font-medium py-3 px-8 rounded-[3px] cursor-pointer hover:opacity-90 shadow-[3px] transition-all flex items-center justify-center w-[20%] h-14'
+          className='bg-[var(--color-primary)] text-white text-base font-medium py-3 px-8 rounded-[3px] cursor-pointer hover:opacity-90 shadow-[3px] transition-all flex items-center justify-center w-[30%] lg1:w-[20%] h-14'
         >
           {t('Save changes')}
         </button>

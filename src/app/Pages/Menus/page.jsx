@@ -19,16 +19,16 @@ function MenusPage() {
 
   return (
     <MainLayout>
-      {/*  */}
-      <div className='flex justify-between mb-5'>
+      {/* header  */}
+      <div className='flex justify-between mb-5 '>
         <p className='text-[#364152] text-2xl font-medium '>{t('menu')}</p>
         {(activeTab==='Category') ?(
-          <button onClick={()=>setOpenAdd(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[20%] rounded-[3px] cursor-pointer'>
+          <button onClick={()=>setOpenAdd(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[30%] lg1:w-[20%] rounded-[3px] cursor-pointer'>
             <p>  <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
             <p className='text-white text-base font-medium'>{t('Add a new category')}</p>
           </button>
         ):(
-          <button onClick={()=>setOpenAddItem(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[20%] rounded-[3px] cursor-pointer'>
+          <button onClick={()=>setOpenAddItem(true)} className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[30%] lg1:w-[20%] rounded-[3px] cursor-pointer'>
             <p> <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
             <p className='text-white text-base font-medium'>{t('Add a new item')}</p>
           </button>
@@ -37,7 +37,7 @@ function MenusPage() {
 
 
       {/*  */}
-      <div className='w-[40%] border border-[#E3E8EF] bg-[#F8FAFC] grid grid-cols-2 gap-6 p-2 rounded-[3px]'> 
+      <div className='lg1:w-[40%] w-[60%] border border-[#E3E8EF] bg-[#F8FAFC] grid grid-cols-2 gap-6 p-2 rounded-[3px]'> 
         <button 
           onClick={() => setActiveTab('Category')}
           className={`flex justify-center gap-1  p-4 cursor-pointer 

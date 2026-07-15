@@ -62,7 +62,7 @@ function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
         <div>
           <p className='text-[#364152] text-sm font-normal'>{t('Virtual table tags')}</p>
 
-          <div className='flex gap-3 mt-3'>
+          <div className='flex flex-wrap gap-3 mt-3'>
             {getFloorplanSettings?.tags?.map((tag)=>(
               <div key={tag?.id} className='border border-[var(--color-primary)] bg-[#F4EAD0] flex gap-2 rounded-full px-3 h-7.5'>
                 <p className='text-[var(--color-primary)] text-sm font-normal flex items-center' >

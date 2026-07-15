@@ -23,7 +23,7 @@ function ServicesPage() {
     <MainLayout>
       <BoxPage getcounters={getcounters}/>
 
-      <div className='grid grid-cols-2 gap-4'>
+      <div className='grid grid-cols-1 lg1:grid-cols-2 gap-4'>
         <UpcomingBookingsPage getUpcoming={getUpcoming}/>
         <WaitingListPage getWaitlist={getWaitlist}/>
       </div>

@@ -18,7 +18,7 @@ function BookingStatus({formData , setFormData }) {
       <p className='text-[#364152] text-base font-normal'>{t('Booking status')}</p>
 
       {/*  */}
-      <div className='grid grid-cols-3 gap-4 mt-4'>
+      <div className='grid grid-cols-1 lg1:grid-cols-3 gap-4 mt-4'>
         {/* maintenance */}
         <div 
           onClick={() =>

@@ -42,7 +42,7 @@ function PaymentSettings({ formData, setFormData }) {
                 payment_mode: option.value,
               }))
             }
-            className={`border rounded-[3px] flex gap-3 py-2 px-3 transition-colors ${
+            className={`border rounded-[3px] flex gap-1 lg1:gap-3 py-2 px-3 transition-colors ${
               formData.payment_mode === option.value
                 ? 'border-[var(--color-primary)]'
                 : 'border-[#E3E8EF]'
@@ -58,7 +58,7 @@ function PaymentSettings({ formData, setFormData }) {
               />
             </div>
 
-            <div className="font-normal text-left">
+            <div className="font-normal ">
               <p className="text-[#364152] text-base">
                 {t(option.title)}
               </p>

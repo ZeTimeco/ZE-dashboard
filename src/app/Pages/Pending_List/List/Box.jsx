@@ -7,20 +7,20 @@ function Box({getwaitlistAnalysis}) {
   return (
     <>
 
-    <div className='my-12 grid grid-cols-3 gap-6'>
+    <div className='my-12 grid grid-cols-3 gap-4'>
       {/* Expected guests */}
-      <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
+      <div className=' border border-[#CDD5DF] rounded-[3px] p-3'>
         <div className='flex justify-between'>
           <div className='flex items-center gap-2 w-[60%]'>
             <p className=' w-10 h-10 flex justify-center items-center bg-[#F4EAD0] rounded-md'>
               <img src="/images/icons/user-group_yellow.svg" alt="" />
             </p>
-            <p className='text-[#4B5565] text-base font-normal'>{t('Expected guests')}</p>
+            <p className='text-[#4B5565] text-xs lg1:text-base font-normal'>{t('Expected guests')}</p>
           </div>
-          <div className='w-[40%]  flex justify-end'>
-            <p className='bg-[#F9F5E8] text-[var(--color-primary)] w-fit flex items-center py-1.5 px-2 rounded-full'>
-              <img src="/images/icons/tick-yellow.svg" className="w-6 h-6" />
-              <span className='text-sm'>{t('Active list')}</span>
+          <div className='w-fit flex justify-end   '>
+            <p className='bg-[#F9F5E8] text-[var(--color-primary)] w-fit flex items-center px-1 py-1 lg1:py-1.5 lg1:px-2 rounded-full'>
+              <img src="/images/icons/tick-yellow.svg" className="w-6 h-6 hidden lg1:block" />
+              <span className='text-[10px] lg1:text-sm'>{t('Active list')}</span>
             </p>
           </div>
         </div>

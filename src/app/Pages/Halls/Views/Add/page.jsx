@@ -83,10 +83,10 @@ function AddContent({open , setOpen , Hallid}) {
 }
 
 
-export default function AddPage() {
+export default function AddPage(props) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <AddContent />
+      <AddContent {...props} />
     </Suspense>
   );
 }
