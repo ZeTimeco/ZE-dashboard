@@ -85,7 +85,11 @@ function LoginPage() {
               //     router.push('/Pages/dashboard/Main');
               //               break;
               // }
-            router.push('/Pages/Home')
+              if (current_module_key === 'food_delivery') {
+                router.push('/Pages/requests/FoodDelivery_Module')
+              } else {
+                router.push('/Pages/Home')
+              }
             } else {
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount')
             }

@@ -5,9 +5,12 @@ import Property_Module from './Property_Module/Services/page';
 import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import { useTranslation } from 'react-i18next';
 import Queue_Module from './Queue_Module/Services/page';
+import { useRouter } from 'next/navigation';
+
 
 function HomePage() {
   const {t} = useTranslation();
+    const router = useRouter()
     const [current_module_key, setCurrentModuleKey] = useState(null)
     useEffect(() => {
       const fetchUserData = () => {
@@ -24,6 +27,12 @@ function HomePage() {
         window.removeEventListener('storage', fetchUserData)
       }
     }, [])
+
+    useEffect(() => {
+      if (current_module_key === 'food_delivery') {
+        router.replace('/Pages/requests/FoodDelivery_Module')
+      }
+    }, [current_module_key, router])
 
 
     let content ;

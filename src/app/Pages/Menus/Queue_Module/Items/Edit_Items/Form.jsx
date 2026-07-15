@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
-import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl'
+import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl'
 
 
 function Form({getCategories ,formData , setFormData}) {

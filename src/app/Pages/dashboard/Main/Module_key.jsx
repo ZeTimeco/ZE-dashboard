@@ -71,6 +71,7 @@ function Module_key({ onClose }) {
           window.dispatchEvent(new Event('user_updated'))
 
           const { national_id, status, has_subscription } = updatedUser
+          const selectedModuleKey = updatedUser?.current_module_key
         
            // Check conditions and route accordingly
           if (national_id === null) {
@@ -82,7 +83,11 @@ function Module_key({ onClose }) {
           } else if (status === 'active') {
             if (has_subscription === true) {
               if (onClose) onClose()
-              router.push('/Pages/Home')
+              if (selectedModuleKey === 'food_delivery') {
+                router.push('/Pages/requests/FoodDelivery_Module')
+              } else {
+                router.push('/Pages/Home')
+              }
             } else {
               if (onClose) onClose()
               router.push('/Pages/dashboard/TemporaryDashboard/StatusOfProvider/AcceptAccount/')

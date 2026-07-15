@@ -5,11 +5,18 @@ queue /
 delivery
 street_assistant /
 
-
+home_services
+car_services
+property_rental
+queue
+delivery
+street_assistant
+food_delivery
 
       {id:40 , Label:'Battery operation'},
       {id:36 , Label:'Wheel repair'},
       {id:35 , Label:'Car transport'},
       {id:37 , Label:'Car unlock'},
       {id:39 , Label:'Fuel delivery'},
-      {id:38 , Label:'General maintenance'}
+      {id:38 , Label:'General maintenance'},
+      {id:7 , Label:'food_delivery'}

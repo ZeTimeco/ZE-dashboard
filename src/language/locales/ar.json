@@ -1375,7 +1375,9 @@
   "Employees can temporarily block access to certain tables.":"يمكن للموظفين حجب طاولات معينة مؤقتاً",
   "Add hidden date":"إضافة تاريخ محجوب",
   "Please select at least one permission for every role before saving.":"يرجى تحديد صلاحيه واحد على الأقل لكل دور قبل الحفظ.",
-
+  "Delivery":"التوصيل",
+  "Reports":"التقارير",
+  
 
 
 

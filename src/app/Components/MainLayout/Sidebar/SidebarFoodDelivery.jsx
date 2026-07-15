@@ -9,7 +9,7 @@ import { logout } from '@/redux/slice/Auth/AuthSlice';
 
 
 
-function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
+function SidebarFoodDelivery({ isSidebarOpen, setIsSidebarOpen }) {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
 
@@ -66,32 +66,15 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
       {/* Navigation */}
       <nav className="flex-1">
         <ul className='flex flex-col h-full'>
-          
-        {/* Dashboard !!*/}
-          <li className={`cursor-pointer  rounded ${pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Home"  >
-                {open?(
-                //open 
-                  <div  className='flex gap-4 items-center py-3 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "invert" : ""}/>
-                    <p className={`text-base font-normal ${pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
-                  </div>
-                ):(
-                  <div className='flex justify-center items-center py-2 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home")? "invert" : ""}/>
-                  </div>
-                )}
-            </Link>
-          </li>
 
           {/* Requests !!*/}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/requests/Queue_Module" onClick={() => setIsSidebarOpen(false)}>
+          <li className={`cursor-pointer h-10 flex items-center  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+            <Link href="/Pages/requests/FoodDelivery_Module" onClick={() => setIsSidebarOpen(false)}>
                 {open?(
                 //open 
                   <div  className='flex gap-4 items-center py-3 px-2'>
                     <img src="/images/icons/Requests.svg" alt="" className={pathname.startsWith("/Pages/requests") ? "invert" : ""}/>
-                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Reservations')}</p>
+                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Requests')}</p>
                   </div>
                 ):(
                   <div className='flex justify-center items-center py-2 px-2'>
@@ -101,60 +84,64 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          {/* pending list */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Pending_List") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Pending_List" onClick={() => setIsSidebarOpen(false)}>
+          
+          {/* Menu */}
+          <li  className={`cursor-pointer h-10 flex items-center  rounded ${pathname.startsWith("/Pages/Menus") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+            <Link href="/Pages/Menus/FoodDelivery_Module" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
                 <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/Pending_List") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Pending_List") ? "text-[#fff]" : "text-[#364152]"}`}>{t('pending list')}</p>
+                  <img src="/images/icons/dish-black.svg" alt="" className={pathname.startsWith("/Pages/Menus") ? "invert" : ""}/>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Menus") ? "text-[#fff]" : "text-[#364152]"}`}>{t('menu')}</p>
                 </div>
               ):(
                 <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/Pending_List") ? "invert" : ""}/>
+                  <img src="/images/icons/dish-black.svg" alt="" className={pathname.startsWith("/Pages/Menus") ? "invert" : ""}/>
                 </div>
               )}
             </Link>
           </li>
           
-            {/* Menu and Prices */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Menus") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Menus/Queue_Module" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
+          {/* Delivery */}
+          <li className={`cursor-pointer h-10 flex items-center rounded ${pathname.startsWith("/Pages/Delivery") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+            <Link href="/Pages/Delivery/FoodDelivery_Module" onClick={() => setIsSidebarOpen(false)}>
+              {open ? (
+                //open 
                 <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/dish-black.svg" alt="" className={pathname.startsWith("/Pages/Menus") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Menus") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Menu and Prices')}</p>
+                  <img src="/images/icons/delivery-truck.svg" alt="" className={pathname.startsWith("/Pages/Delivery") ? "invert" : ""} />
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Delivery") ? "text-[#fff]" : "text-[#364152]"}`}>
+                    {t('Delivery')}
+                  </p>
                 </div>
-              ):(
+              ) : (
                 <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/dish-black.svg" alt="" className={pathname.startsWith("/Pages/Menus") ? "invert" : ""}/>
+                  <img src="/images/icons/delivery-truck.svg" alt="" className={pathname.startsWith("/Pages/Delivery") ? "invert" : ""} />
                 </div>
               )}
             </Link>
           </li>
-
-
-          {/* Halls */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Halls/Hall" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
+          
+          {/* Finance */}
+          <li className={`cursor-pointer h-10 flex items-center rounded ${pathname.startsWith("/Pages/finance") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+            <Link href="/Pages/finance" onClick={() => setIsSidebarOpen(false)}>
+              {open ? (
+                //open 
                 <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Halls')}</p>
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname.startsWith("/Pages/finance") ? "invert" : ""} />
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/finance") ? "text-[#fff]" : "text-[#364152]"}`}>
+                    {t('Finance')}
+                  </p>
                 </div>
-              ):(
+              ) : (
                 <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "invert" : ""}/>
+                  <img src="/images/icons/Finance.svg" alt="" className={pathname.startsWith("/Pages/finance") ? "invert" : ""} />
                 </div>
               )}
             </Link>
           </li>
 
           {/* Subscription !!*/}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Subscription") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer h-10 flex items-center rounded ${pathname.startsWith("/Pages/Subscription") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/Subscription" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -171,9 +158,28 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
               )}
             </Link>
           </li>
+
+          {/* Reports */}
+          <li className={`cursor-pointer h-10 flex items-center rounded ${pathname.startsWith("/Pages/Reports") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+            <Link href="/Pages/Reports/FoodDelivery_Module" onClick={() => setIsSidebarOpen(false)}>
+              {open ? (
+                //open 
+                <div className='flex gap-4 items-center py-3 px-2'>
+                  <img src="/images/icons/analytics-black.svg" alt="" className={pathname.startsWith("/Pages/Reports") ? "invert" : ""} />
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Reports") ? "text-[#fff]" : "text-[#364152]"}`}>
+                    {t('Reports')}
+                  </p>
+                </div>
+              ) : (
+                <div className='flex justify-center items-center py-2 px-2'>
+                  <img src="/images/icons/analytics-black.svg" alt="" className={pathname.startsWith("/Pages/Reports") ? "invert" : ""} />
+                </div>
+              )}
+            </Link>
+          </li>
             
           {/* Conversations !!*/}
-          <li  className={`cursor-pointer rounded ${pathname.startsWith("/Pages/conversations") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer h-10 flex items-center rounded ${pathname.startsWith("/Pages/conversations") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/conversations" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -189,10 +195,8 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
             </Link>
           </li>
 
-          
-
           {/* Settings */}
-          <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+          <li className={`cursor-pointer  h-10 flex items-center rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
             <Link href="/Pages/technicalSupport" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -209,7 +213,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
           </li>
 
           {/* Activity Settings */}
-          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/Activity_Settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+          <li  className={`cursor-pointer h-10 flex items-center  rounded mb-2 ${pathname.startsWith("/Pages/Activity_Settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
           <Link href="/Pages/Activity_Settings" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -226,7 +230,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
           </li>
       
           {/* Settings */}
-          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+          <li className={`cursor-pointer h-10 flex items-center  rounded  mb-2 ${pathname.startsWith("/Pages/settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
           <Link href="/Pages/settings" onClick={() => setIsSidebarOpen(false)}>
               {open?(
               //open 
@@ -243,7 +247,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
           </li>
           
           {/* Sign out */}
-          <li  onClick={handleLogout} className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
+          <li onClick={handleLogout} className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
           <button >
               {open?(
               //open 
@@ -271,6 +275,6 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
   
 }
 
-export default SidebarQueue;
+export default SidebarFoodDelivery;
 
 

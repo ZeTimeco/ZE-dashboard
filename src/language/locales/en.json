@@ -1374,6 +1374,8 @@
   "Employees can temporarily block access to certain tables.":"Employees can temporarily block access to certain tables.",
   "Add hidden date":"Add hidden date",
   "Please select at least one permission for every role before saving.":"Each role must have at least one permission selected. Please select at least one permission for every role before saving.",
+  "Delivery":"Delivery",
+  "Reports":"Reports",
   
   
 

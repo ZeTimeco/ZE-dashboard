@@ -1,25 +1,9 @@
 'use client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl'
+import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl'
 
-// Mock item data — replace with real props/API data as needed
-const MOCK_ITEM = {
-  images: [
-    '/images/P.p.svg',
-    '/images/P.p.svg',
-    '/images/P.p.svg',
-  ],
-  nameAr: 'حمص',
-  category: 'المقبلات',
-  price: 25,
-  currency: 'جنية',
-  status: 'متوفر',
-  descriptionAr: 'وصف تفصيلي للصنف يتضمن المكونات وطريقة التحضير والخصائص المميزة أبدأ الطبق الشهي',
-  prepTimeMin: 15,
-  prepTimeMax: 20,
-  calories: 350,
-}
+
 
 function Data({ getItemsDetails }) {
   const { t } = useTranslation()

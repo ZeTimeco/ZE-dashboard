@@ -5,6 +5,7 @@ import Navbar from './Navbar'
 import SidebarProperty from './Sidebar/SidebarProperty';
 import SidebarQueue from './Sidebar/SidebarQueue';
 import SidebarHomeCarStreet from './Sidebar/SidebarHomeCarStreet';
+import SidebarFoodDelivery from './Sidebar/SidebarFoodDelivery';
 
 
 function MainLayout({ children }) {
@@ -43,12 +44,12 @@ function MainLayout({ children }) {
         />
       )}
 
-      {/* {current_module_key === "delivery" && (
-        <SidebarDelivery
+      {current_module_key === "food_delivery" && (
+        <SidebarFoodDelivery
           isSidebarOpen={isSidebarOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />
-      )} */}
+      )}
 
 
 

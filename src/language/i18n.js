@@ -41,6 +41,15 @@ if (!i18n.isInitialized) {
       fallbackLng: "en",
       interpolation: { escapeValue: false },
     });
+
+  if (typeof window !== 'undefined') {
+    i18n.on('languageChanged', (lng) => {
+      localStorage.setItem('lang', lng);
+      document.cookie = `lang=${lng}; path=/; max-age=31536000`;
+      document.documentElement.setAttribute("dir", lng === "ar" ? "rtl" : "ltr");
+      document.documentElement.setAttribute("lang", lng);
+    });
+  }
 }
 
 export default i18n;

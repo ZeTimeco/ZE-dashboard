@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Details_Of_ItemsPage from '../Details_Of_Items/page'
-import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl'
+import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl'
 
 function Card({ item, selectedCategoryId }) {
     const {t} = useTranslation()
