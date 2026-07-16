@@ -1,18 +1,30 @@
 'use client'
-import ExtractBtn from '@/app/Components/Buttons/ExtractBtn'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Header() {
+function Header({getRestaurantStatus}) {
   const{t}= useTranslation()
 
   const [open, setOpen] = useState(false);
   const extractOptions = [
-    { id: 1, label: t("open"), color: "bg-green-500" },
-    { id: 2, label: t("busy"), color: "bg-red-500" },
-    { id: 3, label: t("closed"), color: "bg-yellow-400" },
+    { key: "open", label: t("open"), color: "bg-green-500" },
+    { key: "busy", label: t("busy"), color: "bg-red-500" },
+    { key: "closed", label: t("closed"), color: "bg-yellow-400" },
   ];
-  const [selectedOption, setSelectedOption] = useState(extractOptions[0]);
+const [selectedOption, setSelectedOption] = useState(extractOptions[0]);
+
+useEffect(() => {
+  const currentStatus = getRestaurantStatus?.data?.current_status;
+  if (!currentStatus) return;
+
+  const option = extractOptions.find(
+    (item) => item.key === currentStatus
+  );
+
+  if (option) {
+    setSelectedOption(option);
+  }
+}, [getRestaurantStatus]);
 
   return (
     <>
@@ -58,7 +70,7 @@ function Header() {
           <ul className="absolute  w-full bg-white border border-gray-200 shadow-lg z-50">
             {extractOptions.map((item) => (
               <li
-                key={item.id}
+                key={item.key}
                 onClick={() => {
                   setSelectedOption(item);
                   setOpen(false);

@@ -140,3 +140,9 @@ export const getOrders = async (params) => {
   const response = await API.get(`/provider/food-delivery/orders?page=${page}${statusParam}`);
   return response.data;
 };
+
+
+export const getRestaurantStatus = async()=>{
+  const response = await API.get('/provider/food-delivery/restaurant-status')
+  return response.data
+}

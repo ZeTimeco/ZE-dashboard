@@ -10,8 +10,7 @@ function Cards({getOrders}) {
       case "pickup"://أستلام
         return (
           <div className=' bg-[#EDE7FD] border border-[#713DEC] text-[#713DEC] w-fit  h-9.5 rounded-3xl'>
-          <div className='py-1.5 px-3 flex gap-1'>
-            <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
+          <div className='py-1.5 px-3 '>
             <span className=''>{t('pickup')}</span>
           </div>
         </div>
@@ -19,8 +18,7 @@ function Cards({getOrders}) {
       case "delivery": //توصيل
         return (
           <div className=' bg-[#FFFAEB] border  border-[#F79009] text-[#DC6803] w-fit h-9.5 rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
+            <div className='py-1.5 px-3 '>
               <span className=''>{t('delivery')}</span>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -235,6 +235,17 @@ export const getOrdersThunk = createAsyncThunk(
   }
 );
 
+export const getRestaurantStatusThunk = createAsyncThunk('request/getRestaurantStatus',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getRestaurantStatus()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -264,7 +275,8 @@ const initialState = {
   getViews:[],
   getReservationsById:null,
 
-  getOrders:[]
+  getOrders:[],
+  getRestaurantStatus:null,
 
 
 }
@@ -534,6 +546,19 @@ const RequestsSlice = createSlice({
         state.getOrders = action.payload;
       })
       .addCase(getOrdersThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getRestaurantStatusThunk
+      .addCase(getRestaurantStatusThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRestaurantStatusThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getRestaurantStatus = action.payload;
+      })
+      .addCase(getRestaurantStatusThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

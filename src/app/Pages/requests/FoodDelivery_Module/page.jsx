@@ -7,7 +7,7 @@ import Filter from './Filter'
 import Cards from './Cards'
 import Pagination from './Pagination'
 import { useDispatch, useSelector } from 'react-redux'
-import { getOrdersThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { getOrdersThunk, getRestaurantStatusThunk } from '@/redux/slice/Requests/RequestsSlice'
 
 function FoodDelivery_ModulePage() {
 
@@ -18,7 +18,7 @@ function FoodDelivery_ModulePage() {
   const [activeTab, setActiveTab] = useState('new');
 
   const dispatch = useDispatch()
-  const {getOrders} = useSelector((state)=>state.requests)
+  const {getOrders ,getRestaurantStatus} = useSelector((state)=>state.requests)
   useEffect(() => {
     dispatch(getOrdersThunk({ page, status: activeTab }));
   }, [dispatch, page, activeTab]);
@@ -30,16 +30,21 @@ function FoodDelivery_ModulePage() {
     setPage(1);
   };
 
+  useEffect(()=>{
+    dispatch(getRestaurantStatusThunk())
+  },[dispatch])
+
   return (
     <MainLayout>
       
-      <Header/>
+      <Header getRestaurantStatus={getRestaurantStatus}/>
 
       <Filter getOrders={getOrders} activeTab={activeTab} setActiveTab={handleTabChange}/>
 
       <div className='grid grid-cols-2 gap-6 my-8'>
         <Cards getOrders={getOrders?.data}/>
       </div>
+
       <Pagination
           currentPage={getOrders?.data?.current_page}
           totalPages={getOrders?.data?.last_page}
