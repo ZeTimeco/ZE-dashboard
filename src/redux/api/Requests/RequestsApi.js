@@ -124,3 +124,19 @@ export const rejectReservation = async(id)=>{
   const response = await API.post(`/provider/reservation/${id}/reject`)
   return response.data
 }
+
+//Food delivery_module
+/************************************************************ */
+export const getOrders = async (params) => {
+  let page = 1;
+  let status = "";
+  if (params && typeof params === "object") {
+    page = params.page ?? 1;
+    status = params.status ?? "";
+  } else if (typeof params === "number") {
+    page = params;
+  }
+  const statusParam = status ? `&status=${status}` : "";
+  const response = await API.get(`/provider/food-delivery/orders?page=${page}${statusParam}`);
+  return response.data;
+};

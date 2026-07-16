@@ -7,12 +7,12 @@ function Header() {
   const{t}= useTranslation()
 
   const [open, setOpen] = useState(false);
-const extractOptions = [
-  { id: 1, label: t("open"), color: "bg-green-500" },
-  { id: 2, label: t("busy"), color: "bg-red-500" },
-  { id: 3, label: t("closed"), color: "bg-yellow-400" },
-];
-const [selectedOption, setSelectedOption] = useState(extractOptions[0]);
+  const extractOptions = [
+    { id: 1, label: t("open"), color: "bg-green-500" },
+    { id: 2, label: t("busy"), color: "bg-red-500" },
+    { id: 3, label: t("closed"), color: "bg-yellow-400" },
+  ];
+  const [selectedOption, setSelectedOption] = useState(extractOptions[0]);
 
   return (
     <>
@@ -55,7 +55,7 @@ const [selectedOption, setSelectedOption] = useState(extractOptions[0]);
 
           {/* Dropdown */}
           {open && (
-          <ul className="absolute top-full mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg z-50">
+          <ul className="absolute  w-full bg-white border border-gray-200 shadow-lg z-50">
             {extractOptions.map((item) => (
               <li
                 key={item.id}
