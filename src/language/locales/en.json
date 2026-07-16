@@ -1376,6 +1376,9 @@
   "Please select at least one permission for every role before saving.":"Each role must have at least one permission selected. Please select at least one permission for every role before saving.",
   "Delivery":"Delivery",
   "Reports":"Reports",
+  "Restaurant condition":"Restaurant condition",
+  "open":"open",
+  
   
   
 
