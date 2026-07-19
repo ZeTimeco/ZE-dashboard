@@ -9,6 +9,33 @@ import Price_SummaryPage from './Price_Summary/page'
 
 function DetailsPage({open , setOpen ,id}) {
   const {t} = useTranslation()
+    const StatusBtn = (status) => {
+      switch (status) {
+        case "new": 
+          return (
+            <div className='flex gap-6'>
+              <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Accepting reservation')}</button>
+              <button className='border border-[#F04438] text-[#F04438] h-14 w-full cursor-pointer rounded-[3px]'>{t('Reservation refused')}</button>
+            </div>
+          );
+        case "preparing":
+          return (
+            <div className='flex gap-6'>
+              <button className='bg-[#17B26A] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Order ready')}</button>
+              <button className='bg-[var(--color-primary)] text-white h-14 w-full cursor-pointer rounded-[3px]'>{t('Appointing a driver')}</button>
+            </div>
+          );
+        
+        case "ready": 
+          return (
+            <div >
+              <button className='bg-[var(--color-primary)] text-[white] h-14 w-full cursor-pointer rounded-[3px]'>{t('Start delivery and enable tracking')}</button>
+            </div>
+          );
+        }
+    };
+
+
   return (
     <Dialog
       open={open}
@@ -55,7 +82,10 @@ function DetailsPage({open , setOpen ,id}) {
         <Products_RequestedPage/>
         <Delivery_DetailsPage/>
         <Price_SummaryPage/>
+      </section>
 
+      <section className='px-6 pb-6'>
+        {StatusBtn('preparing')}
       </section>
     </Dialog>
   )
