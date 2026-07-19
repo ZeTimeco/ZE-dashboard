@@ -1,6 +1,7 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import DetailsPage from './Dialog/Details/page';
 
 function Cards({getOrders}) {
   const {t} = useTranslation()
@@ -26,10 +27,20 @@ function Cards({getOrders}) {
     }
   };
 
+  const[openDetails , setOpenDetails] = useState(false)
+  const [selectedId, setSelectedId] = useState(null);
+
   return (
     <>
       {getOrders?.data?.map((order , index)=>(
-        <div key={order?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+        <div 
+          key={order?.id}
+          onClick={() => {
+            setSelectedId(order.id);
+            setOpenDetails(true);
+          }} 
+          className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px] cursor-pointer'
+        >
         {/*  */}
         <div className='flex justify-between mb-3'>
           <p className='text-[#364152] text-lg font-medium'>{order?.order_number}#</p>
@@ -78,6 +89,12 @@ function Cards({getOrders}) {
       ))}
       
       
+      <DetailsPage
+        open={openDetails}
+        setOpen={setOpenDetails}
+        id={selectedId}
+      />
+
     </>
   )
 }
