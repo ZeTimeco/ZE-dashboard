@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignDriver, assignHandyman, changeBookingAction, changeStatus, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrivers, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -257,7 +257,38 @@ export const getOrderByIdThunk = createAsyncThunk('requests/getOrderById' ,
   }
 )
 
+export const getDriversThunk = createAsyncThunk('request/getDrivers',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getDrivers()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
+export const assignDriverThunk = createAsyncThunk('requests/assignDriver' , 
+  async({orderId , driver_id} , {rejectWithValue})=>{
+    try{
+      const response = await assignDriver({orderId , driver_id})
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const changeStatusThunk = createAsyncThunk('requests/changeStatus' , 
+  async({status} , {rejectWithValue})=>{
+    try{
+      const response = await changeStatus({status})
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 
@@ -289,6 +320,7 @@ const initialState = {
   getOrders:[],
   getRestaurantStatus:null,
   getOrderById:null,
+  getDrivers:[]
 
 
 }
@@ -584,6 +616,43 @@ const RequestsSlice = createSlice({
         state.getOrderById = action.payload;
       })
       .addCase(getOrderByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getDriversThunk
+      .addCase(getDriversThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDriversThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getDrivers = action.payload;
+      })
+      .addCase(getDriversThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //assignDriverThunk
+      .addCase(assignDriverThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(assignDriverThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(assignDriverThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //changeStatusThunk
+      .addCase(changeStatusThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changeStatusThunk.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(changeStatusThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

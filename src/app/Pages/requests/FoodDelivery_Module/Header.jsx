@@ -1,9 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { changeStatusThunk, getRestaurantStatusThunk } from '@/redux/slice/Requests/RequestsSlice'
 
 function Header({getRestaurantStatus}) {
   const{t}= useTranslation()
+  const dispatch = useDispatch()
 
   const [open, setOpen] = useState(false);
   const extractOptions = [
@@ -74,6 +77,9 @@ useEffect(() => {
                 onClick={() => {
                   setSelectedOption(item);
                   setOpen(false);
+                  dispatch(changeStatusThunk({ status: item.key })).then(() => {
+                    dispatch(getRestaurantStatusThunk());
+                  });
                 }}
                 className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-100"
               >

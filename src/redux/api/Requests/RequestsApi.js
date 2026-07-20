@@ -151,3 +151,17 @@ export const getOrderById = async(id)=>{
   const response = await API.get(`/provider/food-delivery/orders/${id}`)
   return response.data
 }
+export const getDrivers = async()=>{
+  const response = await API.get('/provider/food-delivery/drivers')
+  return response.data
+}
+
+export const assignDriver = async({orderId,driver_id})=>{
+  const response = await API.post(`/provider/food-delivery/orders/${orderId}/assign-driver` , {driver_id})
+  return response.data
+}
+
+export const changeStatus = async({status})=>{
+  const response = await API.post('/provider/food-delivery/restaurant-status' , {status})
+  return response.data
+}
