@@ -23,7 +23,7 @@ function FoodDelivery_ModulePage() {
     dispatch(getOrdersThunk({ page, status: activeTab }));
   }, [dispatch, page, activeTab]);
   
-  console.log('getOrders' , getOrders);
+  // console.log('getOrders' , getOrders);
 
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);

@@ -1,4 +1,4 @@
-import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
+import { assignHandyman, changeBookingAction, confirmReservation, getAllBookingProperty, getAvailableHandymen, getBookingByID, getBookingByIdProperty, getBookings, getDrowpdownFilters, getHalls, getOrderById, getOrders, getPropertiesForFilter, getPropertyBookingById, getRejectionReasons, getReservations, getReservationsById, getRestaurantStatus, getViews, notifyUser, rejectReservation, UpdateBooking } from "@/redux/api/Requests/RequestsApi";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
@@ -246,6 +246,17 @@ export const getRestaurantStatusThunk = createAsyncThunk('request/getRestaurantS
   }
 )
 
+export const getOrderByIdThunk = createAsyncThunk('requests/getOrderById' , 
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await getOrderById(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
 
 
 
@@ -277,6 +288,7 @@ const initialState = {
 
   getOrders:[],
   getRestaurantStatus:null,
+  getOrderById:null,
 
 
 }
@@ -559,6 +571,19 @@ const RequestsSlice = createSlice({
         state.getRestaurantStatus = action.payload;
       })
       .addCase(getRestaurantStatusThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getOrderByIdThunk
+      .addCase(getOrderByIdThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getOrderByIdThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getOrderById = action.payload;
+      })
+      .addCase(getOrderByIdThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

@@ -1,9 +1,12 @@
 'use client'
+import { formatDistanceToNow } from 'date-fns'
+import { ar } from 'date-fns/locale'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function OrderPage() {
+function OrderPage({getOrderById}) {
   const {t} = useTranslation()
+  const getOrderByIdData = getOrderById?.data
 // 'new','preparing','ready','delivering','completed','rejected','cancelled'
   const StatusRender = (status) => {
     switch (status) {
@@ -73,17 +76,34 @@ function OrderPage() {
       }
   };
 
+
+  const createdAt = getOrderByIdData?.created_at;
+  const date = createdAt ? new Date(createdAt.replace(/\.\d+Z$/, "Z")) : null;
+  const orderDate = date && !isNaN(date.getTime()) ? date.toLocaleDateString("ar-EG") : "";
+  const orderTime = date && !isNaN(date.getTime())
+    ? date.toLocaleTimeString("ar-EG", {
+        hour: "numeric",
+        minute: "2-digit",
+      })
+    : "";
+  const orderRelativeTime = date && !isNaN(date.getTime())
+    ? formatDistanceToNow(date, {
+        addSuffix: true,
+        locale: ar,
+      })
+    : "";
+
   return (
     <>
     <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] p-4 rounded-[3px]'>
       {/* request  & status  */}
       <div className='flex justify-between'>
         <p className='flex flex-col'>
-          <span className='text-[#364152] text-base font-medium'>{t('to request')}/5555</span>
-          <span className='text-[#4B5565] text-sm font-normal'>منذ 3 دقائق</span>
+          <span className='text-[#364152] text-base font-medium'>{t('to request')}/{getOrderByIdData?.order_number}</span>
+          <span className='text-[#4B5565] text-sm font-normal'> {orderRelativeTime} </span>
         </p>
         <div className='flex items-center'>
-          {StatusRender('new')}
+          {StatusRender(getOrderByIdData?.status)}
         </div>
       </div>
 
@@ -95,14 +115,14 @@ function OrderPage() {
           <span className='flex items-center'>
             <img src="/images/icons/calendar-gray.svg" className="w-5 h-5" />
           </span>
-          <span className='text-[#4B5565] text-base font-normal'>1/1/206</span>
+          <span className='text-[#4B5565] text-base font-normal'>{orderDate}</span>
         </p>
 
         <p className='flex gap-1'>
           <span className='flex items-center'>
             <img src="/images/icons/clock-gray.svg" className="w-5 h-5" />
           </span>
-          <span className='text-[#4B5565] text-base font-normal'>5:00 م</span>
+          <span className='text-[#4B5565] text-base font-normal'>{orderTime}</span>
         </p>
 
       </div>
@@ -115,14 +135,14 @@ function OrderPage() {
           <p className='bg-[#F9F5E8] w-7 h-7  rounded-full flex items-center justify-center'>
             <img src="/images/icons/user_yellow.svg" className="w-4 h-4" />
           </p>
-          <p className='text-[#364152] text-base font-normal'> هاني سعيد </p>
+          <p className='text-[#364152] text-base font-normal'> {getOrderByIdData?.guest_name} </p>
         </div>
 
         <div className=' flex gap-2'>
           <p className='bg-[#EDE7FD] w-7 h-7  rounded-full flex items-center justify-center'>
             <img src="/images/icons/call.svg" className="w-4 h-4" />
           </p>
-          <p className='text-[#364152] text-base font-normal'>+966 50 123 4567</p>
+          <p className='text-[#364152] text-base font-normal'>{getOrderByIdData?.guest_phone}</p>
         </div>
       </div>
 

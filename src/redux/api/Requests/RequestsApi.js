@@ -146,3 +146,8 @@ export const getRestaurantStatus = async()=>{
   const response = await API.get('/provider/food-delivery/restaurant-status')
   return response.data
 }
+
+export const getOrderById = async(id)=>{
+  const response = await API.get(`/provider/food-delivery/orders/${id}`)
+  return response.data
+}

@@ -2,8 +2,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Delivery_DetailsPage() {
+function Delivery_DetailsPage({getOrderById}) {
   const {t} = useTranslation()
+  const getOrderByIdData = getOrderById?.data
+
   
   return (
     <>
@@ -15,7 +17,7 @@ function Delivery_DetailsPage() {
         <p className='bg-[#F9F5E8] w-7 h-7  rounded-full flex items-center justify-center'>
           <img src="/images/icons/location.svg" className="w-4 h-4" />
         </p>
-        <p className='text-[#364152] text-base font-normal'>شارع الملك فهد، الرياض، المملكة العربية السعودية</p>
+        <p className='text-[#364152] text-base font-normal'> {getOrderByIdData?.delivery_address}</p>
       </div>
 
       {/*  */}
@@ -24,7 +26,7 @@ function Delivery_DetailsPage() {
           <img src="/images/icons/clock-blue.svg" className="w-4 h-4" />
         </p>
         <p className='text-[#364152] text-base font-normal'> 
-          {t('Expected time')}: 30-50 دقيقة
+          {t('Expected time')} : {getOrderByIdData?.estimated_time_min} - {getOrderByIdData?.estimated_time_max} {t('minute')}
         </p>
       </div>
 

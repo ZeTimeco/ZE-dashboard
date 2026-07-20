@@ -2,8 +2,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Price_SummaryPage() {
+function Price_SummaryPage({getOrderById}) {
     const {t} = useTranslation()
+    const getOrderByIdData = getOrderById?.data
+
   
   return (
     <>
@@ -16,8 +18,8 @@ function Price_SummaryPage() {
         <div className='flex justify-between '>
           <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Subtotal')} </p>
           <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span> 45</span>
-            <span>EG</span>
+            <span> {getOrderByIdData?.subtotal}</span>
+            <span>ج.م</span>
           </p>
         </div>
 
@@ -25,8 +27,8 @@ function Price_SummaryPage() {
         <div className='flex justify-between  mt-3'>
           <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Delivery fees')}</p>
           <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span>12</span>
-            <span>EG</span>
+            <span>{getOrderByIdData?.delivery_fee}</span>
+            <span>ج.م</span>
           </p> 
         </div>
 
@@ -34,8 +36,8 @@ function Price_SummaryPage() {
         <div className='flex justify-between  mt-3'>
           <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('Service fees')}</p>
           <p className='text-[#364152] text-base font-medium flex  gap-1'>
-            <span>32</span>
-            <span>EG</span>
+            <span>{getOrderByIdData?.service_fee}</span>
+            <span>ج.م</span>
           </p>
         </div>
 
@@ -44,7 +46,7 @@ function Price_SummaryPage() {
           <p className='text-[#4B5565] text-sm font-normal  flex items-center '>{t('payment method')} </p>
           <p className='flex gap-1 text-[#4D0CE7] text-sm font-normal'>
             <img src="/images/icons/credit-card-darkBlue.svg" alt="" />
-            بطاقة
+            {getOrderByIdData?.payment_method === 'card' ? t('card') : getOrderByIdData?.payment_method }
           </p>
         </div>
 
@@ -54,8 +56,8 @@ function Price_SummaryPage() {
         <div className='flex justify-between  '>
           <p className='text-[#364152] text-sm font-medium  flex items-center '>{t('Total')} </p>
           <p className='text-[var(--color-primary)] text-base font-semibold flex  gap-1'>
-            <span>44</span>
-            <span>eg</span>
+            <span>{getOrderByIdData?.total}</span>
+            <span>ج.م</span>
           </p>
         </div>
 
