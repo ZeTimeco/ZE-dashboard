@@ -165,3 +165,18 @@ export const changeStatus = async({status})=>{
   const response = await API.post('/provider/food-delivery/restaurant-status' , {status})
   return response.data
 }
+
+export const RejectOrder = async(orderId)=>{
+  const response = await API.post(`/provider/food-delivery/orders/${orderId}/reject` )
+  return response.data
+}
+
+export const AcceptOrder = async(orderId)=>{
+  const response = await API.post(`/provider/food-delivery/orders/${orderId}/accept` )
+  return response.data
+}
+
+export const ReadyOrder = async(orderId)=>{
+  const response = await API.post(`/provider/food-delivery/orders/${orderId}/ready` )
+  return response.data
+}

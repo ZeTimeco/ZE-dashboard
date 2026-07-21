@@ -2,10 +2,24 @@
 import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { RejectOrderThunk, getOrdersThunk } from '@/redux/slice/Requests/RequestsSlice';
 
-function DeleteReservation({open , setOpen}) {
+function DeleteReservation({open , setOpen ,orderID, setDetailsOpen}) {
     const {t} = useTranslation();
-  
+    const dispatch = useDispatch()
+    
+    const handleRejectOrder = async () => {
+        const result = await dispatch(RejectOrderThunk(orderID));
+        if (RejectOrderThunk.fulfilled.match(result)) {
+            setOpen(false);
+            if (setDetailsOpen) {
+                setDetailsOpen(false);
+            }
+            dispatch(getOrdersThunk({ page: 1, status: 'new' }));
+        }
+    };
+
   return (
     <>
 
@@ -32,7 +46,7 @@ function DeleteReservation({open , setOpen}) {
             {t('Are you sure this request will be rejected?')}
           </p>
           <p className='text-[#364152] text-lg font-semibold w-97 text-center '>
-          9999
+            #{orderID}
           </p>
         </div>
   
@@ -40,6 +54,7 @@ function DeleteReservation({open , setOpen}) {
   
         <section className='w-full flex p-6 gap-3'>
           <button 
+            onClick={handleRejectOrder}
             className='w-full  bg-[#D92D20] text-white  h-13.5  rounded-[3px] '
           >
             <span className='text-base font-medium'>{t('Confirmation of rejection')}</span>
