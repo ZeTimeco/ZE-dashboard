@@ -1,17 +1,22 @@
 'use client'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import DetailsPage from './Details/page';
 
 function Product() {
   const {t} = useTranslation()
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+    
+  const [openDetails , setOpenDetails] = useState(false)
 
   return (
     <>
 
       <div className='my-8'>
 
-        <div className="shadow-[0_0_2px_0_rgba(0,0,0,0.20)] p-3 rounded-[3px]">
+        <div 
+          className="shadow-[0_0_2px_0_rgba(0,0,0,0.20)] p-3 rounded-[3px]"
+          >
           {/* Header */}
           <div className="flex items-center justify-between">
             <div className="flex gap-4 items-center">
@@ -37,7 +42,10 @@ function Product() {
           {/* Dropdown */}
           <div className={`overflow-hidden transition-all duration-300 ease-in-out ${open ? "max-h-96 opacity-100 p-2 mt-4" : "max-h-0 opacity-0" }`}>            
             {/* items */}
-            <div className="shadow-[0_0_2px_0_rgba(0,0,0,0.2)]  bg-white p-3 rounded-[3px] mb-4">
+            <div 
+              onClick={()=>setOpenDetails(true)} 
+              className="shadow-[0_0_2px_0_rgba(0,0,0,0.2)]  bg-white p-3 rounded-[3px] mb-4 cursor-pointer"
+            >
               <div className='flex justify-between w-full'>
                 <div className='flex gap-4  w-full'>
                   <p className='bg-[#F9F5E8] w-13.5 h-12 flex items-center justify-center rounded-[3px]'>
@@ -62,6 +70,12 @@ function Product() {
         </div>
 
       </div>
+
+
+      <DetailsPage
+        open={openDetails}
+        setOpen={setOpenDetails}
+      />
       
     </>
   )
