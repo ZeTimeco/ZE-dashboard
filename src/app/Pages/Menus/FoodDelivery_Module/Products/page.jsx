@@ -5,7 +5,7 @@ import Product from './Product'
 
 function ProductsPage() {
   return (
-    <div>
+    <div className='mt-10'>
       <Header/>
       <Box/>
 
