@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -123,6 +123,21 @@ export const deleteItemThunk = createAsyncThunk('Menus/deleteItem',
   }
 )
 
+/***************************************************** */
+//Food delivery
+
+export const getMenuStatisticsThunk = createAsyncThunk('Menu/getMenuStatistics' , 
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getMenuStatistics()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
 
 const initialState = {
   loading: false,
@@ -139,6 +154,8 @@ const initialState = {
   getItemsDetails:null,
   showFullItem:null,
   showFullCategory:null,
+
+  getMenuStatistics:null,
 
 
 
@@ -299,6 +316,20 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(deleteItemThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //getMenuStatisticsThunk
+      .addCase(getMenuStatisticsThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(getMenuStatisticsThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.getMenuStatistics = action.payload; 
+        state.error = null;
+      })
+      .addCase(getMenuStatisticsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

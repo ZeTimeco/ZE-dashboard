@@ -2,8 +2,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Box() {
+function Box({getMenuStatistics}) {
   const {t} = useTranslation()
+
   return (
     <div className='grid grid-cols-3 gap-4 mt-4'>
       {/* Products */}
@@ -15,7 +16,7 @@ function Box() {
           <p className='text-[#4B5565] text-base font-normal'>{t('Products')}</p>
         </div>
         <p className=' text-lg  my-2.5'>
-          <span className='text-[#202939] font-medium'>5</span> 
+          <span className='text-[#202939] font-medium'>{getMenuStatistics?.statistics?.total_products}</span> 
         </p>
       </div>
 
@@ -27,7 +28,7 @@ function Box() {
           </p>
           <p className='text-[#4B5565] text-base font-normal'>{t('available')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>5</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{getMenuStatistics?.statistics?.total_available}</p>
       </div>
 
       {/* Not available */}
@@ -38,7 +39,7 @@ function Box() {
           </p>
           <p className='text-[#4B5565] text-base font-normal'>{t('Not available')}</p>
         </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>5</p>
+        <p className='text-[#202939] text-lg font-medium my-2.5'>{getMenuStatistics?.statistics?.total_unavailable}</p>
       </div>
 
     </div>

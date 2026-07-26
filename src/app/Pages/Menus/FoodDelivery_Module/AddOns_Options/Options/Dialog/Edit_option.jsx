@@ -15,7 +15,7 @@ function Edit_option({open , setOpen}) {
       PaperProps={{ className: "rerquest-dialog" }}
     >
       {/* header */}
-      <section className="flex justify-end px-6 mt-6">
+      <section className="flex justify-start px-6 mt-6">
         <button
           onClick={()=>setOpen(false)}
           className="border border-[#CDD5DF] w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer"
@@ -24,8 +24,45 @@ function Edit_option({open , setOpen}) {
         </button>
       </section>
       
-      <p className='text-[#364152] text-xl font-medium px-6'>{t('Product details')}</p>
-      <div className='border border-[#CDD5DF] my-5'></div>
+      <p className='text-[#364152] text-xl font-medium  text-center'>{t('Edit option')}</p>
+
+      <div className='p-6'>
+        {/* */}
+      <div className='w-full flex flex-col gap-1'>
+        <p className='text-sm font-medium mb-1.5'>
+          <span className='text-sm  mb-1.5'>
+            <span className='text-[#364152] font-medium'>{t('Additional price')}  </span>
+            <span className=' text-[#697586] font-normal'>({t('pound')}) </span>
+          </span>  
+        </p>  
+        <input 
+          type="number"
+          name='title'
+          placeholder='0.00'
+          className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+        />
+      </div>
+
+      <p className='text-sm text-[#9AA4B2] font-normal my-1'>{t('Enter 0 for free options')}</p>
+
+      {/* btn  */}
+      <div className='w-full flex gap-4 my-4 '>
+        <button
+          className='w-full  bg-[var(--color-primary)] rounded-[3px]  px-4 py-2.5 cursor-pointer'
+        >
+          <p className='text-white text-base font-normal'>{t('save')}</p>
+        </button>
+        <button
+          onClick={()=>setOpen(false)}
+          className='w-full border border-[#CDD5DF] rounded-[3px]  px-4 py-2.5 cursor-pointer'
+        >
+          <p className='text-[#4B5565] text-base font-normal'>{t('cancel')}</p>
+        </button>
+
+      </div>
+
+
+    </div>
 
       </Dialog>
     

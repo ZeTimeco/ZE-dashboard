@@ -69,3 +69,11 @@ export const deleteItem =async (id)=>{
   const response = await API.delete(`/provider/menu-items/delete/${id}`)
   return response.data
 }
+
+/************************************************************** */
+//Food delivery
+
+export const getMenuStatistics = async()=>{
+  const response = await API.get(`/provider/food-delivery/menu-config/menu-statistics`)
+  return response.data
+}
