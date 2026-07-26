@@ -1,10 +1,11 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function FirstSection() {
   const {t} = useTranslation()
-  
+  const router = useRouter()
   return (
     <>
     <div className='flex justify-center items-center bg-[#EEF2F6] w-full h-34'>
@@ -45,7 +46,9 @@ function FirstSection() {
 
     <div className='flex justify-between mb-4'>
       <p className='text-[#364152] text-base font-medium'>{t('Add-ons and options')}</p>
-      <button className='border border-[var(--color-primary)]  flex gap-2 px-3 rounded-[3px] cursor-pointer'>
+      <button 
+        onClick={()=>{router.push(`/Pages/Menus/FoodDelivery_Module/AddOns_Options`)}}
+        className='border border-[var(--color-primary)]  flex gap-2 px-3 rounded-[3px] cursor-pointer'>
         <p className='flex items-center'><img src="/images/icons/arrowyellowOnly.svg" className="w-3 h-3" /></p>
         <p className='text-[var(--color-primary)] text-sm font-normal'>{t('administration')}</p>
       </button>
