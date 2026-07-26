@@ -1,3 +1,4 @@
+'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

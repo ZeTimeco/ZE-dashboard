@@ -3,9 +3,12 @@ import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import FirstSection from './FirstSection'
+import SecondSection from './SecondSection'
+import { useRouter } from 'next/navigation'
 
 function DetailsPage({open , setOpen}) {
   const {t} = useTranslation()
+  const router = useRouter()
   return (
     <>
     <Dialog
@@ -29,6 +32,22 @@ function DetailsPage({open , setOpen}) {
 
       <div className='px-6'>
         <FirstSection/>
+        <SecondSection/>
+      </div>
+
+        {/* btn */}
+      <div className='px-6 grid grid-cols-2 gap-6 mb-6'>
+
+        <button onClick={()=>setOpen(false)} className='border border-[var(--color-primary)] text-[var(--color-primary)] w-full text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          {t('cancel')}
+        </button>
+
+        <button 
+          onClick={()=>{router.push(`/Pages/Menus/FoodDelivery_Module/Products/Edit`)}}
+          className='bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          {t('modification')}
+        </button>
+
       </div>
       
 
