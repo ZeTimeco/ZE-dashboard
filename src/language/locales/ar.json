@@ -1439,6 +1439,7 @@
   "This price will only apply if added and will not affect the original product price.":"هذا السعر سيكون في حالة الاضافة فقط ولن يؤثر علي سعر المنتج الاصلي",
   "Maximum additions":"الحد الأقصى للإضافات",
   "The number of add-ons that the customer can choose (0 = unlimited)":"عدد الإضافات التي يمكن للعميل اختيارها (0 = غير محدود)",
+  "visible to customers":"ظاهر للعملاء",
   
 
 

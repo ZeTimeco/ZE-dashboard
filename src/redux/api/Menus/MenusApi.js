@@ -77,3 +77,10 @@ export const getMenuStatistics = async()=>{
   const response = await API.get(`/provider/food-delivery/menu-config/menu-statistics`)
   return response.data
 }
+
+export const getMenus = async(search)=>{
+  const response = await API.get(`/provider/food-delivery/menu-config/menue`, {
+    params: search ? { search } : undefined
+  })
+  return response.data
+}
