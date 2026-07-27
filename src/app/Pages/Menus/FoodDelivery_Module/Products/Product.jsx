@@ -14,6 +14,8 @@ function Product({getMenus}) {
     
   const [openDetails , setOpenDetails] = useState(false)
 
+const [selectedProductId, setSelectedProductId] = useState(null);
+  
   return (
     <>
 
@@ -55,7 +57,10 @@ function Product({getMenus}) {
               {category?.items?.map((item)=>(
                 <div 
                   key={item?.id}
-                  onClick={()=>setOpenDetails(true)} 
+                  onClick={() => {
+                    setSelectedProductId(item.id);
+                    setOpenDetails(true);
+                  }}
                   className="shadow-[0_0_2px_0_rgba(0,0,0,0.2)]  bg-white p-3 rounded-[3px] mb-4 cursor-pointer"
                 >
                   <div className='flex justify-between w-full'>
@@ -104,6 +109,7 @@ function Product({getMenus}) {
       <DetailsPage
         open={openDetails}
         setOpen={setOpenDetails}
+        itemId={selectedProductId}
       />
       
     </>

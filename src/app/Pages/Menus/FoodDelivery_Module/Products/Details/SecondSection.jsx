@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function SecondSection() {
+function SecondSection({getProductDetailsData}) {
   const {t} = useTranslation()
   const [open , setOpen] = useState(false)
   const [open2 , setOpen2] = useState(false)
@@ -68,9 +68,12 @@ function SecondSection() {
   return (
     <>
       {/* Additions */}
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)]  p-4 mb-4'>
-        <div className='flex justify-between'>
-          <p className='text-[#364152] text-base font-normal'>{t('Additions')}</p>
+      <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-4">
+        <div className="flex justify-between">
+          <p className="text-[#364152] text-base font-normal">
+            {t("Additions")}
+          </p>
+
           <button
             onClick={() => setOpen(!open)}
             className="cursor-pointer transition-transform duration-300"
@@ -84,21 +87,28 @@ function SecondSection() {
             />
           </button>
         </div>
-        {open && (
-          <div className='p-3 border border-[#E3E8EF] rounded-[3px] my-5 cursor-pointer '>
 
-            <div className='flex gap-4'>
-              <p className='bg-[#F9F5E8] w-14 h-12 flex justify-center items-center rounded-[3px]'>
-                <img src="/images/burger.svg" alt="" />
-              </p>
-              <p className='flex flex-col gap-1'>
-                <span className='text-[#364152] text-base font-normal'>برجر كلاسيك</span>
-                <span className='text-[var(--color-primary)] text-base font-normal'>350 جنية</span>
-              </p>
+        {open &&  getProductDetailsData?.addons?.map((addon) => (
+            <div
+              key={addon?.id}
+              className="p-3 border border-[#E3E8EF] rounded-[3px] my-5 cursor-pointer"
+            >
+              <div className="flex gap-4">
+                <div className="bg-[#F9F5E8] w-14 h-12 flex justify-center items-center rounded-[3px]">
+                  <img src="/images/burger.svg" alt="" />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                  <span className="text-[#364152] text-base font-normal">
+                    {addon?.name}
+                  </span>
+                  <span className="text-[var(--color-primary)] text-base font-normal">
+                    {addon?.base_price}
+                  </span>
+                </div>
+              </div>
             </div>
-
-          </div>
-        )}
+          ))}
       </div>
 
       {/* Options */}
@@ -118,13 +128,21 @@ function SecondSection() {
             />
           </button>
         </div>
-        {open2 && (
-          <div className='p-3 border border-[#E3E8EF] rounded-[3px] my-5 cursor-pointer '>
-            <p className='text-[#364152] text-base font-normal'>الحجم</p>
-            <p className='text-[#697586] text-sm font-normal'>صغير / متوسط / كبير</p>
+        {open2 && getProductDetailsData?.foodDeliveryOptionGroups?.map((option) => (
+            <div
+              key={option?.id}
+              className="p-3 border border-[#E3E8EF] rounded-[3px] my-5 cursor-pointer"
+            >
+              <p className="text-[#364152] text-base font-normal">
+                {option.name}
+              </p>
 
-          </div>
-        )}
+              <p className="text-[#697586] text-sm font-normal">
+                {option.options?.map((item) => item.name).join(" / ")}
+              </p>
+            </div>
+          ))
+        }
       </div>
 
       {/* Available for order */}
@@ -134,7 +152,9 @@ function SecondSection() {
           <span className='text-[#697586] text-sm font-normal'>{t('Customers can order this product')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={getProductDetailsData?.status === "active"}
+          />
         </p>
       </div>
 
@@ -146,7 +166,9 @@ function SecondSection() {
           <span className='text-[#697586] text-sm font-normal'>{t('The product is available to order')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={getProductDetailsData?.is_visible === 1}
+          />
         </p>
       </div>
       

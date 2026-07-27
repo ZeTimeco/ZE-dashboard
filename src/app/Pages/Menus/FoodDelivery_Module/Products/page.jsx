@@ -10,7 +10,7 @@ import Loader from '@/app/Components/Loader/Loader'
 
 function ProductsPageContent() {
   const dispatch = useDispatch()
-  const {getMenuStatistics , getMenus} = useSelector((state)=>state.Menus)
+  const {getMenuStatistics , getMenus } = useSelector((state)=>state.Menus)
   const searchParams = useSearchParams()
   const search = searchParams.get('search') || ''
 

@@ -1,14 +1,28 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import FirstSection from './FirstSection'
 import SecondSection from './SecondSection'
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProductDetailsThunk } from '@/redux/slice/Menus/MenusSlice'
 
-function DetailsPage({open , setOpen}) {
+function DetailsPage({open , setOpen ,itemId}) {
   const {t} = useTranslation()
   const router = useRouter()
+
+  console.log('itemId***' , itemId);
+  const dispatch = useDispatch()
+  const {getProductDetails} = useSelector((state)=>state.Menus)
+  useEffect(()=>{
+    if(itemId){
+      dispatch(getProductDetailsThunk(itemId))
+    }
+
+  },[dispatch , itemId])
+
+  console.log('getProductDetails' , getProductDetails );
   return (
     <>
     <Dialog
@@ -31,8 +45,8 @@ function DetailsPage({open , setOpen}) {
       <div className='border border-[#CDD5DF] my-5'></div>
 
       <div className='px-6'>
-        <FirstSection/>
-        <SecondSection/>
+        <FirstSection  getProductDetailsData={getProductDetails?.data} />
+        <SecondSection getProductDetailsData={getProductDetails?.data} />
       </div>
 
         {/* btn */}

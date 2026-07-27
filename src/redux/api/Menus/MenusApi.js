@@ -84,3 +84,8 @@ export const getMenus = async(search)=>{
   })
   return response.data
 }
+
+export const getProductDetails = async(itemID)=>{
+  const response = await API.get(`/provider/food-delivery/product-details/${itemID}`)
+  return response.data
+}
