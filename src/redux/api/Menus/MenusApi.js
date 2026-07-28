@@ -104,3 +104,13 @@ export const DeleteItem = async(itemID)=>{
   const response = await API.delete(`/provider/menu-items/delete/${itemID}`)
   return response.data
 }
+
+export const ShowFullItem = async(itemID)=>{
+  const response = await API.get(`/provider/menu-item/showFull/${itemID}`)
+  return response.data
+}
+
+export const updateItem = async({itemID ,formData})=>{
+  const response = await API.post(`/provider/menu-items/${itemID}` ,formData)
+  return response.data
+}

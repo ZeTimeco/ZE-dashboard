@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -193,6 +193,29 @@ export const DeleteItemThunk = createAsyncThunk('Menu/DeleteItem' ,
 )
 
 
+export const ShowFullItemThunk = createAsyncThunk('Menu/ShowFullItem' , 
+  async(itemID , {rejectWithValue})=>{
+    try{
+      const response = await ShowFullItem(itemID)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const updateItemThunk = createAsyncThunk('Menu/updateItem' , 
+  async({itemID , formData} , {rejectWithValue})=>{
+    try{
+      const response = await updateItem({itemID , formData})
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+
 const initialState = {
   loading: false,
   error: null,
@@ -212,6 +235,7 @@ const initialState = {
   getMenuStatistics:null,
   getMenus:[],
   getProductDetails:null,
+  ShowFullItem:null,
 
 
 
@@ -454,6 +478,33 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(DeleteItemThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //ShowFullItemThunk
+      .addCase(ShowFullItemThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(ShowFullItemThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.ShowFullItem = action.payload; 
+        state.error = null;
+      })
+      .addCase(ShowFullItemThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //updateItemThunk
+      .addCase(updateItemThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(updateItemThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateItemThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
