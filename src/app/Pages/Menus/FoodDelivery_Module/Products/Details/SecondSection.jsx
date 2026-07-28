@@ -2,9 +2,12 @@
 import { styled, Switch } from '@mui/material'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { toggleAvailabilityThunk, getProductDetailsThunk, updateStatusesThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function SecondSection({getProductDetailsData}) {
   const {t} = useTranslation()
+  const dispatch = useDispatch()
   const [open , setOpen] = useState(false)
   const [open2 , setOpen2] = useState(false)
 
@@ -65,6 +68,29 @@ function SecondSection({getProductDetailsData}) {
     },
   }));
     
+  const handleToggleAvailability = async () => {
+    if (getProductDetailsData?.id) {
+      const result = await dispatch(toggleAvailabilityThunk(getProductDetailsData.id))
+      if (!result.error) {
+        dispatch(getProductDetailsThunk(getProductDetailsData.id))
+      }
+    }
+  }
+
+  const handleToggleVisibility = async () => {
+    if (getProductDetailsData?.id) {
+      const newVisibility = getProductDetailsData?.is_visible === 1 ? 0 : 1
+      const payload = {
+        item_id: getProductDetailsData.id,
+        is_visible: newVisibility
+      }
+      const result = await dispatch(updateStatusesThunk(payload))
+      if (!result.error) {
+        dispatch(getProductDetailsThunk(getProductDetailsData.id))
+      }
+    }
+  }
+
   return (
     <>
       {/* Additions */}
@@ -154,6 +180,7 @@ function SecondSection({getProductDetailsData}) {
         <p className='flex items-center'>
           <GreenSwitch
             checked={getProductDetailsData?.status === "active"}
+            onChange={handleToggleAvailability}
           />
         </p>
       </div>
@@ -168,6 +195,7 @@ function SecondSection({getProductDetailsData}) {
         <p className='flex items-center'>
           <GreenSwitch
             checked={getProductDetailsData?.is_visible === 1}
+            onChange={handleToggleVisibility}
           />
         </p>
       </div>

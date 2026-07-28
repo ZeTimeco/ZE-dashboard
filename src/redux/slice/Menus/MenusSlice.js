@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -159,6 +159,38 @@ export const getProductDetailsThunk = createAsyncThunk('Menu/getProductDetails' 
   }
 )
 
+export const toggleAvailabilityThunk = createAsyncThunk('Menu/toggleAvailability' , 
+  async(itemID , {rejectWithValue})=>{
+    try{
+      const response = await toggleAvailability(itemID)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const updateStatusesThunk = createAsyncThunk('Menu/updateStatuses' , 
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await updateStatuses(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const DeleteItemThunk = createAsyncThunk('Menu/DeleteItem' , 
+  async(itemID , {rejectWithValue})=>{
+    try{
+      const response = await DeleteItem(itemID)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
 
 const initialState = {
@@ -383,6 +415,45 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(getProductDetailsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //toggleAvailabilityThunk
+      .addCase(toggleAvailabilityThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(toggleAvailabilityThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(toggleAvailabilityThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //updateStatusesThunk
+      .addCase(updateStatusesThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(updateStatusesThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(updateStatusesThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //DeleteItemThunk
+      .addCase(DeleteItemThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(DeleteItemThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(DeleteItemThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })

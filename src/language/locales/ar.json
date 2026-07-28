@@ -1440,6 +1440,8 @@
   "Maximum additions":"الحد الأقصى للإضافات",
   "The number of add-ons that the customer can choose (0 = unlimited)":"عدد الإضافات التي يمكن للعميل اختيارها (0 = غير محدود)",
   "visible to customers":"ظاهر للعملاء",
+  "Are you sure about deleting it?":"هل أنت متأكد من الحذف؟",
+  "Confirmation of deleting":"تأكيد الحذف",
   
 
 

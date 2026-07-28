@@ -89,3 +89,18 @@ export const getProductDetails = async(itemID)=>{
   const response = await API.get(`/provider/food-delivery/product-details/${itemID}`)
   return response.data
 }
+
+export const toggleAvailability = async(itemID)=>{
+  const response = await API.post(`/provider/food-delivery/menu-config/toggle-availability/${itemID}`)
+  return response.data
+}
+
+export const updateStatuses = async(formData)=>{
+  const response = await API.post(`/provider/food-delivery/manage/menu-items/update-statuses` ,formData )
+  return response.data
+}
+
+export const DeleteItem = async(itemID)=>{
+  const response = await API.delete(`/provider/menu-items/delete/${itemID}`)
+  return response.data
+}

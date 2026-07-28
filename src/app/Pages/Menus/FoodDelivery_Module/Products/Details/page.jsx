@@ -1,12 +1,13 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import FirstSection from './FirstSection'
 import SecondSection from './SecondSection'
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductDetailsThunk } from '@/redux/slice/Menus/MenusSlice'
+import Delete from './Dialog/Delete/Delete'
 
 function DetailsPage({open , setOpen ,itemId}) {
   const {t} = useTranslation()
@@ -23,6 +24,8 @@ function DetailsPage({open , setOpen ,itemId}) {
   },[dispatch , itemId])
 
   console.log('getProductDetails' , getProductDetails );
+
+  const[openDelete , setOpenDelete] = useState(false)
   return (
     <>
     <Dialog
@@ -52,8 +55,8 @@ function DetailsPage({open , setOpen ,itemId}) {
         {/* btn */}
       <div className='px-6 grid grid-cols-2 gap-6 mb-6'>
 
-        <button onClick={()=>setOpen(false)} className='border border-[var(--color-primary)] text-[var(--color-primary)] w-full text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
-          {t('cancel')}
+        <button onClick={()=>setOpenDelete(true)} className='border border-[#B42318] text-[#B42318] w-full text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          {t('delete')}
         </button>
 
         <button 
@@ -67,6 +70,12 @@ function DetailsPage({open , setOpen ,itemId}) {
 
     </Dialog>
       
+      <Delete
+        open={openDelete}
+        setOpen={setOpenDelete}
+        itemId={itemId}
+        setOpenDetails={setOpen}
+      />
 
     </>
   )

@@ -72,7 +72,11 @@ function FirstSection({getProductDetailsData}) {
 
     <div className='flex justify-between mt-6'>
       <p className='text-[#364152] text-xl font-medium'>{getProductDetailsData?.name}</p>
-      <p className='border border-[#067647] bg-[#DCFAE6] text-[#067647] rounded-full w-fit px-3'>{getProductDetailsData?.is_visible ? t('visible to customers') : null}</p>
+      {getProductDetailsData?.is_visible ? (
+        <p className='border border-[#067647] bg-[#DCFAE6] text-[#067647] rounded-full w-fit px-3'>
+          {t('visible to customers')}
+        </p>
+      ) : null}
     </div>
 
     <div className='flex justify-between my-4'>
