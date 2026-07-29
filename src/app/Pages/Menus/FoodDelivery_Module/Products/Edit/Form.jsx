@@ -341,7 +341,6 @@ function Form({formData , setFormData ,getCategoriesMenu}) {
                 is_visible: e.target.checked ? 1 : 0,
               }))
             }
-
           />
         </p>
       </div>

@@ -115,10 +115,20 @@ export const updateItem = async ({ itemID, formData }) => {
     formData,
     {headers: {"Content-Type": "multipart/form-data"}}
   );
-
   return response.data;
 };
+
 export const getCategoriesMenu = async()=>{
   const response = await API.get(`/provider/menu-categories`)
   return response.data
 }
+
+export const addItems = async ({formData }) => {
+  const response = await API.post(`/provider/menu-items/create`,
+    formData,
+    {headers: {"Content-Type": "multipart/form-data"}}
+  );
+  return response.data;
+};
+
+

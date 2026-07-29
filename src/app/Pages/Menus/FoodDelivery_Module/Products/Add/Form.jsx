@@ -3,14 +3,14 @@ import { styled, Switch } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Form() {
+function Form({formData , setFormData , getCategoriesMenu}) {
   const {t} = useTranslation()
 
     // =========================
     const [open1, setOpen1] = useState(false);
     const [searchValue1, setSearchValue1] = useState("");
     const dropdownRef1 = useRef(null);
-    const categoryType = ['1','2' ,'3'];
+    const categoryType =getCategoriesMenu?.data;
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
@@ -76,6 +76,8 @@ function Form() {
           }),
         },
       }));
+
+    console.log('formData' ,formData );
     
   return (
     <>
@@ -91,6 +93,16 @@ function Form() {
         <input 
           type="text"
           name='title'
+          value={formData?.name?.ar}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              name: {
+                  ...prev.name,
+                  ar: e.target.value
+              }
+          }))
+          }
           placeholder={t("Product Name")}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -106,6 +118,16 @@ function Form() {
         <input 
           type="text"
           name='title'
+          value={formData?.name?.en}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              name: {
+                  ...prev.name,
+                  en: e.target.value
+              }
+          }))
+          }
           placeholder={t("Product Name")}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -119,6 +141,16 @@ function Form() {
         </p>  
         <textarea
           name="description"
+          value={formData?.description?.ar}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              description: {
+                  ...prev.description,
+                  ar: e.target.value
+              }
+          }))
+          }
           placeholder={t("Write a brief description")}
           className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
         />
@@ -132,6 +164,16 @@ function Form() {
         </p>  
         <textarea
           name="description"
+          value={formData?.description?.en}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              description: {
+                  ...prev.description,
+                  en: e.target.value
+              }
+          }))
+          }
           placeholder={t("Write a brief description")}
           className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
         />
@@ -174,18 +216,19 @@ function Form() {
             <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {categoryType
                 ?.filter((opt) =>
-                  opt?.toLowerCase().includes(searchValue1.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                 )
                 .map((opt) => (
                   <li
-                    key={opt}
+                    key={opt?.id}
                     onClick={() => {
-                      setSearchValue1(opt);
+                      setSearchValue1(opt?.name);
+                      setFormData((prev) => ({ ...prev, category_id: opt?.id }));
                       setOpen1(false);
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
                 ))}
             </ul>
@@ -205,6 +248,11 @@ function Form() {
         <input 
           type="text"
           name='title'
+          value={formData?.base_price}
+          onChange={(e)=>setFormData((prev)=>({
+            ...prev,
+            base_price:e.target.value
+          }))}
           placeholder={t("the price")}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -221,6 +269,11 @@ function Form() {
         <input 
           type="number"
           name='time'
+          value={formData?.calories}
+          onChange={(e)=>setFormData((prev)=>({
+            ...prev,
+            calories:e.target.value
+          }))}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
       </div>
@@ -237,6 +290,11 @@ function Form() {
         <input 
           type="number"
           name='time'
+          value={formData?.prep_time_min}
+          onChange={(e)=>setFormData((prev)=>({
+            ...prev,
+            prep_time_min:e.target.value
+          }))}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
       </div>
@@ -248,7 +306,15 @@ function Form() {
           <span className='text-[#697586] text-sm font-normal'>{t('The product is available to order')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData.status === "active"}
+            onChange={(e) => {
+              setFormData((prev) => ({
+                ...prev,
+                status: e.target.checked ? "active" : "hidden",
+              }));
+            }}
+          />
         </p>
       </div>
 
@@ -260,7 +326,15 @@ function Form() {
           <span className='text-[#697586] text-sm font-normal'>{t('Customers can order this product')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData.is_visible === 1}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                is_visible: e.target.checked ? 1 : 0,
+              }))
+            }
+          />
         </p>
       </div>
 
