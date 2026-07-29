@@ -110,7 +110,15 @@ export const ShowFullItem = async(itemID)=>{
   return response.data
 }
 
-export const updateItem = async({itemID ,formData})=>{
-  const response = await API.post(`/provider/menu-items/${itemID}` ,formData)
+export const updateItem = async ({ itemID, formData }) => {
+  const response = await API.post(`/provider/menu-items/${itemID}`,
+    formData,
+    {headers: {"Content-Type": "multipart/form-data"}}
+  );
+
+  return response.data;
+};
+export const getCategoriesMenu = async()=>{
+  const response = await API.get(`/provider/menu-categories`)
   return response.data
 }

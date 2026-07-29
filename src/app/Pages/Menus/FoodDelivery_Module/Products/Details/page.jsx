@@ -13,7 +13,6 @@ function DetailsPage({open , setOpen ,itemId}) {
   const {t} = useTranslation()
   const router = useRouter()
 
-  console.log('itemId***' , itemId);
   const dispatch = useDispatch()
   const {getProductDetails} = useSelector((state)=>state.Menus)
   useEffect(()=>{
@@ -60,7 +59,7 @@ function DetailsPage({open , setOpen ,itemId}) {
         </button>
 
         <button 
-          onClick={()=>{router.push(`/Pages/Menus/FoodDelivery_Module/Products/Edit`)}}
+          onClick={()=>{router.push(`/Pages/Menus/FoodDelivery_Module/Products/Edit?id=${getProductDetails?.data?.id}`)}}
           className='bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
           {t('modification')}
         </button>
