@@ -67,7 +67,7 @@ function AddPage() {
     try {
       await dispatch(addItemsThunk({ formData: data })).unwrap();
       alert("Product added successfully.");
-      router.push('/Pages/Menus/FoodDelivery_Module/Products');
+      router.push('/Pages/Menus/FoodDelivery_Module');
     } catch (error) {
       alert("Failed to add product.");
       console.error(error);
