@@ -7,7 +7,7 @@ function SearchForm({ placeholderKey ,width, ...props }) {
 // 546--556
   return (
     <>
-      <div className={`relative h-14`} style={{ width: width || '546px' }}>
+      <div className={`relative h-14 w-[50%] lg1:w-[60%] rounded-[3px]`} >
         <img
           src="/images/icons/search.svg"
           alt="search"
