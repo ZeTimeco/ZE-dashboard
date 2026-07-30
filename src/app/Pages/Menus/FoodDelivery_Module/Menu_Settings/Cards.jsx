@@ -1,12 +1,14 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function Cards() {
   const {t} = useTranslation()
+  const router = useRouter()
   const state = 'open'
 
-    const StatusRender = (status) => {
+  const StatusRender = (status) => {
     switch (status) {
       case 'open': 
         return (
@@ -50,7 +52,9 @@ function Cards() {
               </>
             )}
 
-            <button className="w-8 h-8 bg-[#F4EAD0] rounded-[3px] flex justify-center items-center cursor-pointer">
+            <button 
+              onClick={()=>router.push(`/Pages/Menus/FoodDelivery_Module/Menu_Settings/Edit`)}
+              className="w-8 h-8 bg-[#F4EAD0] rounded-[3px] flex justify-center items-center cursor-pointer">
               <img src="/images/icons/EditYellow.svg" className="w-5 h-5" />
             </button>
 

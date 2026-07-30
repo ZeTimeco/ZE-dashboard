@@ -5,7 +5,7 @@ import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl';
 
 const MAX_IMAGES = 5;
 
-function UploadImage({ formData, setFormData}) {
+function UploadImage({ formData, setFormData ,existingImages}) {
   const { t } = useTranslation();
 
   const fileInputRef = useRef(null);

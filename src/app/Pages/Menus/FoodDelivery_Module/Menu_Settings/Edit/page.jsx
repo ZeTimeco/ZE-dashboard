@@ -6,14 +6,14 @@ import ImageUpload from './ImageUpload'
 import Form from './Form'
 import { useRouter } from 'next/navigation'
 
-function AddPage() {
+function EditPage() {
   const {t} = useTranslation()
   const router = useRouter()
 
   return (
     <MainLayout>
       
-      <p className='text-[#364152] text-2xl font-medium mb-8'>{t('Add a new category')}</p>
+      <p className='text-[#364152] text-2xl font-medium mb-8'>{t('Edit category')}</p>
       <div className='border border-[#E6E6E6] rounded-[3px] p-8'>
         <Form/>
         <ImageUpload/>
@@ -21,13 +21,13 @@ function AddPage() {
 
 
     <div className='flex justify-between'>
-      <button
+      <button 
         onClick={()=>router.back()}
         className='border border-[#697586] text-[#697586] w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
         {t('Return')}
       </button>
       <button  className='bg-[var(--color-primary)] text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
-        {t('save')}
+        {t('Save changes')}
       </button>
     </div>
 
@@ -35,4 +35,4 @@ function AddPage() {
   )
 }
 
-export default AddPage
+export default EditPage

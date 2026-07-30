@@ -1445,6 +1445,12 @@
   "add category":"Add category",
   "Product":"Product",
   "Hidden":"Hidden",
+  "Image category":"Image category",
+  "Upload an image for the category (optional)":"Upload an image for the category (optional)",
+  "Category name":"Category name",
+  "Can customers order products in this category?":"Can customers order products in this category?",
+  "Available upon request":"Available upon request",
+  "Edit category":"Edit category",
   
   
 
@@ -1453,12 +1459,6 @@
   
   
   
-
-
-
-
-
-
 
 
 

@@ -1446,7 +1446,13 @@
   "add category":"أضافة فئة",
   "Product":"منتج",
   "Hidden":"مخفية",
-  
+  "Image category":"صورة الفئة",
+  "Upload an image for the category (optional)":"قم بتحميل صورة للفئة (اختياري)",
+  "Category name":"اسم الفئة",
+  "Can customers order products in this category?":"هل يمكن للعملاء طلب منتجات هذه الفئة؟",
+  "Available upon request":"قابلة لطلب",
+  "Edit category":"تعديل فئة",
+
 
 
 

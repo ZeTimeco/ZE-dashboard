@@ -32,7 +32,9 @@ const [selectedProductId, setSelectedProductId] = useState(null);
                 <div className="flex gap-4 items-center">
                   <p className="bg-[#F4EAD0] text-[var(--color-primary)] text-xs w-5 h-5 rounded-full flex justify-center items-center">{category?.items_count}</p>
                   <p className="text-[#364152] text-lg font-medium">{category?.name}</p>
-                  <p className="border border-[#F97066] bg-[#FEE4E2] rounded-full px-2 py-1 text-[#D92D20] text-xs font-normal"> {category?.unavailable_count} {t("Not available")} </p>            
+                  {category?.unavailable_count === 0 ? null :(
+                    <p className="border border-[#F97066] bg-[#FEE4E2] rounded-full px-2 py-1 text-[#D92D20] text-xs font-normal"> {category?.unavailable_count} {t("Not available")} </p>            
+                  )}
                 </div>
 
                 <button
