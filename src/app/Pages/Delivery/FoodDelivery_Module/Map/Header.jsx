@@ -1,3 +1,4 @@
+'use client'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,10 +18,10 @@ function Header() {
         </p>
       </div>
 
-      <button
-        onClick={() => router.push('/Pages/Delivery/FoodDelivery_Module/Map')}
+      <button 
+        onClick={() => router.back()}
         className='w-[20%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] text-base font-medium cursor-pointer'>
-        {t('Open the map')}
+        {t('Open the menu')}
       </button>
 
     </div>
