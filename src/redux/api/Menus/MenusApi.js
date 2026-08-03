@@ -131,4 +131,23 @@ export const addItems = async ({formData }) => {
   return response.data;
 };
 
+export const getCategoriesList = async()=>{
+  const response = await API.get(`/provider/menu-categories`)
+  return response.data
+}
+
+export const getCategoryDetails = async(id)=>{
+  const response = await API.get(`/provider/menu-categories/${id}`)
+  return response.data
+}
+
+export const editCategoryMenu = async ({ id, formData }) => {
+  const response = await API.post(`/provider/menu-categories/${id}`,
+    formData,
+    {headers: {"Content-Type": "multipart/form-data"}}
+  );
+  return response.data;
+}
+
+
 

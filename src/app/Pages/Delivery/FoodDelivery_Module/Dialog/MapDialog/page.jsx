@@ -122,32 +122,31 @@ export default function MapDialog({ open, onClose, location }) {
         style: { borderRadius: '12px', overflow: 'hidden', padding: 0 },
       }}
     >
+
       <div className='px-6'>
-      {/* ── Header ── */}
-      <div className='flex justify-end mt-4'>
-        <button 
-          onClick={onClose} 
-          className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center'
-        >
-          <img src="/images/icons/xx.svg" alt="" />
-        </button>
+        {/* ── Header ── */}
+        <div className='flex justify-end mt-4'>
+          <button 
+            onClick={onClose} 
+            className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center'
+          >
+            <img src="/images/icons/xx.svg" alt="" />
+          </button>
+        </div>
+
+        <div className='flex flex-col  items-start mt-2 '>
+          <p className='text-[#364152] text-lg font-medium mb-2'>
+            {t('Delivery')}
+          </p>
+          <p className='flex items-center gap-2'>
+            <img src="/images/icons/delivery-truck-blue.svg" alt="" />
+            <span className='text-[#4B5565] text-base font-normal'>5 {t('in the way')}</span>
+          </p>
+        
+        </div>
       </div>
 
-      <div className='flex flex-col  items-start mt-2 '>
-        <p className='text-[#364152] text-lg font-medium mb-2'>
-          {t('Delivery')}
-        </p>
-        <p className='flex items-center gap-2'>
-          <img src="/images/icons/delivery-truck-blue.svg" alt="" />
-          <span className='text-[#4B5565] text-base font-normal'>5 {t('in the way')}</span>
-        </p>
-      
-      </div>
-    </div>
-
-
-    <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
-
+      <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
 
       {/* ── Map ── */}
       <div className='px-6 pb-6' style={{ height: 460, position: 'relative' }}>
@@ -198,7 +197,6 @@ export default function MapDialog({ open, onClose, location }) {
         )}
       </div>
 
-    
     </Dialog>
   )
 }

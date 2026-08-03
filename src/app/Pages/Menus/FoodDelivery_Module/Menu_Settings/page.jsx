@@ -1,12 +1,23 @@
 'use client'
 import AddBtn from '@/app/Components/Buttons/AddBtn'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Cards from './Cards'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCategoriesListThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function Menu_SettingsPage() {
   const {t} = useTranslation()
+
+  //api
+  const dispatch = useDispatch()
+  const { getCategoriesList } =useSelector((state) => state.Menus)
+  useEffect(()=>{
+    dispatch(getCategoriesListThunk())
+  },[dispatch])
+
+  console.log("getCategoriesList", getCategoriesList)
   return (
     <MainLayout>
 
@@ -23,7 +34,7 @@ function Menu_SettingsPage() {
 
       {/*  */}
       <div className='grid grid-cols-2 gap-6'>
-        <Cards/>
+        <Cards getCategoriesList={getCategoriesList}/>
       </div>
     
 

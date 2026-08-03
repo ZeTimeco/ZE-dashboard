@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Form() {
+function Form({formData, setFormData}) {
     const {t} = useTranslation()
 
     const GreenSwitch = styled((props) => (
@@ -80,16 +80,16 @@ function Form() {
         <input 
           type="text"
           name='title'
-          // value={formData?.name?.ar}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     name: {
-          //         ...prev.name,
-          //         ar: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.name?.ar}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              name: {
+                  ...prev.name,
+                  ar: e.target.value
+              }
+          }))
+          }
           placeholder={t("Category name")}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -105,16 +105,16 @@ function Form() {
         <input 
           type="text"
           name='title'
-          // value={formData?.name?.en}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     name: {
-          //         ...prev.name,
-          //         en: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.name?.en}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              name: {
+                  ...prev.name,
+                  en: e.target.value
+              }
+          }))
+          }
           placeholder={t("Category name")}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -128,16 +128,16 @@ function Form() {
         </p>  
         <textarea
           name="description"
-          // value={formData?.description?.ar}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     description: {
-          //         ...prev.description,
-          //         ar: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.description?.ar}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              description: {
+                  ...prev.description,
+                  ar: e.target.value
+              }
+          }))
+          }
           placeholder={t("Write a brief description")}
           className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
         />
@@ -151,16 +151,16 @@ function Form() {
         </p>  
         <textarea
           name="description"
-          // value={formData?.description?.en}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     description: {
-          //         ...prev.description,
-          //         en: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.description?.en}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              description: {
+                  ...prev.description,
+                  en: e.target.value
+              }
+          }))
+          }
           placeholder={t("Write a brief description")}
           className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
         />
@@ -180,13 +180,13 @@ function Form() {
         </p>
         <p className='flex items-center'>
           <GreenSwitch
-            // checked={formData.status === "active"}
-            // onChange={(e) => {
-            //   setFormData((prev) => ({
-            //     ...prev,
-            //     status: e.target.checked ? "active" : "hidden",
-            //   }));
-            // }}
+            checked={formData.status === 1}
+            onChange={(e) => {
+              setFormData((prev) => ({
+                ...prev,
+                status: e.target.checked ? 1 : 0,
+              }));
+            }}
           />
         </p>
       </div>
@@ -200,13 +200,13 @@ function Form() {
         </p>
         <p className='flex items-center'>
           <GreenSwitch
-            // checked={formData.is_visible === 1}
-            // onChange={(e) =>
-            //   setFormData((prev) => ({
-            //     ...prev,
-            //     is_visible: e.target.checked ? 1 : 0,
-            //   }))
-            // }
+            checked={formData.is_visible === 1}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                is_visible: e.target.checked ? 1 : 0,
+              }))
+            }
           />
         </p>
       </div>
