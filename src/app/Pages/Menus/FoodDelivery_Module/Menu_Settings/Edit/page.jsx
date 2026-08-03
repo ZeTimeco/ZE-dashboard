@@ -24,7 +24,6 @@ function EditPage() {
     }
   }, [dispatch, id]);
 
-
   const [formData, setFormData] = useState({
     name: {
       ar: "",

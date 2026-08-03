@@ -1,12 +1,23 @@
 'use client'
+import { getCategoriesListThunk, toggleVisibilityThunk } from '@/redux/slice/Menus/MenusSlice'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
 
 function Cards({getCategoriesList}) {
   const {t} = useTranslation()
   const router = useRouter()
-  const state = 'open'
+  const dispatch = useDispatch()
+
+  const handleToggleVisibility = async (categoryId) => {
+    try {
+      await dispatch(toggleVisibilityThunk(categoryId)).unwrap();
+      dispatch(getCategoriesListThunk());
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const StatusRender = (status) => {
     switch (status) {
@@ -41,13 +52,19 @@ function Cards({getCategoriesList}) {
           </div>
           <div className='flex gap-3'>
             {category?.is_visible === 1 ? (
-              <button className="w-8 h-8 bg-[#DCFAE6] rounded-[3px] flex justify-center items-center cursor-pointer">
+              <button 
+                onClick={() => handleToggleVisibility(category.id)}
+                className="w-8 h-8 bg-[#DCFAE6] rounded-[3px] flex justify-center items-center cursor-pointer"
+              >
                 <img src="/images/icons/eye_Green.svg" className="w-5 h-5" />
               </button>
             ) : (
               <>
                 {/* close eye */}
-                <button className="w-8 h-8 bg-[#EEF2F6] rounded-[3px] flex justify-center items-center cursor-pointer">
+                <button 
+                  onClick={() => handleToggleVisibility(category.id)}
+                  className="w-8 h-8 bg-[#EEF2F6] rounded-[3px] flex justify-center items-center cursor-pointer"
+                >
                   <img src="/images/icons/eye_Close_gray.svg" className="w-5 h-5" />
                 </button>
               </>

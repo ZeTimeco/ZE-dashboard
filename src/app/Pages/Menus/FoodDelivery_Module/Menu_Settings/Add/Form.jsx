@@ -3,65 +3,65 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Form() {
-    const {t} = useTranslation()
+function Form({ formData, setFormData}) {
+  const {t} = useTranslation()
 
-    const GreenSwitch = styled((props) => (
-      <Switch
-        focusVisibleClassName=".Mui-focusVisible"
-        disableRipple
-        {...props}
-      />
-      ))(({ theme }) => ({
-        width: 53,
-        height: 24,
+  const GreenSwitch = styled((props) => (
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
+    ))(({ theme }) => ({
+      width: 53,
+      height: 24,
+      padding: 0,
+  
+      '& .MuiSwitch-switchBase': {
         padding: 0,
-    
-        '& .MuiSwitch-switchBase': {
-          padding: 0,
-          margin: 3,
-          transitionDuration: '500ms',
-    
-          '&.Mui-checked': {
-            transform: 'translateX(31px)',
-            color: '#fff',
-    
-            '& + .MuiSwitch-track': {
-              backgroundColor: '#10B981',
-              opacity: 1,
-              border: 0,
-            },
-    
-            '&.Mui-disabled + .MuiSwitch-track': {
-              opacity: 0.5,
-            },
+        margin: 3,
+        transitionDuration: '500ms',
+  
+        '&.Mui-checked': {
+          transform: 'translateX(31px)',
+          color: '#fff',
+  
+          '& + .MuiSwitch-track': {
+            backgroundColor: '#10B981',
+            opacity: 1,
+            border: 0,
           },
-    
-          '&.Mui-focusVisible .MuiSwitch-thumb': {
-            color: '#33cf4d',
-            border: '6px solid #fff',
-          },
-    
-          '&.Mui-disabled .MuiSwitch-thumb': {
-            color: theme.palette.grey[100],
+  
+          '&.Mui-disabled + .MuiSwitch-track': {
+            opacity: 0.5,
           },
         },
-    
-        '& .MuiSwitch-thumb': {
-          boxSizing: 'border-box',
-          width: 18,
-          height: 18,
+  
+        '&.Mui-focusVisible .MuiSwitch-thumb': {
+          color: '#33cf4d',
+          border: '6px solid #fff',
         },
-    
-        '& .MuiSwitch-track': {
-          borderRadius: 12,
-          backgroundColor: '#E9E9EA',
-          opacity: 1,
-          transition: theme.transitions.create(['background-color'], {
-            duration: 500,
-          }),
+  
+        '&.Mui-disabled .MuiSwitch-thumb': {
+          color: theme.palette.grey[100],
         },
-      }));
+      },
+  
+      '& .MuiSwitch-thumb': {
+        boxSizing: 'border-box',
+        width: 18,
+        height: 18,
+      },
+  
+      '& .MuiSwitch-track': {
+        borderRadius: 12,
+        backgroundColor: '#E9E9EA',
+        opacity: 1,
+        transition: theme.transitions.create(['background-color'], {
+          duration: 500,
+        }),
+      },
+    }));
 
   
   return (
@@ -80,16 +80,16 @@ function Form() {
         <input 
           type="text"
           name='title'
-          // value={formData?.name?.ar}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     name: {
-          //         ...prev.name,
-          //         ar: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.name?.ar}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              name: {
+                  ...prev.name,
+                  ar: e.target.value
+              }
+          }))
+          }
           placeholder={t("Category name")}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -105,16 +105,16 @@ function Form() {
         <input 
           type="text"
           name='title'
-          // value={formData?.name?.en}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     name: {
-          //         ...prev.name,
-          //         en: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.name?.en}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              name: {
+                  ...prev.name,
+                  en: e.target.value
+              }
+          }))
+          }
           placeholder={t("Category name")}
           className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
         />
@@ -128,16 +128,16 @@ function Form() {
         </p>  
         <textarea
           name="description"
-          // value={formData?.description?.ar}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     description: {
-          //         ...prev.description,
-          //         ar: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.description?.ar}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              description: {
+                  ...prev.description,
+                  ar: e.target.value
+              }
+          }))
+          }
           placeholder={t("Write a brief description")}
           className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
         />
@@ -151,16 +151,16 @@ function Form() {
         </p>  
         <textarea
           name="description"
-          // value={formData?.description?.en}
-          // onChange={(e) =>
-          // setFormData(prev => ({
-          //     ...prev,
-          //     description: {
-          //         ...prev.description,
-          //         en: e.target.value
-          //     }
-          // }))
-          // }
+          value={formData?.description?.en}
+          onChange={(e) =>
+          setFormData(prev => ({
+              ...prev,
+              description: {
+                  ...prev.description,
+                  en: e.target.value
+              }
+          }))
+          }
           placeholder={t("Write a brief description")}
           className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
         />
@@ -180,13 +180,13 @@ function Form() {
         </p>
         <p className='flex items-center'>
           <GreenSwitch
-            // checked={formData.status === "active"}
-            // onChange={(e) => {
-            //   setFormData((prev) => ({
-            //     ...prev,
-            //     status: e.target.checked ? "active" : "hidden",
-            //   }));
-            // }}
+            checked={formData.status === 1 || formData.status === true}
+            onChange={(e) => {
+              setFormData((prev) => ({
+                ...prev,
+                status: e.target.checked ? 1 : 0,
+              }));
+            }}
           />
         </p>
       </div>
@@ -200,13 +200,13 @@ function Form() {
         </p>
         <p className='flex items-center'>
           <GreenSwitch
-            // checked={formData.is_visible === 1}
-            // onChange={(e) =>
-            //   setFormData((prev) => ({
-            //     ...prev,
-            //     is_visible: e.target.checked ? 1 : 0,
-            //   }))
-            // }
+            checked={formData.is_visible === 1}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                is_visible: e.target.checked ? 1 : 0,
+              }))
+            }
           />
         </p>
       </div>

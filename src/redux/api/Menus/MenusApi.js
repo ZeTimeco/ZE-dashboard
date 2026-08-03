@@ -149,5 +149,17 @@ export const editCategoryMenu = async ({ id, formData }) => {
   return response.data;
 }
 
+export const toggleVisibility = async(id)=>{
+  const response = await API.post(`/provider/menu-categories/toggleVisibility/${id}`)
+  return response.data
+}
+
+
+export const addCategoryMenu = async (formData) => {
+  const response = await API.post('/provider/menu-categories', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data;
+}
 
 

@@ -1,4 +1,4 @@
-import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems, getCategoriesList, getCategoryDetails, editCategoryMenu } from "@/redux/api/Menus/MenusApi"
+import { addCategory, getCategories, getItems, getItemById, getItemsDetails, addItem, showFullItem, editItem, showFullCategory, editCategory, deleteItem, getMenuStatistics, getMenus, getProductDetails, toggleAvailability, updateStatuses, DeleteItem, ShowFullItem, updateItem, getCategoriesMenu, addItems, getCategoriesList, getCategoryDetails, editCategoryMenu, toggleVisibility, addCategoryMenu } from "@/redux/api/Menus/MenusApi"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 
@@ -263,6 +263,28 @@ export const editCategoryMenuThunk = createAsyncThunk('Menu/editCategoryMenu' ,
   async({id , formData} , {rejectWithValue})=>{
     try{
       const response = await editCategoryMenu({id , formData})
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const toggleVisibilityThunk = createAsyncThunk('Menu/toggleVisibility' , 
+  async(id , {rejectWithValue})=>{
+    try{
+      const response = await toggleVisibility(id)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
+
+export const addCategoryMenuThunk = createAsyncThunk('Menu/addCategoryMenu' , 
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await addCategoryMenu(formData)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);
@@ -630,6 +652,32 @@ const MenusSlice = createSlice({
         state.error = null;
       })
       .addCase(editCategoryMenuThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //toggleVisibilityThunk
+      .addCase(toggleVisibilityThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(toggleVisibilityThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(toggleVisibilityThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload; 
+      })
+      //addCategoryMenuThunk
+      .addCase(addCategoryMenuThunk.pending , (state)=>{
+        state.loading =true,
+        state.error = null
+      })
+      .addCase(addCategoryMenuThunk.fulfilled , (state , action)=>{
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(addCategoryMenuThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload; 
       })
