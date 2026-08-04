@@ -1456,8 +1456,15 @@
   "since":"منذ",
   "Captain":"الكابتن",
   "Open the menu":"فتح القائمة",
+  "No products":"لا توجد منتجات",
+  "Create add-ons that allow customers to add them to their products.":"قم بإنشاء إضافات تسمح للعملاء بإضافتها إلى منتجاتهم.",
+  "No orders currently available":"لا توجد طلبات حالياً",
+  "You do not have any active or previous requests at the moment.":" ليس لديك أي طلبات نشطة أو سابقة في الوقت الحالي.",
+  "You have no orders pending delivery at the moment.":" ليس لديك أي طلبات قيد التوصيل في الوقت الحالي",
+  "No active delivery flights":"لا توجد رحلات توصيل نشطة",
+  "No categories":"لا توجد فئات",
+  "Add new categories now to allow your customers to customize their products.":" أضف فئات جديدة الآن لتتيح لعملائك تخصيص منتجاتهم",
   
-
 
 
 

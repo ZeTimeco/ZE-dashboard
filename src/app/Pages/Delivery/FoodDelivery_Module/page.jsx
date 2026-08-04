@@ -5,6 +5,7 @@ import Header from './Header'
 import Card from './Card'
 import { getOrdersThunk } from '@/redux/slice/Delivery/DeliverySlice'
 import { useDispatch, useSelector } from 'react-redux'
+import EmptyData from './EmptyData'
 
 function FoodDelivery_Modulepage() {
 
@@ -22,10 +23,14 @@ function FoodDelivery_Modulepage() {
     <MainLayout>
       
       <Header/>
-
-      <div className='grid grid-cols-2 gap-6 mt-10 mb-5'>
-        <Card getOrders={getOrders}/>
-      </div>
+      {getOrders?.data?.length !== 0 ? (
+        <EmptyData/>
+      ):(
+        <div className='grid grid-cols-2 gap-6 mt-10 mb-5'>
+          <Card getOrders={getOrders}/>
+        </div>
+      )}
+      
 
     </MainLayout>
   )

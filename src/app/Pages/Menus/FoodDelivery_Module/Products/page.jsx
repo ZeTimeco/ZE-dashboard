@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getMenuStatisticsThunk, getMenusThunk } from '@/redux/slice/Menus/MenusSlice'
 import { useSearchParams } from 'next/navigation'
 import Loader from '@/app/Components/Loader/Loader'
+import EmptyData from '../EmptyData'
 
 function ProductsPageContent() {
   const dispatch = useDispatch()
@@ -28,10 +29,14 @@ function ProductsPageContent() {
     <div className='mt-10'>
       <Header/>
       <Box getMenuStatistics={getMenuStatistics}/>
-
-      <div className="grid grid-cols-2 gap-6 items-start my-8">
-        <Product getMenus={getMenus}/>
-      </div>
+        {getMenus?.data?.length === 0 ? (
+            <EmptyData/>
+        ):(
+        <div className="grid grid-cols-2 gap-6 items-start my-8">
+          <Product getMenus={getMenus}/>
+        </div>
+        )}
+      
     </div>
   )
 }

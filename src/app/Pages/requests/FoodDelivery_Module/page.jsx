@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import Filter from './Filter'
 import Cards from './Cards'
 import Pagination from './Pagination'
+import EmptyData from './EmptyData'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrdersThunk, getRestaurantStatusThunk } from '@/redux/slice/Requests/RequestsSlice'
 
@@ -34,22 +35,31 @@ function FoodDelivery_ModulePage() {
     dispatch(getRestaurantStatusThunk())
   },[dispatch])
 
+  const orders = getOrders?.data?.data;
+  const hasOrders = orders && orders.length > 0;
+
   return (
     <MainLayout>
       
       <Header getRestaurantStatus={getRestaurantStatus}/>
 
       <Filter getOrders={getOrders} activeTab={activeTab} setActiveTab={handleTabChange}/>
+      
+      {hasOrders ? (
+        <>
+          <div className='grid grid-cols-2 gap-6 my-8'>
+            <Cards getOrders={getOrders?.data}/>
+          </div>
 
-      <div className='grid grid-cols-2 gap-6 my-8'>
-        <Cards getOrders={getOrders?.data}/>
-      </div>
-
-      <Pagination
-          currentPage={getOrders?.data?.current_page}
-          totalPages={getOrders?.data?.last_page}
-          onPageChange={setPage}
-        />
+          <Pagination
+            currentPage={getOrders?.data?.current_page}
+            totalPages={getOrders?.data?.last_page}
+            onPageChange={setPage}
+          />
+        </>
+      ) : (
+        <EmptyData />
+      )}
       
     </MainLayout>
   )

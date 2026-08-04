@@ -7,6 +7,7 @@ import Cards from './Cards'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategoriesListThunk } from '@/redux/slice/Menus/MenusSlice'
 import Pagination from './Pagination'
+import EmptyData from './EmptyData'
 
 function Menu_SettingsPage() {
   const {t} = useTranslation()
@@ -37,18 +38,25 @@ function Menu_SettingsPage() {
         />
       </div>
 
-      {/*  */}
-      <div className='grid grid-cols-2 gap-6'>
-        <Cards getCategoriesList={getCategoriesList} currentPage={currentPage} />
-      </div>
+      {getCategoriesList?.data?.length  === 0 ? (
+        <>
+          {/*  */}
+          <div className='grid grid-cols-2 gap-6'>
+            <Cards getCategoriesList={getCategoriesList} currentPage={currentPage} />
+          </div>
 
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={(page) => setCurrentPage(page)}
-        />
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          )}
+        </>
+      ):(
+        <EmptyData/>
       )}
+      
 
     </MainLayout>
   )
