@@ -5,7 +5,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 
-function Cards({getCategoriesList}) {
+function Cards({ getCategoriesList, currentPage = 1 }) {
   const {t} = useTranslation()
   const router = useRouter()
   const dispatch = useDispatch()
@@ -13,7 +13,7 @@ function Cards({getCategoriesList}) {
   const handleToggleVisibility = async (categoryId) => {
     try {
       await dispatch(toggleVisibilityThunk(categoryId)).unwrap();
-      dispatch(getCategoriesListThunk());
+      dispatch(getCategoriesListThunk(currentPage));
     } catch (error) {
       console.error(error);
     }

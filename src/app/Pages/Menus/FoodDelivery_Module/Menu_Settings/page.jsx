@@ -1,23 +1,28 @@
 'use client'
 import AddBtn from '@/app/Components/Buttons/AddBtn'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Cards from './Cards'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCategoriesListThunk } from '@/redux/slice/Menus/MenusSlice'
+import Pagination from './Pagination'
 
 function Menu_SettingsPage() {
   const {t} = useTranslation()
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   //api
   const dispatch = useDispatch()
-  const { getCategoriesList } =useSelector((state) => state.Menus)
-  useEffect(()=>{
-    dispatch(getCategoriesListThunk())
-  },[dispatch])
+  const { getCategoriesList } = useSelector((state) => state.Menus)
+  
+  useEffect(() => {
+    dispatch(getCategoriesListThunk(currentPage))
+  }, [dispatch, currentPage])
 
-  console.log("getCategoriesList", getCategoriesList)
+  const totalPages = getCategoriesList?.meta?.last_page || 1;
+
   return (
     <MainLayout>
 
@@ -34,9 +39,16 @@ function Menu_SettingsPage() {
 
       {/*  */}
       <div className='grid grid-cols-2 gap-6'>
-        <Cards getCategoriesList={getCategoriesList}/>
+        <Cards getCategoriesList={getCategoriesList} currentPage={currentPage} />
       </div>
-    
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
+      )}
 
     </MainLayout>
   )

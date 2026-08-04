@@ -131,10 +131,12 @@ export const addItems = async ({formData }) => {
   return response.data;
 };
 
-export const getCategoriesList = async()=>{
-  const response = await API.get(`/provider/menu-categories`)
-  return response.data
-}
+export const getCategoriesList = async (page = 1) => {
+  const response = await API.get('/provider/menu-categories', {
+    params: { page },
+  });
+  return response.data;
+};
 
 export const getCategoryDetails = async(id)=>{
   const response = await API.get(`/provider/menu-categories/${id}`)

@@ -238,9 +238,9 @@ export const addItemsThunk = createAsyncThunk('Menu/addItems' ,
 )
 
 export const getCategoriesListThunk = createAsyncThunk('Menu/getCategoriesList' , 
-  async(_ , {rejectWithValue})=>{
+  async(page = 1 , {rejectWithValue})=>{
     try{
-      const response = await getCategoriesList()
+      const response = await getCategoriesList(page)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);

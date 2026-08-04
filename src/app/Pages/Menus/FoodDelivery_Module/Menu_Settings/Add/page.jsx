@@ -22,29 +22,29 @@ function AddPage() {
     remove_image: 0,
   });
 
-const handleSubmit = async () => {
-  const data = new FormData();
+  const handleSubmit = async () => {
+    const data = new FormData();
 
-  data.append("name[ar]", formData.name.ar);
-  data.append("name[en]", formData.name.en);
-  data.append("description[ar]", formData.description.ar);
-  data.append("description[en]", formData.description.en);
-  data.append("is_visible", formData.is_visible ? 1 : 0);
-  data.append("status", formData.status ? 1 : 0);
+    data.append("name[ar]", formData.name.ar);
+    data.append("name[en]", formData.name.en);
+    data.append("description[ar]", formData.description.ar);
+    data.append("description[en]", formData.description.en);
+    data.append("is_visible", formData.is_visible ? 1 : 0);
+    data.append("status", formData.status ? 1 : 0);
 
-  if (formData.image instanceof File) {
-    data.append("image", formData.image);
-  }
+    if (formData.image instanceof File) {
+      data.append("image", formData.image);
+    }
 
-  data.append("remove_image", formData.remove_image);
+    data.append("remove_image", formData.remove_image);
 
-  try {
-    await dispatch(addCategoryMenuThunk(data)).unwrap();
-    router.back();
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      await dispatch(addCategoryMenuThunk(data)).unwrap();
+      router.back();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <MainLayout>
