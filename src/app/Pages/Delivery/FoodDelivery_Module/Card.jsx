@@ -15,13 +15,15 @@ const CARD_LOCATION = {
   postalCode: '11321',
 }
 
-function Card() {
+function Card({getOrders}) {
   const { t } = useTranslation()
   const [mapOpen, setMapOpen] = useState(false)
+  const [selectedOrder, setSelectedOrder] = useState(null)
 
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] rounded-[3px] p-4'>
+    {getOrders?.data?.data?.map((order)=>(
+      <div key={order.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.30)] rounded-[3px] p-4 '>
 
         {/*  */}
         <div className='flex justify-between w-full'>
@@ -33,8 +35,11 @@ function Card() {
           </div>
 
           <div className='flex flex-col gap-1 items-end w-full'>
-            <p className='text-[#364152] text-base font-medium'>#ORD-NZACC-91170</p>
-            <p className='text-[#697586] text-sm font-normal'>{t('since')}3{t('minutes')}</p>
+            <p className='text-[#364152] text-base font-medium'>{order?.order_number}</p>
+            <p className='text-[#697586] text-sm font-normal'>
+              {/* {t('since')}3{t('minutes')} */}
+              {order?.created_at}
+            </p>
           </div>
         </div>
 
@@ -42,9 +47,16 @@ function Card() {
         <div className='flex justify-between mt-3'>
           <p className='text-base font-medium'>
             <span className='text-[#697586]'>{t('Captain')} : </span>
-            <span className='text-[#364152]'>أحمد محمد</span>
+            <span className='text-[#364152]'>{order?.driver?.name} </span>
           </p>
-          <button className='w-7 h-7 bg-[var(--color-primary)] rounded-full flex justify-center items-center'>
+          <button
+            onClick={() => {
+              if (order?.driver?.phone) {
+                window.location.href = `tel:${order.driver.phone}`;
+              }
+            }}
+            className="w-7 h-7 bg-[var(--color-primary)] rounded-full flex justify-center items-center"
+          >   
             <img src="/images/icons/call white.svg" className='w-4 h-4' />
           </button>
         </div>
@@ -58,9 +70,16 @@ function Card() {
               <img src="/images/icons/user_gray.svg" className='w-4 h-4' />
             </span>
             <span>{t('Customer')} : </span>
-            <span>أحمد محمد</span>
+            <span>{order?.customer?.name}</span>
           </p>
-          <button className='w-7 h-7 bg-[var(--color-primary)] rounded-full flex justify-center items-center'>
+          <button
+            onClick={() => {
+              if (order?.customer?.phone) {
+                window.location.href = `tel:${order.customer.phone}`;
+              }
+            }}
+            className="w-7 h-7 bg-[var(--color-primary)] rounded-full flex justify-center items-center"
+          >           
             <img src="/images/icons/call white.svg" className='w-4 h-4' />
           </button>
         </div>
@@ -68,23 +87,31 @@ function Card() {
         {/* ── Location button — opens MapDialog ── */}
         <button
           className='flex gap-1 cursor-pointer'
-          onClick={() => setMapOpen(true)}
+          onClick={() => {
+            setSelectedOrder(order)
+            setMapOpen(true)
+          }}
         >
           <p className='flex items-center'>
             <img src="/images/icons/location-gray2.svg" className='w-4 h-4' />
           </p>
           <p className='text-[var(--color-primary)] text-base font-normal underline'>
-            {CARD_LOCATION.address}، {CARD_LOCATION.city}، {CARD_LOCATION.country}
+            {order?.delivery_address}
           </p>
         </button>
 
       </div>
+    ))}
+      
 
       {/* ── Map Dialog ── */}
       <MapDialog
         open={mapOpen}
-        onClose={() => setMapOpen(false)}
-        location={CARD_LOCATION}
+        onClose={() => {
+          setMapOpen(false)
+          setSelectedOrder(null)
+        }}
+        location={selectedOrder}
       />
     </>
   )

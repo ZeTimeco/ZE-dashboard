@@ -36,6 +36,9 @@ const PIN_SVG = `
 
 // ─── Tooltip popup card (rendered as React JSX inside Leaflet Tooltip) ────────
 function PopupCard({ location }) {
+  const { t } = useTranslation()
+  if (!location) return null
+
   return (
     <div style={{
       background: 'white',
@@ -49,18 +52,22 @@ function PopupCard({ location }) {
     }}>
       {/* Title */}
       <div style={{ padding: '10px 12px 8px 12px' }}>
-        <p style={{ color: '#6941C6', fontWeight: 600, fontSize: '13px', lineHeight: 1.3, margin: 0 }}>
-          {location.title}
+        <p style={{ color: '#364152', fontWeight: 400, fontSize: '13px', margin: 0 }}>
+          {t('request')} / {location?.order_number}
+        </p>
+        <p className='border border-[#4D0CE7] bg-[#EDE7FD] rounded-full text-[#4D0CE7] text-xs font-normal w-fit px-2 flex gap-1'>
+          <img src="/images/icons/delivery-truck-blue.svg" className='w-2.5 h-2.5 mt-1' />
+          <span>{t('in the way')}</span>
         </p>
       </div>
-      {/* Divider */}
-      <div style={{ height: '1px', background: '#F2F4F7', margin: '0 12px' }} />
+    
+      
       {/* Rows */}
       <div style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-        <InfoRow label="Address"     value={location.address}    />
-        <InfoRow label="City"        value={location.city}       />
-        <InfoRow label="Country"     value={location.country}    />
-        <InfoRow label="Postal Code" value={location.postalCode} />
+        <InfoRow label={t('Captain')}     value={location?.driver?.name}    />
+        <InfoRow label={t('Expected time')}        value={location?.estimated_minutes}       />
+        <InfoRow label={t('Customer')}     value={location?.customer?.name}    />
+        <InfoRow label={t('Location')} value={location.delivery_address} />
       </div>
     </div>
   )
@@ -87,7 +94,8 @@ function InfoRow({ label, value }) {
 export default function MapDialog({ open, onClose, location }) {
   const iconRef = useRef(null)
   const [leafletReady, setLeafletReady] = useState(false)
-
+  const { t } = useTranslation(); 
+ 
   useEffect(() => {
     import('leaflet').then((L) => {
       iconRef.current = L.divIcon({
@@ -110,9 +118,10 @@ export default function MapDialog({ open, onClose, location }) {
 
   if (!location) return null
 
-  const center = [location.lat ?? 24.7136, location.lng ?? 46.6753]
+  const lat = location.lat ?? location.latitude ?? 24.7380
+  const lng = location.lng ?? location.longitude ?? 46.6890
+  const center = [Number(lat), Number(lng)]
 
-  const {t} = useTranslation()
   return (
     <Dialog
       open={open}

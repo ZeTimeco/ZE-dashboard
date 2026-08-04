@@ -1,22 +1,17 @@
 "use client";
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/redux/slice/Auth/AuthSlice';
-
-
+import { motion, AnimatePresence } from 'framer-motion';
 
 function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
   const [open, setOpen] = useState(true);
   const { t } = useTranslation();
-
-  const [activeIndex, setActiveIndex] = useState(null);
   const pathname = usePathname();
 
-  //🟢logout
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -24,253 +19,151 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
     dispatch(logout());      
     setIsSidebarOpen(false);
     router.push("/Auth/Login"); 
-  }
+  };
+
+  const navItems = [
+    { key: 'dashboard', path: '/Pages/Home', icon: '/images/icons/dashboard.svg' },
+    { key: 'Reservations', path: '/Pages/requests/Queue_Module', icon: '/images/icons/Requests.svg' },
+    { key: 'pending list', path: '/Pages/Pending_List', icon: '/images/icons/loading-black.svg' },
+    { key: 'Menu and Prices', path: '/Pages/Menus/Queue_Module', icon: '/images/icons/dish-black.svg' },
+    { key: 'Halls', path: '/Pages/Halls/Hall', icon: '/images/icons/restaurant-black.svg' },
+    { key: 'Subscription', path: '/Pages/Subscription', icon: '/images/icons/Subscription.svg' },
+    { key: 'conversations', path: '/Pages/conversations', icon: '/images/icons/conversations.svg' },
+    { key: 'technical support', path: '/Pages/technicalSupport', icon: '/images/icons/dashboard.svg' },
+    { key: 'Activity settings', path: '/Pages/Activity_Settings', icon: '/images/icons/Activity_settings.svg' },
+    { key: 'Settings', path: '/Pages/settings', icon: '/images/icons/settings.svg' },
+  ];
 
   return (
-    
-    // 1440px and above
-    <aside
+    <motion.aside
+      animate={{ width: open ? 280 : 80 }}
+      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
       className={`
-        ${isSidebarOpen ? "block" : "hidden"}   
-        lg1:flex flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200
-        ${open ? "w-70" : "w-18"}          
-        bg-white fixed lg:static z-50 top-0 right-0
+        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg1:translate-x-0"}   
+        lg1:flex flex-col h-screen border-x border-[#E3E8EF] p-4
+        bg-white fixed lg1:static z-50 top-0 right-0 shadow-lg lg1:shadow-none
+        select-none overflow-hidden
       `}
     >
-
-
-
-    {/* Logo open and close */}
-    <button
-      onClick={() => {
-          // ✅ Desktop
+      {/* Logo open and close */}
+      <motion.button
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
+        onClick={() => {
           if (window.innerWidth >= 1340) { 
             setOpen(!open);
           }
         }}
-      className="w-full flex justify-center mt-8 mb-8 cursor-pointer "
-    >
-      {open ?(
-        <div className='flex gap-2 items-center'>
-          <img src='/images/LogoText.svg' alt="dd" />
-          <img src='/images/Logo.svg' alt="dd" />
-        </div>
-      
-      ):(
-        <div className='flex items-center '>
-          <img src='/images/Logo.svg' alt="dd" />
-        </div>
-      )}
-    </button>
+        className="w-full flex justify-center mt-6 mb-8 cursor-pointer focus:outline-none"
+        aria-label="Toggle sidebar"
+      >
+        <AnimatePresence mode="wait">
+          {open ? (
+            <motion.div 
+              key="full-logo"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.15 }}
+              className='flex gap-2 items-center'
+            >
+              <img src='/images/LogoText.svg' alt="Zetime" className="h-7" />
+              <img src='/images/Logo.svg' alt="Zetime Logo" className="h-7" />
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="mini-logo"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.15 }}
+              className='flex items-center'
+            >
+              <img src='/images/Logo.svg' alt="Zetime Logo" className="h-7" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.button>
 
       {/* Navigation */}
-      <nav className="flex-1">
-        <ul className='flex flex-col h-full'>
-          
-        {/* Dashboard !!*/}
-          <li className={`cursor-pointer  rounded ${pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "bg-[#C69815] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Home"  >
-                {open?(
-                //open 
-                  <div  className='flex gap-4 items-center py-3 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "invert" : ""}/>
-                    <p className={`text-base font-normal ${pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home") ? "text-[#fff]" : "text-[#364152]"}`}>{t('dashboard')}</p>
-                  </div>
-                ):(
-                  <div className='flex justify-center items-center py-2 px-2'>
-                    <img src="/images/icons/dashboard.svg" alt="" className={pathname === "/" || pathname.startsWith("/Pages/dashboard") || pathname.startsWith("/Pages/Home")? "invert" : ""}/>
-                  </div>
-                )}
-            </Link>
-          </li>
+      <nav className="flex-1 overflow-y-auto no-scrollbar">
+        <ul className='flex flex-col gap-1.5 h-full'>
+          {navItems.map((item) => {
+            const isActive = item.key === 'dashboard'
+              ? (pathname === '/' || pathname.startsWith('/Pages/dashboard') || pathname.startsWith('/Pages/Home'))
+              : item.key === 'Halls'
+              ? (pathname.startsWith('/Pages/Halls/Hall') || pathname.startsWith('/Pages/Halls/Tables') || pathname.startsWith('/Pages/Halls/Views'))
+              : pathname.startsWith(item.path);
 
-          {/* Requests !!*/}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/requests") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/requests/Queue_Module" onClick={() => setIsSidebarOpen(false)}>
-                {open?(
-                //open 
-                  <div  className='flex gap-4 items-center py-3 px-2'>
-                    <img src="/images/icons/Requests.svg" alt="" className={pathname.startsWith("/Pages/requests") ? "invert" : ""}/>
-                    <p className={`text-base font-normal ${pathname.startsWith("/Pages/requests") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Reservations')}</p>
-                  </div>
-                ):(
-                  <div className='flex justify-center items-center py-2 px-2'>
-                    <img src="/images/icons/Requests.svg" alt="" className={pathname.startsWith("/Pages/requests") ? "invert" : ""}/>
-                  </div>
-                )}
-            </Link>
-          </li>
+            return (
+              <motion.li
+                key={item.key}
+                whileHover={{ x: open ? 4 : 0, scale: open ? 1 : 1.08 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.15 }}
+                className="relative"
+              >
+                <Link 
+                  href={item.path} 
+                  onClick={() => setIsSidebarOpen(false)}
+                  className={`flex items-center w-full h-11 px-3 rounded-lg transition-colors duration-150 relative ${
+                    isActive 
+                      ? "bg-[var(--color-primary)] text-white shadow-xs font-semibold" 
+                      : "hover:bg-slate-100/80 text-[#364152]"
+                  }`}
+                >
+                  {open ? (
+                    <div className='flex gap-3.5 items-center w-full'>
+                      <motion.img 
+                        whileHover={{ rotate: 10 }}
+                        src={item.icon} 
+                        alt="" 
+                        className={`w-5 h-5 transition-transform shrink-0 ${isActive ? "brightness-0 invert" : ""}`} 
+                      />
+                      <span className="text-sm font-medium leading-none whitespace-nowrap">
+                        {t(item.key)}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className='flex justify-center items-center w-full'>
+                      <motion.img 
+                        whileHover={{ scale: 1.15 }}
+                        src={item.icon} 
+                        alt="" 
+                        className={`w-5 h-5 shrink-0 ${isActive ? "brightness-0 invert" : ""}`} 
+                      />
+                    </div>
+                  )}
+                </Link>
+              </motion.li>
+            );
+          })}
 
-          {/* pending list */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Pending_List") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Pending_List" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/Pending_List") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Pending_List") ? "text-[#fff]" : "text-[#364152]"}`}>{t('pending list')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/loading-black.svg" alt="" className={pathname.startsWith("/Pages/Pending_List") ? "invert" : ""}/>
-                </div>
-              )}
-            </Link>
-          </li>
-          
-            {/* Menu and Prices */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Menus") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Menus/Queue_Module" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/dish-black.svg" alt="" className={pathname.startsWith("/Pages/Menus") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Menus") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Menu and Prices')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/dish-black.svg" alt="" className={pathname.startsWith("/Pages/Menus") ? "invert" : ""}/>
-                </div>
-              )}
-            </Link>
-          </li>
-
-
-          {/* Halls */}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Halls/Hall" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Halls')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/restaurant-black.svg" alt="" className={pathname.startsWith("/Pages/Halls/Hall") || pathname.startsWith("/Pages/Halls/Tables") || pathname.startsWith("/Pages/Halls/Views") ? "invert" : ""}/>
-                </div>
-              )}
-            </Link>
-          </li>
-
-          {/* Subscription !!*/}
-          <li  className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/Subscription") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/Subscription" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/Subscription.svg" alt="" className={pathname.startsWith("/Pages/Subscription") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Subscription") ? "text-[#fff]" : "text-[#364152]"}`}>
-                    {t('Subscription')}
-                  </p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-4 px-2'>
-                  <img src="/images/icons/Subscription.svg" alt="" className={pathname.startsWith("/Pages/Subscription") ? "invert" : ""}/>
-                </div>
-              )}
-            </Link>
-          </li>
-            
-          {/* Conversations !!*/}
-          <li  className={`cursor-pointer rounded ${pathname.startsWith("/Pages/conversations") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/conversations" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/conversations.svg" alt="" className={pathname.startsWith("/Pages/conversations") ? "invert" : ""}/>
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/conversations") ? "text-[#fff]" : "text-[#364152]"}`}>{t('conversations')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/conversations.svg" alt="" className={pathname.startsWith("/Pages/conversations") ? "invert" : ""}/>
-                </div>
-              )}
-            </Link>
-          </li>
-
-          
-
-          {/* Settings */}
-          <li className={`cursor-pointer  rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-            <Link href="/Pages/technicalSupport" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/technicalSupport")  ? "invert" : ""} />
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/technicalSupport") ? "text-[#fff]" : "text-[#364152]"}`}>{t('technical support')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/dashboard.svg" alt="" className={pathname.startsWith("/Pages/technicalSupport")  ? "invert" : ""}/>
-                </div>
-              )}
-            </Link>
-          </li>
-
-          {/* Activity Settings */}
-          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/Activity_Settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-          <Link href="/Pages/Activity_Settings" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/Activity_settings.svg" alt=""className={pathname.startsWith("/Pages/Activity_Settings") ? "invert" : ""} />
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/Activity_Settings") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Activity settings')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/Activity_settings.svg" alt="" className={pathname.startsWith("/Pages/Activity_Settings") ? "invert" : ""}/>
-                </div>
-              )}
-          </Link>
-          </li>
-      
-          {/* Settings */}
-          <li  className={`cursor-pointer  rounded  mt-auto mb-2 ${pathname.startsWith("/Pages/settings") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-          <Link href="/Pages/settings" onClick={() => setIsSidebarOpen(false)}>
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center py-3 px-2'>
-                  <img src="/images/icons/settings.svg" alt=""className={pathname.startsWith("/Pages/settings") ? "invert" : ""} />
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/settings") ? "text-[#fff]" : "text-[#364152]"}`}>{t('Settings')}</p>
-                </div>
-              ):(
-                <div className='flex justify-center items-center py-2 px-2'>
-                  <img src="/images/icons/settings.svg" alt="" className={pathname.startsWith("/Pages/settings") ? "invert" : ""}/>
-                </div>
-              )}
-          </Link>
-          </li>
-          
           {/* Sign out */}
-          <li  onClick={handleLogout} className={`cursor-pointer py-2 px-2 rounded ${pathname.startsWith("/signout") ? "bg-[var(--color-primary)] text-[#fff]" : ""}`}>
-          <button >
-              {open?(
-              //open 
-                <div className='flex gap-4 items-center cursor-pointer'>
-                  <img src="/images/icons/signout.svg" alt="" />
-                  <p className='text-[#D92D20] text-base font-normal'>{t('Sign out')}</p>
+          <motion.li
+            whileHover={{ x: open ? 4 : 0, scale: open ? 1 : 1.08 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.15 }}
+            onClick={handleLogout}
+            className="mt-auto pt-2"
+          >
+            <button className="flex items-center w-full h-11 px-3 rounded-lg hover:bg-red-50 text-[#D92D20] transition-colors cursor-pointer focus:outline-none">
+              {open ? (
+                <div className='flex gap-3.5 items-center w-full'>
+                  <img src="/images/icons/signout.svg" alt="" className="w-5 h-5 shrink-0" />
+                  <span className='text-[#D92D20] text-sm font-medium leading-none whitespace-nowrap'>{t('Sign out')}</span>
                 </div>
-              ):(
-                <div className='flex justify-center items-center cursor-pointer'>
-                  <img src="/images/icons/signout.svg" alt="" />
+              ) : (
+                <div className='flex justify-center items-center w-full'>
+                  <img src="/images/icons/signout.svg" alt="" className="w-5 h-5 shrink-0" />
                 </div>
-            )}
-          </button>
-
-          </li>
-    
-
+              )}
+            </button>
+          </motion.li>
         </ul>
       </nav>
-
-    
-
-    </aside>
+    </motion.aside>
   );
-  
 }
 
 export default SidebarQueue;
-
-

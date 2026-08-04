@@ -103,12 +103,18 @@ const PIN_SVG = `
 
 // ─── Popup HTML builder ───────────────────────────────────────────────────────
 function buildPopupHtml(marker) {
-  const row = (label, value) => `
+  const row = (label, value) => value ? `
     <div style="display:flex;align-items:center;gap:6px;">
       <span style="color:#667085;font-size:11px;font-weight:500;white-space:nowrap;">${label}:</span>
       <span style="color:#667085;font-size:11px;font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${value}</span>
     </div>
-  `
+  ` : ''
+
+  const orderTitle = marker.order_number ? `طلب / ${marker.order_number}` : (marker.title || `#${marker.id}`)
+  const captain = marker.driver?.name || ''
+  const expectedTime = marker.estimated_minutes ? `${marker.estimated_minutes}` : (marker.expected_time || marker.city || '')
+  const customer = marker.customer?.name 
+  const locationAddr = marker.delivery_address || marker.address || ''
 
   return `
     <div style="
@@ -117,7 +123,7 @@ function buildPopupHtml(marker) {
       left:50%;
       transform:translateX(-50%);
       min-width:200px;
-      max-width:220px;
+      max-width:230px;
       z-index:9999;
       pointer-events:auto;
     " class="map-popup-card">
@@ -133,7 +139,13 @@ function buildPopupHtml(marker) {
       <div style="background:white;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,0.14);overflow:hidden;font-family:inherit;">
         <div style="padding:10px 12px 8px 12px;">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
-            <p style="color:#6941C6;font-weight:600;font-size:13px;line-height:1.3;flex:1;margin:0;">${marker.title}</p>
+            <div>
+              <p style="color:#364152;font-weight:400;font-size:13px;line-height:1.3;margin:0 0 4px 0;">${orderTitle}</p>
+              <div style="border:1px solid #4D0CE7;background:#EDE7FD;border-radius:9999px;color:#4D0CE7;font-size:12px;font-weight:400;width:fit-content;padding:2px 8px;display:flex;align-items:center;gap:4px;">
+                <img src="/images/icons/delivery-truck-blue.svg" alt="" style="width:14px;height:14px;" />
+                <span>في الطريق</span>
+              </div>
+            </div>
             <button
               data-popup-close="${marker.id}"
               style="color:#9CA3AF;font-size:18px;font-weight:700;background:none;border:none;cursor:pointer;line-height:1;flex-shrink:0;padding:0;margin-top:-1px;"
@@ -142,10 +154,10 @@ function buildPopupHtml(marker) {
         </div>
         <div style="height:1px;background:#F2F4F7;margin:0 12px;"></div>
         <div style="padding:10px 12px;display:flex;flex-direction:column;gap:6px;">
-          ${row('Address', marker.address)}
-          ${row('City', marker.city)}
-          ${row('Country', marker.country)}
-          ${row('Postal Code', marker.postalCode)}
+          ${row('الكابتن', captain)}
+          ${row('الوقت المتوقع', expectedTime)}
+          ${row('العميل', customer)}
+          ${row('الموقع', locationAddr)}
         </div>
       </div>
     </div>
@@ -153,7 +165,7 @@ function buildPopupHtml(marker) {
 }
 
 // ─── Main Map component ───────────────────────────────────────────────────────
-export default function Map() {
+export default function Map({ getDeliveryMap }) {
   const [activeId, setActiveId] = useState(null)
   const [leafletReady, setLeafletReady] = useState(false)
   const iconMapRef = useRef({})
@@ -162,10 +174,28 @@ export default function Map() {
   // Keep ref in sync with state for event handlers
   activeIdRef.current = activeId
 
+  const rawMarkers = Array.isArray(getDeliveryMap)
+    ? getDeliveryMap
+    : Array.isArray(getDeliveryMap?.data?.data)
+    ? getDeliveryMap?.data?.data
+    : Array.isArray(getDeliveryMap?.data)
+    ? getDeliveryMap?.data
+    : []
+
+  const markersList = rawMarkers.length > 0 ? rawMarkers : MARKERS
+
+  const formattedMarkers = markersList.map((m, idx) => ({
+    ...m,
+    id: m.id ?? idx + 1,
+    lat: Number(m.lat ?? m.latitude ?? m.delivery_lat ?? (24.7250 + idx * 0.005)),
+    lng: Number(m.lng ?? m.longitude ?? m.delivery_lng ?? (46.6550 + idx * 0.005)),
+  }))
+
   // Build Leaflet DivIcons once on client
   useEffect(() => {
+    if (typeof window === 'undefined') return
     import('leaflet').then((L) => {
-      MARKERS.forEach((m) => {
+      formattedMarkers.forEach((m) => {
         iconMapRef.current[m.id] = L.divIcon({
           className: '',
           iconAnchor: [15, 38],
@@ -190,13 +220,13 @@ export default function Map() {
       })
       setLeafletReady(true)
     })
-  }, [])
+  }, [getDeliveryMap])
 
   // Inject / remove popups when activeId changes
   useEffect(() => {
     if (!leafletReady) return
 
-    MARKERS.forEach((m) => {
+    formattedMarkers.forEach((m) => {
       const el = document.getElementById(`mk-${m.id}`)
       if (!el) return
 
@@ -227,30 +257,33 @@ export default function Map() {
         el.style.zIndex = ''
       }
     })
-  }, [activeId, leafletReady])
+  }, [activeId, leafletReady, getDeliveryMap])
 
   // Attach hover listeners once map is ready
   useEffect(() => {
     if (!leafletReady) return
     const timer = setTimeout(() => {
-      MARKERS.forEach((m) => {
+      formattedMarkers.forEach((m) => {
         const el = document.getElementById(`mk-${m.id}`)
         if (!el) return
 
-        el.addEventListener('mouseenter', () => {
+        const handleMouseEnter = () => {
           if (activeIdRef.current !== m.id) {
             el.style.transform = 'scale(1.2)'
           }
-        })
-        el.addEventListener('mouseleave', () => {
+        }
+        const handleMouseLeave = () => {
           if (activeIdRef.current !== m.id) {
             el.style.transform = 'scale(1)'
           }
-        })
+        }
+
+        el.addEventListener('mouseenter', handleMouseEnter)
+        el.addEventListener('mouseleave', handleMouseLeave)
       })
-    }, 600)
+    }, 400)
     return () => clearTimeout(timer)
-  }, [leafletReady])
+  }, [leafletReady, getDeliveryMap])
 
   const handleMarkerClick = useCallback((id) => {
     setActiveId((prev) => (prev === id ? null : id))
@@ -271,13 +304,18 @@ export default function Map() {
     )
   }
 
+  const center = [
+    formattedMarkers[0]?.lat || 24.7136,
+    formattedMarkers[0]?.lng || 46.6753
+  ]
+
   return (
     <div
       className="w-full mt-4 rounded-[8px] overflow-hidden shadow-sm"
       style={{ height: 'calc(100vh - 180px)' }}
     >
       <MapContainer
-        center={[24.7136, 46.6753]}
+        center={center}
         zoom={13}
         style={{ height: '100%', width: '100%' }}
         zoomControl={true}
@@ -288,7 +326,7 @@ export default function Map() {
           attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
         />
 
-        {MARKERS.map((m) => (
+        {formattedMarkers.map((m) => (
           <Marker
             key={m.id}
             position={[m.lat, m.lng]}
