@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Property_Module from './Property_Module/page';
 import Home_Car_Street_Module from './Home_Car_Street_Module/page';
 import Queue_Module from './Queue_Module/page';
-
+import FoodDelivery_Module from './FoodDelivery_Module/page';
 
 
 function settingsPage() {
@@ -35,6 +35,8 @@ function settingsPage() {
       content = <Property_Module />
     }else if (current_module_key === 'queue'){
       content = <Queue_Module />
+    } else if (current_module_key === 'food_delivery'){
+      content = <FoodDelivery_Module />
     } else {
       content =(
         <MainLayout>

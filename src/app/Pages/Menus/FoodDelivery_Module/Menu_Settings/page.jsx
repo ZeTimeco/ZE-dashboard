@@ -38,7 +38,7 @@ function Menu_SettingsPage() {
         />
       </div>
 
-      {getCategoriesList?.data?.length  === 0 ? (
+      {getCategoriesList?.data?.length  !== 0 ? (
         <>
           {/*  */}
           <div className='grid grid-cols-2 gap-6'>
@@ -52,10 +52,10 @@ function Menu_SettingsPage() {
               onPageChange={(page) => setCurrentPage(page)}
             />
           )}
-        </>
-      ):(
-        <EmptyData/>
-      )}
+            </>
+          ):(
+            <EmptyData/>
+          )}
       
 
     </MainLayout>
