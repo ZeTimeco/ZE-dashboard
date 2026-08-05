@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import Header from './Header'
+import Content from './Content'
 
 function Restaurant_conditionPage() {
   return (
@@ -11,7 +12,7 @@ function Restaurant_conditionPage() {
           </div>
     
           <div className='p-6 flex flex-col gap-4'>
-            
+            <Content/>
           </div>
     
           

@@ -1469,6 +1469,11 @@
   "Powers and roles":"الصلاحيات والأدوار",
   "Staff and shifts":"الموظفين والورديات",
   "list":"قائمة",
+  "The restaurant is accepting orders normally.":"المطعم يستقبل الطلبات بشكل طبيعي",
+  "Preparation time is longer than usual (30-45 minutes)":"وقت التحضير أطول من المعتاد ( 30-45 دقيقة )",
+  "The restaurant is not currently accepting new orders.":"المطعم لا يستقبل طلبات جديدة حاليا",
+  "Changing the restaurant's status will affect your app visibility and acceptance of new orders.":"تغيير حالة المطعم سيؤثر على ظهورك في التطبيق وقبول الطلبات الجديدة",
+  
 
 
 

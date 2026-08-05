@@ -1468,6 +1468,10 @@
   "Powers and roles":"Powers and roles",
   "Staff and shifts":"Staff and shifts",
   "list":"list",
+  "The restaurant is accepting orders normally.":"The restaurant is accepting orders normally.",
+  "Preparation time is longer than usual (30-45 minutes)":"Preparation time is longer than usual (30-45 minutes)",
+  "The restaurant is not currently accepting new orders.":"The restaurant is not currently accepting new orders.",
+  "Changing the restaurant's status will affect your app visibility and acceptance of new orders.":"Changing the restaurant's status will affect your app visibility and acceptance of new orders.",
   
 
   
