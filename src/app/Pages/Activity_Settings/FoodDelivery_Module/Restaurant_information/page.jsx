@@ -1,5 +1,9 @@
 import React from 'react'
 import Header from './Header'
+import BasicInformation from './BasicInformation'
+import Images from './Images'
+import Location from './Location'
+import ContactInformation from './ContactInformation'
 
 function Restaurant_informationPage() {
   return (
@@ -10,7 +14,10 @@ function Restaurant_informationPage() {
         </div>
   
         <div className='p-6 flex flex-col gap-4'>
-          
+          <BasicInformation/>
+          <Images/>
+          <Location/>
+          <ContactInformation/>
         </div>
   
         

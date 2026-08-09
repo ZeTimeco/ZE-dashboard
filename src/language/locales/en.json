@@ -1472,8 +1472,10 @@
   "Preparation time is longer than usual (30-45 minutes)":"Preparation time is longer than usual (30-45 minutes)",
   "The restaurant is not currently accepting new orders.":"The restaurant is not currently accepting new orders.",
   "Changing the restaurant's status will affect your app visibility and acceptance of new orders.":"Changing the restaurant's status will affect your app visibility and acceptance of new orders.",
+  "Do you want to change the restaurant's status to open?":"Do you want to change the restaurant's status to open?",
+  "Do you want to change the restaurant's status to busy?":"Do you want to change the restaurant's status to busy?",
+  "Do you want to change the restaurant's status to closed?":"Do you want to change the restaurant's status to closed?",
   
-
   
 
 
