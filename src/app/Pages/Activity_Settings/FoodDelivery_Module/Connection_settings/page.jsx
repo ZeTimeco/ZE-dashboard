@@ -1,5 +1,7 @@
 import React from 'react'
 import Header from './Header'
+import DeliverySystem from './DeliverySystem'
+import DriverAppointments from './DriverAppointments'
 
 function Connection_settingsPage() {
   return (
@@ -12,7 +14,8 @@ function Connection_settingsPage() {
           </div>
     
           <div className='p-6 flex flex-col gap-4'>
-            
+            <DeliverySystem />
+            <DriverAppointments />
           </div>
     
           
