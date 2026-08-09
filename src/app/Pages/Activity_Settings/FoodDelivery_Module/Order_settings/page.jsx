@@ -36,8 +36,8 @@ function Order_settingsPage() {
                   : "bg-[var(--color-primary)] cursor-pointer"
               }`}
           >
-          {loading ? t("Saving...") : t("Save changes")}
-        </button>
+            {loading ? t("Saving...") : t("Save changes")}
+          </button>
 
 
         </div>

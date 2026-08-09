@@ -72,7 +72,7 @@ function DriverAppointments() {
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
-      <p className='flex flex-col'>
+      <p className='flex flex-col gap-1'>
         <span className='text-[#364152] text-base font-medium'>{t('Driver appointments')}</span>
         <span className='text-[#697586] text-sm font-normal'>{t('Managing the order assignment process for drivers')}</span>
       </p>
@@ -80,7 +80,7 @@ function DriverAppointments() {
       <div className='border border-[#E3E8EF] my-4'></div>
 
       <div className='flex justify-between'>
-        <p className='flex flex-col'>
+        <p className='flex flex-col gap-1'>
           <span className='text-[#364152] text-base font-medium'>{t('Automatic assignment')}</span>
           <span className='text-[#697586] text-sm font-normal'>{t('The nearest driver will be automatically assigned when the request is ready.')}</span>
         </p>
@@ -95,7 +95,7 @@ function DriverAppointments() {
 
       <div className=''>
       
-        <p className='flex flex-col'>
+        <p className='flex flex-col gap-1'>
           <span className='text-[#364152] text-base font-medium'>{t('Driver acceptance deadline')}</span>
           <span className='text-[#697586] text-sm font-normal'>{t('The time period allowed for the driver to accept the request before reassignment')}</span>
         </p>

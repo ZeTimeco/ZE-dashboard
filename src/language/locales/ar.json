@@ -1510,6 +1510,12 @@
   "Vibration":"الاهتزاز",
   "Device vibration upon new request":"اهتزاز الجهاز عند الطلب الجديد",
   "New order alerts":"تنبيهات الطلبات الجديدة",
+  "Delivery behavior":"سلوك التوصيل",
+  "Default settings for the connection process":"الإعدادات الافتراضية لعملية التوصيل",
+  "Delivery range":"نطاق التوصيل",
+  "Maximum allowed delivery distance":"المسافة القصوى المسموح بها للتوصيل",
+  "Maximum distance":"الحد الأقصى للمسافة",
+  "kilometer":"كيلو متر",
   
 
 

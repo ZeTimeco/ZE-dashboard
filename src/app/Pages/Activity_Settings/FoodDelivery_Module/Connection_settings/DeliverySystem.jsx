@@ -28,7 +28,7 @@ function DeliverySystem() {
           />
         </p>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-1">
           <span className="text-[#364152] text-base font-medium">
             {t("Delivery system")}
           </span>
