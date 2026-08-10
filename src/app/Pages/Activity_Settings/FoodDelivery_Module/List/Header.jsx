@@ -11,7 +11,7 @@ function Header() {
         <p className='w-10 h-10 bg-[#EDE7FD] flex justify-center items-center rounded-[3px]'>
           <img src="/images/icons/dish-blue.svg" alt=""  className='w-5.5 h-5.5 '/>
         </p>
-        <p className='flex items-center text-[#364152] text-base font-normal'>{t('List')}</p>
+        <p className='flex items-center text-[#364152] text-base font-normal'>{t('list')}</p>
       </div>
       <hr className='border-0.5 border-[#E4E6EF]'/>
 
