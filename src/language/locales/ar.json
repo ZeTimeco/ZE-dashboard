@@ -1561,6 +1561,11 @@
   "Critical (new) orders will still reach you even in Do Not Disturb mode":"الطلبات الحرجة (الجديدة) ستظل تصلك حتى في وضع عدم الإزعاج",
   "From the hour":"من الساعة",
   "Until the hour":"إلي الساعة",
+  "role":"دور",
+  "power":"صلاحية",
+  "category":"فئة",
+  "Managing job roles":"إدارة الأدوار الوظيفية",
+  "Define the permissions for each job role. You can customize the permissions to suit your restaurant's needs.":"حدد صلاحيات كل دور وظيفي. يمكنك تخصيص الصلاحيات لتناسب احتياجات مطعمك.",
   
 
 

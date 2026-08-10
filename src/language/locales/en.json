@@ -1560,8 +1560,12 @@
   "Critical (new) orders will still reach you even in Do Not Disturb mode":"Critical (new) orders will still reach you even in Do Not Disturb mode",
   "From the hour":"From the hour",
   "Until the hour":"Until the hour",
+  "role":"role",
+  "power":"power",
+  "category":"category",
+  "Managing job roles":"Managing job roles",
+  "Define the permissions for each job role. You can customize the permissions to suit your restaurant's needs.":"Define the permissions for each job role. You can customize the permissions to suit your restaurant's needs.",
   
-
 
 
   
