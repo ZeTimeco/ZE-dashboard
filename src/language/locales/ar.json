@@ -1568,7 +1568,10 @@
   "Define the permissions for each job role. You can customize the permissions to suit your restaurant's needs.":"حدد صلاحيات كل دور وظيفي. يمكنك تخصيص الصلاحيات لتناسب احتياجات مطعمك.",
   "Specific validity":"صلاحية محددة",
   "Preserving privileges":"حفظ الصلاحيات",
-  
+  "Add a new employee":"إضافة موظف جديد",
+  "At work":"في الوردية",
+  "Overtime":"خارج الوردية",
+  "now":"الآن",
 
 
 

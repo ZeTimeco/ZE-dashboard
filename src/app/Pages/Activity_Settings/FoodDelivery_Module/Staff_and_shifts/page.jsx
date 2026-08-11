@@ -1,5 +1,8 @@
 import React from 'react'
 import Header from './Header'
+import Boxes from './Boxes'
+import Overtime from './Overtime'
+import AtWork from './AtWork'
 
 function Staff_and_shiftsPage() {
   return (
@@ -11,6 +14,9 @@ function Staff_and_shiftsPage() {
         </div>
   
         <div className='p-6 flex flex-col gap-4'>
+          <Boxes/>
+          <AtWork/>
+          <Overtime/>
           
         </div>
   
