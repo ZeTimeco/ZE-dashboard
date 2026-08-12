@@ -1578,7 +1578,15 @@
   "advice":"نصيحة",
   "Permissions are managed by the 'Permissions and Roles' section.":"الصلاحيات تُدار من قسم 'الصلاحيات والأدوار'",
   "Employee Role Selection":"اختيار الدور للموظف",
+  "Employee modification":"تعديل موظف ",
+  "Employee Details":"تفاصيل الموظف" ,
+  "Access Permissions":"صلاحيات الوصول",
+  "Role modification":"تعديل الدور",
+  "Employee suspension":"تعطيل الموظف",
+  "Are you sure you've disabled this employee? They won't be able to access the system.":"هل أنت متأكد من تعطيل هذا الموظف؟ لن يتمكن من الدخول للنظام.",
+  "Disable":"تعطيل",
   
+
 
 
 

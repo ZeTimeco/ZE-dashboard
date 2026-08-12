@@ -1577,6 +1577,13 @@
   "advice":"advice",
   "Permissions are managed by the 'Permissions and Roles' section.":"Permissions are managed by the 'Permissions and Roles' section.",
   "Employee Role Selection":"Employee Role Selection",
+  "Employee modification":"Employee modification",
+  "Employee Details":"Employee Details" ,
+  "Access Permissions":"Access Permissions",
+  "Role modification":"Role modification",
+  "Employee suspension":"Employee suspension",
+  "Are you sure you've disabled this employee? They won't be able to access the system.":"Are you sure you've disabled this employee? They won't be able to access the system.",
+  "Disable":"Disable",
   
   
 
