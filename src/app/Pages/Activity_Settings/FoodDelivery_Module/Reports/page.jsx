@@ -1,5 +1,10 @@
 import React from 'react'
 import Header from './Header'
+import Filter from './Filter'
+import Boxes from './Boxes'
+import BestsellingProducts from './BestsellingProducts'
+import Rating from './Rating'
+import ExportingReports from './ExportingReports'
 
 function ReportsPage() {
   return (
@@ -10,8 +15,13 @@ function ReportsPage() {
           <Header/>
         </div>
   
-        <div className='p-6 flex flex-col gap-4'>
-          
+        <div className='p-6 flex flex-col gap-6'>
+          <Filter/>
+
+          <Boxes/>
+          <BestsellingProducts/>
+          <Rating/>
+          <ExportingReports/>
         </div>
   
         
