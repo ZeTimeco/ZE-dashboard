@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function AutomaticReavailability() {
+function AutomaticReavailability({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -63,9 +63,19 @@ function AutomaticReavailability() {
     },
   }));
 
-  const [maxGuests, setMaxGuests] = useState(0);
-  const increaseMaxGuests = () => setMaxGuests((prev) => prev + 1);
-  const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
+  const increaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      menu_auto_restock_after: Number(prev.menu_auto_restock_after) + 1 
+    }))
+  };
+
+  const decreaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      menu_auto_restock_after : Number(prev.menu_auto_restock_after) - 1
+    }))
+  };
       
 
 
@@ -83,7 +93,7 @@ function AutomaticReavailability() {
         </p>
       </div>
 
-      {/*  */}
+      {/* Enable automatic replay */}
       <div className='flex justify-between mt-6'>
         <p className='flex flex-col gap-1'>
           <span className='text-[#364152] text-base font-medium'>{t('Enable automatic replay')}</span>
@@ -91,7 +101,16 @@ function AutomaticReavailability() {
         </p>
 
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked = {formData?.menu_auto_restock === 1 }
+            onChange={(e)=>{
+              setFormData((prev)=>({
+                ...prev,
+                menu_auto_restock:e.target.checked ? 1 : 0
+              }))
+            }}
+          
+          />
         </p>
       </div>
 
@@ -116,7 +135,7 @@ function AutomaticReavailability() {
 
           {/* Number */} 
           <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-[3px] text-center text-[#364152] text-base font-medium"> 
-            {maxGuests} {t('minute')}
+            {formData?.menu_auto_restock_after} {t('minute')}
           </span>
 
           {/* Minus */} 

@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function ScheduledAvailability() {
+function ScheduledAvailability({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -82,7 +82,16 @@ function ScheduledAvailability() {
         </p>
 
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.menu_schedule_enabled === 1}
+            onChange={(e)=>{
+              setFormData((prev)=>({
+                ...prev,
+                menu_schedule_enabled:e.target.checked ? 1 : 0
+              }))
+            }}
+          
+          />
         </p>
       </div>
 

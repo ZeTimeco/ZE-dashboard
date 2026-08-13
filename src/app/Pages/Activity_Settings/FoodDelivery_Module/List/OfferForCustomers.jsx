@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function OfferForCustomers() {
+function OfferForCustomers({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -86,7 +86,15 @@ function OfferForCustomers() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.menu_show_out_of_stock === 1}
+            onChange={(e)=>{
+              setFormData((prev)=>({
+                ...prev,
+                menu_show_out_of_stock : e.target.checked ? 1 : 0 
+              }))
+            }}
+          />
         </div>
 
 

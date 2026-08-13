@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -621,6 +621,28 @@ export const EditOrderConfigThunk = createAsyncThunk('setting/EditOrderConfig',
   }
 )
 
+export const getMenuConfigThunk = createAsyncThunk('setting/getMenuConfig',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getMenuConfig()
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const EditMenuConfigThunk = createAsyncThunk('setting/EditMenuConfig',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await EditMenuConfig(formData)
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -678,6 +700,8 @@ const initialState ={
   getWorkingTimesSettings:null,
 
   getOrderConfig:null,
+  getMenuConfig:null,
+
 
 
 
@@ -1409,6 +1433,31 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(EditOrderConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getMenuConfigThunk
+      .addCase(getMenuConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getMenuConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getMenuConfig = action.payload;
+      })
+      .addCase(getMenuConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //EditMenuConfigThunk
+      .addCase(EditMenuConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(EditMenuConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(EditMenuConfigThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

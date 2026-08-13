@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function PriceQuote() {
+function PriceQuote({formData , setFormData}) {
   const {t} = useTranslation()
 
   return (

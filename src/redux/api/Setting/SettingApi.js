@@ -307,3 +307,13 @@ export const EditOrderConfig = async(formData)=>{
   const response = await API.post('/provider/food-delivery/order-config' , formData)
   return response.data
 }
+
+export const getMenuConfig = async()=>{
+  const response = await API.get('/provider/food-delivery/menu-config')
+  return response.data
+}
+
+export const EditMenuConfig = async(formData)=>{
+  const response = await API.post('/provider/food-delivery/menu-config' , formData)
+  return response.data
+}
