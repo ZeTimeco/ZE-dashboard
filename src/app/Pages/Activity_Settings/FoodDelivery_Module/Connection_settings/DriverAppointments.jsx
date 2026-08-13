@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DriverAppointments() {
+function DriverAppointments({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -65,8 +65,20 @@ function DriverAppointments() {
     
 
   const [maxGuests, setMaxGuests] = useState(0);
-  const increaseMaxGuests = () => setMaxGuests((prev) => prev + 1);
-  const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
+  const increaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      delivery_driver_accept_time:Number(prev.delivery_driver_accept_time) + 1
+    }))
+  };
+
+  const decreaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      delivery_driver_accept_time:Number(prev.delivery_driver_accept_time) - 1
+    }))
+
+  };
     
     
   return (
@@ -85,7 +97,16 @@ function DriverAppointments() {
           <span className='text-[#697586] text-sm font-normal'>{t('The nearest driver will be automatically assigned when the request is ready.')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.delivery_auto_assign_driver === 1 }
+            onChange={(e)=>{
+              setFormData((prev)=>({
+                ...prev,
+                delivery_auto_assign_driver : e.target.checked ? 1 : 0
+              }))
+            }}
+          
+          />
         </p>
 
         
@@ -113,7 +134,7 @@ function DriverAppointments() {
 
           {/* Number */} 
           <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-[3px] text-center text-[#364152] text-base font-medium"> 
-            {maxGuests} {t('second')}
+            {formData?.delivery_driver_accept_time} {t('second')}
           </span>
 
           {/* Minus */} 

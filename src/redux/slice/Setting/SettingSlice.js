@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -643,6 +643,51 @@ export const EditMenuConfigThunk = createAsyncThunk('setting/EditMenuConfig',
   }
 )
 
+export const getDeliveryConfigThunk = createAsyncThunk('setting/getDeliveryConfig',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getDeliveryConfig()
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const EditDeliveryConfigThunk = createAsyncThunk('setting/EditDeliveryConfig',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await EditDeliveryConfig(formData)
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const getNotificationConfigThunk = createAsyncThunk('setting/getNotificationConfig',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getNotificationConfig()
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+
+export const EditNotificationConfigThunk = createAsyncThunk('setting/EditNotificationConfig',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await EditNotificationConfig(formData)
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -701,6 +746,10 @@ const initialState ={
 
   getOrderConfig:null,
   getMenuConfig:null,
+  getDeliveryConfig:null,
+  getNotificationConfig:null,
+
+
 
 
 
@@ -1461,7 +1510,56 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
-
+      //getDeliveryConfigThunk
+      .addCase(getDeliveryConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDeliveryConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getDeliveryConfig = action.payload;
+      })
+      .addCase(getDeliveryConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //EditDeliveryConfigThunk
+      .addCase(EditDeliveryConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(EditDeliveryConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(EditDeliveryConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getNotificationConfigThunk
+      .addCase(getNotificationConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getNotificationConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getNotificationConfig = action.payload;
+      })
+      .addCase(getNotificationConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //EditNotificationConfigThunk
+      .addCase(EditNotificationConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(EditNotificationConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(EditNotificationConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       
 
 }

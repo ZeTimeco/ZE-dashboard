@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 
-function DoNotDisturb() {
+function DoNotDisturb({formData , setFormData}) {
   const {t} = useTranslation()
   const [fromTime, setFromTime] = useState(null);
   const [toTime, setToTime] = useState(null);
@@ -94,22 +94,48 @@ function DoNotDisturb() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_dnd_enabled === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_dnd_enabled:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          
+          />
         </div>
       </div>
 
-      {/*  */}
+      {/* time */}
       <div>
         <div className="grid grid-cols-2 gap-6 mt-4">
           {/* From Time */}
           <div className="flex flex-col">
             <label className="text-[#364152] text-sm font-normal mb-1.5">
-              {t('From the hour')}
+              {t("From the hour")}
             </label>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ar">
+
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              adapterLocale="ar"
+            >
               <MobileTimePicker
-                value={fromTime}
-                onChange={(newValue) => setFromTime(newValue)}
+                value={
+                  formData.notify_dnd_start
+                    ? dayjs(formData.notify_dnd_start, "HH:mm")
+                    : null
+                }
+                onChange={(newValue) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    notify_dnd_start: newValue
+                      ? newValue.format("HH:mm")
+                      : "",
+                  }))
+                }
                 ampm
                 views={["hours", "minutes"]}
                 sx={{ width: "100%" }}
@@ -125,12 +151,27 @@ function DoNotDisturb() {
           {/* To Time */}
           <div className="flex flex-col">
             <label className="text-[#364152] text-sm font-normal mb-1.5">
-              {t('Until the hour')}
+              {t("Until the hour")}
             </label>
-            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ar">
+
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              adapterLocale="ar"
+            >
               <MobileTimePicker
-                value={toTime}
-                onChange={(newValue) => setToTime(newValue)}
+                value={
+                  formData.notify_dnd_end
+                    ? dayjs(formData.notify_dnd_end, "HH:mm")
+                    : null
+                }
+                onChange={(newValue) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    notify_dnd_end: newValue
+                      ? newValue.format("HH:mm")
+                      : "",
+                  }))
+                }
                 ampm
                 views={["hours", "minutes"]}
                 sx={{ width: "100%" }}

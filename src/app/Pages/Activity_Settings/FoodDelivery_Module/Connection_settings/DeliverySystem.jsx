@@ -2,16 +2,14 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function DeliverySystem() {
+function DeliverySystem({formData , setFormData}) {
   const { t } = useTranslation();
   
-  const [status, setStatus] = useState("1");
 
-  const inputClassName =
-    "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2";
+  const inputClassName = "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2";
 
   const getCardStyle = (cardStatus) => {
-    return status === cardStatus
+    return formData?.delivery_type === cardStatus
       ? "border-[var(--color-primary)] bg-[#FFFDF5]"
       : "border-[#E3E8EF] bg-white";
   };
@@ -43,15 +41,21 @@ function DeliverySystem() {
       <div className="grid grid-cols-2 gap-4">
         {/* Platform delivery */}
         <div
-          onClick={() => setStatus("1")}
-          className={`flex gap-4 border rounded-[3px] py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("1")}`}
+          onClick={() => setFormData((prev)=>({
+                ...prev,
+                delivery_type:'platform'
+              }))}
+          className={`flex gap-4 border rounded-[3px] py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("platform")}`}
         >
           <div className="flex items-center">
             <input
               type="radio"
               name="bookingStatus"
-              checked={status === "1"}
-              onChange={() => setStatus("1")}
+              checked={formData?.delivery_type === "platform"}
+              onChange={() => setFormData((prev)=>({
+                ...prev,
+                delivery_type:'platform'
+              }))}
               className={inputClassName}
             />
           </div>
@@ -69,15 +73,21 @@ function DeliverySystem() {
 
         {/* Self-connection */}
         <div
-          onClick={() => setStatus("2")}
-          className={`flex gap-4 border rounded-[3px] py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("2")}`}
+          onClick={() => setFormData((prev)=>({
+                ...prev,
+                delivery_type:'self'
+              }))}
+          className={`flex gap-4 border rounded-[3px] py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("self")}`}
         >
           <div className="flex items-center">
             <input
               type="radio"
               name="bookingStatus"
-              checked={status === "2"}
-              onChange={() => setStatus("2")}
+              checked={formData?.delivery_type === "self"}
+              onChange={() => setFormData((prev)=>({
+                ...prev,
+                delivery_type:'self'
+              }))}
               className={inputClassName}
             />
           </div>

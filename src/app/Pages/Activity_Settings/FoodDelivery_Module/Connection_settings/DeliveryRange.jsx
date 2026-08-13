@@ -2,12 +2,22 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DeliveryRange() {
+function DeliveryRange({formData , setFormData}) {
   const {t} = useTranslation()
 
-  const [maxGuests, setMaxGuests] = useState(0);
-  const increaseMaxGuests = () => setMaxGuests((prev) => prev + 1);
-  const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
+  const increaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      delivery_max_distance : Number(prev.delivery_max_distance) + 1
+    }))
+  };
+
+  const decreaseMaxGuests = () =>{
+    setFormData((prev)=>({
+      ...prev,
+      delivery_max_distance: Number(prev.delivery_max_distance) - 1
+    }))
+  };
       
   return (
     <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
@@ -34,7 +44,7 @@ function DeliveryRange() {
 
           {/* Number */} 
           <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-[3px] text-center text-[#364152] text-base font-medium"> 
-            {maxGuests} {t('kilometer')}
+            {formData?.delivery_max_distance} {t('kilometer')}
           </span>
 
           {/* Minus */} 

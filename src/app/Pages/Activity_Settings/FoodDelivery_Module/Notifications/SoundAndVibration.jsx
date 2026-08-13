@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function SoundAndVibration() {
+function SoundAndVibration({formData , setFormData}) {
 
   const {t} = useTranslation()
 
@@ -65,11 +65,11 @@ function SoundAndVibration() {
     }));
 
 
-  const [selected, setSelected] = useState("tone");
+  const [selected, setSelected] = useState("custom");
   const options = [
-    { id: "tone", label: t('tone') },
-    { id: "hypothetical", label: t('hypothetical') },
-    { id: "bell", label:t('bell') },
+    { id: "custom", label: t('tone') },
+    { id: "default", label: t('hypothetical') },
+    { id: "beep", label:t('bell') },
   ];
 
 
@@ -100,7 +100,18 @@ function SoundAndVibration() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_sound_enabled === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_sound_enabled:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          
+          />
         </div>
       </div>
 
@@ -112,13 +123,17 @@ function SoundAndVibration() {
 
         <div className="grid grid-cols-3 gap-1.5 mt-3">
           {options.map((option) => {
-            const isActive = selected === option.id;
+            const isActive = formData.notification_sound_type === option.id;
 
             return (
               <button
                 key={option.id}
                 type="button"
-                onClick={() => setSelected(option.id)}
+                onClick={() => setFormData((prev) => ({
+                    ...prev,
+                    notification_sound_type: option.id,
+                  }))
+                }
                 className={`h-10 rounded-[3px] border text-sm font-normal transition-colors cursor-pointer
                   ${isActive
                       ? "border-[var(--color-primary)] bg-[#FFFBEB] text-[var(--color-primary)]"
@@ -151,7 +166,18 @@ function SoundAndVibration() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_vibration_enabled === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_vibration_enabled:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          
+          />
         </div>
       </div>
     </div>

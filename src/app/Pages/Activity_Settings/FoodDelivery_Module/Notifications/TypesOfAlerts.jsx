@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function TypesOfAlerts() {
+function TypesOfAlerts({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -88,7 +88,18 @@ function TypesOfAlerts() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_new_orders === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_new_orders:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          
+          />
         </div>
       </div>
 
@@ -114,7 +125,17 @@ function TypesOfAlerts() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_order_updates === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_order_updates:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          />
         </div>
       </div>
 
@@ -134,7 +155,18 @@ function TypesOfAlerts() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_delivery_issues === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_delivery_issues:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          
+          />
         </div>
       </div>
 
@@ -154,7 +186,18 @@ function TypesOfAlerts() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_customer_messages === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_customer_messages:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          
+          />
         </div>
       </div>
 

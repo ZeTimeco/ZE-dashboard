@@ -2,7 +2,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function DeliveryBehavior() {
+function DeliveryBehavior({formData , setFormData}) {
   const {t} = useTranslation()
 
 
@@ -86,7 +86,17 @@ function DeliveryBehavior() {
         </div>
 
         <div className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.delivery_allow_without_touch === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  delivery_allow_without_touch : e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          />
         </div>
 
 
