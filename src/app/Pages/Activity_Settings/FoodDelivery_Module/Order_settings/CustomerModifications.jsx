@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-function CustomerModifications() {
+function CustomerModifications({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -64,9 +64,18 @@ function CustomerModifications() {
     }));
     
 
-  const [maxGuests, setMaxGuests] = useState(0);
-  const increaseMaxGuests = () => setMaxGuests((prev) => prev + 1);
-  const decreaseMaxGuests = () => setMaxGuests((prev) => Math.max(0, prev - 1));
+  const increaseMaxGuests = () => {
+    setFormData((prev)=>({
+      ...prev,
+      order_edit_time_limit:Number(prev.order_edit_time_limit) + 1 
+    }))
+  };
+  const decreaseMaxGuests = () =>{
+    setFormData((prev)=>({
+      ...prev, 
+      order_edit_time_limit:Number(prev.order_edit_time_limit) - 1
+    }))
+  };
     
   return (
     <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
@@ -77,13 +86,25 @@ function CustomerModifications() {
 
       <div className='border border-[#E3E8EF] my-4'></div>
 
+      {/* Allow modification */}
       <div className='flex justify-between'>
         <p className='flex flex-col'>
           <span className='text-[#364152] text-base font-medium'>{t('Allow modification')}</span>
           <span className='text-[#697586] text-sm font-normal'>{t('The customer can modify the order before preparation begins.')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.order_allow_edit}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  order_allow_edit:e.target.checked? 1 : 0
+                }))
+
+              }
+            }
+          />
         </p>
 
         
@@ -91,6 +112,8 @@ function CustomerModifications() {
 
       <div className='border border-[#E3E8EF] my-4'></div>
 
+
+      {/* Allowance period for modification */}
       <div className=''>
       
         <p className='text-[#364152] text-base font-medium'>{t('Allowance period for modification')}</p>
@@ -108,7 +131,7 @@ function CustomerModifications() {
 
           {/* Number */} 
           <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-[3px] text-center text-[#364152] text-base font-medium"> 
-            {maxGuests} {t('minute')}
+            {formData?.order_edit_time_limit} {t('minute')}
           </span>
 
           {/* Minus */} 

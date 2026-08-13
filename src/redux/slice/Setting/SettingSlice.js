@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -134,7 +134,15 @@ export const updateProfileImageThunk = createAsyncThunk('setting/updateProfileIm
 )
 
 /***************************************************** */
-//******Activity_Settings
+/***************************************************** */
+/***************************************************** */
+/***************************************************** */
+/***************************************************** */
+/***************************************************** */
+/***************************************************** */
+/***************************************************** */
+//******Activity_Settings/***************************************************** */
+
 
 
 //---------------------------------------------------------------------------------------
@@ -588,6 +596,30 @@ export const editWorkingTimesSettingsThunk = createAsyncThunk('setting/editWorki
   }
 )
 
+//---------------------------------------------------------------------------------------
+/* Food delivery_Module */
+
+export const getOrderConfigThunk = createAsyncThunk('setting/getOrderConfig',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getOrderConfig()
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const EditOrderConfigThunk = createAsyncThunk('setting/EditOrderConfig',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await EditOrderConfig(formData)
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
 
 const initialState ={
   success:false,
@@ -644,6 +676,9 @@ const initialState ={
   getNotificationSettings:null,
   getPaymentSettings:null,
   getWorkingTimesSettings:null,
+
+  getOrderConfig:null,
+
 
 
 }
@@ -1351,6 +1386,34 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      //getOrderConfigThunk
+      .addCase(getOrderConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getOrderConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getOrderConfig = action.payload;
+      })
+      .addCase(getOrderConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //EditOrderConfigThunk
+      .addCase(EditOrderConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(EditOrderConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(EditOrderConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      
 
 }
 })

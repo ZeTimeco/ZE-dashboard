@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function NewOrderAlerts() {
+function NewOrderAlerts({formData , setFormData}) {
   const {t} = useTranslation()
   
   const GreenSwitch = styled((props) => (
@@ -87,7 +87,18 @@ function NewOrderAlerts() {
           <span className='text-[#697586] text-xs font-normal'>{t('New On-Demand Sound Playback')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_new_orders_sound === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev ,
+                  notify_new_orders_sound:e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          
+          />
         </p>
         
       </div>
@@ -102,7 +113,17 @@ function NewOrderAlerts() {
           <span className='text-[#697586] text-xs font-normal'>{t('Device vibration upon new request')}</span>
         </p>
         <p className='flex items-center'>
-          <GreenSwitch/>
+          <GreenSwitch
+            checked={formData?.notify_new_orders_vibration === 1}
+            onChange={
+              (e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  notify_new_orders_vibration: e.target.checked ? 1 : 0
+                }))
+              }
+            }
+          />
         </p>
         
       </div>

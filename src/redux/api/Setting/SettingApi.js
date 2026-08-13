@@ -291,3 +291,19 @@ export const editWorkingTimesSettings = async(formData)=>{
   const response = await API.post('/provider/restaurant/working-times', formData);
   return response.data;
 }
+
+
+
+//---------------------------------------------------------------------------------------
+/* Food delivery_Module */
+
+
+export const getOrderConfig = async()=>{
+  const response = await API.get('/provider/food-delivery/order-config')
+  return response.data
+}
+
+export const EditOrderConfig = async(formData)=>{
+  const response = await API.post('/provider/food-delivery/order-config' , formData)
+  return response.data
+}
