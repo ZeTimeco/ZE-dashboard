@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -688,6 +688,30 @@ export const EditNotificationConfigThunk = createAsyncThunk('setting/EditNotific
   }
 )
 
+
+export const getRestaurantInformationConfigThunk = createAsyncThunk('setting/getRestaurantInformationConfig',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getRestaurantInformationConfig()
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const editRestaurantInformationConfigThunk = createAsyncThunk('setting/editRestaurantInformationConfig',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editRestaurantInformationConfig(formData)
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+
 const initialState ={
   success:false,
   loading: false,
@@ -748,6 +772,7 @@ const initialState ={
   getMenuConfig:null,
   getDeliveryConfig:null,
   getNotificationConfig:null,
+  getRestaurantInformationConfig:null,
 
 
 
@@ -1557,6 +1582,31 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(EditNotificationConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getRestaurantInformationConfigThunk
+      .addCase(getRestaurantInformationConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getRestaurantInformationConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getRestaurantInformationConfig = action.payload;
+      })
+      .addCase(getRestaurantInformationConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editRestaurantInformationConfigThunk
+      .addCase(editRestaurantInformationConfigThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editRestaurantInformationConfigThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editRestaurantInformationConfigThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

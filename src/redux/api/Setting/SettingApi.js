@@ -337,3 +337,15 @@ export const EditNotificationConfig = async(formData)=>{
   const response = await API.post('/provider/food-delivery/notification-config' , formData)
   return response.data
 }
+
+export const getRestaurantInformationConfig = async()=>{
+  const response = await API.get('/provider/restaurant/profile')
+  return response.data
+}
+
+export const editRestaurantInformationConfig = async(formData)=>{
+  const response = await API.post('/provider/restaurant/profile', formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data;
+}
