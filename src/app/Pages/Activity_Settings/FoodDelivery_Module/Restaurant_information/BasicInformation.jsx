@@ -2,15 +2,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function BasicInformation({formData , setFormData}) {
-  const  {t} = useTranslation()
+function BasicInformation({formData , setFormData , getRestaurantType, currentLang}) {
+  const {t} = useTranslation()
   // =========================
     const [open1, setOpen1] = useState(false);
     const [selected1, setSelected1] = useState(null);
     const [searchValue1, setSearchValue1] = useState("");
     const dropdownRef1 = useRef(null);
-    const option1 =['2','5']
-  
+    const option1 =getRestaurantType?.data
+
     useEffect(() => {
       const handleClickOutside = (event) => {
         if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
@@ -34,6 +34,14 @@ function BasicInformation({formData , setFormData}) {
           <input 
             type="text"
             name='code'
+            value={formData?.name?.[currentLang] || ''}
+            onChange={(e) => setFormData((prev) => ({
+              ...prev,
+              name: {
+                ...prev?.name,
+                [currentLang]: e.target.value
+              }
+            }))}
             placeholder={t('Restaurant name')}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -54,7 +62,7 @@ function BasicInformation({formData , setFormData}) {
             <input
               type="text"
               placeholder={t("Restaurant type")}
-              value={searchValue1}
+              value={searchValue1 || option1?.find((item) => item.id === formData?.restaurant_type_id)?.name ||""}
               onChange={(e) => {
                 setSearchValue1(e.target.value);
                 setOpen1(true);
@@ -75,20 +83,24 @@ function BasicInformation({formData , setFormData}) {
             <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
               {option1
                 ?.filter((opt) =>
-                  opt?.toLowerCase().includes(searchValue1.toLowerCase())
+                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
                 )
                 .map((opt) => (
                   <li
-                    key={opt}
+                    key={opt?.id}
                     onClick={() => {
-                      setSelected1(opt);
+                      setSelected1(opt?.name);
                       setSearchValue1("");
                       setOpen1(false);
-                      
+                      setFormData((prev)=>({
+                        ...prev,
+                        restaurant_type_id:opt?.id
+
+                      }))
                     }}
                     className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                   >
-                    {opt}
+                    {opt?.name}
                   </li>
               ))}
             </ul>
@@ -106,6 +118,14 @@ function BasicInformation({formData , setFormData}) {
           <input 
             type="text"
             name='code'
+            value={formData?.branch_name?.[currentLang] || ''}
+            onChange={(e) => setFormData((prev) => ({
+              ...prev,
+              branch_name: {
+                ...prev?.branch_name,
+                [currentLang]: e.target.value
+              }
+            }))}
             placeholder={t('Branch name')}
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />

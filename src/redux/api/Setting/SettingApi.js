@@ -349,3 +349,9 @@ export const editRestaurantInformationConfig = async(formData)=>{
   });
   return response.data;
 }
+
+
+export const getRestaurantType = async()=>{
+  const response = await API.get('/provider/restaurant/types')
+  return response.data
+}

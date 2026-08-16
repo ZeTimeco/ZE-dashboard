@@ -1,36 +1,53 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { IMAGE_BASE_URL } from "../../../../../../config/imageUrl";
 
 function Images({formData , setFormData}) {
   const { t } = useTranslation();
   const fileInputRef = useRef(null);
 
-  const [images, setImages] = useState([]);
+  const images = (formData?.images || []).map((img) => {
+    if (img instanceof File) {
+      return {
+        id: img.name + img.size,
+        url: URL.createObjectURL(img),
+        name: img.name,
+      };
+    }
 
-  const imagePreviews = images.map((file) => ({
-    id: `${file.name}-${file.size}`,
-    url: URL.createObjectURL(file),
-    name: file.name,
-  }));
+    return {
+      id: img.id,
+      url: `${IMAGE_BASE_URL}${img.image}`,
+      name: img.image,
+    };
+  });
 
   const handleAddImage = (e) => {
     const files = Array.from(e.target.files);
     if (!files.length) return;
 
-    const remaining = 5 - images.length;
+    const remaining = 5 - (formData?.images?.length || 0);
     const selectedFiles = files.slice(0, remaining);
 
-    setImages((prev) => [...prev, ...selectedFiles]);
+    setFormData((prev) => ({
+      ...prev,
+      images: [...(prev.images || []), ...selectedFiles],
+    }));
 
     e.target.value = "";
   };
 
   const handleRemoveImage = (id) => {
-    setImages((prev) =>
-      prev.filter((file) => `${file.name}-${file.size}` !== id)
-    );
+    setFormData((prev) => ({
+      ...prev,
+      images: (prev.images || []).filter((img) => {
+        if (img instanceof File) return (img.name + img.size) !== id;
+        if (typeof img === 'string') return img !== id;
+        return (img.id ?? img.image ?? img.image_path ?? img.url) !== id;
+      }),
+    }));
   };
 
   return (
@@ -48,9 +65,9 @@ function Images({formData , setFormData}) {
         onChange={handleAddImage}
       />
 
-      {imagePreviews.length > 0 && (
+      {images.length > 0 && (
         <div className="grid grid-cols-5 gap-3 mb-3 mt-3">
-          {imagePreviews.map((img) => (
+          {images.map((img) => (
             <div
               key={img.id}
               className="relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square"
@@ -64,7 +81,7 @@ function Images({formData , setFormData}) {
               <button
                 type="button"
                 onClick={() => handleRemoveImage(img.id)}
-                className="absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-[3px] flex items-center justify-center text-base opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-[3px] flex items-center justify-center text-base opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
               >
                 ×
               </button>
@@ -73,7 +90,7 @@ function Images({formData , setFormData}) {
         </div>
       )}
 
-      {imagePreviews.length < 5 && (
+      {images.length < 5 && (
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}

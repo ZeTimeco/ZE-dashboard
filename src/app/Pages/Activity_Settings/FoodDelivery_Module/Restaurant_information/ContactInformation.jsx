@@ -20,6 +20,8 @@ function ContactInformation({formData , setFormData}) {
           <input 
             type="text"
             name='code'
+            value={formData?.phone_landline || ''}
+            onChange={(e) => setFormData((prev) => ({ ...prev, phone_landline: e.target.value }))}
             placeholder='22356420'
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -35,6 +37,8 @@ function ContactInformation({formData , setFormData}) {
           <input 
             type="text"
             name='code'
+            value={formData?.whatsapp_phone || ''}
+            onChange={(e) => setFormData((prev) => ({ ...prev, whatsapp_phone: e.target.value }))}
             placeholder='+20114755210'
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -50,6 +54,8 @@ function ContactInformation({formData , setFormData}) {
           <input 
             type="text"
             name='code'
+            value={formData?.phone_1 || ''}
+            onChange={(e) => setFormData((prev) => ({ ...prev, phone_1: e.target.value }))}
             placeholder='+599655444422'
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
@@ -65,11 +71,12 @@ function ContactInformation({formData , setFormData}) {
           <input 
             type="text"
             name='code'
+            value={formData?.phone_2 || ''}
+            onChange={(e) => setFormData((prev) => ({ ...prev, phone_2: e.target.value }))}
             placeholder='+15522222556'
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
         </div>
-
 
         {/* Email */}
         <div className='w-full col-span-2'>
@@ -81,11 +88,12 @@ function ContactInformation({formData , setFormData}) {
           <input 
             type="text"
             name='code'
+            value={formData?.email || ''}
+            onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
             placeholder='Exmple@restaurant.com'
             className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
           />
         </div>
-
 
       </div>
     </div>

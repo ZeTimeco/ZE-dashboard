@@ -7,16 +7,18 @@ import Location from './Location'
 import ContactInformation from './ContactInformation'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { editRestaurantInformationConfigThunk, getRestaurantInformationConfigThunk } from '@/redux/slice/Setting/SettingSlice'
+import { editRestaurantInformationConfigThunk, getRestaurantInformationConfigThunk, getRestaurantTypeThunk } from '@/redux/slice/Setting/SettingSlice'
 import { Alert, Slide, Snackbar } from '@mui/material'
 
 function Restaurant_informationPage() {
-  const {t} = useTranslation()
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language.startsWith("ar") ? "ar" : "en";
 
   //API
   const dispatch = useDispatch()
-  const {getRestaurantInformationConfig , loading} = useSelector((state)=>state.setting)
+  const {getRestaurantInformationConfig ,getRestaurantType, loading} = useSelector((state)=>state.setting)
   useEffect(()=>{
+    dispatch(getRestaurantTypeThunk())
     dispatch(getRestaurantInformationConfigThunk())
   },[dispatch])
 
@@ -42,7 +44,6 @@ function Restaurant_informationPage() {
     city:'',
     area:'',
     address:'',
-    existing_images:[],
     images:[],
     description:{
       ar:'',
@@ -56,12 +57,12 @@ function Restaurant_informationPage() {
       setFormData({
         restaurant_type_id: getRestaurantInformationConfig.restaurant_type_id ?? "",
         name: {
-          ar: getRestaurantInformationConfig.name?.ar ?? "",
-          en: getRestaurantInformationConfig.name?.en ?? "",
+          ar: currentLang === "ar" ? getRestaurantInformationConfig.name || "" : (typeof getRestaurantInformationConfig.name === "object" ? getRestaurantInformationConfig.name?.ar || "" : ""),
+          en: currentLang === "en" ? getRestaurantInformationConfig.name || "" : (typeof getRestaurantInformationConfig.name === "object" ? getRestaurantInformationConfig.name?.en || "" : ""),
         },
         branch_name: {
-          ar: getRestaurantInformationConfig.branch_name?.ar ?? "",
-          en: getRestaurantInformationConfig.branch_name?.en ?? "",
+          ar: currentLang === "ar" ? getRestaurantInformationConfig.branch_name || "" : (typeof getRestaurantInformationConfig.branch_name === "object" ? getRestaurantInformationConfig.branch_name?.ar || "" : ""),
+          en: currentLang === "en" ? getRestaurantInformationConfig.branch_name || "" : (typeof getRestaurantInformationConfig.branch_name === "object" ? getRestaurantInformationConfig.branch_name?.en || "" : ""),
         },
         latitude: getRestaurantInformationConfig.latitude ?? "",
         longitude: getRestaurantInformationConfig.longitude ?? "",
@@ -74,16 +75,15 @@ function Restaurant_informationPage() {
         city: getRestaurantInformationConfig.city ?? "",
         area: getRestaurantInformationConfig.area ?? "",
         address: getRestaurantInformationConfig.address ?? "",
-        existing_images: getRestaurantInformationConfig.existing_images ?? [],
-        images: [],
+        images: getRestaurantInformationConfig.images || [],
         description: {
-          ar: getRestaurantInformationConfig.description?.ar ?? "",
-          en: getRestaurantInformationConfig.description?.en ?? "",
+          ar: currentLang === "ar" ? getRestaurantInformationConfig.description || "" : (typeof getRestaurantInformationConfig.description === "object" ? getRestaurantInformationConfig.description?.ar || "" : ""),
+          en: currentLang === "en" ? getRestaurantInformationConfig.description || "" : (typeof getRestaurantInformationConfig.description === "object" ? getRestaurantInformationConfig.description?.en || "" : ""),
         },
         status: getRestaurantInformationConfig.status ?? "",
       });
     }
-  }, [getRestaurantInformationConfig]);
+  }, [getRestaurantInformationConfig, currentLang]);
 
     const [alert, setAlert] = useState({
       open: false,
@@ -92,9 +92,54 @@ function Restaurant_informationPage() {
     })
 
     const handleSubmit = async () => {
+      const data = new FormData();
+
+      data.append("restaurant_type_id", formData.restaurant_type_id || "");
+
+      if (formData.name) {
+        data.append("name[ar]", formData?.name?.ar || "");
+        data.append("name[en]", formData?.name?.en || "");
+      }
+      if (formData.branch_name) {
+        data.append("branch_name[ar]", formData?.branch_name?.ar || "");
+        data.append("branch_name[en]", formData?.branch_name?.en || "");
+      }
+      if (formData.description) {
+        data.append("description[ar]", formData?.description?.ar || "");
+        data.append("description[en]", formData?.description?.en || "");
+      }
+
+      data.append("latitude",       formData?.latitude       || "");
+      data.append("longitude",      formData?.longitude      || "");
+      data.append("phone_landline", formData?.phone_landline || "");
+      data.append("phone_1",        formData?.phone_1        || "");
+      data.append("phone_2",        formData?.phone_2        || "");
+      data.append("whatsapp_phone", formData?.whatsapp_phone || "");
+      data.append("email",          formData?.email          || "");
+      data.append("country",        formData?.country        || "");
+      data.append("city",           formData?.city           || "");
+      data.append("area",           formData?.area           || "");
+      data.append("address",        formData?.address        || "");
+      data.append("status",         formData?.status         || "");
+
+      if (formData?.images && Array.isArray(formData?.images)) {
+        let newIndex = 0;
+        let existingIndex = 0;
+        formData?.images.forEach((img) => {
+          if (img instanceof File) {
+            data.append(`images[${newIndex}]`, img);
+            newIndex++;
+          } else if (img && typeof img === "object" && img.id) {
+            data.append(`existing_images[${existingIndex}]`, img.id);
+            existingIndex++;
+          }
+        });
+      }
+
       try {
-        await dispatch(editRestaurantInformationConfigThunk(formData)).unwrap()
-  
+        await dispatch(editRestaurantInformationConfigThunk(data)).unwrap()
+        dispatch(getRestaurantInformationConfigThunk())
+
         setAlert({
           open: true,
           severity: 'success',
@@ -102,19 +147,19 @@ function Restaurant_informationPage() {
         })
       } catch (error) {
         console.error(error)
-  
+
         setAlert({
           open: true,
           severity: 'error',
-          message: 'This is an error Alert.',
+          message: error?.message || 'This is an error Alert.',
         })
       }
     }
-  
+
     function SlideTransition(props) {
       return <Slide {...props} direction="left" />
     }
-  
+
 
   return (
     <>
@@ -122,9 +167,9 @@ function Restaurant_informationPage() {
         <div>
           <Header/>
         </div>
-  
+
         <div className='p-6 flex flex-col gap-4'>
-          <BasicInformation    formData={formData} setFormData={setFormData} />
+          <BasicInformation    formData={formData} setFormData={setFormData} getRestaurantType={getRestaurantType} currentLang={currentLang} />
           <Images              formData={formData} setFormData={setFormData} />
           <Location            formData={formData} setFormData={setFormData} />
           <ContactInformation  formData={formData} setFormData={setFormData} />
@@ -142,8 +187,8 @@ function Restaurant_informationPage() {
             {loading ? t("Saving...") : t("Save changes")}
           </button>
         </div>
-  
-        
+
+
         {/* alert */}
         <div className='px-6 mb-4 w-[30%]' >
           {alert.open && (
@@ -206,9 +251,9 @@ function Restaurant_informationPage() {
             </Snackbar>
           )}
         </div>
-        
+
       </div>
-      
+
     </>
   )
 }

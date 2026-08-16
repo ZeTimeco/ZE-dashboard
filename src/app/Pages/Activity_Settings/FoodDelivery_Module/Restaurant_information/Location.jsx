@@ -7,7 +7,6 @@ import MapDialog from "./MapDialog";
 function Location({formData , setFormData}) {
   const { t } = useTranslation();
   const [openMap, setOpenMap] = useState(false);
-  const [address, setAddress] = useState("");
 
   return (
     <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4">
@@ -21,7 +20,7 @@ function Location({formData , setFormData}) {
           <input
             type="text"
             readOnly
-            value={address}
+            value={formData?.address || ""}
             placeholder={t("Restaurant address")}
             className="w-full h-15 pl-10 pr-4 py-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none cursor-pointer"
           />
@@ -48,8 +47,17 @@ function Location({formData , setFormData}) {
       <MapDialog
         open={openMap}
         handleClose={() => setOpenMap(false)}
-        onConfirm={(location) => {
-          setAddress(location.address);
+        formData={formData}
+        onConfirm={(locData) => {
+          setFormData((prev) => ({
+            ...prev,
+            address: locData.address,
+            latitude: locData.latitude.toString(),
+            longitude: locData.longitude.toString(),
+            country: locData.country,
+            city: locData.city,
+            area: locData.area,
+          }));
         }}
       />
     </div>

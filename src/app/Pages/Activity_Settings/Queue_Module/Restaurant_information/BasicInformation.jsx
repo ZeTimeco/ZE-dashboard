@@ -130,7 +130,7 @@ function BasicInformation({getRestaurantTypes , formData , setFormData ,currentL
             </ul>
           )}
         </div>
-      </div>
+        </div>
 
         {/*Restaurant description */}
         <div className='w-full'>
