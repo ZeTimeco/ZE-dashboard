@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import MapDialog from "./MapDialog";
 
-function Location() {
+function Location({formData , setFormData}) {
   const { t } = useTranslation();
   const [openMap, setOpenMap] = useState(false);
   const [address, setAddress] = useState("");

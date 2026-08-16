@@ -693,7 +693,7 @@ export const getRestaurantInformationConfigThunk = createAsyncThunk('setting/get
   async(_ , {rejectWithValue})=>{
     try{
       const response = await getRestaurantInformationConfig()
-      return response 
+      return response.data
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);  
     }

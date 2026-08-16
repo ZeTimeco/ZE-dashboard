@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function ContactInformation() {
+function ContactInformation({formData , setFormData}) {
   const {t} = useTranslation()
   return (
   <>

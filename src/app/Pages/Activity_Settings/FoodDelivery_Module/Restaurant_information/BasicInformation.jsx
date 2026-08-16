@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function BasicInformation() {
+function BasicInformation({formData , setFormData}) {
   const  {t} = useTranslation()
   // =========================
     const [open1, setOpen1] = useState(false);

@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-function Images() {
+function Images({formData , setFormData}) {
   const { t } = useTranslation();
   const fileInputRef = useRef(null);
 
