@@ -7,7 +7,16 @@ function HiddenItemsLayout({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden relative">
+      {/* Overlay for mobile/tablet when sidebar is open */}
+      {isSidebarOpen && (
+        <div 
+          onClick={() => setIsSidebarOpen(false)}
+          className="fixed inset-0 bg-black/40 z-40 lg1:hidden transition-opacity"
+          aria-hidden="true"
+        />
+      )}
+
       {/* Sidebar */}
       <DisabledSidebar
         isSidebarOpen={isSidebarOpen}

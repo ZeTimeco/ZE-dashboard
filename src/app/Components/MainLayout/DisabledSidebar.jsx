@@ -25,10 +25,11 @@ function DisabledSidebar({ isSidebarOpen, setIsSidebarOpen }) {
   return (
     <aside
       className={`
-        ${isSidebarOpen ? "block" : "hidden"}
-        lg1:flex flex-col h-screen border-x border-[#E3E8EF] transition-all p-4 duration-200
+        ${isSidebarOpen ? "translate-x-0" : "translate-x-full lg1:translate-x-0"}
+        lg1:flex flex-col h-screen border-x border-[#E3E8EF] p-4
         ${open ? "w-70" : "w-18"}
-        bg-white fixed lg:static z-50 top-0 right-0
+        bg-white fixed lg1:static z-50 top-0 right-0 shadow-lg lg1:shadow-none
+        select-none overflow-hidden transition-transform duration-300 ease-in-out
       `}
     >
       {/* Logo open and close */}

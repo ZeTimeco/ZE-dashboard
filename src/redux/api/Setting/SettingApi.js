@@ -350,8 +350,12 @@ export const editRestaurantInformationConfig = async(formData)=>{
   return response.data;
 }
 
-
 export const getRestaurantType = async()=>{
   const response = await API.get('/provider/restaurant/types')
+  return response.data
+}
+
+export const getRoleAndPermissionConfig = async()=>{
+  const response = await API.get('/restaurant-roles-permission')
   return response.data
 }

@@ -39,10 +39,10 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
       animate={{ width: open ? 280 : 80 }}
       transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
       className={`
-        ${isSidebarOpen ? "translate-x-0" : "-translate-x-full lg1:translate-x-0"}   
+        ${isSidebarOpen ? "translate-x-0" : "translate-x-full lg1:translate-x-0"}   
         lg1:flex flex-col h-screen border-x border-[#E3E8EF] p-4
         bg-white fixed lg1:static z-50 top-0 right-0 shadow-lg lg1:shadow-none
-        select-none overflow-hidden
+        select-none overflow-hidden transition-transform duration-300 ease-in-out
       `}
     >
       {/* Logo open and close */}

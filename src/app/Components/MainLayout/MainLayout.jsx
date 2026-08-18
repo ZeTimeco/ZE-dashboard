@@ -19,37 +19,48 @@ function MainLayout({ children }) {
   }, [])
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden relative">
+      {/* Overlay for mobile/tablet when sidebar is open */}
+      {isSidebarOpen && (
+        <div 
+          onClick={() => setIsSidebarOpen(false)}
+          className="fixed inset-0 bg-black/40 z-40 lg1:hidden transition-opacity"
+          aria-hidden="true"
+        />
+      )}
+
       {/* Sidebar */}
 
-      {(current_module_key === "home_services" || current_module_key === "car_services" || current_module_key === "street_assistant") && (
-          <SidebarHomeCarStreet
+
+        {(current_module_key === "home_services" || current_module_key === "car_services" || current_module_key === "street_assistant") && (
+            <SidebarHomeCarStreet
+              isSidebarOpen={isSidebarOpen}
+              setIsSidebarOpen={setIsSidebarOpen}
+            />
+        )}
+
+        {current_module_key === "property_rental" && (
+          <SidebarProperty
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
           />
-      )}
 
-      {current_module_key === "property_rental" && (
-        <SidebarProperty
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-        />
+        )}
 
-      )}
+        {current_module_key === "queue" && (
+          <SidebarQueue
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+          />
+        )}
 
-      {current_module_key === "queue" && (
-        <SidebarQueue
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-        />
-      )}
+        {current_module_key === "food_delivery" && (
+          <SidebarFoodDelivery
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+          />
+        )}
 
-      {current_module_key === "food_delivery" && (
-        <SidebarFoodDelivery
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-        />
-      )}
 
 
 
