@@ -18,7 +18,7 @@ function Powers_and_rolesPage() {
     dispatch(getRoleAndPermissionConfigThunk())
   },[dispatch])
 
-  console.log('getRoleAndPermissionConfig' , getRoleAndPermissionConfig);
+  // console.log('getRoleAndPermissionConfig' , getRoleAndPermissionConfig);
   return (
     <>
 

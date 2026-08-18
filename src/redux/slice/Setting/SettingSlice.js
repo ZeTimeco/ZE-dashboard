@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -733,6 +733,27 @@ export const getRoleAndPermissionConfigThunk = createAsyncThunk('setting/getRole
   }
 )
 
+export const getPermissionShowThunk = createAsyncThunk('setting/getPermissionShow',
+  async(RoleId , {rejectWithValue})=>{
+    try{
+      const response = await getPermissionShow(RoleId)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const EditPermissionThunk = createAsyncThunk('setting/EditPermission',
+  async({groupId , formData} , {rejectWithValue})=>{
+    try{
+      const response = await EditPermission(groupId , formData)
+      return response 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
 
 const initialState ={
   success:false,
@@ -796,7 +817,8 @@ const initialState ={
   getNotificationConfig:null,
   getRestaurantInformationConfig:null,
   getRestaurantType:[],
-  getRoleAndPermissionConfig:null
+  getRoleAndPermissionConfig:null,
+  getPermissionShow:null,
 
 
 
@@ -1657,6 +1679,31 @@ const settingSlice = createSlice({
         state.getRoleAndPermissionConfig = action.payload;
       })
       .addCase(getRoleAndPermissionConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getPermissionShowThunk
+      .addCase(getPermissionShowThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPermissionShowThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getPermissionShow = action.payload;
+      })
+      .addCase(getPermissionShowThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //EditPermissionThunk
+      .addCase(EditPermissionThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(EditPermissionThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(EditPermissionThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

@@ -8,6 +8,7 @@ function Roles({getRoleAndPermissionConfig}) {
   const {t} = useTranslation()
 
   const [openRole , setOpenRole] = useState(false)
+  const [roleId, setRoleId] = useState(null)
   return (
     <>
       {getRoleAndPermissionConfig?.roles?.map((role)=>(
@@ -55,7 +56,10 @@ function Roles({getRoleAndPermissionConfig}) {
 
           <div className='flex items-center'>
             <motion.button
-              onClick={()=>setOpenRole(true)}
+              onClick={() => {
+                setOpenRole(true);
+                setRoleId(role?.id);
+              }}
               className='w-8 h-8 rounded-full bg-[#EEF2F6] flex items-center justify-center cursor-pointer'
               whileHover={{ scale: 1.15, backgroundColor: '#E3E8EF' }}
               whileTap={{ scale: 0.9 }}
@@ -78,6 +82,7 @@ function Roles({getRoleAndPermissionConfig}) {
       <RoleData
         open={openRole}
         setOpen={setOpenRole}
+        roleId={roleId}
       />
 
     </>
