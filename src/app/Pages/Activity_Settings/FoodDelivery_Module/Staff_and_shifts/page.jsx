@@ -10,12 +10,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getStaffManageConfigThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function Staff_and_shiftsPage() {
-  const [openDetails , setOpenDetails] = useState(false)
+  const [selectedId , setSelectedId] = useState(null)
   const searchParams = useSearchParams()
 
   useEffect(() => {
     if (searchParams.get('openDetails') === 'true') {
-      setOpenDetails(true)
+      setSelectedId(true)
     }
   }, [searchParams])
 
@@ -37,8 +37,8 @@ function Staff_and_shiftsPage() {
   
         <div className='p-6 flex flex-col gap-4'>
           <Boxes getStaffManageConfig={getStaffManageConfig?.data}/>
-          <AtWork setOpenDetails={setOpenDetails} getStaffManageConfig={getStaffManageConfig?.data}/>
-          <Overtime setOpenDetails={setOpenDetails} getStaffManageConfig={getStaffManageConfig?.data}/>
+          <AtWork setOpenDetails={setSelectedId} getStaffManageConfig={getStaffManageConfig?.data}/>
+          <Overtime setOpenDetails={setSelectedId} getStaffManageConfig={getStaffManageConfig?.data}/>
           
         </div>
   
@@ -47,9 +47,9 @@ function Staff_and_shiftsPage() {
       </div>
 
       <DetailsPage
-        open={openDetails}
-        setOpen={setOpenDetails}
-      
+        open={!!selectedId}
+        setOpen={(val) => setSelectedId(val ? selectedId : null)}
+        selectedId={selectedId}
       />
 
     </>

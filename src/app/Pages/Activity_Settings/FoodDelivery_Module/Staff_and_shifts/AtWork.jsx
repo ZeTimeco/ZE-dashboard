@@ -15,7 +15,7 @@ function AtWork({setOpenDetails ,getStaffManageConfig}) {
           {getStaffManageConfig?.in_shift?.map((inShift , index)=>(
             <motion.div
               key={inShift?.id}
-              onClick={() => setOpenDetails(true)}
+              onClick={() => setOpenDetails(inShift?.id)}
               className='border border-[#E3E8EF] rounded-3px p-4 mt-4 flex justify-between cursor-pointer overflow-hidden relative'
               whileHover={{
                 y: -2,

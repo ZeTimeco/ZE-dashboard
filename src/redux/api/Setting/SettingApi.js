@@ -377,3 +377,9 @@ export const getStaffManageConfig = async()=>{
   return response.data
 }
 
+export const getStaffDetails = async(id)=>{
+  const response = await API.get(`/provider/restaurant/staff/${id}`)
+  return response.data
+}
+
+
