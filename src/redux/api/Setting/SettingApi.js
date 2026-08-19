@@ -371,3 +371,9 @@ export const EditPermission = async(groupId , formData)=>{
   const response = await API.post(`/restaurant-permission/update/${groupId}` , formData)
   return response.data
 }
+
+export const getStaffManageConfig = async()=>{
+  const response = await API.get('/provider/restaurant/staff/mange')
+  return response.data
+}
+
