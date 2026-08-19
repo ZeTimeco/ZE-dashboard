@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
-import { useDispatch, useSelector } from 'react-redux'
-import { addStaffThunk } from '@/redux/slice/Setting/SettingSlice'
+import { useDispatch } from 'react-redux'
+import { addStaffThunk, getStaffManageConfigThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function AddPage() {
   const {t} = useTranslation()
@@ -23,6 +23,8 @@ function AddPage() {
   const handleSubmit = async()=>{
     try{
       await dispatch(addStaffThunk(formData)).unwrap()
+      await dispatch(getStaffManageConfigThunk())
+      router.push('/Pages/Activity_Settings/FoodDelivery_Module?tab=11')
     }catch(error){
       console.log(error);
     }
@@ -76,8 +78,6 @@ function AddPage() {
 
       </div>
 
-
-      
 
       
     </MainLayout>

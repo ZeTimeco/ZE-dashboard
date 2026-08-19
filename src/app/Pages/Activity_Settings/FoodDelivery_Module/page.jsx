@@ -1,7 +1,8 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Restaurant_conditionPage from './Restaurant_condition/page';
 import Restaurant_informationPage from './Restaurant_information/page';
@@ -37,8 +38,14 @@ const contentVariants = {
 
 function FoodDelivery_ModulePage() {
   const {t} = useTranslation() 
+  const searchParams = useSearchParams()
 
   const [activeTab, setActiveTab] = useState(1);
+
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    if (tab) setActiveTab(Number(tab))
+  }, [searchParams])
 
   const menuTabBar = [
     {id:1  , name:t('Restaurant condition')    , icons:'/images/icons/store-black.svg'         , iconSelected:'/images/icons/store-yellow.svg'        },
@@ -86,7 +93,7 @@ function FoodDelivery_ModulePage() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className={`relative w-full cursor-pointer text-sm py-6 px-6 font-normal flex items-center justify-center transition-colors duration-200 ${
-                activeTab === tab.id ? 'text-[var(--color-primary)]' : 'text-[#364152]'
+                activeTab === tab.id ? 'text-primary' : 'text-[#364152]'
               }`}
             >
               <div className='flex gap-1'>
@@ -103,7 +110,7 @@ function FoodDelivery_ModulePage() {
               {activeTab === tab.id && (
                 <motion.span
                   layoutId="activeTabIndicator"
-                  className='absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--color-primary)] rounded-full'
+                  className='absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full'
                   transition={{ type: 'spring', stiffness: 400, damping: 35 }}
                 />
               )}
