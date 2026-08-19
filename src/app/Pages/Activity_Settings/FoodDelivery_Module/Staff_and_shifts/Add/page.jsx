@@ -1,16 +1,34 @@
 'use client'
-
-import AddBtn from '@/app/Components/Buttons/AddBtn'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
+import { useDispatch, useSelector } from 'react-redux'
+import { addStaffThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function AddPage() {
   const {t} = useTranslation()
   const router = useRouter()
 
+  //API
+  const dispatch = useDispatch()
+  const [formData , setFormData] = useState({
+    name:'',
+    email:'',
+    phone:'',
+    role_id:'',
+  })
+
+  const handleSubmit = async()=>{
+    try{
+      await dispatch(addStaffThunk(formData)).unwrap()
+    }catch(error){
+      console.log(error);
+    }
+  }
+
+  console.log('formData' , formData);
   return (
     <MainLayout>
       {/* header */}
@@ -27,9 +45,9 @@ function AddPage() {
       </header>
 
       {/*  */}
-      <div className='border border-[#E6E6E6] rounded-[3px] p-8'>
+      <div className='border border-[#E6E6E6] rounded-3px p-8'>
 
-        <Form />
+        <Form formData={formData} setFormData={setFormData}/>
       
 
         {/* note */}
@@ -46,11 +64,11 @@ function AddPage() {
 
         {/* btn */}
         <div className='flex justify-between'>
-          <button className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer'>
+          <button  className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-3px cursor-pointer'>
             {t('Return')}
           </button>
 
-          <button className='w-[20%] h-13  bg-[#E3E8EF] text-[#9AA4B2] rounded-[3px] cursor-pointer'>
+          <button onClick={handleSubmit} className='w-[20%] h-13  bg-[#E3E8EF] text-[#9AA4B2] rounded-3px cursor-pointer'>
             {t('save')}
           </button>
           

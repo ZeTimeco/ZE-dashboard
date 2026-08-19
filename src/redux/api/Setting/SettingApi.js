@@ -382,4 +382,12 @@ export const getStaffDetails = async(id)=>{
   return response.data
 }
 
+export const getRoles = async()=>{
+  const response = await API.get('/restaurant-roles')
+  return response.data
+}
 
+export const addStaff = async(formData)=>{
+  const response = await API.post(`/provider/restaurant/staff` , formData)
+  return response.data
+}
