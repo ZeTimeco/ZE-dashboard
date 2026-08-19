@@ -1,16 +1,55 @@
 'use client'
 
-import AddBtn from '@/app/Components/Buttons/AddBtn'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
+import { useDispatch, useSelector } from 'react-redux'
+import { EditStaffThunk, getShowForEditThunk } from '@/redux/slice/Setting/SettingSlice'
 
 function EditPage() {
   const {t} = useTranslation()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const staffId = searchParams.get('id')
 
+  //api
+  const dispatch = useDispatch()
+  const {getShowForEdit} = useSelector((state)=>state.setting)
+  const getShowForEditEmployee = getShowForEdit?.employee
+  useEffect(()=>{
+    if(staffId){
+      dispatch(getShowForEditThunk(staffId))
+    }
+  },[dispatch , staffId])
+
+  const [formData , setFormData] = useState({
+    name:'',
+    email:'',
+    phone:'',
+    role_id:'',
+  })
+
+  useEffect(() => {
+  if (getShowForEditEmployee) {
+    setFormData({
+      name: getShowForEditEmployee.name ?? "",
+      email: getShowForEditEmployee.email ?? "",
+      phone: getShowForEditEmployee.phone ?? "",
+      role_id: getShowForEditEmployee.role_id ?? "",
+    });
+  }
+}, [getShowForEditEmployee]);
+
+const handleSubmit = ()=>{
+  dispatch(EditStaffThunk({
+    id:staffId,
+    formData
+  }))
+}
+
+console.log('getShowForEdit' , getShowForEdit);
   return (
     <MainLayout>
       {/* header */}
@@ -20,16 +59,16 @@ function EditPage() {
         <button
           type="button"
           onClick={() => router.push('/Pages/Activity_Settings/FoodDelivery_Module/Staff_and_shifts?openDetails=true')}
-          className=" bg-[var(--color-primary)] rounded-[3px] w-8 h-8 flex justify-center items-center cursor-pointer"
+          className=" bg-primary rounded-3px w-8 h-8 flex justify-center items-center cursor-pointer"
         >
           <img src="/images/icons/arrow-right-go.svg" className="w-5 h-5" />
         </button>
       </header>
 
       {/*  */}
-      <div className='border border-[#E6E6E6] rounded-[3px] p-8'>
+      <div className='border border-[#E6E6E6] rounded-3px p-8'>
 
-        <Form />
+        <Form formData={formData} setFormData={setFormData}/>
       
 
         {/* note */}
@@ -46,11 +85,11 @@ function EditPage() {
 
         {/* btn */}
         <div className='flex justify-between'>
-          <button className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer'>
+          <button className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-3px cursor-pointer'>
             {t('Return')}
           </button>
 
-          <button className='w-[20%] h-13  bg-[#E3E8EF] text-[#9AA4B2] rounded-[3px] cursor-pointer'>
+          <button onClick={handleSubmit} className='w-[20%] h-13  bg-[#E3E8EF] text-[#9AA4B2] rounded-3px cursor-pointer'>
             {t('save')}
           </button>
           

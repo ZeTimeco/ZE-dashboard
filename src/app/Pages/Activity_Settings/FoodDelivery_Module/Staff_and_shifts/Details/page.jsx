@@ -48,7 +48,7 @@ function DetailsPage({open , setOpen , selectedId}) {
         <p className='text-[#364152] text-xl font-semibold'>{t('Employee Details')}</p>
         <button onClick={()=>{
           setOpen(false)
-          router.push(`/Pages/Activity_Settings/FoodDelivery_Module/Staff_and_shifts/Edit`)
+          router.push(`/Pages/Activity_Settings/FoodDelivery_Module/Staff_and_shifts/Edit?id=${selectedId}`)
           }}
         className='cursor-pointer'
         >
@@ -132,9 +132,21 @@ function DetailsPage({open , setOpen , selectedId}) {
 
         {/* btn */}
         <div className='flex gap-2 w-full'>
-          <button onClick={() => setOpenDisable(true)} className='w-full border border-[#B42318] text-[#B42318] text-base font-semibold py-3 px-6 rounded-[3px]  cursor-pointer'>
-            {t('Employee suspension')}
-          </button>
+          {getStaffDetails?.data?.status === 'inactive' ? (
+            <button 
+              onClick={() => setOpenDisable(true)} 
+              className='w-full border border-[#067647] text-[#067647] text-base font-semibold py-3 px-6 rounded-[3px] cursor-pointer hover:bg-[#DCFAE6]/30 transition-colors'
+            >
+              {t('Cancel employee suspension')}
+            </button>
+          ) : (
+            <button 
+              onClick={() => setOpenDisable(true)} 
+              className='w-full border border-[#B42318] text-[#B42318] text-base font-semibold py-3 px-6 rounded-[3px] cursor-pointer hover:bg-[#FEE4E2]/30 transition-colors'
+            >
+              {t('Employee suspension')}
+            </button>
+          )}
 
           <button
             onClick={() => setOpenEditRole(true)}
@@ -152,7 +164,13 @@ function DetailsPage({open , setOpen , selectedId}) {
       </Dialog>
 
       <EditRole open={openEditRole} setOpen={setOpenEditRole} />
-      <Disable open={openDisable} setOpen={setOpenDisable}/>
+      <Disable 
+        open={openDisable} 
+        setOpen={setOpenDisable}
+        selectedId={selectedId}
+        staffName={getStaffDetails?.data?.name}
+        status={getStaffDetails?.data?.status}
+      />
       
     </>
   )

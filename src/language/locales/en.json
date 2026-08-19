@@ -1582,8 +1582,11 @@
   "Access Permissions":"Access Permissions",
   "Role modification":"Role modification",
   "Employee suspension":"Employee suspension",
+  "Cancel employee suspension":"Cancel employee suspension",
   "Are you sure you've disabled this employee? They won't be able to access the system.":"Are you sure you've disabled this employee? They won't be able to access the system.",
+  "Are you sure you want to enable this employee?":"Are you sure you want to enable this employee?",
   "Disable":"Disable",
+  "Enable":"Enable",
   "week":"week",
   "month":"month",
   "year":"year",
@@ -1619,7 +1622,6 @@
   "Responding to all reviews shows your concern for customers.":"Responding to all reviews shows your concern for customers.",
   "Addressing low ratings quickly improves the impression":"Addressing low ratings quickly improves the impression",
   "Thanking people for positive reviews encourages loyalty.":"Thanking people for positive reviews encourages loyalty.",
-  
 
   
 
