@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import Rate from './Rate'
-import Comment from './Comment'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRatingConfigThunk } from '@/redux/slice/Setting/SettingSlice'
+import Comment from './Comment'
 
 function ReviewPage() {
   const dispatch = useDispatch()
@@ -12,9 +12,9 @@ function ReviewPage() {
     dispatch(getRatingConfigThunk())
   },[dispatch])
   
-  console.log('getRatingConfig' , getRatingConfig)
-  
 
+  // console.log('getRatingConfig' , getRatingConfig)
+  
 
 
 
@@ -22,7 +22,7 @@ function ReviewPage() {
   return (
     <>
       <Rate getRatingConfig={getRatingConfig?.summary}/>
-      <Comment getRatingConfig={getRatingConfig}/>
+      <Comment getRatingConfig={getRatingConfig?.data}/>
     </>
   )
 }
