@@ -4,31 +4,32 @@ import { useTranslation } from 'react-i18next'
 
 // /provider/food-delivery/ratings
 function Rate({
-  rating = 4.5,
-  totalReviews = 5,
-  breakdown = [
-    { count: 5, percentage: 50 },
-    { count: 4, percentage: 100 },
-    { count: 3, percentage: 30 },
-    { count: 2, percentage: 20 },
-    { count: 1, percentage: 4 }
-  ]
+  rating = 0,
+  totalReviews = 0,
+  breakdown = [],
+  getRatingConfig
 }) {
   const { t } = useTranslation()
 
+  const summary = getRatingConfig?.summary || getRatingConfig?.data?.summary || getRatingConfig || {}
+  const displayRating = summary?.avg_rating ?? rating
+  const displayTotal = summary?.total_ratings ?? totalReviews
+  const distributionList = summary?.distribution || breakdown
+
   const renderStars = (score) => {
+    const numericScore = Number(score) || 0
     const stars = []
     for (let i = 1; i <= 5; i++) {
-      if (score >= i) {
+      if (numericScore >= i) {
         stars.push(
           <img
             key={i}
-            src="/images/icons/star_yellow.svg"
+            src="/images/icons/star.svg"
             alt="star"
-            className="w-4 h-3.5"
+            className="w-4 h-4"
           />
         )
-      } else if (score >= i - 0.5) {
+      } else if (numericScore >= i - 0.2) {
         stars.push(
           <img
             key={i}
@@ -57,23 +58,23 @@ function Rate({
         {/* Rating Summary & Score */}
         <div className="flex flex-col items-center justify-center px-4 py-2 shrink-0 w-[111px] gap-4 ">
           <span className="text-[#0F022E] text-[32px] font-semibold leading-tight text-center">
-            {rating}
+            {displayRating}
           </span>
           <div className="flex flex-col items-center gap-1">
             <div className="flex items-center gap-1">
-              {renderStars(rating)}
+              {renderStars(displayRating)}
             </div>
             <span className="text-[#565656] text-[16px] font-normal text-center mt-1">
-              {totalReviews} {t('evaluations', 'تقييم')}
+              {displayTotal} {t('evaluations', 'تقييم')}
             </span>
           </div>
         </div>
         {/* Rating Breakdown Progress Bars */}
         <div className="flex flex-col gap-3 flex-1 max-w-[440px] ">
-          {breakdown.map((item, index) => (
+          {distributionList?.map((item, index) => (
             <div key={index} className="flex items-center gap-3 w-full">
               <span className="text-[#697586] text-[13px] font-normal w-2 text-center shrink-0">
-                {item.count}
+                {item.stars ?? item.count}
               </span>
               <div className="flex-1 bg-[#EBEBEF] h-1 rounded-[360px] overflow-hidden relative">
                 <div

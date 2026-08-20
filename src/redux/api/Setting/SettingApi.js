@@ -426,3 +426,8 @@ export const closedStatus = async(formdata = { status: "closed" })=>{
   const response = await API.post(`/provider/food-delivery/restaurant-status` , formdata )
   return response.data
 }
+
+export const getRatingConfig = async()=>{
+  const response = await API.get(`/provider/food-delivery/ratings`)
+  return response.data
+}
