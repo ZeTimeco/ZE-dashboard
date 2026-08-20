@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -899,6 +899,27 @@ export const addReplyThunk = createAsyncThunk('setting/addReply',
   }
 )
 
+export const getReviewSettingThunk = createAsyncThunk('setting/getReviewSetting',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getReviewSetting()
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const EditReviewSettingThunk = createAsyncThunk('setting/EditReviewSetting',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await EditReviewSetting(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
 
 const initialState ={
   success:false,
@@ -970,6 +991,7 @@ const initialState ={
   getShowForEdit:null,
   getResturantStatus:null,
   getRatingConfig:null,
+  getReviewSetting:null,
   
 
 }
@@ -2013,6 +2035,31 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(addReplyThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getReviewSettingThunk
+      .addCase(getReviewSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getReviewSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getReviewSetting = action.payload;
+      })
+      .addCase(getReviewSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //EditReviewSettingThunk
+      .addCase(EditReviewSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(EditReviewSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(EditReviewSettingThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

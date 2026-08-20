@@ -432,8 +432,17 @@ export const getRatingConfig = async()=>{
   return response.data
 }
 
-
 export const addReply = async(id , formData)=>{
   const response = await API.post(`/provider/food-delivery/ratings/${id}/reply` , formData)
+  return response.data
+}
+
+export const getReviewSetting = async()=>{
+  const response = await API.get(`/provider/review-settings`)
+  return response.data
+}
+
+export const EditReviewSetting = async(formData)=>{
+  const response = await API.post(`/provider/review-settings` , formData)
   return response.data
 }

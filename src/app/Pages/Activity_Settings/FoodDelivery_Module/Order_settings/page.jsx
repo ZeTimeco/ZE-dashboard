@@ -99,10 +99,10 @@ function Order_settingsPage() {
           <button
             disabled={loading}
             onClick={handleSubmit}
-            className={`w-[25%] h-14 rounded-[3px] text-white transition ${
+            className={`w-[25%] h-14 rounded-3px text-white transition ${
               loading
                 ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-[var(--color-primary)] cursor-pointer'
+                : 'bg-primary cursor-pointer'
             }`}
           >
             {loading

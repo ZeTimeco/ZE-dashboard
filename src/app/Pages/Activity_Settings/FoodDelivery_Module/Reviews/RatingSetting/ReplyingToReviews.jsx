@@ -5,7 +5,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function ReplyingToReviews() {
+function ReplyingToReviews({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -93,6 +93,13 @@ function ReplyingToReviews() {
 
         <div className='flex items-center'>
           <GreenSwitch
+            checked={formData?.replies_enabled}
+            onChange={(e)=>{
+              setFormData((prev)=>({
+                ...prev,
+                replies_enabled : e.target.checked ? 1 : 0
+              }))
+            }}
           />
         </div>
         </div>

@@ -3,7 +3,7 @@ import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next';
 
-function GeneralAssessments() {
+function GeneralAssessments({formData , setFormData}) {
   const {t} = useTranslation()
 
   const GreenSwitch = styled((props) => (
@@ -84,6 +84,13 @@ function GeneralAssessments() {
 
         <div className='flex items-center'>
           <GreenSwitch
+            checked={formData?.public_reviews_enabled}
+            onChange={(e)=>{
+              setFormData((prev)=>({
+                ...prev,
+                public_reviews_enabled : e.target.checked ? 1 : 0
+              }))
+            }}
           />
         </div>
         </div>

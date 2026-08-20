@@ -3,15 +3,15 @@ import { styled, Switch } from '@mui/material';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
-function LowRatingAlerts() {
-  const {t} = useTranslation()
+function LowRatingAlerts({ formData, setFormData }) {
+  const { t } = useTranslation()
 
   const GreenSwitch = styled((props) => (
-  <Switch
-    focusVisibleClassName=".Mui-focusVisible"
-    disableRipple
-    {...props}
-  />
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
   ))(({ theme }) => ({
     width: 53,
     height: 24,
@@ -63,8 +63,6 @@ function LowRatingAlerts() {
     },
   }));
 
-  const [selectedRating, setSelectedRating] = useState(null);
-
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
@@ -86,6 +84,13 @@ function LowRatingAlerts() {
 
           <div className='flex items-center'>
             <GreenSwitch
+              checked={formData?.low_rating_alert_enabled}
+              onChange={(e)=>{
+                setFormData((prev)=>({
+                  ...prev,
+                  low_rating_alert_enabled : e.target.checked ? 1 : 0
+                }))
+              }}
             />
           </div>
         </div>
@@ -98,40 +103,45 @@ function LowRatingAlerts() {
           </p>
 
           <div className="grid grid-cols-5 gap-6 mt-4">
-            {[1, 2, 3, 4, 5].map((rating) => (
-              <button
-                key={rating}
-                type="button"
-                onClick={() => setSelectedRating(rating)}
-                className={`border p-4 flex flex-col justify-center items-center rounded-3px cursor-pointer transition-all
-                  ${
-                    selectedRating === rating
-                      ? "border-primary bg-[#F9F5E8]"
-                      : "border-[#E3E8EF] bg-white hover:border-primary"
+            {[1, 2, 3, 4, 5].map((rating) => {
+              const isSelected = Number(formData?.alert_threshold_stars) === rating;
+              return (
+                <button
+                  key={rating}
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      alert_threshold_stars: rating
+                    }))
                   }
-                `}
-              >
-                <img src="/images/icons/star.svg" alt="star"  className="w-5 h-5" />
+                  className={`border p-4 flex flex-col justify-center items-center rounded-3px cursor-pointer transition-all
+                    ${
+                      isSelected
+                        ? "border-primary bg-[#F9F5E8]"
+                        : "border-[#E3E8EF] bg-white hover:border-primary"
+                    }
+                  `}
+                >
+                  <img src="/images/icons/star.svg" alt="star" className="w-5 h-5" />
 
-                <p className={`${selectedRating === rating ? 'text-primary':'text-[#4B5565]'}  text-sm font-normal mt-2`}>
-                  {rating}
-                </p>
-              </button>
-            ))}
+                  <p className={`${isSelected ? 'text-primary' : 'text-[#4B5565]'} text-sm font-normal mt-2`}>
+                    {rating}
+                  </p>
+                </button>
+              );
+            })}
           </div>
-          
         </div>
-
 
         {/* note */}
         <div className='border border-[#FDA29B] bg-[#FFFAEB] rounded-3px flex gap-2 mt-4 p-3'>
           <img src="/images/icons/alert-red.svg" alt="" />
-          <p className='text-[#F04438] text-base font-normal'>{t('You will receive an alert when your rating is 3 stars or less.')}</p>
+          <p className='text-[#F04438] text-base font-normal'>
+            {t('You will receive an alert when your rating is 3 stars or less.')}
+          </p>
         </div>
-
-
       </div>
-      
     </>
   )
 }
