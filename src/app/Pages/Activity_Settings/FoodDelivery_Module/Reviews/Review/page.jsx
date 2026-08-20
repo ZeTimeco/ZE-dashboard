@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import Rate from './Rate'
 import { useDispatch, useSelector } from 'react-redux'

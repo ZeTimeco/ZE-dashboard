@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import GeneralAssessments from './GeneralAssessments'
 import LowRatingAlerts from './LowRatingAlerts'
@@ -49,8 +50,7 @@ function RatingSettingPage() {
   
   const handleSubmit = async () => {
     try {
-      dispatch(EditReviewSettingThunk(formData))
-
+      await dispatch(EditReviewSettingThunk(formData))
       setAlert({
         open: true,
         severity: 'success',
