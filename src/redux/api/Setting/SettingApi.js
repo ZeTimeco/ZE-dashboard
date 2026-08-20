@@ -406,3 +406,8 @@ export const toggleStaffStatus = async(id)=>{
   const response = await API.post(`/provider/restaurant/staff/toggleStatus/${id}` )
   return response.data
 }
+
+export const getResturantStatus = async()=>{
+  const response = await API.get(`/provider/food-delivery/restaurant-status`)
+  return response.data
+}

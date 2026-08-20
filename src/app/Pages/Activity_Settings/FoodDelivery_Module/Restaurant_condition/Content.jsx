@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import BusyDialog from "./Dialog/BusyDialog";
 import ClosedDialog from "./Dialog/ClosedDialog";
 import OpenDialog from "./Dialog/OpenDialog";
 
-function Content() {
+function Content({getResturantStatus}) {
   const { t } = useTranslation();
 
-  const [selectedStatus, setSelectedStatus] = useState("open");
+  const [selectedStatus, setSelectedStatus] = useState("");
   const [activeDialog, setActiveDialog] = useState(null);
+
+
+  useEffect(() => {
+    if (getResturantStatus?.current_status) {
+      setSelectedStatus(getResturantStatus.current_status);
+    }
+  }, [getResturantStatus]);
 
   const statusOptions = [
     {
