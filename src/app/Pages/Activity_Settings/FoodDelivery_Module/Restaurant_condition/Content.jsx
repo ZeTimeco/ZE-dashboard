@@ -13,8 +13,9 @@ function Content({getResturantStatus}) {
 
 
   useEffect(() => {
-    if (getResturantStatus?.current_status) {
-      setSelectedStatus(getResturantStatus.current_status);
+    const current = getResturantStatus?.current_status 
+    if (current) {
+      setSelectedStatus(current);
     }
   }, [getResturantStatus]);
 
@@ -49,8 +50,9 @@ function Content({getResturantStatus}) {
   ];
 
   const handleStatusClick = (key) => {
-    setSelectedStatus(key);
-    setActiveDialog(key);
+    if (key !== selectedStatus) {
+      setActiveDialog(key);
+    }
   };
 
   return (
@@ -60,7 +62,7 @@ function Content({getResturantStatus}) {
           <div
             key={item.key}
             onClick={() => handleStatusClick(item.key)}
-            className={`cursor-pointer rounded-[3px] border p-4 transition-all duration-200 ${
+            className={`cursor-pointer rounded-3px border p-4 transition-all duration-200 ${
               selectedStatus === item.key
                 ? `${item.borderColor} ${item.bg}`
                 : "border-[#E3E8EF]"
@@ -96,7 +98,7 @@ function Content({getResturantStatus}) {
           </div>
         ))}
 
-        <div className="rounded-[3px] border border-[#48A1FF] bg-[#EFF6FF] p-3 text-base text-[#364152]">
+        <div className="rounded-3px border border-[#48A1FF] bg-[#EFF6FF] p-3 text-base text-[#364152]">
           {t(
             "Changing the restaurant's status will affect your app visibility and acceptance of new orders."
           )}

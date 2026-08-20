@@ -24,7 +24,7 @@ function DetailsPage({open , setOpen , selectedId}) {
     }
   }, [dispatch , selectedId])
 
-  console.log('getStaffDetails' , getStaffDetails)
+  // console.log('getStaffDetails' , getStaffDetails)
   return (
     <>
     <Dialog

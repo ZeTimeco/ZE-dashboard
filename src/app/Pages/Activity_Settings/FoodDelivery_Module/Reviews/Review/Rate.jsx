@@ -2,15 +2,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
+// /provider/food-delivery/ratings
 function Rate({
   rating = 4.5,
   totalReviews = 5,
   breakdown = [
-    { count: 3, percentage: 50 },
+    { count: 5, percentage: 50 },
     { count: 4, percentage: 100 },
-    { count: 2, percentage: 30 },
-    { count: 1, percentage: 20 },
-    { count: 0, percentage: 4 }
+    { count: 3, percentage: 30 },
+    { count: 2, percentage: 20 },
+    { count: 1, percentage: 4 }
   ]
 }) {
   const { t } = useTranslation()

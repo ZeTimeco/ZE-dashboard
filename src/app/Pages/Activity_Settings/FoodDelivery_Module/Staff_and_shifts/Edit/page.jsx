@@ -49,7 +49,7 @@ const handleSubmit = ()=>{
   }))
 }
 
-console.log('getShowForEdit' , getShowForEdit);
+// console.log('getShowForEdit' , getShowForEdit);
   return (
     <MainLayout>
       {/* header */}

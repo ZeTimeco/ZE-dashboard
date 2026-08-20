@@ -26,7 +26,7 @@ function Staff_and_shiftsPage() {
   useEffect(()=>{
     dispatch(getStaffManageConfigThunk())
   },[dispatch])
-  console.log('getStaffManageConfig' , getStaffManageConfig);
+  // console.log('getStaffManageConfig' , getStaffManageConfig);
   return (
     <>
       

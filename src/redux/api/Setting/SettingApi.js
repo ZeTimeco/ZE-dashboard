@@ -411,3 +411,18 @@ export const getResturantStatus = async()=>{
   const response = await API.get(`/provider/food-delivery/restaurant-status`)
   return response.data
 }
+
+export const openStatus = async(formdata = { status: "open" })=>{
+  const response = await API.post(`/provider/food-delivery/restaurant-status` , formdata )
+  return response.data
+}
+
+export const busyStatus = async(formdata = { status: "busy" })=>{
+  const response = await API.post(`/provider/food-delivery/restaurant-status` , formdata )
+  return response.data
+}
+
+export const closedStatus = async(formdata = { status: "closed" })=>{
+  const response = await API.post(`/provider/food-delivery/restaurant-status` , formdata )
+  return response.data
+}

@@ -7,11 +7,11 @@ function Comment() {
   const {t} = useTranslation()
   const [showReply, setShowReply] = useState(false);
   const [replyInput, setReplyInput] = useState('');
-  const [replies, setReplies] = useState([]);
+  const [reply, setReply] = useState(null);
 
   const handleSendReply = () => {
-    if (replyInput.trim()) {
-      setReplies((prev) => [...prev, replyInput.trim()]);
+    if (replyInput.trim() && !reply) {
+      setReply(replyInput.trim());
       setReplyInput('');
       setShowReply(false);
     }
@@ -50,17 +50,19 @@ function Comment() {
       <div className='border border-[#E3E8EF] my-4'></div>
 
       {/*  */}
-      <div className='flex justify-between'>
+      <div className='flex justify-between items-center'>
         <p className='text-[#4B5565] text-sm font-normal'>{t('to request')}/555662</p>
-        <button onClick={() => setShowReply(true)} className='flex gap-1 cursor-pointer'>
-          <span className='flex items-center'><img src="/images/icons/comment-yellow.svg" alt="" /></span>
-          <span className='text-primary text-base font-normal'>{t('to reply')}</span>
-        </button>
+        {!reply && !showReply && (
+          <button onClick={() => setShowReply(true)} className='flex gap-1 cursor-pointer'>
+            <span className='flex items-center'><img src="/images/icons/comment-yellow.svg" alt="" /></span>
+            <span className='text-primary text-base font-normal'>{t('to reply')}</span>
+          </button>
+        )}
       </div>
 
 
       {/* btn click */}
-      {showReply && (
+      {showReply && !reply && (
         <div>
           <div className='border border-[#E3E8EF] my-4'></div>
           <div className='flex  w-full'>
@@ -91,17 +93,15 @@ function Comment() {
       )}
 
       {/* reply */}
-      <div>
-        {replies.map((reply, index) => (
-          <div key={index} className='mt-3 p-3 bg-[#F9F5E8] rounded-3px '>
-            <p className='flex gap-2'>
-              <span><img src="/images/icons/like-yellow.svg" alt="" /></span>
-              <span className='text-[#4B5565] text-sm font-normal'>{t('Your reply')} : </span>
-            </p>
-            <p className='text-[#364152] text-base font-normal mt-1'>{reply}</p>
-          </div>
-        ))}
-      </div>
+      {reply && (
+        <div className='mt-3 p-3 bg-[#F9F5E8] rounded-3px '>
+          <p className='flex gap-2'>
+            <span><img src="/images/icons/like-yellow.svg" alt="" /></span>
+            <span className='text-[#4B5565] text-sm font-normal'>{t('Your reply')} : </span>
+          </p>
+          <p className='text-[#364152] text-base font-normal mt-1'>{reply}</p>
+        </div>
+      )}
 
 
     </div>

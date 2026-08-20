@@ -14,7 +14,7 @@ function Restaurant_conditionPage() {
     dispatch(getResturantStatusThunk())
   },[dispatch])
 
-  console.log('getResturantStatus' , getResturantStatus);
+  // console.log('getResturantStatus' , getResturantStatus);
   return (
     <div>
         <div className='border border-[#E3E8EF] rounded-3px mb-4'>
