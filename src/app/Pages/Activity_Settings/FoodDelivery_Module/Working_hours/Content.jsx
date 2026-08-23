@@ -373,10 +373,10 @@ function Content() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="mt-3 inline-flex items-center gap-1.5 py-1 px-2.5 rounded bg-gray-100/80 text-xs font-medium text-[#697586]"
+                    className=""
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                    {t('closed')}
+                    <div className='border border-[#E3E8EF] my-3'></div>
+                    <span className="text-[#F04438] text-xl font-normal flex justify-center">{t('closed')}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
