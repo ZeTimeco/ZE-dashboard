@@ -67,13 +67,13 @@ function DeliveryBehavior({formData , setFormData}) {
 
   return (
     <>
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
       <p className='flex flex-col gap-1'>
         <span className='text-[#364152] text-base font-medium'>{t('Delivery behavior')}</span>
         <span className='text-[#697586] text-sm font-normal'>{t('Default settings for the connection process')}</span>
       </p>
 
-      <div className='flex justify-between border border-[var(--color-primary)] bg-[#FFFDF5] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-primary bg-[#FFFDF5] rounded-3px mt-4 p-4'>
 
         <div className='flex gap-2'>
           <p >

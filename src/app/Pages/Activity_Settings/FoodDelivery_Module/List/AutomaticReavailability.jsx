@@ -82,7 +82,7 @@ function AutomaticReavailability({formData , setFormData}) {
   return (
     <>
 
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
       <div className='flex gap-2'>
         <p>
           <img src="/images/icons/arrow-reload-horizontal-yellow.svg" className="w-6 h-6" />
@@ -128,13 +128,13 @@ function AutomaticReavailability({formData , setFormData}) {
           <button 
             type="button" 
             onClick={increaseMaxGuests} 
-            className="flex h-11 w-13 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer" 
+            className="flex h-11 w-13 items-center justify-center rounded-3px bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer" 
           > 
             + 
           </button> 
 
           {/* Number */} 
-          <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-[3px] text-center text-[#364152] text-base font-medium"> 
+          <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-3px text-center text-[#364152] text-base font-medium"> 
             {formData?.menu_auto_restock_after} {t('minute')}
           </span>
 
@@ -142,7 +142,7 @@ function AutomaticReavailability({formData , setFormData}) {
           <button 
             type="button" 
             onClick={decreaseMaxGuests} 
-            className="flex h-11 w-13 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-xl text-[#0F022E] cursor-pointer" 
+            className="flex h-11 w-13 items-center justify-center rounded-3px bg-[#EEF2F6] text-xl text-[#0F022E] cursor-pointer" 
           > 
             - 
           </button>

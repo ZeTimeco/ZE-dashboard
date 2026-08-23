@@ -47,7 +47,7 @@ const Pagination = ({
         disabled={isDisabledPrev}
         onMouseEnter={() => setIsHoveredPrev(true)}
         onMouseLeave={() => setIsHoveredPrev(false)}
-        className={`px-4 py-2 flex items-center gap-2 rounded-[3px] transition ${
+        className={`px-4 py-2 flex items-center gap-2 rounded-3px transition ${
           isDisabledPrev
             ? 'text-[#364152] border border-[#697586] cursor-not-allowed opacity-50'
             : 'bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152] cursor-pointer'
@@ -92,7 +92,7 @@ const Pagination = ({
         disabled={isDisabledNext}
         onMouseEnter={() => setIsHoveredNext(true)}
         onMouseLeave={() => setIsHoveredNext(false)}
-        className={`px-4 py-2 flex items-center gap-2 rounded-[3px] transition ${
+        className={`px-4 py-2 flex items-center gap-2 rounded-3px transition ${
           isDisabledNext
             ? 'text-[#364152] border border-[#697586] cursor-not-allowed opacity-50'
             : 'bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152] cursor-pointer'

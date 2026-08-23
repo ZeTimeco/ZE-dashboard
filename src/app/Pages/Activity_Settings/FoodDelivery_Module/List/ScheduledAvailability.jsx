@@ -64,7 +64,7 @@ function ScheduledAvailability({formData , setFormData}) {
   }));
   return (
     <>
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
       <div className='flex gap-2'>
         <p>
           <img src="/images/icons/clock-yellow.svg" className="w-6 h-6" />

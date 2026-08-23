@@ -83,7 +83,7 @@ function DriverAppointments({formData , setFormData}) {
     
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
       <p className='flex flex-col gap-1'>
         <span className='text-[#364152] text-base font-medium'>{t('Driver appointments')}</span>
         <span className='text-[#697586] text-sm font-normal'>{t('Managing the order assignment process for drivers')}</span>
@@ -127,13 +127,13 @@ function DriverAppointments({formData , setFormData}) {
           <button 
             type="button" 
             onClick={increaseMaxGuests} 
-            className="flex h-11 w-13 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer" 
+            className="flex h-11 w-13 items-center justify-center rounded-3px bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer" 
           > 
             + 
           </button> 
 
           {/* Number */} 
-          <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-[3px] text-center text-[#364152] text-base font-medium"> 
+          <span className="w-full h-11 bg-[#F9F5E8] flex items-center justify-center rounded-3px text-center text-[#364152] text-base font-medium"> 
             {formData?.delivery_driver_accept_time} {t('second')}
           </span>
 
@@ -141,7 +141,7 @@ function DriverAppointments({formData , setFormData}) {
           <button 
             type="button" 
             onClick={decreaseMaxGuests} 
-            className="flex h-11 w-13 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-xl text-[#0F022E] cursor-pointer" 
+            className="flex h-11 w-13 items-center justify-center rounded-3px bg-[#EEF2F6] text-xl text-[#0F022E] cursor-pointer" 
           > 
             - 
           </button>

@@ -10,7 +10,7 @@ function ReviewsPage() {
 
   return (
     <>
-      <div className='border border-[#E3E8EF] rounded-[3px] mb-4'>
+      <div className='border border-[#E3E8EF] rounded-3px mb-4'>
         <div>
           <Header activeView={activeView} setActiveView={setActiveView} />
         </div>

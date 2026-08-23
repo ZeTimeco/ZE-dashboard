@@ -71,7 +71,7 @@ function ListPage() {
   
   return (
     <>
-      <div className='border border-[#E3E8EF] rounded-[3px] mb-4'>
+      <div className='border border-[#E3E8EF] rounded-3px mb-4'>
         <div>
           <Header/>
         </div>
@@ -85,10 +85,10 @@ function ListPage() {
           <button
             disabled={loading}
             onClick={handleSubmit}
-            className={`w-[25%] h-14 rounded-[3px] text-white transition ${
+            className={`w-[25%] h-14 rounded-3px text-white transition ${
               loading
                 ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-[var(--color-primary)] cursor-pointer'
+                : 'bg-primary cursor-pointer'
             }`}
           >
             {loading

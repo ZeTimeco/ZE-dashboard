@@ -1623,17 +1623,11 @@
   "Addressing low ratings quickly improves the impression":"Addressing low ratings quickly improves the impression",
   "Thanking people for positive reviews encourages loyalty.":"Thanking people for positive reviews encourages loyalty.",
   "Restaurant status updated successfully":"Restaurant status updated successfully",
+  "Add working period":"Add working period",
+  "Please complete the current working period first":"Please complete the current working period first",
+  "This working period is already added for this day":"This working period is already added for this day",
+  "Start time cannot be equal to end time":"Start time cannot be equal to end time",
   
-  
-
-
-
-  
-  
-  
-
-
-
   "":"" 
 
 }

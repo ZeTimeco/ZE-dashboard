@@ -53,7 +53,7 @@ function Rate({
   }
 
   return (
-    <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.30)] py-4 px-3  rounded-[3px] flex ">
+    <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.30)] py-4 px-3 rounded-3px flex ">
       <div className="flex items-center justify-center gap-6 w-full ">
         {/* Rating Summary & Score */}
         <div className="flex flex-col items-center justify-center px-4 py-2 shrink-0 w-[111px] gap-4 ">
