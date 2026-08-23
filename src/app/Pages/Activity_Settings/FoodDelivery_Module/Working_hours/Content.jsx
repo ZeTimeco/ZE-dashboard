@@ -7,6 +7,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
+import dayjs from 'dayjs';
 
 const GreenSwitch = styled((props) => (
   <Switch
@@ -65,7 +66,7 @@ const GreenSwitch = styled((props) => (
   },
 }));
 
-const DAYS_OF_WEEK = [
+export const DAYS_OF_WEEK = [
   { id: 'saturday', key: 'Saturday' },
   { id: 'sunday', key: 'Sunday' },
   { id: 'monday', key: 'Monday' },
@@ -75,17 +76,32 @@ const DAYS_OF_WEEK = [
   { id: 'friday', key: 'Friday' },
 ];
 
-const getTimeString = (d) => {
+export const getTimeString = (d) => {
   if (!d) return null;
-  if (typeof d === 'string') return d;
+  if (typeof d === 'string') return d.substring(0, 5);
   if (typeof d.format === 'function') return d.format('HH:mm');
   return null;
 };
 
-function Content() {
+export const getTimeFormatted = (d) => {
+  if (!d) return '';
+  if (typeof d === 'string') return d.substring(0, 5);
+  if (typeof d.format === 'function') return d.format('HH:mm');
+  return '';
+};
+
+export const parseTimeToDayjs = (timeStr) => {
+  if (!timeStr) return null;
+  if (dayjs.isDayjs(timeStr)) return timeStr;
+  const today = dayjs().format('YYYY-MM-DD');
+  const d = dayjs(`${today}T${timeStr}`);
+  return d.isValid() ? d : null;
+};
+
+function Content({ schedule: propSchedule, setSchedule: propSetSchedule }) {
   const { t, i18n } = useTranslation();
 
-  const [schedule, setSchedule] = useState(() =>
+  const [internalSchedule, setInternalSchedule] = useState(() =>
     DAYS_OF_WEEK.map((day) => ({
       id: day.id,
       dayKey: day.key,
@@ -93,6 +109,9 @@ function Content() {
       periods: [{ id: `${day.id}-0`, from: null, to: null }],
     }))
   );
+
+  const schedule = propSchedule || internalSchedule;
+  const setSchedule = propSetSchedule || setInternalSchedule;
 
   const handleToggleDay = (dayId) => {
     setSchedule((prev) =>

@@ -1627,7 +1627,8 @@
   "Please complete the current working period first":"Please complete the current working period first",
   "This working period is already added for this day":"This working period is already added for this day",
   "Start time cannot be equal to end time":"Start time cannot be equal to end time",
+  "Working hours saved successfully":"Working hours saved successfully",
   
   "":"" 
-
+}
 }

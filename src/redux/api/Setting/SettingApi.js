@@ -446,3 +446,13 @@ export const EditReviewSetting = async(formData)=>{
   const response = await API.post(`/provider/review-settings` , formData)
   return response.data
 }
+
+export const getWorkingHoursConfig = async()=>{
+  const response = await API.get(`/provider/food-delivery/working-hours`)
+  return response.data
+}
+
+export const EditWorkingHoursConfig = async(formData)=>{
+  const response = await API.post(`/provider/food-delivery/working-hours` , formData)
+  return response.data
+}

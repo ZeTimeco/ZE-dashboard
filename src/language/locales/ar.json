@@ -1628,6 +1628,7 @@
   "Please complete the current working period first":"يرجى إكمال وقت الفترة الحالية أولاً",
   "This working period is already added for this day":"فترة العمل هذه مضافة بالفعل لهذا اليوم",
   "Start time cannot be equal to end time":"وقت البداية لا يمكن أن يتطابق مع وقت النهاية",
+  "Working hours saved successfully":"تم حفظ مواعيد العمل بنجاح",
   
   "":"" 
 }
