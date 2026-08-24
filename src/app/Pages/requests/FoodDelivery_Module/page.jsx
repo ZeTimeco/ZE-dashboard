@@ -47,7 +47,7 @@ function FoodDelivery_ModulePage() {
       
       {hasOrders ? (
         <>
-          <div className='grid grid-cols-2 gap-6 my-8'>
+          <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6 my-8'>
             <Cards getOrders={getOrders?.data}/>
           </div>
 
