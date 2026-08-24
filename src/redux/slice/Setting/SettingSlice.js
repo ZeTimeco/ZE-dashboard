@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig, getReport, getExportPdfReport, getExportExcelReport } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -943,6 +943,39 @@ export const EditWorkingHoursConfigThunk = createAsyncThunk('setting/EditWorking
   }
 )
 
+export const getReportThunk = createAsyncThunk('setting/getReport',
+  async(period , {rejectWithValue})=>{
+    try{
+      const response = await getReport(period)
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const getExportPdfReportThunk = createAsyncThunk('setting/getExportPdfReport',
+  async(period , {rejectWithValue})=>{
+    try{
+      const response = await getExportPdfReport(period)
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const getExportExcelReportThunk = createAsyncThunk('setting/getExportExcelReport',
+  async(period , {rejectWithValue})=>{
+    try{
+      const response = await getExportExcelReport(period)
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
 const initialState ={
   success:false,
   loading: false,
@@ -1015,6 +1048,10 @@ const initialState ={
   getRatingConfig:null,
   getReviewSetting:null,
   getWorkingHoursConfig:[],
+  getReport:null,
+  getExportPdfReport:null,
+  getExportExcelReport:null
+
 
   
 
@@ -2109,6 +2146,45 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(EditWorkingHoursConfigThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getReportThunk
+      .addCase(getReportThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getReportThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getReport = action.payload;
+      })
+      .addCase(getReportThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getExportPdfReportThunk
+      .addCase(getExportPdfReportThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getExportPdfReportThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getExportPdfReport = action.payload;
+      })
+      .addCase(getExportPdfReportThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getExportExcelReportThunk
+      .addCase(getExportExcelReportThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getExportExcelReportThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getExportExcelReport = action.payload;
+      })
+      .addCase(getExportExcelReportThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

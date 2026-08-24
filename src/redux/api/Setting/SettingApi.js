@@ -456,3 +456,30 @@ export const EditWorkingHoursConfig = async(formData)=>{
   const response = await API.post(`/provider/food-delivery/working-hours` , formData)
   return response.data
 }
+
+export const getReport = async(period)=>{
+  const response = await API.get(`/provider/food-delivery/reports`,{
+    params:{
+      period:period
+    }
+  })
+  return response.data
+}
+
+export const getExportPdfReport = async(period)=>{
+  const response = await API.get(`/provider/food-delivery/reports/export-pdf`,{
+    params:{
+      period:period
+    }
+  })
+  return response.data
+}
+
+export const getExportExcelReport = async(period)=>{
+  const response = await API.get(`/provider/food-delivery/reports/export`,{
+    params:{
+      period:period
+    }
+  })
+  return response.data
+}

@@ -1628,7 +1628,10 @@
   "This working period is already added for this day":"This working period is already added for this day",
   "Start time cannot be equal to end time":"Start time cannot be equal to end time",
   "Working hours saved successfully":"Working hours saved successfully",
+  "Click on any role to customize its permissions.":"Click on any role to customize its permissions.",
+  "When adding a new employee, select their role from this list.":"When adding a new employee, select their role from this list.",
+  "You can modify the permissions of any employee individually.":"You can modify the permissions of any employee individually.",
+  
   
   "":"" 
-}
 }

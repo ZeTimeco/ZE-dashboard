@@ -1,63 +1,88 @@
 'use client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+import { motion } from 'framer-motion'
 
 function Boxes() {
     const {t} = useTranslation()
-  
+    const { getReport } = useSelector((state) => state.setting)
+
+    const kpiConfig = {
+      total_sales: {
+        label: "Total sales",
+        icon: "/images/icons/dollar_blue.svg",
+        bg: "bg-[#EDE7FD]",
+      },
+
+      order_count: {
+        label: "Number of requests",
+        icon: "/images/icons/square-green.svg",
+        bg: "bg-[#DCFAE6]",
+      },
+
+      customer_count: {
+        label: "Number of customers",
+        icon: "/images/icons/user-group-brown.svg",
+        bg: "bg-[#FFFAEB]",
+      },
+
+      avg_rating: {
+        label: "Average rating",
+        icon: "/images/icons/auto-conversations_brown.svg",
+        bg: "bg-[#F9F5E8]",
+      },
+    };
+
   return (
     <div>
-      <p className='text-[#364152] text-base font-medium mt-4 mb-4'>{t('Key indicators')}</p>
+      <p className='text-[#364152] text-base font-semibold mt-2 mb-4 flex items-center gap-2'>
+        <span className="w-2 h-2 rounded-full bg-primary"></span>
+        {t('Key indicators')}
+      </p>
       {/* main box */}
-      <div className='grid grid-cols-4 gap-4 '>
-        {/* Total sales */}
-        <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-          <div className='flex items-center gap-3'>
-            <p className=' w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
-              <img src="/images/icons/dollar_blue.svg" alt="" />
-            </p>
-            <p className='text-[#4B5565] text-base font-normal'>{t('Total sales')}</p>
-          </div>
-          <p className=' text-lg  my-2.5'>
-            <span className='text-[#202939] font-medium'>4,000 {t('pound')}</span> 
-          </p>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {getReport?.kpis?.map((kpi, index) => {
+          const config = kpiConfig[kpi.key];
 
-        {/* Number of requests */}
-        <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-          <div className='flex items-center gap-3'>
-            <p className=' w-10 h-10 flex justify-center items-center bg-[#DCFAE6] rounded-md'>
-              <img src="/images/icons/square-green.svg" alt="" />
-            </p>
-            <p className='text-[#4B5565] text-base font-normal'>{t('Number of requests')}</p>
-          </div>
-          <p className='text-[#202939] text-lg font-medium my-2.5'>3</p>
-        </div>
+          return (
+            <motion.div
+              key={kpi.key}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: index * 0.08 }}
+              whileHover={{ y: -4, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.08)' }}
+              className="group border border-[#CDD5DF] hover:border-primary rounded-3px p-4 bg-white transition-all duration-300 relative overflow-hidden"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-11 h-11 flex justify-center items-center rounded-3px ${config?.bg || 'bg-gray-100'} group-hover:scale-110 transition-transform duration-300 shadow-2xs`}
+                >
+                  <img
+                    src={config?.icon}
+                    alt=""
+                    className="w-5 h-5 object-contain"
+                  />
+                </div>
 
-        {/* Number of customers */}
-        <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-          <div className='flex items-center gap-3'>
-            <p className=' w-10 h-10 flex justify-center items-center bg-[#FFFAEB] rounded-md'>
-              <img src="/images/icons/user-group-brown.svg" alt="" />
-            </p>
-            <p className='text-[#4B5565] text-base font-normal'>{t('Number of customers')}</p>
-          </div>
-          <p className='text-[#202939] text-lg font-medium my-2.5'>33</p>
-        </div>
+                <p className="text-[#4B5565] text-sm font-medium group-hover:text-[#0B0E11] transition-colors">
+                  {t(config?.label || kpi?.label)}
+                </p>
+              </div>
 
-        {/* Average rating */}
-        <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-          <div className='flex items-center gap-3'>
-            <p className=' w-10 h-10 flex justify-center items-center bg-[#F9F5E8] rounded-md'>
-              <img src="/images/icons/auto-conversations_brown.svg" alt="" />
-            </p>
-            <p className='text-[#4B5565] text-base font-normal'>{t('Average rating')}</p>
-          </div>
-          <p className='text-[#202939] text-lg font-medium my-2.5'>33</p>
-        </div>
+              <p className="text-xl font-bold text-[#202939] mt-3.5 flex items-baseline gap-1">
+                <span>{kpi?.value?.toLocaleString?.() ?? kpi?.value}</span>
 
+                {kpi?.unit && (
+                  <span className="text-xs font-semibold text-[#697586] bg-gray-100 px-2 py-0.5 rounded-3px ms-1">
+                    {t("pound")}
+                  </span>
+                )}
+              </p>
+            </motion.div>
+          );
+        })}
       </div>
-      
     </div>
   )
 }
