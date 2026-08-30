@@ -50,8 +50,8 @@ const [selectedValue2, setSelectedValue2] = useState("");
                       price_on_inspection: checked, 
                     });
                   }}
-                  className="peer appearance-none w-6 h-6 border border-[#CDD5DF] rounded-[3px] cursor-pointer 
-                  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] 
+                  className="peer appearance-none w-6 h-6 border border-[#CDD5DF] rounded-3px cursor-pointer 
+                  checked:bg-primary checked:border-primary
                   checked:before:content-['✓'] checked:before:text-white 
                   checked:before:flex checked:before:items-center checked:before:justify-center checked:before:w-full checked:before:h-full"
                 />
@@ -64,7 +64,7 @@ const [selectedValue2, setSelectedValue2] = useState("");
               type="text"
               value={formData?.inspection_price}
               onChange={(e)=> handleChange("inspection_price", e.target.value)}
-              className="border h-13.5 p-3 border-[#C8C8C8] rounded-[3px]"
+              className="border h-13.5 p-3 border-[#C8C8C8] rounded-3px"
               placeholder={t("Enter the service price")}
             />
           </div>
@@ -77,7 +77,7 @@ const [selectedValue2, setSelectedValue2] = useState("");
               <div className="relative w-full mb-6" ref={dropdownRef1}>
                 <div
                   onClick={() => setOpen1(!open1)}
-                  className="h-13.5 p-3 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+                  className="h-13.5 p-3 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center justify-between"
                 >
                   <span
                     className={
@@ -96,7 +96,7 @@ const [selectedValue2, setSelectedValue2] = useState("");
                 </div>
       
                 {open1 && (
-                  <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                  <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                     {options.map((option, index) => (
                       <li
                         key={index}
@@ -130,14 +130,14 @@ const [selectedValue2, setSelectedValue2] = useState("");
                 value={formData?.discount}
                 onChange={(e)=>handleChange('discount',e.target.value)}
                 placeholder={t("Enter the discount price")}
-                className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-[3px] focus:outline-none"
+                className="h-13.5 w-[85%] px-3 border border-[#C8C8C8] rounded-3px focus:outline-none"
               />
       
               {/* Dropdown sale */}
               <div className="relative w-[15%]" ref={dropdownRef2}>
                 <div
                   onClick={() => setOpen2(!open2)}
-                  className="bg-[#EEF2F6] p-3 h-13.5 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center justify-between"
+                  className="bg-[#EEF2F6] p-3 h-13.5 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center justify-between"
                 >
                   <span
                     className={
@@ -156,7 +156,7 @@ const [selectedValue2, setSelectedValue2] = useState("");
                 </div>
       
                 {open2 && (
-                  <ul className="border border-[#4B5565] bg-white rounded-[3px] shadow-md z-10">
+                  <ul className="border border-[#4B5565] bg-white rounded-3px shadow-md z-10">
                     {optionRates.map((option, index) => (
                       <li
                         key={index}
@@ -179,7 +179,7 @@ const [selectedValue2, setSelectedValue2] = useState("");
         )}
       </form>
 
-      <div className=" flex gap-4 border border-[#FEC84B] bg-[#FFFCF5] rounded-[3px] shadow p-3 mt-6 w-[70%]">
+      <div className=" flex gap-4 border border-[#FEC84B] bg-[#FFFCF5] rounded-3px shadow p-3 mt-6 w-[70%]">
         <img src="/images/icons/i.svg" alt="" className="w-6 h-6"/>
         <p className="text-[##202939] text-base font-normal">
           {t('The amount entered is only what you receive from the customer, without additional expenses or equipment transfer.')}
@@ -189,22 +189,17 @@ const [selectedValue2, setSelectedValue2] = useState("");
       <div className="my-12 flex gap-3">
       <button 
         onClick={handlePrev} 
-        className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer"
+        className="border w-48 h-13.5 py-2.5 px-4 rounded-3px border-primary text-primary text-base font-medium cursor-pointer"
       >
         {t('the previous')}
       </button>
-      {/* <button
-        onClick={handleGoBack} 
-        className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer"
-      >
-          {t('save')}
-      </button> */}
+    
       <button
         onClick={handleSubmit}
         disabled={loadingDetails}
-        className={`border w-58 h-13.5 py-2.5 px-4 rounded-[3px] ${
-          loadingDetails ? "bg-gray-400 cursor-not-allowed" : "bg-[#C69815] cursor-pointer"
-        } text-[#fff] text-base font-medium`}
+        className={`border w-58 h-13.5 py-2.5 px-4 rounded-3px ${
+          loadingDetails ? "bg-gray-400 cursor-not-allowed" : "bg-primary cursor-pointer"
+        } text-white text-base font-medium`}
       >
         {loadingDetails ? t("Saving...") : t("save")}
       </button>

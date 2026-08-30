@@ -144,9 +144,9 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
             <button
               key={day.id}
               onClick={() => handleDayToggle(day.id)}
-              className={`w-full h-15  border rounded-[3px] shadow-xs transition text-base font-normal ${
+              className={`w-full h-15  border rounded-3px shadow-xs transition text-base font-normal ${
                 selectedDays.includes(day.id) 
-                  ? "border-[var(--color-primary)] bg-[#F9F5E8] text-[var(--color-primary)]" 
+                  ? "border-primary bg-[#F9F5E8] text-primary" 
                   : "border-[#CDD5DF] text-[#9AA4B2]"
               }`}
             >
@@ -281,22 +281,22 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
       <div className="flex justify-end mt-6">
         <button
           onClick={addPeriod}
-          className="flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] w-[197px] h-14 cursor-pointer"
+          className="flex items-center justify-center border border-primary rounded-3px w-[197px] h-14 cursor-pointer"
         >
           <img src="/images/icons/AddYellowIcon.svg" alt=""  className="w-6 h-6" />
-          <p className="text-[var(--color-primary)] text-base font-medium ">
+          <p className="text-primary text-base font-medium ">
             {t("Add period")}
           </p>
         </button>
       </div>
 
       {/* Added Periods List */}
-      <section className="mt-12 bg-white rounded-[3px]">
+      <section className="mt-12 bg-white rounded-3px">
         <p className="text-[#364152] text-base font-semibold mb-6">{t("Added periods")}</p>
         
         <div className="flex flex-col gap-6">
           {Object.keys(savedPeriods).length === 0 ? (
-            <div className="flex flex-col  py-3 border  border-[#FEC84B] rounded-[3px] bg-[#FEF0C7]">
+            <div className="flex flex-col  py-3 border  border-[#FEC84B] rounded-3px bg-[#FEF0C7]">
               <p className="text-[#4E4E4E] text-sm font-medium px-4">
                 {t("No period has been added yet. Click “Add period” to begin.")}
               </p>
@@ -307,7 +307,7 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
               if (!dayPeriods || dayPeriods.length === 0) return null;
 
               return (
-                <div key={day.id} className="border border-[#CDD5DF] shadow-sm rounded-[3px] p-4">
+                <div key={day.id} className="border border-[#CDD5DF] shadow-sm rounded-3px p-4">
                   <div className="flex justify-start  mb-4">
                     <p className="text-[#4E4E4E] text-base font-medium">{t(day.name)}</p>
                   </div>
@@ -345,13 +345,13 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
       <div className="my-12 flex gap-3">
         <button
           onClick={handlePrev}
-          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium cursor-pointer"
+          className="border w-48 h-13.5 py-2.5 px-4 rounded-3px border-primary text-primary text-base font-medium cursor-pointer"
         >
           {t("the previous")}
         </button>
         <button
           onClick={handleNext}
-          className="border w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[var(--color-primary)] text-[#fff] text-base font-medium cursor-pointer"
+          className="border w-58 h-13.5 py-2.5 px-4 rounded-3px bg-primary text-white text-base font-medium cursor-pointer"
         >
           {t("the next")}
         </button>

@@ -133,8 +133,8 @@ console.log(formData);
                 className={`px-4 py-6 w-full text-center text-base cursor-pointer transition-all duration-200
                   ${
                     openId === tab.id
-                      ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
-                      : "text-[#697586] font-normal hover:text-[#C69815]"
+                      ? "text-primary border-b-2 border-primary font-medium"
+                      : "text-[#697586] font-normal hover:text-primary"
                   }`}
                 onClick={() => setOpenId(tab.id)}
               >

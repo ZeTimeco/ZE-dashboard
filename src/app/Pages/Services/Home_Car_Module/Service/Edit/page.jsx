@@ -27,7 +27,6 @@ function EditPageContent() {
     }
   }, [serviceId, dispatch]);
 
-  // if (!service) return <p>Loading service...</p>;
 
 
   //update service *******************************************/
@@ -74,17 +73,8 @@ function EditPageContent() {
       discount: service?.discount || "",
       discount_type: service?.discount_type || "",
       days: service?.days || [],
-      // provider_areas_id: service.areas.map(area => area.id),
     });
   }, [service]);
-
-  //   const handleSave = () => {
-  //   if (!service?.id) return;
-  //     dispatch(updateServiceThunk({ id: service.id, formData }))
-  //     .unwrap()
-  //     .then(() => router.back())
-  //     .catch((err) => console.error("Failed to update service:", err));
-  // };
 
   const handleSave = () => {
     if (!service?.id) return;
@@ -121,7 +111,6 @@ function EditPageContent() {
       .catch((err) => console.error("Failed to update service:", err));
   };
 
-  console.log('formData', formData);
 
 
 
@@ -160,7 +149,7 @@ function EditPageContent() {
               <div
                 key={tab.id}
                 className={`px-4 py-6 w-full text-center text-base cursor-default ${openId === tab.id
-                  ? "text-[#C69815] border-b-2 border-[#C69815] font-medium"
+                  ? "text-primary border-b-2 border-primary font-medium"
                   : "text-[#697586] font-normal"
                   }`}
               >
