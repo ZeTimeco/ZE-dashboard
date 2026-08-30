@@ -317,8 +317,11 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
                         key={p.id} 
                         className="flex items-center gap-3 px-3 py-2 bg-[#EEF2F6] border border-[#CDD5DF] rounded-full"
                       >
-                        <span className="text-[#4B5565] text-sm font-normal">
-                          {p.from?.format('hh:mm A')} - {p.to?.format('hh:mm A')}
+                        <span
+                          dir="ltr"
+                          className="text-[#4B5565] text-sm font-normal inline-block"
+                        >
+                          {p.from?.format("hh:mm A")} - {p.to?.format("hh:mm A")}
                         </span>
 
                         <button 

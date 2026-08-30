@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { logout } from '@/redux/slice/Auth/AuthSlice';
-import { motion, AnimatePresence } from 'framer-motion';
+
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { logout } from "@/redux/slice/Auth/AuthSlice";
+import { motion, AnimatePresence } from "framer-motion";
 
 function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
   const [open, setOpen] = useState(true);
@@ -16,151 +17,343 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
   const router = useRouter();
 
   const handleLogout = () => {
-    dispatch(logout());      
+    dispatch(logout());
     setIsSidebarOpen(false);
-    router.push("/Auth/Login"); 
+    router.push("/Auth/Login");
   };
 
-  const navItems = [
-    { key: 'dashboard', path: '/Pages/Home', icon: '/images/icons/dashboard.svg' },
-    { key: 'Reservations', path: '/Pages/requests/Queue_Module', icon: '/images/icons/Requests.svg' },
-    { key: 'pending list', path: '/Pages/Pending_List', icon: '/images/icons/loading-black.svg' },
-    { key: 'Menu and Prices', path: '/Pages/Menus/Queue_Module', icon: '/images/icons/dish-black.svg' },
-    { key: 'Halls', path: '/Pages/Halls/Hall', icon: '/images/icons/restaurant-black.svg' },
-    { key: 'Subscription', path: '/Pages/Subscription', icon: '/images/icons/Subscription.svg' },
-    { key: 'conversations', path: '/Pages/conversations', icon: '/images/icons/conversations.svg' },
-    { key: 'technical support', path: '/Pages/technicalSupport', icon: '/images/icons/dashboard.svg' },
-    { key: 'Activity settings', path: '/Pages/Activity_Settings', icon: '/images/icons/Activity_settings.svg' },
-    { key: 'Settings', path: '/Pages/settings', icon: '/images/icons/settings.svg' },
+  // =========================
+  // Main Navigation
+  // =========================
+  const mainNavItems = [
+    {
+      key: "dashboard",
+      path: "/Pages/Home",
+      icon: "/images/icons/dashboard.svg",
+    },
+    {
+      key: "Reservations",
+      path: "/Pages/requests/Queue_Module",
+      icon: "/images/icons/Requests.svg",
+    },
+    {
+      key: "pending list",
+      path: "/Pages/Pending_List",
+      icon: "/images/icons/loading-black.svg",
+    },
+    {
+      key: "Menu and Prices",
+      path: "/Pages/Menus/Queue_Module",
+      icon: "/images/icons/dish-black.svg",
+    },
+    {
+      key: "Halls",
+      path: "/Pages/Halls/Hall",
+      icon: "/images/icons/restaurant-black.svg",
+    },
+    {
+      key: "Subscription",
+      path: "/Pages/Subscription",
+      icon: "/images/icons/Subscription.svg",
+    },
+    {
+      key: "conversations",
+      path: "/Pages/conversations",
+      icon: "/images/icons/conversations.svg",
+    },
+    {
+      key: "technical support",
+      path: "/Pages/technicalSupport",
+      icon: "/images/icons/dashboard.svg",
+    },
   ];
+
+  // =========================
+  // Settings Navigation
+  // =========================
+  const settingsNavItems = [
+    {
+      key: "Activity settings",
+      path: "/Pages/Activity_Settings",
+      icon: "/images/icons/Activity_settings.svg",
+    },
+    {
+      key: "Settings",
+      path: "/Pages/settings",
+      icon: "/images/icons/settings.svg",
+    },
+  ];
+
+  // =========================
+  // Active Item
+  // =========================
+  const isItemActive = (item) => {
+    // Dashboard
+    if (item.key === "dashboard") {
+      return (
+        pathname === "/" ||
+        pathname.startsWith("/Pages/dashboard") ||
+        pathname.startsWith("/Pages/Home")
+      );
+    }
+
+    // Halls includes Hall / Tables / Views
+    if (item.key === "Halls") {
+      return (
+        pathname.startsWith("/Pages/Halls/Hall") ||
+        pathname.startsWith("/Pages/Halls/Tables") ||
+        pathname.startsWith("/Pages/Halls/Views")
+      );
+    }
+
+    return pathname.startsWith(item.path);
+  };
+
+  // =========================
+  // Navigation Item
+  // =========================
+  const NavItem = ({ item }) => {
+    const isActive = isItemActive(item);
+
+    return (
+      <motion.li
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.98 }}
+        transition={{ duration: 0.15 }}
+      >
+        <Link
+          href={item.path}
+          onClick={() => setIsSidebarOpen(false)}
+          className={`flex items-center w-full h-11 px-3 rounded-3px transition-colors duration-150 ${
+            isActive
+              ? "bg-primary text-white shadow-sm font-semibold"
+              : "hover:bg-[#F9F5E8] text-[#364152]"
+          }`}
+        >
+          {open ? (
+            <div className="flex items-center w-full">
+              <img
+                src={item.icon}
+                alt=""
+                className={`w-5 h-5 shrink-0 ${
+                  isActive ? "brightness-0 invert" : ""
+                }`}
+              />
+
+              <span className="text-sm font-medium leading-none whitespace-nowrap mr-3 flex-1 text-right">
+                {t(item.key)}
+              </span>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center w-full">
+              <img
+                src={item.icon}
+                alt=""
+                className={`w-5 h-5 shrink-0 ${
+                  isActive ? "brightness-0 invert" : ""
+                }`}
+              />
+            </div>
+          )}
+        </Link>
+      </motion.li>
+    );
+  };
 
   return (
     <motion.aside
       animate={{ width: open ? 280 : 80 }}
-      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1.0] }}
+      transition={{
+        duration: 0.25,
+        ease: [0.25, 0.1, 0.25, 1.0],
+      }}
       className={`
-        ${isSidebarOpen ? "translate-x-0" : "translate-x-full lg1:translate-x-0"}   
-        lg1:flex flex-col h-screen border-x border-[#E3E8EF] p-4
+        ${isSidebarOpen ? "translate-x-0" : "translate-x-full lg1:translate-x-0"}
+        lg1:flex flex-col h-screen border-x border-[#E3E8EF] pt-4 pb-4
         bg-white fixed lg1:static z-50 top-0 right-0 shadow-lg lg1:shadow-none
         select-none overflow-hidden transition-transform duration-300 ease-in-out
       `}
     >
-      {/* Logo open and close */}
-      <motion.button
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        onClick={() => {
-          if (window.innerWidth >= 1340) { 
-            setOpen(!open);
-          }
-        }}
-        className="w-full flex justify-center mt-6 mb-8 cursor-pointer focus:outline-none"
-        aria-label="Toggle sidebar"
-      >
+      {/* =========================
+          Logo + Collapse Toggle
+      ========================= */}
+      <div className="flex items-center justify-between px-4 mb-6 relative">
         <AnimatePresence mode="wait">
           {open ? (
-            <motion.div 
+            <motion.div
               key="full-logo"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className='flex gap-2 items-center'
+              className="flex gap-2 items-center"
             >
-              <img src='/images/LogoText.svg' alt="Zetime" className="h-7" />
-              <img src='/images/Logo.svg' alt="Zetime Logo" className="h-7" />
+              <img
+                src="/images/Logo.svg"
+                alt="Zetime Logo"
+                className="h-7"
+              />
+
+              <img
+                src="/images/LogoText.svg"
+                alt="Zetime"
+                className="h-5"
+              />
             </motion.div>
           ) : (
-            <motion.div 
+            <motion.div
               key="mini-logo"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className='flex items-center'
+              className="flex items-center mx-auto"
             >
-              <img src='/images/Logo.svg' alt="Zetime Logo" className="h-7" />
+              <img
+                src="/images/Logo.svg"
+                alt="Zetime Logo"
+                className="h-7"
+              />
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.button>
 
-      {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto no-scrollbar">
-        <ul className='flex flex-col gap-1.5 h-full'>
-          {navItems.map((item) => {
-            const isActive = item.key === 'dashboard'
-              ? (pathname === '/' || pathname.startsWith('/Pages/dashboard') || pathname.startsWith('/Pages/Home'))
-              : item.key === 'Halls'
-              ? (pathname.startsWith('/Pages/Halls/Hall') || pathname.startsWith('/Pages/Halls/Tables') || pathname.startsWith('/Pages/Halls/Views'))
-              : pathname.startsWith(item.path);
-
-            return (
-              <motion.li
-                key={item.key}
-                whileHover={{ x: open ? 4 : 0, scale: open ? 1 : 1.08 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.15 }}
-                className="relative"
-              >
-                <Link 
-                  href={item.path} 
-                  onClick={() => setIsSidebarOpen(false)}
-                  className={`flex items-center w-full h-11 px-3 rounded-lg transition-colors duration-150 relative ${
-                    isActive 
-                      ? "bg-[var(--color-primary)] text-white shadow-xs font-semibold" 
-                      : "hover:bg-slate-100/80 text-[#364152]"
-                  }`}
-                >
-                  {open ? (
-                    <div className='flex gap-3.5 items-center w-full'>
-                      <motion.img 
-                        whileHover={{ rotate: 10 }}
-                        src={item.icon} 
-                        alt="" 
-                        className={`w-5 h-5 transition-transform shrink-0 ${isActive ? "brightness-0 invert" : ""}`} 
-                      />
-                      <span className="text-sm font-medium leading-none whitespace-nowrap">
-                        {t(item.key)}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className='flex justify-center items-center w-full'>
-                      <motion.img 
-                        whileHover={{ scale: 1.15 }}
-                        src={item.icon} 
-                        alt="" 
-                        className={`w-5 h-5 shrink-0 ${isActive ? "brightness-0 invert" : ""}`} 
-                      />
-                    </div>
-                  )}
-                </Link>
-              </motion.li>
-            );
-          })}
-
-          {/* Sign out */}
-          <motion.li
-            whileHover={{ x: open ? 4 : 0, scale: open ? 1 : 1.08 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.15 }}
-            onClick={handleLogout}
-            className="mt-auto pt-2"
+        {/* Collapse */}
+        {open && (
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => {
+              if (window.innerWidth >= 1340) {
+                setOpen(false);
+              }
+            }}
+            className="w-7 h-7 flex items-center justify-center rounded-full border border-[#E3E8EF] bg-white text-[#697586] hover:bg-[#F9F5E8] transition-colors cursor-pointer focus:outline-none shrink-0"
+            aria-label="Collapse sidebar"
           >
-            <button className="flex items-center w-full h-11 px-3 rounded-lg hover:bg-red-50 text-[#D92D20] transition-colors cursor-pointer focus:outline-none">
-              {open ? (
-                <div className='flex gap-3.5 items-center w-full'>
-                  <img src="/images/icons/signout.svg" alt="" className="w-5 h-5 shrink-0" />
-                  <span className='text-[#D92D20] text-sm font-medium leading-none whitespace-nowrap'>{t('Sign out')}</span>
-                </div>
-              ) : (
-                <div className='flex justify-center items-center w-full'>
-                  <img src="/images/icons/signout.svg" alt="" className="w-5 h-5 shrink-0" />
-                </div>
-              )}
-            </button>
-          </motion.li>
-        </ul>
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+            >
+              <path
+                d="M7.5 2L3.5 6L7.5 10"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </motion.button>
+        )}
+
+        {/* Expand */}
+        {!open && (
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => setOpen(true)}
+            className="absolute -left-1 top-0 w-7 h-7 flex items-center justify-center rounded-full border border-[#E3E8EF] bg-white text-[#697586] hover:bg-[#F9F5E8] transition-colors cursor-pointer focus:outline-none"
+            aria-label="Expand sidebar"
+          >
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+            >
+              <path
+                d="M4.5 2L8.5 6L4.5 10"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </motion.button>
+        )}
+      </div>
+
+      {/* =========================
+          Navigation
+      ========================= */}
+      <nav className="flex-1 overflow-y-auto no-scrollbar px-3 flex flex-col gap-4">
+
+        {/* =========================
+            MAIN
+        ========================= */}
+        <div className="flex flex-col gap-1">
+          {open && (
+            <p className="text-[10px] font-semibold tracking-widest text-[#9AA4B2] uppercase px-1 mb-1 text-right">
+              MAIN
+            </p>
+          )}
+
+          <ul className="flex flex-col gap-1">
+            {mainNavItems.map((item) => (
+              <NavItem
+                key={item.key}
+                item={item}
+              />
+            ))}
+          </ul>
+        </div>
+
+        {/* =========================
+            SETTINGS
+        ========================= */}
+        <div className="flex flex-col gap-1">
+          {open && (
+            <p className="text-[10px] font-semibold tracking-widest text-[#9AA4B2] uppercase px-1 mb-1 text-right">
+              {t("Settings")}
+            </p>
+          )}
+
+          <ul className="flex flex-col gap-1">
+            {settingsNavItems.map((item) => (
+              <NavItem
+                key={item.key}
+                item={item}
+              />
+            ))}
+          </ul>
+        </div>
+
+        {/* =========================
+            Sign Out
+        ========================= */}
+        <div className="mt-auto pt-2 border-t border-[#E3E8EF]">
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleLogout}
+            className="flex items-center w-full h-11 px-3 rounded-3px hover:bg-red-50 text-[#D92D20] transition-colors cursor-pointer focus:outline-none"
+          >
+            {open ? (
+              <div className="flex items-center w-full">
+                <img
+                  src="/images/icons/signout.svg"
+                  alt=""
+                  className="w-5 h-5 shrink-0"
+                />
+
+                <span className="text-sm font-medium leading-none whitespace-nowrap mr-3 flex-1 text-right">
+                  {t("Sign out")}
+                </span>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center w-full">
+                <img
+                  src="/images/icons/signout.svg"
+                  alt=""
+                  className="w-5 h-5 shrink-0"
+                />
+              </div>
+            )}
+          </motion.button>
+        </div>
+
       </nav>
     </motion.aside>
   );
