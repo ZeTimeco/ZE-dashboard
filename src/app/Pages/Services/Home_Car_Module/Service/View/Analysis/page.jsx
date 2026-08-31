@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-// import Chart from "react-apexcharts";
+import { motion } from 'framer-motion';
 import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -10,9 +10,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 function AnalysisPage({handleClose ,serviceAnalysis}) {
   const {t} = useTranslation()
 
-
-
- const cards = [
+  const cards = [
     {
       id: 1,
       title: t("earnings"),
@@ -124,14 +122,21 @@ function AnalysisPage({handleClose ,serviceAnalysis}) {
     <>
     {/* cards */}
     <div className="grid grid-cols-2 gap-4 px-6 mt-8">
-      {cards.map((item) => {
+      {cards.map((item, cardIndex) => {
         const value = item.value ?? 0;
         const isPositive = value > 0;
         const isNegative = value < 0;
         const isNeutral = value === 0;
 
         return (
-          <section key={item.id} className="border border-[#CDD5DF] p-3">
+          <motion.section
+            key={item.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.28, delay: cardIndex * 0.07, ease: "easeOut" }}
+            whileHover={{ y: -3, boxShadow: "0 6px 20px rgba(0,0,0,0.08)", transition: { duration: 0.2 } }}
+            className="border border-[#CDD5DF] p-3 rounded-[3px] transition-shadow duration-200"
+          >
             {/* Header */}
             <div className="flex gap-1.5 mb-2.5">
               <p
@@ -182,52 +187,49 @@ function AnalysisPage({handleClose ,serviceAnalysis}) {
                 )}
               </div>
             </div>
-          </section>
+          </motion.section>
         );
       })}
     </div>
 
-
-
-
-
-
     {/* chart */}
-      <div className='px-6'>
-        <div className='p-4 border border-[#CDD5DF] my-6'>
-          <div className='flex gap-1.5 mb-3'>
-            <p className='bg-[#ECFDF3] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
-              <img src="/images/icons/earnings.svg" alt="" />
-            </p>
-            <p className='text-[#313131] text-base font-medium flex items-center'>{t('Sales')}</p>
-          </div>
-
-
-          <div className="p-4 ">
-            <Chart
-              options={chartOptions}
-              series={seriesData}
-              type="bar"
-              width="100%"
-              height={300}
-            />
-          </div>
-
+    <motion.div
+      className='px-6'
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: 0.3, ease: "easeOut" }}
+    >
+      <div className='p-4 border border-[#CDD5DF] my-6 rounded-[3px] hover:shadow-[0_4px_16px_rgba(0,0,0,0.07)] transition-shadow duration-200'>
+        <div className='flex gap-1.5 mb-3'>
+          <p className='bg-[#ECFDF3] w-8 h-8 flex justify-center items-center rounded-[6.211px]'>
+            <img src="/images/icons/earnings.svg" alt="" />
+          </p>
+          <p className='text-[#313131] text-base font-medium flex items-center'>{t('Sales')}</p>
         </div>
 
+        <div className="p-4">
+          <Chart
+            options={chartOptions}
+            series={seriesData}
+            type="bar"
+            width="100%"
+            height={300}
+          />
+        </div>
       </div>
+    </motion.div>
 
-
-
-
-
-
-    <div className="w-full h-px bg-[#CDD5DF] "></div>
+    <div className="w-full h-px bg-[#CDD5DF]"></div>
     {/* btns */}
     <div className='px-6 my-5'>
-      <button onClick={handleClose} className='border border-[#C69815] text-[#C69815] h-13.5 w-40 rounded-[3px] text-base font-medium'>
+      <motion.button
+        whileHover={{ scale: 1.02, backgroundColor: "rgba(198, 152, 21, 0.04)" }}
+        whileTap={{ scale: 0.98 }}
+        onClick={handleClose}
+        className='border border-[#C69815] text-[#C69815] h-13.5 w-40 rounded-[3px] text-base font-medium cursor-pointer transition-colors'
+      >
         {t('cancel')}
-      </button>
+      </motion.button>
     </div>
 
     </>

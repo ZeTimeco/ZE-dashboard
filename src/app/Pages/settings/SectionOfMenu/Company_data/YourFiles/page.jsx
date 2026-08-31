@@ -1,21 +1,23 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { UpdateInSignupThunk } from "@/redux/slice/Auth/AuthSlice";
 import { getProfileThunk } from "@/redux/slice/Setting/SettingSlice";
+import { toast } from "react-toastify";
 
 import Header from "./Header";
 
 function YourFilesPage({userData}) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [isSaving, setIsSaving] = useState(false);
 
   const cr_end_date = userData?.cr_end_date; 
   const tax_card_end_date = userData?.tax_card_end_date;     
   const id_end_date = userData?.id_end_date; 
-  // const idBackDate = null;                 
 
   const [files, setFiles] = useState({
     commercialRecord: {
@@ -37,14 +39,13 @@ function YourFilesPage({userData}) {
       endDate: id_end_date,
     },
     idBack: {
-        key: "idBack",
-        label: "Back national ID card photo",
+      key: "idBack",
+      label: "Back national ID card photo",
       file: null, 
       endDate: id_end_date,
     },
   });
   
-//api
   useEffect(() => {
     if (userData) {
       const getFileObj = (url) => {
@@ -118,14 +119,19 @@ function YourFilesPage({userData}) {
       case "expired":
       case "warning":
         return (
-          <button className="p-2 cursor-pointer" onClick={() => inputRef.current.click()}>
-            <img src="/images/icons/EditYellow.svg" alt="edit" />
-          </button>
+          <motion.button 
+            whileHover={{ scale: 1.15 }}
+            whileTap={{ scale: 0.9 }}
+            className="p-2 cursor-pointer" 
+            onClick={() => inputRef.current.click()}
+          >
+            <img src="/images/icons/EditYellow.svg" alt="edit" className="w-5 h-5" />
+          </motion.button>
         );
       case "waiting":
-        return <img src="/images/icons/remove-circle.svg" alt="waiting" />;
+        return <img src="/images/icons/remove-circle.svg" alt="waiting" className="w-5 h-5" />;
       case "done":
-        return <img src="/images/icons/_Checkbox base.svg" alt="done" />;
+        return <img src="/images/icons/_Checkbox base.svg" alt="done" className="w-5 h-5" />;
       default:
         return null;
     }
@@ -146,7 +152,7 @@ function YourFilesPage({userData}) {
             type: extension,
             url: URL.createObjectURL(file),
           },
-          rawFile: file, // Store the raw file object for upload
+          rawFile: file,
         },
       }));
     }
@@ -160,7 +166,6 @@ function YourFilesPage({userData}) {
       Object.values(files).forEach((item) => {
         if (item.rawFile) {
           hasChanges = true;
-          // Map internal keys to backend field names
           const fieldMap = {
             commercialRecord: "commercial_register",
             taxCard: "tax_card",
@@ -172,10 +177,11 @@ function YourFilesPage({userData}) {
       });
 
       if (!hasChanges) {
-        alert("No changes to save");
+        toast.info(t("No changes to save") || "No changes to save");
         return;
       }
 
+      setIsSaving(true);
       // 1️⃣ Update backend
       await dispatch(UpdateInSignupThunk(formData)).unwrap();
 
@@ -189,10 +195,12 @@ function YourFilesPage({userData}) {
         window.dispatchEvent(new Event("storage"));
       }
 
-      alert("Changes saved successfully!");
+      toast.success(t("Changes saved successfully!") || "Changes saved successfully!");
     } catch (err) {
       console.error("Update failed:", err);
-      alert("Failed to save changes");
+      toast.error(err?.message || err || t("Failed to save changes") || "Failed to save changes");
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -204,26 +212,40 @@ function YourFilesPage({userData}) {
   };
 
   return (
-    <div className="border border-[#E3E8EF] mb-8">
+    <motion.div 
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="border border-[#E3E8EF] mb-8 bg-white rounded-[3px] shadow-xs"
+    >
       <Header />
 
-      <section className="lg1:p-6  pt-4 px-4 space-y-6">
-        {Object.values(files).map((item) => {
+      <section className="lg1:p-6 pt-4 px-4 space-y-6">
+        {Object.values(files).map((item, index) => {
           const { status, message, color, icon, date } = checkEndDate(
             item.endDate
           );
 
           return (
-            <div key={item.key} className="flex flex-col w-full gap-2">
+            <motion.div 
+              key={item.key}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, delay: index * 0.05 }}
+              className="flex flex-col w-full gap-2"
+            >
               <label className="text-[#364152] text-base font-normal">
                 {t(item.label)}
               </label>
 
-              <div className="flex items-center p-4 border border-[#CDD5DF] rounded-[3px] lg1:gap-4 gap-2  shadow-sm">
-                <div className="relative w-10 lg1:w-12  lg1:h-12 flex items-center justify-center">
+              <motion.div 
+                whileHover={{ y: -2, boxShadow: "0 4px 12px rgba(0,0,0,0.04)", borderColor: "#B2BAC6" }}
+                className="flex items-center p-4 border border-[#CDD5DF] rounded-[3px] lg1:gap-4 gap-2 shadow-2xs bg-white transition-all duration-200"
+              >
+                <div className="relative w-10 lg1:w-12 lg1:h-12 flex items-center justify-center bg-gray-50 rounded">
                   <img
                     src="/images/filephoto.svg"
-                    className="w-12 h-12"
+                    className="w-10 h-10"
                     alt="file"
                     onError={(e) => {
                       e.target.onerror = null; 
@@ -231,7 +253,7 @@ function YourFilesPage({userData}) {
                     }} 
                   />
                   {item.file && (
-                    <span className="absolute bottom-0 right-2 text-white text-[10px] px-1 py-0.5 rounded-sm">
+                    <span className="absolute bottom-0 right-1 text-white text-[9px] px-1 py-0.2 rounded-xs bg-[var(--color-primary)] font-bold">
                       {item.file.type}
                     </span>
                   )}
@@ -242,12 +264,12 @@ function YourFilesPage({userData}) {
                     {item.file ? t(item.label) : t("No file chosen")}
                   </p>
                   {item.file && (
-                    <p className="text-[#697586] font-medium text-xs">{item.file.size}</p>
+                    <p className="text-[#697586] font-normal text-xs mt-0.5">{item.file.size}</p>
                   )}
                 </div>
 
                 {renderStatusAction(status, inputRefs[item.key])}
-              </div>
+              </motion.div>
 
               <input
                 type="file"
@@ -265,18 +287,34 @@ function YourFilesPage({userData}) {
                   </p>
                 </div>
               )}
-            </div>
+            </motion.div>
           );
         })}
 
         {/* btn */}
-        <button 
+        <motion.button 
+          whileHover={!isSaving ? { scale: 1.02, filter: 'brightness(1.05)' } : {}}
+          whileTap={!isSaving ? { scale: 0.98 } : {}}
+          disabled={isSaving}
           onClick={handleSaveChanges}
-          className="bg-[var(--color-primary)] h-15 w-62.5 text-[#fff] text-base font-medium rounded-[3px] mt-6">
-          {t('Save changes')}
-        </button>
+          className={`bg-[var(--color-primary)] h-15 w-full sm:w-62.5 text-white text-base font-medium rounded-[3px] mt-6 flex items-center justify-center gap-2 shadow-xs transition-all ${
+            isSaving ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
+          }`}
+        >
+          {isSaving ? (
+            <>
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+              <span>{t("Saving...")}</span>
+            </>
+          ) : (
+            <span>{t('Save changes')}</span>
+          )}
+        </motion.button>
       </section>
-    </div>
+    </motion.div>
   );
 }
 

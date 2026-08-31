@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
+import { motion } from 'framer-motion'
 import Header from './Header'
 import TextState from './TextState'
 import Files from './Files'
@@ -16,14 +17,16 @@ function LegalDocumentsPage() {
 
   return (
     <>
-    <div className="border border-[#E3E8EF] mb-8">
-      <Header/>
-      <TextState documents={documents}/>
-      
-      <Files documents={documents}/>
-      
-    </div>
-
+      <motion.div 
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className="border border-[#E3E8EF] mb-8 bg-white rounded-[3px] shadow-xs"
+      >
+        <Header/>
+        <TextState documents={documents}/>
+        <Files documents={documents}/>
+      </motion.div>
     </>
   )
 }

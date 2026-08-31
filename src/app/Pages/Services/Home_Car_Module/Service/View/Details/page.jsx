@@ -1,18 +1,18 @@
 "use client"
 import { deleteServiceThunk } from '@/redux/slice/Services/ServicesSlice';
 import { useDispatch } from 'react-redux';
-import { t } from 'i18next'
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion';
 import DeletePage from '../Model/Delete/page';
 
 function DetailsPage({handleClose ,status ,service}) {
   const {t} = useTranslation();
     const [enabled, setEnabled] = useState(false);
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,15 +42,34 @@ function DetailsPage({handleClose ,status ,service}) {
     }
   };
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3, delay: i * 0.06, ease: 'easeOut' },
+    }),
+  };
+
   return (
     <>
-      <div className='px-6'>
+      <motion.div
+        className='px-6'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.25 }}
+      >
         {/* title */}
-        <p className='text-[#364152] text-xl font-medium '>
+        <p className='text-[#364152] text-xl font-medium tracking-tight'>
           {service?.service?.category?.title}
         </p>
         
-        <section className=' shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white rounded-[3px] mt-6 p-4'>
+        <motion.section
+          custom={0}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+          className='shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] hover:shadow-[0_3px_12px_0_rgba(0,0,0,0.1)] bg-white rounded-[3px] mt-6 p-4 transition-shadow duration-200'>
           <div>
             <p className='font-normal text-base mb-4'>
               <span className='text-[#4B5565]'>{t('Subcategory')}  :  </span>
@@ -63,7 +82,7 @@ function DetailsPage({handleClose ,status ,service}) {
               <span className='text-[#364152] '>{service?.module?.name} </span>
             </p>
           </div>
-        </section>
+        </motion.section>
 
         {status==='refused'?(
           <div className='my-6 bg-[#FEE4E2] px-4 py-3 rounded-[10px]'>
@@ -86,12 +105,18 @@ function DetailsPage({handleClose ,status ,service}) {
         ):''}
 
         {/* Description */}
-        <section className='my-6'>
-          <span className='text-[#364152] text-base font-medium '>{t('Service Description')}</span>
-          <p className='text-[#697586] break-words  text-base font-normal shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white p-3 mt-4 rounded-[3px]'>
-          {service?.long_description}
+        <motion.section
+          custom={1}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+          className='my-6'
+        >
+          <span className='text-[#364152] text-base font-medium'>{t('Service Description')}</span>
+          <p className='text-[#697586] break-words text-base font-normal shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] bg-white p-3 mt-4 rounded-[3px] leading-relaxed'>
+            {service?.long_description}
           </p>
-        </section>
+        </motion.section>
 
         {/* Service status */}
         <section className='flex gap-4 text-[#4B5565] text-base font-medium mb-4 '>
@@ -112,7 +137,13 @@ function DetailsPage({handleClose ,status ,service}) {
         </section>
 
         {/* saleprice&&price&&Revenues&&RequestsNumber&&view */}
-        <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] bg-white grid grid-cols-2 justify-between rounded-[3px] gap-4 p-3 mb-6'>
+        <motion.section
+          custom={2}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+          className='shadow-[0_1px_4px_0_rgba(0,0,0,0.1)] hover:shadow-[0_3px_12px_0_rgba(0,0,0,0.1)] bg-white grid grid-cols-2 justify-between rounded-[3px] gap-4 p-3 mb-6 transition-shadow duration-200'
+        >
             {/* sale price */}
             {service?.sale_price!==0  && (
               <div className='flex gap-1.5 w-full'>
@@ -162,10 +193,16 @@ function DetailsPage({handleClose ,status ,service}) {
             </div>
             
 
-        </section>
+        </motion.section>
 
         {/* date-time */}      
-        <section className='mb-4 '>
+        <motion.section
+          custom={3}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+          className='mb-4'
+        >
           <div className='flex gap-1.5 mb-4'>
             <img src="/images/icons/date-time.svg" alt="" />
             <p className='text-[#364152]'>{t('Available times and days')}</p>
@@ -205,50 +242,71 @@ function DetailsPage({handleClose ,status ,service}) {
               ))
             )}
           </div>
-        </section>
+        </motion.section>
 
 
         {/* Available areas */}
-        <section >
+        <motion.section
+          custom={4}
+          variants={sectionVariants}
+          initial="hidden"
+          animate="visible"
+        >
           <div className='flex gap-1.5 mb-4'>
             <img src="/images/icons/Available areas.svg" alt=""/>
               <span className='text-[#364152] text-base font-normal'>{t('Available areas')}</span>  
           </div>
 
-          <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)]  rounded-[3px]  p-3 flex gap-3 flex-wrap'>
+          <div className='shadow-[0_1px_4px_0_rgba(0,0,0,0.08)] rounded-[3px] p-3 flex gap-3 flex-wrap'>
             {service?.areas?.map((area, index) => (
-              <p  
-                key={area.id || index} 
-                className='text-[#4B5565] text-sm font-normal bg-[#EDE7FD] border border-[#E2E2E2] rounded-[35px] w-fit h-8.5 px-3 py-0.5 flex items-center justify-center'>
-                  {area.city}
-              </p>
+              <motion.p
+                key={area.id || index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.2, delay: index * 0.04 }}
+                whileHover={{ scale: 1.04, transition: { duration: 0.15 } }}
+                className='text-[#4B5565] text-sm font-normal bg-[#EDE7FD] border border-[#E2E2E2] rounded-[35px] w-fit h-8.5 px-3 py-0.5 flex items-center justify-center cursor-default select-none'
+              >
+                {area.city}
+              </motion.p>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-      </div>
+      </motion.div>
 
       <div className="w-full h-px bg-[#CDD5DF] my-6"></div>
       
 
       {/* btns */}
       <section className='flex gap-3 mx-6 mb-6'>
-        <button      
+        <motion.button
+          whileHover={{ scale: 1.02, filter: 'brightness(1.05)' }}
+          whileTap={{ scale: 0.98 }}
           onClick={handleEditClick}
-          className='border bg-[var(--color-primary)] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] '
+          className='border bg-[var(--color-primary)] text-[#fff] flex justify-center items-center gap-2 h-13.5 w-50 rounded-[3px] shadow-xs transition-shadow cursor-pointer'
         >
           <span className='text-base font-medium'>{t('Modify the service')}</span>
           <img src="/images/icons/edit.svg" alt="" className='w-5 h-5' />
-          
-        </button>
+        </motion.button>
           {status==='stopped' || status==='refused' ?(
-            <button onClick={handleClickOpen} className='border border-[#F04438] text-[#F04438] h-13.5 w-32.5 rounded-[3px] text-base font-medium cursor-pointer'>
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleClickOpen}
+              className='border border-[#F04438] text-[#F04438] h-13.5 w-32.5 rounded-[3px] text-base font-medium cursor-pointer transition-colors hover:bg-[#FEE4E2]'
+            >
               {t('delete')}
-            </button>
+            </motion.button>
           ):(
-            <button onClick={handleClose} className='border border-[#C69815] text-[var(--color-primary)] h-13.5 w-32.5 rounded-[3px] text-base font-medium cursor-pointer'>
+            <motion.button
+              whileHover={{ scale: 1.02, backgroundColor: 'rgba(198, 152, 21, 0.04)' }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleClose}
+              className='border border-[#C69815] text-[var(--color-primary)] h-13.5 w-32.5 rounded-[3px] text-base font-medium cursor-pointer transition-colors'
+            >
               {t('cancel')}
-            </button>
+            </motion.button>
           )}
       </section>
 

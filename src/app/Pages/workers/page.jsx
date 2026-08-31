@@ -1,6 +1,7 @@
 "use client"
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import Pagination from './Pagination'
 import NavWorker from './NavWorker'
 import TableWorkers from './TableWorkers'
@@ -11,80 +12,94 @@ import { getAllWorkersThunk, getDesignationsThunk, setPage } from '@/redux/slice
 function WorkersPage() {
   const FiltersPage = dynamic(() => import("./Filters/page"), { ssr: false });
 
-    const [open, setOpen] = useState(false);
-    const [filterParams, setFilterParams] = useState({});
+  const [open, setOpen] = useState(false);
+  const [filterParams, setFilterParams] = useState({});
 
-    const handleClickOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-    const handleApply = (filters) => {
-      setFilterParams(filters);
-      dispatch(setPage(1));
-      handleClose();
-    };
+  const handleApply = (filters) => {
+    setFilterParams(filters);
+    dispatch(setPage(1));
+    handleClose();
+  };
 
-    const handleReset = () => {
-      setFilterParams({});
-      dispatch(setPage(1));
-    };
+  const handleReset = () => {
+    setFilterParams({});
+    dispatch(setPage(1));
+  };
 
-    const handleSearch = (term) => {
-      setFilterParams(prev => {
-        const newParams = { ...prev, search: term };
-        if (!term) delete newParams.search;
-        return newParams;
-      });
-      dispatch(setPage(1));
-    }
+  const handleSearch = (term) => {
+    setFilterParams(prev => {
+      const newParams = { ...prev, search: term };
+      if (!term) delete newParams.search;
+      return newParams;
+    });
+    dispatch(setPage(1));
+  }
 
+  //api
+  const dispatch = useDispatch();
+  const { workers, loading, error, currentPage, totalPages, getDesignations } = useSelector(state => state.workers)
 
-    //api
-    const dispatch = useDispatch();
-    const {workers , loading , error, currentPage, totalPages ,getDesignations}=useSelector(state=>state.workers)
+  useEffect(() => {
+    dispatch(getAllWorkersThunk({ page: currentPage, limit: 10, ...filterParams }));
+  }, [dispatch, currentPage, filterParams]);
 
-    useEffect(() => {
-      dispatch(getAllWorkersThunk({ page: currentPage, limit: 10, ...filterParams }));
-      
-    }, [dispatch,currentPage, filterParams]);
-
-    useEffect(()=>{
-      dispatch(getDesignationsThunk())
-    },[dispatch])  
-    
-    
-
+  useEffect(() => {
+    dispatch(getDesignationsThunk())
+  }, [dispatch])  
 
   const handlePageChange = (page) => {
-      dispatch(setPage(page)); 
+    dispatch(setPage(page)); 
+  }
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.35,
+        ease: [0.25, 0.1, 0.25, 1],
+        staggerChildren: 0.1
+      }
     }
+  }
 
   return (
     <MainLayout>
-      <NavWorker 
-        handleClickOpen={handleClickOpen}
-        onSearch={handleSearch}
-      />
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full"
+      >
+        <NavWorker 
+          handleClickOpen={handleClickOpen}
+          onSearch={handleSearch}
+        />
 
-      <TableWorkers 
-        workers={workers} 
-        loading={loading}
-      />
+        <TableWorkers 
+          workers={workers} 
+          loading={loading}
+        />
 
-      <Pagination
-        currentPage={currentPage} 
-        totalPages={totalPages} 
-        onPageChange={handlePageChange} 
-      />
+        <Pagination
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          onPageChange={handlePageChange} 
+        />
 
-      <FiltersPage 
-        open={open} 
-        handleClose={handleClose} 
-        getDesignations={getDesignations} 
-        onApply={handleApply}
-        onReset={handleReset}
-        currentFilters={filterParams}
-      />
-
+        <FiltersPage 
+          open={open} 
+          handleClose={handleClose} 
+          getDesignations={getDesignations} 
+          onApply={handleApply}
+          onReset={handleReset}
+          currentFilters={filterParams}
+        />
+      </motion.div>
     </MainLayout>
   )
 }

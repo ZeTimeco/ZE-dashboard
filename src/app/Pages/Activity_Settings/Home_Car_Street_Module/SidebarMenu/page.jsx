@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
 function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
@@ -38,27 +39,36 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
   }
 
   return (
-    <ul className='flex border-b border-gray-200 gap-1 w-full'>
+    <ul className='flex border-b border-gray-200 gap-1 w-full relative'>
       {menuItems.map((item) => {
         const isSelected = selectedMenu === item.id
         return (
           <li
             key={item.id}
-            className={`flex w-full items-center justify-center gap-2 px-1 lg1:px-4 py-3 cursor-pointer whitespace-nowrap text-sm font-medium transition-colors border-b-2 -mb-[2px] ${
+            className={`relative flex w-full items-center justify-center gap-2 px-1 lg1:px-4 py-3 cursor-pointer whitespace-nowrap text-sm font-medium transition-colors ${
               isSelected
-                ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
-                : 'border-transparent text-[#364152] hover:text-[var(--color-primary)] hover:border-gray-300'
+                ? 'text-[var(--color-primary)] font-semibold'
+                : 'text-[#364152] hover:text-[var(--color-primary)]'
             }`}
             onClick={() => setSelectedMenu(item.id)}
             onMouseEnter={() => setHoveredItem(item.id)}
             onMouseLeave={() => setHoveredItem(null)}
           >
-            <img
+            <motion.img
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.15 }}
               src={isSelected || hoveredItem === item.id ? item.iconSelected : item.icon}
               alt={item.Label}
               className="w-5 h-5 flex-shrink-0"
             />
-            {item.name}
+            <span>{item.name}</span>
+            {isSelected && (
+              <motion.div
+                layoutId="activitySettingsMenuUnderline"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--color-primary)]"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
           </li>
         )
       })}

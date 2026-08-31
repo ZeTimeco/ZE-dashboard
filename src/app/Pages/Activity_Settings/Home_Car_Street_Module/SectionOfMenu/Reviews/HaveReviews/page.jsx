@@ -2,6 +2,7 @@
 
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import ViewHome_Car_Street_ModulePage from "@/app/Pages/requests/Home_Car_Street_Module/Views/Home_Car_Street_Module/View/page";
@@ -52,10 +53,9 @@ function HaveReviewsPage({ reviews }) {
     return avatarColors[charCode % avatarColors.length];
   };
 
-  console.log(reviews?.data);
-
   return (
     <>
+      <div className="flex flex-col">
         {reviews?.data?.map((rating, index) => {
           const text = rating?.review || "";
           const isLong = text.length > maxLength;
@@ -63,17 +63,25 @@ function HaveReviewsPage({ reviews }) {
           const expanded = expandedIndexes[index] || false;
 
           return (
-            <section className="p-4 " key={rating?.booking_id}>
-              <div className="border-b border-[#CDD5DF]">
-                <div className="flex justify-between">
-                  <div className="flex mb-4 gap-3">
-                    <p
+            <motion.section 
+              className="p-4" 
+              key={rating?.booking_id || index}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, delay: index * 0.05 }}
+            >
+              <div className="border-b border-[#CDD5DF] pb-3 hover:bg-[#FAFAFA] transition-colors rounded-sm px-2">
+                <div className="flex justify-between items-start">
+                  <div className="flex mb-3 gap-3">
+                    <motion.p
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.15 }}
                       className={`${getAvatarColor(rating?.user_name)} 
-                      w-10 h-10 flex justify-center items-center rounded-full p-2 mt-2 text-white`}
+                      w-10 h-10 flex justify-center items-center rounded-full p-2 mt-1 text-white font-semibold shadow-xs select-none`}
                     >
                       {rating?.user_name?.charAt(0)}
-                    </p>
-                    <div className="flex flex-col gap-1">
+                    </motion.p>
+                    <div className="flex flex-col gap-0.5">
                       <p className="text-[#364152] text-base font-medium">
                         {rating?.user_name}
                       </p>
@@ -83,25 +91,24 @@ function HaveReviewsPage({ reviews }) {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-1 items-end">
                     <p className="text-sm font-medium flex gap-1">
                       <span className="text-[#8B8B8B]">#</span>
-
                       <span
-                        className="text-[#4D0CE7] underline cursor-pointer"
+                        className="text-[#4D0CE7] underline cursor-pointer hover:opacity-80 transition-opacity"
                         onClick={() => handleClickOpen(rating?.booking_id)}
                       >
                         {rating?.booking_id}
                       </span>
                     </p>
 
-                    <p className="flex items-center">
+                    <p className="flex items-center gap-1">
                       <img
                         src="/images/icons/star.svg"
-                        className="w-4 h-4 mt-0.5"
+                        alt="star"
+                        className="w-4 h-4"
                       />
-
-                      <span className="text-[#FDB022] text-sm font-medium">
+                      <span className="text-[#FDB022] text-sm font-semibold">
                         {rating?.rating}
                       </span>
                     </p>
@@ -109,12 +116,12 @@ function HaveReviewsPage({ reviews }) {
                 </div>
 
                 <div>
-                  <p className="mb-4 text-[#4B5565] text-sm font-normal">
+                  <p className="mb-2 text-[#4B5565] text-sm font-normal leading-relaxed">
                     {expanded || !isLong ? text : shortText + "... "}
                     {isLong && (
                       <span
                         onClick={() => toggleExpanded(index)}
-                        className="text-[#4D0CE7] text-sm font-normal cursor-pointer"
+                        className="text-[#4D0CE7] text-sm font-normal cursor-pointer hover:underline"
                       >
                         {expanded ? t("Show less") : t("Read more")}
                       </span>
@@ -122,19 +129,19 @@ function HaveReviewsPage({ reviews }) {
                   </p>
                 </div>
               </div>
-            </section>
+            </motion.section>
           );
         })}
+      </div>
 
-        <div className="w-full h-px bg-[#CDD5DF]"></div>
+      <div className="w-full h-px bg-[#CDD5DF]"></div>
 
-        <ViewHome_Car_Street_ModulePage
-          open={open}
-          handleClose={handleClose}
-          bookingId={selectedBookingId}
-          bookingDetails={bookingDetails}
-        />
-
+      <ViewHome_Car_Street_ModulePage
+        open={open}
+        handleClose={handleClose}
+        bookingId={selectedBookingId}
+        bookingDetails={bookingDetails}
+      />
     </>
   );
 }

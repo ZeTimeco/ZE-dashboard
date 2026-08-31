@@ -8,14 +8,12 @@ import { getRevenueChartDataThunk, getYearsDrowpdownThunk } from '@/redux/slice/
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 function ChartPage({dispatch , revenueChartData}) {
-
   const { t } = useTranslation();
 
   const { yearOfChart } = useSelector((state) => state.finance);
   useEffect(() => {
     dispatch(getYearsDrowpdownThunk());
   }, [dispatch]);
-
 
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(new Date().getFullYear().toString()); 
@@ -33,39 +31,47 @@ function ChartPage({dispatch , revenueChartData}) {
   }];
 
   const chartOptions = {
-      chart: {
-        type: 'area',
-        height: 350,
-        zoom: { enabled: false },
-        toolbar: { show: false }
-      },
-      colors: ['#2E078B'],
-      fill: {
-        type: 'solid',
-        colors: ['#DBCEFA']
-      },
-      dataLabels: { enabled: false },
-      stroke: {
-        width: 2,
-        curve: 'straight',
-        colors: ['#2E078B']
-      },
-      labels: revenueChartData?.month_name || [],
-      xaxis: {
-        type: 'category',
-      },
-      yaxis: {
-        opposite: true
-      },
-      legend: {
-        horizontalAlign: 'right'
+    chart: {
+      type: 'area',
+      height: 210,
+      width: '100%',
+      zoom: { enabled: false },
+      toolbar: { show: false },
+      parentHeightOffset: 0,
+    },
+    colors: ['#2E078B'],
+    fill: {
+      type: 'solid',
+      colors: ['#DBCEFA']
+    },
+    dataLabels: { enabled: false },
+    stroke: {
+      width: 2,
+      curve: 'straight',
+      colors: ['#2E078B']
+    },
+    labels: revenueChartData?.month_name || [],
+    xaxis: {
+      type: 'category',
+    },
+    yaxis: {
+      opposite: true
+    },
+    grid: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 0,
+        bottom: 0,
       }
+    },
+    legend: {
+      horizontalAlign: 'right'
+    }
   };
 
   const getPeriodLabelAndRange = (selectedYear) => {
     const label = selectedYear;
-    // const range = `1 يناير ${selectedYear} - 31 ديسمبر ${selectedYear}`;
-
     return { label };
   };
 
@@ -73,17 +79,14 @@ function ChartPage({dispatch , revenueChartData}) {
 
   return (
     <>
-
-      <section className="flex justify-between  relative z-10 mt-4 py-4 px-6 ">
+      <section className="flex justify-between relative z-10 mt-2 py-3 px-6">
         <div className="flex flex-col">
-          {/* <span className="text-[#364152] text-base font-medium"> {label} </span> */}
-          {/* <span className="text-[#697586] text-sm font-medium">{range}</span> */}
         </div>
         
-      {yearOfChart?.years_count > 1 ? (
+        {yearOfChart?.years_count > 1 ? (
           <div className="relative">
             <button
-              className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] "
+              className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] transition-colors hover:bg-[rgba(198,152,21,0.04)]"
               onClick={() => setOpen(!open)}
             >
               {selected}
@@ -100,34 +103,31 @@ function ChartPage({dispatch , revenueChartData}) {
             </button>
 
             {open && (
-              <ul className="absolute right-0 mt-1 w-full bg-white border border-[#E3E8EF] rounded shadow-md">
+              <ul className="absolute right-0 mt-1 w-full bg-white border border-[#E3E8EF] rounded shadow-md z-20">
                 {options.map((option) => (
                   <li
                     key={option}
                     onClick={() => handleSelect(option)}
-                    className="px-3 py-2 text-sm text-right hover:bg-[#FCFCFD] cursor-pointer text-[#475467]"
+                    className="px-3 py-2 text-sm text-right hover:bg-[#FCFCFD] cursor-pointer text-[#475467] transition-colors"
                   >
                     {option}
                   </li>
                 ))}
               </ul>
             )}
-            </div>
-        
-      ): null}
-        
+          </div>
+        ) : null}
       </section>
   
       {/* chart */} 
-      <section>
-        <div id="chart" dir="rtl">
-            <ReactApexChart options={chartOptions} series={chartSeries} type="area"  height={210} />
+      <section className="w-full px-2 pb-2 overflow-hidden">
+        <div id="chart" dir="rtl" className="w-full overflow-hidden">
+          <ReactApexChart options={chartOptions} series={chartSeries} type="area" width="100%" height={210} />
         </div>
         <div id="html-dist"></div>
       </section>
-  
     </>
-  )
+  );
 }
 
-export default ChartPage
+export default ChartPage;

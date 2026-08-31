@@ -1,6 +1,7 @@
 
 "use client";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
 const Pagination = ({ pagination, onPageChange }) => {
@@ -47,14 +48,16 @@ const Pagination = ({ pagination, onPageChange }) => {
   return (
     <div className="flex justify-between items-center mt-4 mb-3">
       {/* Prev Button */}
-      <button
+      <motion.button
+        whileHover={!isDisabledPrev ? { scale: 1.02 } : {}}
+        whileTap={!isDisabledPrev ? { scale: 0.98 } : {}}
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={isDisabledPrev}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`px-4 py-2 flex items-center gap-2 rounded-[3px] transition ${
           isDisabledPrev
-            ? "text-[#364152] border border-[#697586] cursor-not-allowed bg-transparent"
+            ? "text-[#364152] border border-[#697586] cursor-not-allowed bg-transparent opacity-60"
             : "cursor-pointer bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152]"
         }`}
       >
@@ -69,37 +72,41 @@ const Pagination = ({ pagination, onPageChange }) => {
           alt="arrow"
         />
         <span>{t("the previous")}</span>
-      </button>
+      </motion.button>
 
       {/* Page Numbers */}
       <div className="flex gap-2">
         {pages.map((page, index) => (
-          <button
+          <motion.button
             key={index}
+            whileHover={page !== "..." ? { scale: 1.05 } : {}}
+            whileTap={page !== "..." ? { scale: 0.95 } : {}}
             onClick={() => typeof page === "number" && handlePageChange(page)}
             disabled={page === "..."}
             className={`px-3 py-1 text-sm font-medium rounded-md w-10 h-10 transition ${
               page === currentPage
-                ? "text-white bg-[var(--color-primary)]"
+                ? "text-white bg-[var(--color-primary)] shadow-xs"
                 : page === "..."
                 ? "text-gray-500 cursor-default"
-                : "border border-[#CDD5DF] text-[#697586] hover:bg-gray-100"
+                : "border border-[#CDD5DF] text-[#697586] hover:bg-gray-100 cursor-pointer"
             }`}
           >
             {page}
-          </button>
+          </motion.button>
         ))}
       </div>
 
       {/* Next Button */}
-      <button
+      <motion.button
+        whileHover={!isDisabledNext ? { scale: 1.02 } : {}}
+        whileTap={!isDisabledNext ? { scale: 0.98 } : {}}
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={isDisabledNext}
         onMouseEnter={() => setIsHoveredNext(true)}
         onMouseLeave={() => setIsHoveredNext(false)}
         className={`px-4 py-2 flex items-center gap-2 rounded-[3px] transition ${
           isDisabledNext
-            ? "text-[#364152] border border-[#697586] cursor-not-allowed bg-transparent"
+            ? "text-[#364152] border border-[#697586] cursor-not-allowed bg-transparent opacity-60"
             : "cursor-pointer bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152]"
         }`}
       >
@@ -114,7 +121,7 @@ const Pagination = ({ pagination, onPageChange }) => {
           }
           alt="arrow"
         />
-      </button>
+      </motion.button>
     </div>
   );
 };

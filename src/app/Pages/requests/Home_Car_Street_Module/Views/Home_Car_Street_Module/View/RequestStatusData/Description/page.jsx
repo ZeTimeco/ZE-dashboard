@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next';
 import { VOICE_BASE_URL } from '../../../../../../../../../../config/imageUrl';
 
 function DescriptionPage({bookingDetails}) {
   const { t } = useTranslation();
 
-const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
-
+  const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
 
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -39,7 +39,6 @@ const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
     const handlePause = () => setIsPlaying(false);
     const handleEnded = () => setIsPlaying(false);
     const handleLoaded = () => {
-      // Ensure we have duration
       update();
     };
 
@@ -61,50 +60,54 @@ const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
   return (
     <>
       {(bookingDetails?.customer_description || bookingDetails?.voice_file) && (
-        <section className='shadow-[0_0_4px_0_rgba(0,0,0,0.3)] rounded-[3px] p-4 mt-6'>
+        <motion.section 
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className='shadow-[0_0_4px_0_rgba(0,0,0,0.12)] hover:shadow-[0_2px_8px_0_rgba(0,0,0,0.1)] transition-shadow duration-200 rounded-[3px] p-4 mt-6 bg-white border border-[#F0F2F5]'
+        >
           {/* description */}
-          {bookingDetails?.customer_description === null ? null :(
-            <>
+          {bookingDetails?.customer_description === null ? null : (
             <div>
-              <p className='text-[#364152] text-base font-normal mb-1'> {t('status description')}</p>
+              <p className='text-[#364152] text-base font-normal mb-1'>{t('status description')}</p>
               <p className='text-[#697586] text-sm font-normal leading-[27px]'>
                 {bookingDetails?.customer_description}
               </p>
             </div>
-            </>
           )}
 
           {(bookingDetails?.customer_description && bookingDetails?.voice_file) && (
-            <hr className="border-[0.5px] border-[#E3E8EF] my-4 " />
+            <hr className="border-[0.5px] border-[#E3E8EF] my-4" />
           )}
 
           {/* voice */}
-          {bookingDetails?.voice_file === null ? null :(
+          {bookingDetails?.voice_file === null ? null : (
             <div>
-              <p className='text-[#364152] text-base font-normal mb-1'>{t('voice message')} </p>
+              <p className='text-[#364152] text-base font-normal mb-1'>{t('voice message')}</p>
         
-              <div className="bg-white mt-4 border border-[#CDD5DF] rounded-[3px] p-2 flex items-center gap-3 shadow">
-
+              <div className="bg-[#F8FAFC] mt-4 border border-[#CDD5DF] rounded-[3px] p-2.5 flex items-center gap-3 shadow-xs">
                 {/* On/Off button */}
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={togglePlay}
-                  className=" flex items-center justify-center hover:bg-gray-100 transition"
+                  className="flex items-center justify-center p-1 hover:bg-gray-200/60 rounded-full transition cursor-pointer"
                 >
                   {isPlaying ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#364152">
                       <path d="M6 5h4v14H6zM14 5h4v14h-4z" />
                     </svg>
                   ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#364152">
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   )}
-                </button>
+                </motion.button>
 
                 {/* Green Dot */}           
                 <div
-                  className={`w-2 h-2 rounded-full transition ${
-                    isPlaying ? "bg-[#E3E8EF]" : "bg-[#079455]"
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    isPlaying ? "bg-[#079455] scale-110 shadow-[0_0_6px_#079455]" : "bg-[#9AA4B2]"
                   }`}
                 ></div>
 
@@ -112,15 +115,16 @@ const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
                 <div className="flex-1 flex items-center gap-[3px] h-8">
                   {Array.from({ length: 45 }).map((_, i) => {
                     const activeIndex = Math.floor(progress * 45); 
+                    const isActive = i <= activeIndex;
                     return (
                       <div
                         key={i}
                         className={`w-[3px] rounded-full transition-all duration-200 ${
-                          i <= activeIndex ? "bg-blue-500" : "bg-gray-300"
+                          isActive ? "bg-blue-500" : "bg-gray-300"
                         }`}
                         style={{
                           height: `${5 + ((i * 7) % 15)}px`,
-                          opacity: i <= activeIndex ? 1 : 0.5,
+                          opacity: isActive ? 1 : 0.5,
                         }}
                       ></div>
                     );
@@ -128,23 +132,17 @@ const src = `${VOICE_BASE_URL}${bookingDetails?.voice_file}`;
                 </div>
 
                 {/* time */}
-                <div className="text-[#364152] text-sm min-w-[45px]">
+                <div className="text-[#364152] text-sm min-w-[45px] font-mono">
                   {formatTime(currentTime)}ث 
                 </div>
                 
                 <audio ref={audioRef} src={src}></audio>
               </div>
-
-
             </div>
           )}
-        
-        </section>
+        </motion.section>
       )}  
     </>
-    
-
-    
   )
 }
 

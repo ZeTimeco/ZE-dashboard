@@ -1632,7 +1632,10 @@
   "Click on any role to customize its permissions.":"اضغط على أي دور لتخصيص صلاحياته",
   "When adding a new employee, select their role from this list.":"عند إضافة موظف جديد، اختر دوره من هذه القائمة",
   "You can modify the permissions of any employee individually.":"يمكنك تعديل صلاحيات أي موظف بشكل فردي",
+  "Confirm location":"تأكيد الموقع",
+  "Choose your location on the map":"اختر موقعك على الخريطة",
   
+
   
   "":"" 
 }

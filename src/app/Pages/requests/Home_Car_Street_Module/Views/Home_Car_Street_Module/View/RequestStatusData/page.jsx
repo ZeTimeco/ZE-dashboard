@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next';
 import MainRequestViewPage from '../MainRequestView/page';
 import Appoint_SpecialistPage from '../Appoint_Specialist/page';
@@ -18,8 +19,8 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
       case "accepted":// تم القبول
         if (assigned_handymen.length === 0) {
           return (
-            <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
-              <div className='py-1.5 px-3 flex gap-1'>
+            <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+              <div className='py-1.5 px-3 flex gap-1 items-center'>
                 <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
                 <span className='text-xs font-normal flex items-center'>
                   {t('accepted')}
@@ -29,8 +30,8 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
           );
         }
         return (
-          <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
+          <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+            <div className='py-1.5 px-3 flex gap-1 items-center'>
               <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>
                 {t('A specialist has been appointed')}
@@ -40,75 +41,75 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
         );
       case "completed"://مكتملة
         return (
-          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit   rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
+          <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+            <div className='py-1.5 px-3 flex gap-1 items-center'>
+              <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('Complete')}</span>
             </div>
           </div>
         );
       case "pending_approval": //في انتظار الموافقة
         return (
-          <div className=' bg-[#FFFAEB] border  border-[#F79009] text-[#DC6803] w-fit  rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/pending Status.svg" alt="" className=' mt-1' />
+          <div className='bg-[#FFFAEB] border border-[#F79009] text-[#DC6803] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+            <div className='py-1.5 px-3 flex gap-1 items-center'>
+              <img src="/images/icons/pending Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('pending')}</span>
             </div>
           </div>
         );
       case "in_progress": //قيد التنفيذ
         return (
-          <div className=' bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit   rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/inactive Status.svg" alt="" className=' mt-1' />
+          <div className='bg-[#EFF4FF] border border-[#518BFF] text-[#004EEB] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+            <div className='py-1.5 px-3 flex gap-1 items-center'>
+              <img src="/images/icons/inactive Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('in_progress')}</span>
             </div>
           </div>
         );
       case "on_going": //العامل في الطريق
         return (
-          <div className=' bg-[#E3E8EF] border border-[#697586] text-[#4B5565] w-fit  rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/on_going Status.svg" alt="" className=' mt-1' />
+          <div className='bg-[#E3E8EF] border border-[#697586] text-[#4B5565] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+            <div className='py-1.5 px-3 flex gap-1 items-center'>
+              <img src="/images/icons/on_going Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('The worker on the road')}</span>
             </div>
           </div>
         );
       case "rejected": // مرفوضة
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
-            <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
+          <div className='bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+            <div className='py-1.5 px-3 flex gap-1 items-center'>
+              <img src="/images/icons/refused Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('rejected')}</span>
             </div>
           </div>
         );
       case "cancelled": // ملغيه
-      return (
-        <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
-          <div className='py-1.5 px-3 flex gap-1'>
-            <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
-            <span className='text-xs font-normal flex items-center'>{t('cancelled')}</span>
+        return (
+          <div className='bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+            <div className='py-1.5 px-3 flex gap-1 items-center'>
+              <img src="/images/icons/refused Status.svg" alt="" className='mt-1' />
+              <span className='text-xs font-normal flex items-center'>{t('cancelled')}</span>
+            </div>
           </div>
-        </div>
-      );
+        );
+      default:
+        return null;
     }
   };
 
-// pending
-// hold
-// cancelled
-// paid
-// approved
-
   const [activeSection, setActiveSection] = useState(1);
 
-
   return (
-    <>
-      {/* section1 */}
+    <AnimatePresence mode="wait">
       {activeSection === 1 && (
-        <>
+        <motion.div
+          key="section-1"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 10 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+        >
           <MainRequestViewPage
             StatusRender={StatusRender}
             status={status}
@@ -117,33 +118,24 @@ function RequestStatusDataPage({bookingDetails , handleCloseViewHome_Car}) {
             bookingDetails={bookingDetails}
             handleCloseViewHome_Car={handleCloseViewHome_Car}
           />
-
-        </>
-
+        </motion.div>
       )}
-      {/* تعيين مختص */}
-      {/* section 2*/}
+
       {activeSection === 2 && (
-        <>
+        <motion.div
+          key="section-2"
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+        >
           <Appoint_SpecialistPage 
             setActiveSection={setActiveSection} 
             bookingDetails={bookingDetails}
-            
           />
-        </>
-
+        </motion.div>
       )}
-
-
-
-
-
-
-
-
-
-
-    </>
+    </AnimatePresence>
   )
 }
 

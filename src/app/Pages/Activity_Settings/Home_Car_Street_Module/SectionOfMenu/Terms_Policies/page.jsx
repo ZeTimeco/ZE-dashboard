@@ -1,5 +1,6 @@
 'use client'
 import React, { Suspense, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import HaveTerms_PoliciesPage from './HaveTerms_Policies/page'
 import NoTerms_PoliciesPage from './NoTerms_Policies/page'
 import Addpage from './Add/page'
@@ -46,7 +47,12 @@ function TermsPoliciesContent() {
   }
 
   return (
-    <div className="border border-[#E3E8EF] mb-8">
+    <motion.div 
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="border border-[#E3E8EF] mb-8 bg-white rounded-[3px] shadow-xs"
+    >
       <Header/>
       
       {showEditForm ? (
@@ -62,7 +68,6 @@ function TermsPoliciesContent() {
           onEditClick={handleEditClick}
           policies={policies}
           loading={loading}
-
         />
       ) : (
         <NoTerms_PoliciesPage 
@@ -70,7 +75,7 @@ function TermsPoliciesContent() {
         />
       )}
 
-    </div>
+    </motion.div>
   )
 }
 

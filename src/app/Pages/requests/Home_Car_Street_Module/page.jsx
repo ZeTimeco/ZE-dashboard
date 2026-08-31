@@ -1,5 +1,6 @@
 'use client'
 import React, { Suspense, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import NavRequest from './NavRequest'
 import TableRequest from './TableRequest'
 import Pagination from './Pagination'
@@ -43,25 +44,43 @@ function RequestsPage() {
     setCurrentPage(1)
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 8 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.35,
+        ease: [0.25, 0.1, 0.25, 1],
+        staggerChildren: 0.1
+      }
+    }
+  }
+
   return (
     <MainLayout>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full"
+      >
+        <NavRequest 
+          onApplyFilters={handleApplyFilters} 
+          onResetFilters={handleResetFilters} 
+          onSearch={setSearchTerm}
+        />
 
-      <NavRequest 
-        onApplyFilters={handleApplyFilters} 
-        onResetFilters={handleResetFilters} 
-        onSearch={setSearchTerm}
-      />
-
-      <Suspense fallback={<Loader />}>
-        <TableRequest bookings={bookings} bookingDetails={bookingDetails} searchTerm={searchTerm}/>
-      </Suspense>
-      
-      <Pagination
-        totalPages={pagination?.last_page || 1}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-
+        <Suspense fallback={<Loader />}>
+          <TableRequest bookings={bookings} bookingDetails={bookingDetails} searchTerm={searchTerm}/>
+        </Suspense>
+        
+        <Pagination
+          totalPages={pagination?.last_page || 1}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </motion.div>
     </MainLayout>
   )
 }

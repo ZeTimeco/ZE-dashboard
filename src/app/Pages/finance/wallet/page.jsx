@@ -33,7 +33,8 @@ function walletPage() {
   }
 
   return (
-    <>      <CardsPage TaxesData={TaxesData}/>
+    <>      
+      <CardsPage TaxesData={TaxesData}/>
 
       <TransactionsPage 
         WalletTransactionsData={WalletTransactionsData} 

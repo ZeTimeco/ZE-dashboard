@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Company_dataPage from './Company_data/page'
 import Personal_dataPage from './Personal_data/page'
 import Marketer_PanelPage from './Marketer_Panel/page'
@@ -10,7 +11,7 @@ import ChangePasswordPage from './Company_data/ChangePassword/page'
 import CompanyAddressPage from './Company_data/CompanyAddress/page'
 
 function SectionOfMenuPage({ selectedMenu }) {
-  const [userData, setUserData] =useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -53,8 +54,6 @@ function SectionOfMenuPage({ selectedMenu }) {
     }
   }, []);
 
-
-
   const renderContent = () => {
     switch(selectedMenu) {
       case 'Company_data':
@@ -83,19 +82,29 @@ function SectionOfMenuPage({ selectedMenu }) {
         )
       case 'Personal_data':
         return (
-        <Personal_dataPage userData={userData} />
+          <Personal_dataPage userData={userData} />
         )
       case 'Marketer_Panel':
         return (
           <Marketer_PanelPage userData={userData}/>
         )
-    
-    
+      default:
+        return null;
     }
   }
 
   return (
-    <div>{renderContent()}</div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={selectedMenu}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -8 }}
+        transition={{ duration: 0.25 }}
+      >
+        {renderContent()}
+      </motion.div>
+    </AnimatePresence>
   )
 }
 

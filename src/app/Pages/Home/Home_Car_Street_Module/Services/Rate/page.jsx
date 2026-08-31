@@ -3,10 +3,10 @@ import { getProviderRateThunk } from '@/redux/slice/Home/HomeSlice';
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function RatePage() {
   const { t } = useTranslation();
-
 
   //API
   const dispatch = useDispatch()
@@ -15,40 +15,50 @@ function RatePage() {
     dispatch(getProviderRateThunk())
   },[dispatch])
 
-  // console.log(providerRate);
-
-
   const [expandedIndexes, setExpandedIndexes] = useState({});
   const [showAll, setShowAll] = useState(false);
 
-const toggleExpanded = (index) => {
-  setExpandedIndexes((prev) => ({
-    ...prev,
-    [index]: !prev[index],
-  }));
-};
+  const toggleExpanded = (index) => {
+    setExpandedIndexes((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
 
-const maxLength = 130;
+  const maxLength = 130;
+  const ratingsCount = providerRate?.ratings?.length ?? 0;
 
   return (
     <>
-      <div className='border border-[#CDD5DF] rounded-[3px] my-4  p-6'>
-        <div className='flex justify-between items-center'>
-          <p className='text-[#0F022E] text-xl font-medium'>{t('Reviews')}</p>
+      <div className='bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs hover:shadow-sm transition-all duration-300'>
+        <div className='flex justify-between items-center mb-4'>
+          <div className='flex items-center gap-2.5'>
+            <p className='text-slate-900 text-xl font-semibold tracking-tight'>{t('Reviews')}</p>
+            {ratingsCount > 0 && (
+              <span className='bg-slate-100 text-slate-600 text-xs font-semibold px-2.5 py-0.5 rounded-full'>
+                {ratingsCount}
+              </span>
+            )}
+          </div>
           <button 
-            onClick={() => (providerRate?.ratings?.length ?? 0) > 3 && setShowAll(prev => !prev)} 
-            className={`text-base font-medium  
-                        ${(providerRate?.ratings?.length ?? 0) <= 3 ? 'text-gray-500 cursor-not-allowed' : 'text-[var(--color-primary)] cursor-pointer'}
+            onClick={() => ratingsCount > 3 && setShowAll(prev => !prev)} 
+            className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-all
+                        ${ratingsCount <= 3 
+                          ? 'text-slate-400 cursor-not-allowed' 
+                          : 'text-[var(--color-primary)] hover:bg-amber-50 cursor-pointer active:scale-95'}
                       `}
           >
             {showAll ? t('Less') : t('More')}
           </button>
         </div>
 
-        <div className='border border-[#CDD5DF] rounded-[3px] my-4 py-2 px-4 flex  gap-6'>
-          <p className='text-[#0F022E] text-[40px] font-semibold'>{providerState?.average_rating}</p>
-          <div className='flex flex-col justify-center items-start'>
-            <p className='flex gap-1'>
+        {/* Overall Rating Banner */}
+        <div className='bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-200/70 rounded-xl p-5 my-5 flex items-center gap-6'>
+          <p className='text-slate-900 text-4xl lg1:text-5xl font-bold tracking-tight'>
+            {providerState?.average_rating ?? 0}
+          </p>
+          <div className='flex flex-col justify-center items-start gap-1'>
+            <p className='flex gap-1.5 items-center'>
               {Array.from({ length: 5 }, (_, i) => {
                 const rating = providerState?.average_rating ?? 0;
                 const full = Math.floor(rating);
@@ -61,68 +71,74 @@ const maxLength = 130;
                 } else {
                   src = "/images/icons/star-empty.svg";
                 }
-                return <img key={i} src={src} alt="star" className='w-5 h-5' />;
+                return <img key={i} src={src} alt="star" className='w-5 h-5 transition-transform hover:scale-110' />;
               })}
             </p>
-            <p className='text-[#565656] text-xl font-medium'>{providerState?.average_count}</p>
+            <p className='text-slate-500 text-sm font-medium'>
+              {providerState?.average_count ?? 0}
+            </p>
           </div>
         </div>
 
-      {(showAll ? providerRate?.ratings : providerRate?.ratings?.slice(0, 3))?.map((rate, index) => {
-          const text = rate?.review || "";
-          const isLong = text.length > maxLength;
-          const shortText = text.slice(0, maxLength);
-          const expanded = expandedIndexes[index];
+        {/* Reviews List */}
+        <div className='divide-y divide-slate-100'>
+          {(showAll ? providerRate?.ratings : providerRate?.ratings?.slice(0, 3))?.map((rate, index) => {
+            const text = rate?.review || "";
+            const isLong = text.length > maxLength;
+            const shortText = text.slice(0, maxLength);
+            const expanded = expandedIndexes[index];
 
-          return(
-          <div
-            key={index}
-            className="border-b border-[#CDD5DF]"
-          >
-              <div className="flex justify-between">
-                <div className="flex mb-4 gap-3">
-                  <p className="bg-amber-400 w-10 h-10 flex justify-center items-center rounded-full p-2 mt-2">
-                    {rate?.user?.name?.charAt(0)}
-                  </p>
-                  <div className="flex flex-col gap-1">
-                    <p className="text-[#364152] text-base font-medium">
-                    {rate?.user?.name} {rate?.user?.lastname}
-                    </p>
-                    <p className="text-[#697586] text-sm font-normal">
-                      {`${new Date(rate?.created_at).getDate()}/${
-                        new Date(rate?.created_at).getMonth() + 1
-                      }/${new Date(rate?.created_at).getFullYear()}`}
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: index * 0.04 }}
+                className="py-4 px-3 rounded-xl hover:bg-slate-50/80 transition-all duration-200"
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex mb-3 gap-3 items-center">
+                    <div className="bg-gradient-to-tr from-amber-400 to-amber-300 text-slate-900 font-bold text-sm w-10 h-10 flex justify-center items-center rounded-full shadow-xs ring-2 ring-white">
+                      {rate?.user?.name?.charAt(0) || "U"}
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-slate-800 text-sm md:text-base font-semibold">
+                        {rate?.user?.name} {rate?.user?.lastname}
+                      </p>
+                      <p className="text-slate-400 text-xs font-normal">
+                        {rate?.created_at ? `${new Date(rate?.created_at).getDate()}/${
+                          new Date(rate?.created_at).getMonth() + 1
+                        }/${new Date(rate?.created_at).getFullYear()}` : ""}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1 bg-amber-50/80 border border-amber-200/60 px-2.5 py-1 rounded-full">
+                    <img src="/images/icons/star.svg" className="w-3.5 h-3.5" alt="rating" />
+                    <p className="text-amber-600 text-xs font-semibold">
+                      {rate?.rating}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center ">
-                  <img src="/images/icons/star.svg" className="w-4 h-4 mt-0.5 "/>
-                  <p className="text-[#FDB022] text-sm font-medium">
-                    {rate?.rating}
-                  </p>
-                </div>
-              </div>
-
-            <p className="mb-4 text-[#4B5565] text-sm font-normal">
-              {expanded || !isLong ? text : shortText + "... "}
-              {isLong && (
-                <span
-                  onClick={() => toggleExpanded(index)}
-                  className="text-[#4D0CE7] text-sm font-normal cursor-pointer"
-                >
-                  {expanded ? t("Show less") : t("Read more")}
-                </span>
-              )}
-            </p>
-
-            </div>
-        )})}
-          
+                <p className="text-slate-600 text-sm font-normal leading-relaxed pl-13">
+                  {expanded || !isLong ? text : shortText + "... "}
+                  {isLong && (
+                    <span
+                      onClick={() => toggleExpanded(index)}
+                      className="text-[var(--color-primary)] font-semibold text-xs cursor-pointer hover:underline inline-block mr-1"
+                    >
+                      {expanded ? t("Show less") : t("Read more")}
+                    </span>
+                  )}
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
-
     </>
   )
 }
 
-export default RatePage
+export default RatePage
