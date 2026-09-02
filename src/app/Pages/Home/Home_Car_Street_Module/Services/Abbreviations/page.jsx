@@ -21,7 +21,7 @@ function AbbreviationsPage() {
 
   return (
     <>
-      <div className='bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs'>
+      <div className='bg-white border border-slate-200/90 rounded-3px p-6 shadow-xs'>
         <h2 className='text-slate-900 text-xl font-semibold tracking-tight mb-5'>
           {t('Abbreviations')}
         </h2>
@@ -34,9 +34,9 @@ function AbbreviationsPage() {
             animate="visible"
             whileHover={{ y: -4, scale: 1.015 }}
             whileTap={{ scale: 0.98 }}
-            className='group relative overflow-hidden flex flex-col gap-3 bg-white border border-slate-200/90 rounded-xl p-5 items-center justify-center cursor-pointer hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300'
+            className='group relative overflow-hidden flex flex-col gap-3 bg-white border border-slate-200/90 rounded-3px p-5 items-center justify-center cursor-pointer hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300'
           >
-            <div className='w-14 h-14 rounded-2xl bg-red-50/80 flex items-center justify-center border border-red-100/60 group-hover:scale-110 group-hover:bg-red-100 group-hover:rotate-3 transition-all duration-300 shadow-2xs'>
+            <div className='w-14 h-14 rounded-3px bg-red-50/80 flex items-center justify-center border border-red-100/60 group-hover:scale-110 group-hover:bg-red-100 group-hover:rotate-3 transition-all duration-300 shadow-2xs'>
               <img src="/images/icons/Submit_complaint.svg" alt="" className='w-6 h-7 object-contain transition-transform duration-300' />
             </div>
             <p className='text-slate-700 text-sm md:text-base font-medium group-hover:text-slate-900 transition-colors text-center'>
@@ -52,9 +52,9 @@ function AbbreviationsPage() {
             animate="visible"
             whileHover={{ y: -4, scale: 1.015 }}
             whileTap={{ scale: 0.98 }}
-            className='group relative overflow-hidden flex flex-col gap-3 bg-white border border-slate-200/90 rounded-xl p-5 items-center justify-center cursor-pointer hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300'
+            className='group relative overflow-hidden flex flex-col gap-3 bg-white border border-slate-200/90 rounded-3px p-5 items-center justify-center cursor-pointer hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300'
           >
-            <div className='w-14 h-14 rounded-2xl bg-blue-50/80 flex items-center justify-center border border-blue-100/60 group-hover:scale-110 group-hover:bg-blue-100 group-hover:rotate-3 transition-all duration-300 shadow-2xs'>
+            <div className='w-14 h-14 rounded-3px bg-blue-50/80 flex items-center justify-center border border-blue-100/60 group-hover:scale-110 group-hover:bg-blue-100 group-hover:rotate-3 transition-all duration-300 shadow-2xs'>
               <img src="/images/icons/technical-support.svg" alt="" className='w-7 h-7 object-contain transition-transform duration-300' />
             </div>
             <p className='text-slate-700 text-sm md:text-base font-medium group-hover:text-slate-900 transition-colors text-center'>
@@ -70,9 +70,9 @@ function AbbreviationsPage() {
             animate="visible"
             whileHover={{ y: -4, scale: 1.015 }}
             whileTap={{ scale: 0.98 }}
-            className='group relative overflow-hidden flex flex-col gap-3 bg-white border border-slate-200/90 rounded-xl p-5 items-center justify-center cursor-pointer hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300'
+            className='group relative overflow-hidden flex flex-col gap-3 bg-white border border-slate-200/90 rounded-3px p-5 items-center justify-center cursor-pointer hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300'
           >
-            <div className='w-14 h-14 rounded-2xl bg-amber-50/80 flex items-center justify-center border border-amber-100/60 group-hover:scale-110 group-hover:bg-amber-100 group-hover:rotate-3 transition-all duration-300 shadow-2xs'>
+            <div className='w-14 h-14 rounded-3px bg-amber-50/80 flex items-center justify-center border border-amber-100/60 group-hover:scale-110 group-hover:bg-amber-100 group-hover:rotate-3 transition-all duration-300 shadow-2xs'>
               <img src="/images/icons/working_hours.svg" alt="" className='w-6 h-7 object-contain transition-transform duration-300' />
             </div>
             <p className='text-slate-700 text-sm md:text-base font-medium group-hover:text-slate-900 transition-colors text-center'>
@@ -85,4 +85,4 @@ function AbbreviationsPage() {
   )
 }
 
-export default AbbreviationsPage
+export default AbbreviationsPage

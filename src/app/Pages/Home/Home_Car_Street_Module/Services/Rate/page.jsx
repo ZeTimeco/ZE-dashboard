@@ -30,22 +30,22 @@ function RatePage() {
 
   return (
     <>
-      <div className='bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs hover:shadow-sm transition-all duration-300'>
+      <div className='bg-white border border-slate-200/90 rounded-3px p-6 shadow-xs hover:shadow-sm transition-all duration-300'>
         <div className='flex justify-between items-center mb-4'>
           <div className='flex items-center gap-2.5'>
             <p className='text-slate-900 text-xl font-semibold tracking-tight'>{t('Reviews')}</p>
             {ratingsCount > 0 && (
-              <span className='bg-slate-100 text-slate-600 text-xs font-semibold px-2.5 py-0.5 rounded-full'>
+              <span className='bg-slate-100 text-slate-600 text-xs font-semibold px-2.5 py-0.5 rounded-3px'>
                 {ratingsCount}
               </span>
             )}
           </div>
           <button 
             onClick={() => ratingsCount > 3 && setShowAll(prev => !prev)} 
-            className={`text-sm font-medium px-3 py-1.5 rounded-lg transition-all
+            className={`text-sm font-medium px-3 py-1.5 rounded-3px transition-all
                         ${ratingsCount <= 3 
                           ? 'text-slate-400 cursor-not-allowed' 
-                          : 'text-[var(--color-primary)] hover:bg-amber-50 cursor-pointer active:scale-95'}
+                          : 'text-primary hover:bg-amber-50 cursor-pointer active:scale-95'}
                       `}
           >
             {showAll ? t('Less') : t('More')}
@@ -53,7 +53,7 @@ function RatePage() {
         </div>
 
         {/* Overall Rating Banner */}
-        <div className='bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-200/70 rounded-xl p-5 my-5 flex items-center gap-6'>
+        <div className='bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-200/70 rounded-3px p-5 my-5 flex items-center gap-6'>
           <p className='text-slate-900 text-4xl lg1:text-5xl font-bold tracking-tight'>
             {providerState?.average_rating ?? 0}
           </p>
@@ -126,7 +126,7 @@ function RatePage() {
                   {isLong && (
                     <span
                       onClick={() => toggleExpanded(index)}
-                      className="text-[var(--color-primary)] font-semibold text-xs cursor-pointer hover:underline inline-block mr-1"
+                      className="text-primary font-semibold text-xs cursor-pointer hover:underline inline-block mr-1"
                     >
                       {expanded ? t("Show less") : t("Read more")}
                     </span>
@@ -141,4 +141,4 @@ function RatePage() {
   )
 }
 
-export default RatePage
+export default RatePage

@@ -101,12 +101,12 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
         });
     };
   return (
-    <div className='border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto'>
+    <div className='border border-[#CDD5DF] rounded-3px p-6  h-[500px] overflow-y-auto'>
       <p className='text-[#0F022E] text-xl font-medium'>{t('Current orders')}</p>
 
       <div className={layout === "grid" ? "grid grid-cols-2 gap-4" : `grid lg1:grid-cols-1 ${orders.length === 1 ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
       {orders.map((order) => (
-        <div key={order?.booking_id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4'>
+        <div key={order?.booking_id} className='mt-6 w-full border border-[#CDD5DF] bg-white shadow-sm rounded-3px p-4 mb-4'>
           <div className='flex justify-between w-full'>
             <div className='flex gap-2 w-full'>
               <img
@@ -168,13 +168,13 @@ function CurrentOrdersPage({ orders = [], layout = "list" }) {
           <div className='flex gap-4'>
             <button
               onClick={() => handleInProgressBooking(order?.booking_id)}
-              className='flex gap-2 items-center justify-center bg-[var(--color-primary)] text-[#fff] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+              className='flex gap-2 items-center justify-center bg-primary text-white text-sm font-semibold w-full h-14 mt-4 rounded-3px cursor-pointer'>
               <span>{t('Start Service')}</span>
               <img src='/images/icons/arrow-left-white.svg' alt='' className='w-6 h-6' />
             </button>
             <button 
               onClick={() => handleOpenMap(order)}
-              className='flex gap-2 items-center justify-center border border-[var(--color-primary)] text-[var(--color-primary)] text-sm font-semibold w-full h-14 mt-4 rounded-[3px] cursor-pointer'>
+              className='flex gap-2 items-center justify-center border border-primary text-primary text-sm font-semibold w-full h-14 mt-4 rounded-3px cursor-pointer'>
               <img src='/images/icons/maps-location-yellow.svg' alt='' className='w-6 h-6' />
               <span>{t('Open the map')}</span>
             </button>

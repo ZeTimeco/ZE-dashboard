@@ -8,6 +8,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllBookingPropertyThunk, getPropertyBookingByIdThunk } from '@/redux/slice/Requests/RequestsSlice'
 import Loader from '@/app/Components/Loader/Loader'
+import { motion } from 'framer-motion'
 
 function Property_ModuleContent() {
 
@@ -31,6 +32,7 @@ function Property_ModuleContent() {
   }, [dispatch, filters, currentPage, serviceid])
 
   const currentBooking = serviceid ? getPropertyBooking : getBooking;
+  const currentBookingData = Array.isArray(currentBooking) ? currentBooking : currentBooking?.data;
 
   const handleApplyFilters = (newFilters) => {
     setFilters(newFilters)
@@ -57,19 +59,29 @@ function Property_ModuleContent() {
     Array.isArray(v) ? v.length > 0 : v !== '' && v !== undefined && v !== null
   )
 
+  // console.log('getPropertyBooking' , getPropertyBooking);
+
   return (
     <MainLayout>
-      <NavRequest onApplyFilters={handleApplyFilters} onSearch={handleSearch}/>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <NavRequest onApplyFilters={handleApplyFilters} onSearch={handleSearch}/>
 
-      <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6'>
-        <CardOfRequest getBooking={currentBooking} hasActiveFilters={hasActiveFilters}/>
-      </div>
+        <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6 mb-8'>
+          <CardOfRequest getBooking={currentBooking} hasActiveFilters={hasActiveFilters}/>
+        </div>
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={getBookingPagination?.total_pages || 1}
-        onPageChange={handlePageChange}
-      />
+        {currentBookingData && currentBookingData.length > 0 && (getBookingPagination?.total_pages > 1 || getBookingPagination?.total_pages === 1) && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={getBookingPagination?.total_pages || 1}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </motion.div>
     </MainLayout>
   )
 }

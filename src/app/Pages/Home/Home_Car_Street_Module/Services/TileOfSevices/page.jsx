@@ -93,7 +93,7 @@ function TileOfSevicesPage({current_module_key}) {
         <motion.div 
           whileHover={{ y: -2, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04)' }}
           transition={{ duration: 0.2 }}
-          className='flex items-center justify-between gap-4 bg-white border border-slate-200/90 rounded-2xl shadow-xs px-5 py-3.5 min-w-[240px] md:w-auto hover:border-slate-300 transition-all duration-300'
+          className='flex items-center justify-between gap-4 bg-white border border-slate-200/90 rounded-3px shadow-xs px-5 py-3.5 min-w-[240px] md:w-auto hover:border-slate-300 transition-all duration-300'
         >
           <div className='flex items-center gap-2.5'>
             <span className='relative flex h-3 w-3'>

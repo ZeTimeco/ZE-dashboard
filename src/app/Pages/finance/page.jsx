@@ -30,7 +30,7 @@ function FinancePage() {
                 onClick={() => setSelectedMenu(item.Label)}
                 className={`relative flex items-center justify-center w-full gap-2 px-5 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
                   isActive
-                    ? 'text-[var(--color-primary)] font-semibold'
+                    ? 'text-primary font-semibold'
                     : 'text-[#4B5565] hover:text-[#1D2939]'
                 }`}
               >
@@ -38,7 +38,7 @@ function FinancePage() {
                 {isActive && (
                   <motion.div
                     layoutId="financeActiveTabUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--color-primary)]"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}

@@ -43,7 +43,7 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
 
 
   return (
-    <div className="border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto">
+    <div className="border border-[#CDD5DF] rounded-3px p-6  h-[500px] overflow-y-auto">
       <p className="text-[#0F022E] text-xl font-medium">
         {t("New orders")}
       </p>
@@ -52,7 +52,7 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
         {orders?.map((order , index) => (
           <div
             key={order?.booking_id || index}
-            className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4"
+            className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-3px p-4 mb-4"
           >
             {/* Service */}
             <div className="flex gap-2 items-center">
@@ -130,7 +130,7 @@ function NewOrdersPage({ orders = [], layout = "list" ,current_module_key }) {
 
               <button 
                 onClick={() => handleRejectedBooking(order?.booking_id)}
-                className="border border-[#FF3B30] text-[#FF3B30] text-sm font-medium w-[30%] h-14 rounded-[3px] cursor-pointer hover:bg-[#fff5f5] transition-colors"
+                className="border border-[#FF3B30] text-[#FF3B30] text-sm font-medium w-[30%] h-14 rounded-3px cursor-pointer hover:bg-[#fff5f5] transition-colors"
               >
                 {t("to reject")}
               </button>

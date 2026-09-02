@@ -69,7 +69,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
 
 
   return (
-    <div className="border border-[#CDD5DF] rounded-[3px] p-6  h-[500px] overflow-y-auto">
+    <div className="border border-[#CDD5DF] rounded-3px p-6  h-[500px] overflow-y-auto">
       <p className="text-[#0F022E] text-xl font-medium">
         {t("New orders")}
       </p>
@@ -78,7 +78,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
       {visibleOrders.map((order) => (
         <div
           key={order?.booking_id}
-          className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-[3px] p-4 mb-4"
+          className="mt-6 border border-[#CDD5DF] bg-white shadow-sm rounded-3px p-4 mb-4"
         >
             <p>{order?.booking_id}</p>
           {/* Service */}
@@ -137,7 +137,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
               </div>
               <button 
                 onClick={() => handleRejectedBooking(order?.booking_id)}
-                className=" bg-[#FF3B30] text-[#fff] text-sm font-medium w-[25%] h-10 rounded-[3px] cursor-pointer hover:bg-[#d93026] transition-colors"
+                className=" bg-[#FF3B30] text-white text-sm font-medium w-[25%] h-10 rounded-3px cursor-pointer hover:bg-[#d93026] transition-colors"
               >
                 {t("to reject")}
               </button>
@@ -150,7 +150,7 @@ function NewOrdersPage({ orders = [], layout = "list" }) {
             <button
               onClick={() => handleAcceptBooking(order?.booking_id)}
               className={`
-                text-white text-sm font-semibold w-[50%] h-14 rounded-[3px]
+                text-white text-sm font-semibold w-[50%] h-14 rounded-3px
                 flex items-center justify-center gap-2
                 overflow-hidden relative cursor-pointer hover:bg-[#067c47] transition-colors
                 ${loadingOrders.has(order?.booking_id)

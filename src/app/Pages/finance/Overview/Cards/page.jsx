@@ -37,11 +37,11 @@ function CardsPage({paymentsData}) {
           initial="hidden"
           animate="visible"
           whileHover={{ y: -4, transition: { duration: 0.2 } }}
-          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-2xl p-5 shadow-xs hover:shadow-lg hover:border-violet-200 transition-all duration-300'
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-violet-200 transition-all duration-300'
         >
           {/* title */}
           <div className='flex items-center gap-3.5'>
-            <div className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] text-violet-600 rounded-xl group-hover:scale-110 group-hover:bg-violet-100/80 transition-all duration-300 shadow-xs'>
+            <div className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] text-violet-600 rounded-3px group-hover:scale-110 group-hover:bg-violet-100/80 transition-all duration-300 shadow-xs'>
               <img src="/images/icons/cash.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
             </div>
             <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
@@ -78,7 +78,7 @@ function CardsPage({paymentsData}) {
               </>
             )}
           </div>
-          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-violet-500/5 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-violet-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
         </motion.div>
 
         {/* recovery */}
@@ -88,11 +88,11 @@ function CardsPage({paymentsData}) {
           initial="hidden"
           animate="visible"
           whileHover={{ y: -4, transition: { duration: 0.2 } }}
-          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-2xl p-5 shadow-xs hover:shadow-lg hover:border-amber-200 transition-all duration-300'
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-amber-200 transition-all duration-300'
         >
           {/* title */}
           <div className='flex items-center gap-3.5'>
-            <div className='w-12 h-12 flex justify-center items-center bg-[#FEF0C7] text-amber-600 rounded-xl group-hover:scale-110 group-hover:bg-amber-100/80 transition-all duration-300 shadow-xs'>
+            <div className='w-12 h-12 flex justify-center items-center bg-[#FEF0C7] text-amber-600 rounded-3px group-hover:scale-110 group-hover:bg-amber-100/80 transition-all duration-300 shadow-xs'>
               <img src="/images/icons/recovery.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
             </div>
             <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
@@ -129,7 +129,7 @@ function CardsPage({paymentsData}) {
               </>
             )}
           </div>
-          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-amber-500/5 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-amber-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
         </motion.div>
 
         {/* Total profits */}
@@ -139,11 +139,11 @@ function CardsPage({paymentsData}) {
           initial="hidden"
           animate="visible"
           whileHover={{ y: -4, transition: { duration: 0.2 } }}
-          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-2xl p-5 shadow-xs hover:shadow-lg hover:border-emerald-200 transition-all duration-300'
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-emerald-200 transition-all duration-300'
         >
           {/* title */}
           <div className='flex items-center gap-3.5'>
-            <div className='w-12 h-12 flex justify-center items-center bg-[#B4F0CC] text-emerald-600 rounded-xl group-hover:scale-110 group-hover:bg-emerald-100/80 transition-all duration-300 shadow-xs'>
+            <div className='w-12 h-12 flex justify-center items-center bg-[#B4F0CC] text-emerald-600 rounded-3px group-hover:scale-110 group-hover:bg-emerald-100/80 transition-all duration-300 shadow-xs'>
               <img src="/images/icons/Total profits.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
             </div>
             <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
@@ -180,7 +180,7 @@ function CardsPage({paymentsData}) {
               </>
             )}
           </div>
-          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-emerald-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
         </motion.div>
 
         {/* credit card */}
@@ -190,11 +190,11 @@ function CardsPage({paymentsData}) {
           initial="hidden"
           animate="visible"
           whileHover={{ y: -4, transition: { duration: 0.2 } }}
-          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-2xl p-5 shadow-xs hover:shadow-lg hover:border-rose-200 transition-all duration-300'
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-rose-200 transition-all duration-300'
         >
           {/* title */}
           <div className='flex items-center gap-3.5'>
-            <div className='w-12 h-12 flex justify-center items-center bg-[#FEF3F2] text-rose-600 rounded-xl group-hover:scale-110 group-hover:bg-rose-100/80 transition-all duration-300 shadow-xs'>
+            <div className='w-12 h-12 flex justify-center items-center bg-[#FEF3F2] text-rose-600 rounded-3px group-hover:scale-110 group-hover:bg-rose-100/80 transition-all duration-300 shadow-xs'>
               <img src="/images/icons/credit card.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
             </div>
             <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
@@ -231,7 +231,7 @@ function CardsPage({paymentsData}) {
               </>
             )}
           </div>
-          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-rose-500/5 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-rose-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
         </motion.div>
 
       </div>
