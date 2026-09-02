@@ -21,11 +21,11 @@ function TermsPoliciesContent() {
 
   //api
   const dispatch = useDispatch()
-  const {policies,loading,error} = useSelector((state)=>state.setting)
+  const { policies, loading, error } = useSelector((state) => state.setting)
   
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getPoliciesThunk())
-  },[dispatch])
+  }, [dispatch])
 
   // Derive selected policy from URL
   const selectedPolicy = editId ? policies.find(p => p.id === Number(editId) || p.id === String(editId)) : null
@@ -46,7 +46,7 @@ function TermsPoliciesContent() {
   }
 
   return (
-    <div className="border border-[#E3E8EF] mb-8">
+    <div className="border border-[#E3E8EF] bg-white rounded-[3px] shadow-xs mb-8">
       <Header/>
       
       {showEditForm ? (
@@ -62,14 +62,12 @@ function TermsPoliciesContent() {
           onEditClick={handleEditClick}
           policies={policies}
           loading={loading}
-
         />
       ) : (
         <NoTerms_PoliciesPage 
           onAddClick={() => setShowAddForm(true)} 
         />
       )}
-
     </div>
   )
 }
