@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
+import { motion, AnimatePresence } from 'framer-motion'
 
 
 function Form({getCategories , formData , setFormData}) {
@@ -192,27 +193,35 @@ const handleRemoveImage = (id) => {
               </span>
             </div>
 
-            {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {categoryType
-                  ?.filter((opt) =>
-                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
-                  )
-                  .map((opt) => (
-                    <li
-                      key={opt?.id}
-                      onClick={() => {
-                        setFormData((prev)=>({...prev , category_id : opt?.id}))
-                        setSearchValue1(opt?.name);
-                        setOpen1(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {opt?.name}
-                    </li>
-                  ))}
-              </ul>
-            )}
+            <AnimatePresence>
+              {open1 && (
+                <motion.ul
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-10 max-h-48 overflow-y-auto"
+                >
+                  {categoryType
+                    ?.filter((opt) =>
+                      opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                    )
+                    .map((opt) => (
+                      <li
+                        key={opt?.id}
+                        onClick={() => {
+                          setFormData((prev)=>({...prev , category_id : opt?.id}))
+                          setSearchValue1(opt?.name);
+                          setOpen1(false);
+                        }}
+                        className="p-3 hover:bg-[#F9F5E8] hover:text-[var(--color-primary)] cursor-pointer transition-colors"
+                      >
+                        {opt?.name}
+                      </li>
+                    ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -277,32 +286,42 @@ const handleRemoveImage = (id) => {
       {images.length > 0 && (
         <div className='grid grid-cols-5 gap-3 mb-3'>
           {images.map((img) => (
-            <div key={img.id} className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'>
-              <img src={img.url} alt={img.name} className='w-full h-full object-cover' />
-              <button
+            <motion.div 
+              key={img.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'
+            >
+              <img src={img.url} alt={img.name} className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105' />
+              <motion.button
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
                 type='button'
                 onClick={() => handleRemoveImage(img.id)}
-                className='absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer'
+                className='absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-sm'
               >
                 ×
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           ))}
         </div>
       )}
 
       {/* add button — hidden when 5 images uploaded */}
       {images.length < 5 && (
-        <button
+        <motion.button
+          whileHover={{ borderColor: 'var(--color-primary)', backgroundColor: '#FDFBF7' }}
+          whileTap={{ scale: 0.99 }}
           type='button'
           onClick={() => fileInputRef.current?.click()}
-          className='w-full border border-dashed border-[#CDD5DF] p-4 flex flex-col gap-2 justify-center items-center cursor-pointer rounded-[3px]'
+          className='w-full border border-dashed border-[#CDD5DF] p-4 flex flex-col gap-2 justify-center items-center cursor-pointer rounded-[3px] transition-colors duration-200'
         >
           <p>
             <img src='/images/icons/image-add--gray.svg' alt='' />
           </p>
           <p className='text-[#4B5565] font-normal text-sm'>{t('Add image')}</p>
-        </button>
+        </motion.button>
       )}
 
       <p className='text-[#697586] text-xs font-normal mt-2'>{t('Add up to 5 photos')}</p>

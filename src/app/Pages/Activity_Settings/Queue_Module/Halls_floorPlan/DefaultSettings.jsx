@@ -5,6 +5,7 @@ import AddDialog from './AddDialog'
 import { useDispatch } from 'react-redux'
 import i18n from '@/language/i18n'
 import { addTagsThunk, deleteTagsThunk, getFloorplanSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion } from 'framer-motion'
 
 function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
   const {t} = useTranslation() 
@@ -50,13 +51,23 @@ function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
   };
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'
+      >
 
         <div className='flex justify-between'>
           <p className='text-[#364152] text-base font-medium'>{t('Default Settings')}</p>
-          <button onClick={()=>setOpenAdd(true)} className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px] cursor-pointer'>
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={()=>setOpenAdd(true)}
+            className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px] cursor-pointer hover:opacity-90 transition-opacity duration-150'
+          >
             <img src="/images/icons/AddIcon.svg" alt="" />
-          </button>
+          </motion.button>
         </div>
 
         <div>
@@ -64,13 +75,18 @@ function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
 
           <div className='flex flex-wrap gap-3 mt-3'>
             {getFloorplanSettings?.tags?.map((tag)=>(
-              <div key={tag?.id} className='border border-[var(--color-primary)] bg-[#F4EAD0] flex gap-2 rounded-full px-3 h-7.5'>
+              <div key={tag?.id} className='border border-[var(--color-primary)] bg-[#F4EAD0] flex gap-2 rounded-full px-3 h-7.5 hover:shadow-sm transition-all duration-150 group'>
                 <p className='text-[var(--color-primary)] text-sm font-normal flex items-center' >
                   <span>{tag?.name}  </span>
                 </p>
-                <button onClick={()=>handleDeleteTag(tag?.id)} className='cursor-pointer'>
+                <motion.button
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={()=>handleDeleteTag(tag?.id)}
+                  className='cursor-pointer'
+                >
                   <img src="/images/icons/x_yellow.svg" className="w-5 h-5" />
-                </button>
+                </motion.button>
               </div>
             ))}
             
@@ -78,7 +94,7 @@ function DefaultSettings({getFloorplanSettings , formData , setFormData}) {
 
 
         </div>
-      </div>
+      </motion.div>
 
 
 

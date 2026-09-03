@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHallLayoutThunk, randomizeHallLayoutThunk, saveHallLayoutThunk } from '@/redux/slice/Halls/HallsSlice'
 import { toast } from 'react-toastify'
+import { motion } from 'framer-motion'
 
 function LayoutContent() {
   const { t } = useTranslation()
@@ -76,54 +77,63 @@ function LayoutContent() {
 
   return (
     <MainLayout>
-      <div className='flex justify-between items-center mb-10'>
-        <div className='flex flex-col gap-1'>
-          <p className='text-[#364152] text-2xl font-medium'>{t('Creating a hall layout')}</p>
-          <p className='text-[#697586] text-xl font-normal'>{t('Configuring the lounge settings')}</p>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+      >
+        <div className='flex justify-between items-center mb-10'>
+          <div className='flex flex-col gap-1'>
+            <p className='text-[#364152] text-2xl font-medium'>{t('Creating a hall layout')}</p>
+            <p className='text-[#697586] text-xl font-normal'>{t('Configuring the lounge settings')}</p>
+          </div>
+          
+          <div className='flex items-center gap-3'>
+            {hallId && (
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)} 
+                className='flex justify-center items-center bg-[var(--color-primary)] hover:opacity-95 transition-all duration-200 w-10 h-10 rounded-[3px] cursor-pointer'
+              >
+                <img src="/images/icons/arrow-right-go.svg" className='w-6 h-6' alt="" />
+              </motion.button>
+            )}
+          </div>
         </div>
-        
-        <div className='flex items-center gap-3'>
-          {hallId && (
-            <button 
-              onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)} 
-              className='flex justify-center items-center bg-[var(--color-primary)] w-10 h-10 rounded-[3px] cursor-pointer hover:opacity-90 transition-opacity'
-            >
-              <img src="/images/icons/arrow-right-go.svg" className='w-6 h-6' alt="" />
-            </button>
-          )}
-        </div>
-      </div>
 
-      <div className='my-8'>
-        <MapLayout 
-          tables={layoutItems} 
-          views={views}
+        <div className='my-8'>
+          <MapLayout 
+            tables={layoutItems} 
+            views={views}
+            hallId={hallId} 
+            selectedTableId={selectedTableId} 
+            setSelectedTableId={setSelectedTableId}
+            positions={positions}
+            setPositions={setPositions}
+            canvasWidth={hall?.canvas?.canvas_width || 1000}
+            canvasHeight={hall?.canvas?.canvas_height || 700}
+          />
+        </div>
+
+        <Cards 
+          table={selectedTable} 
           hallId={hallId} 
-          selectedTableId={selectedTableId} 
-          setSelectedTableId={setSelectedTableId}
-          positions={positions}
-          setPositions={setPositions}
-          canvasWidth={hall?.canvas?.canvas_width || 1000}
-          canvasHeight={hall?.canvas?.canvas_height || 700}
+          onRefresh={handleRefresh} 
+          setSelectedTableId={setSelectedTableId} 
         />
-      </div>
 
-      <Cards 
-        table={selectedTable} 
-        hallId={hallId} 
-        onRefresh={handleRefresh} 
-        setSelectedTableId={setSelectedTableId} 
-      />
-
-      <div className='flex justify-end mt-8 mb-6'>
-        <button
-          onClick={handleSaveLayout}
-          className='bg-[var(--color-primary)] text-white text-base font-medium py-3 px-8 rounded-[3px] cursor-pointer hover:opacity-90 shadow-[3px] transition-all flex items-center justify-center w-[30%] lg1:w-[20%] h-14'
-        >
-          {t('Save changes')}
-        </button>
-      </div>
-      
+        <div className='flex justify-end mt-8 mb-6'>
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleSaveLayout}
+            className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md text-white text-base font-medium py-3 px-8 rounded-[3px] cursor-pointer transition-all duration-200 flex items-center justify-center w-[30%] lg1:w-[20%] h-14'
+          >
+            {t('Save changes')}
+          </motion.button>
+        </div>
+      </motion.div>
     </MainLayout>
   )
 }

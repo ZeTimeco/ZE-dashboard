@@ -9,6 +9,8 @@ import NoShowRules from './NoShowRules'
 import CloseQueue from './CloseQueue'
 import { useDispatch, useSelector } from 'react-redux'
 import { editWaitlistSettingsThunk, getWaitlistSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 function Queue_settingsPage() {
   const {t} = useTranslation() 
@@ -54,10 +56,10 @@ function Queue_settingsPage() {
     try{
       await dispatch(editWaitlistSettingsThunk(formData)).unwrap()
       await dispatch(getWaitlistSettingsThunk())
-      alert(t('Restaurant information updated successfully.'));
+      toast.success(t('Restaurant information updated successfully.'));
     }catch(error){
       console.log(error);
-      alert(error?.message || "Something went wrong.");
+      toast.error(error?.message || t("Something went wrong."));
     } finally {
         setLoading(false);
     }
@@ -67,37 +69,34 @@ function Queue_settingsPage() {
   
   return (
     <>
-
-    <div className='border border-[#E3E8EF] mb-4'>
-          <div>
-            <Header/>
-          </div>
-    
-          <div className='p-6 flex flex-col gap-4'>
-            <QueueManagement formData={formData} setFormData={setFormData}/>
-            <BookingRules formData={formData} setFormData={setFormData}/>
-            <WaitingTimeLogic formData={formData} setFormData={setFormData}/>
-            <NoShowRules formData={formData} setFormData={setFormData}/>
-            <CloseQueue formData={formData} setFormData={setFormData}/>
-        
-        <button
-          onClick={handleSubmit}
-          disabled={loading}
-          className={`w-[30%] h-14 rounded-[3px] text-white transition
-            ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[var(--color-primary)] cursor-pointer"
-            }`}
-        >
-          {loading ? t("Saving...") : t("Save changes")}
-        </button>
-          </div>
-    
-          
-          
+      <div className='border border-[#E3E8EF] mb-4 rounded-[3px] bg-white shadow-2xs'>
+        <div>
+          <Header/>
+        </div>
+  
+        <div className='p-6 flex flex-col gap-4'>
+          <QueueManagement formData={formData} setFormData={setFormData}/>
+          <BookingRules formData={formData} setFormData={setFormData}/>
+          <WaitingTimeLogic formData={formData} setFormData={setFormData}/>
+          <NoShowRules formData={formData} setFormData={setFormData}/>
+          <CloseQueue formData={formData} setFormData={setFormData}/>
+      
+          <motion.button
+            whileHover={!loading ? { scale: 1.01 } : {}}
+            whileTap={!loading ? { scale: 0.98 } : {}}
+            onClick={handleSubmit}
+            disabled={loading}
+            className={`w-[30%] h-14 rounded-[3px] text-white transition-all duration-200
+              ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md cursor-pointer"
+              }`}
+          >
+            {loading ? t("Saving...") : t("Save changes")}
+          </motion.button>
+        </div>
       </div>
-
     </>
   )
 }

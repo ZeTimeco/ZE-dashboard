@@ -8,6 +8,8 @@ import ModificationaAndCancellation from './ModificationaAndCancellation'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { editBookingSettingsThunk, getBookingSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 function Booking_settingsPage() {
   const {t} = useTranslation() 
@@ -53,12 +55,12 @@ function Booking_settingsPage() {
   const handleSubmit = async ()=>{
     setLoading(true);
     try{
-      await dispatch(editBookingSettingsThunk(formData)).unwrap
+      await dispatch(editBookingSettingsThunk(formData)).unwrap()
       await dispatch(getBookingSettingsThunk())
-      alert(t('Restaurant information updated successfully.'));
+      toast.success(t('Restaurant information updated successfully.'));
     }catch(error){
       console.log(error);
-      alert(error?.message || "Something went wrong.");
+      toast.error(error?.message || t("Something went wrong."));
     } finally {
         setLoading(false);
     }
@@ -67,35 +69,32 @@ function Booking_settingsPage() {
 
   return (
     <>
-
-      <div className='border border-[#E3E8EF] mb-4'>
-          <div>
-            <Header/>
-          </div>
-    
-          <div className='p-6 flex flex-col gap-4'>
-            <BookingConfirmation formData={formData} setFormData={setFormData}/>
-            <BookingTimeline formData={formData} setFormData={setFormData}/>
-            <BookingRules formData={formData} setFormData={setFormData}/>
-            <ModificationaAndCancellation formData={formData} setFormData={setFormData}/>
-        
-          <button
+      <div className='border border-[#E3E8EF] mb-4 rounded-[3px] bg-white shadow-2xs'>
+        <div>
+          <Header/>
+        </div>
+  
+        <div className='p-6 flex flex-col gap-4'>
+          <BookingConfirmation formData={formData} setFormData={setFormData}/>
+          <BookingTimeline formData={formData} setFormData={setFormData}/>
+          <BookingRules formData={formData} setFormData={setFormData}/>
+          <ModificationaAndCancellation formData={formData} setFormData={setFormData}/>
+      
+          <motion.button
+            whileHover={!loading ? { scale: 1.01 } : {}}
+            whileTap={!loading ? { scale: 0.98 } : {}}
             onClick={handleSubmit}
             disabled={loading}
-            className={`w-[30%] h-14 rounded-[3px] text-white transition
+            className={`w-[30%] h-14 rounded-[3px] text-white transition-all duration-200
               ${
                 loading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[var(--color-primary)] cursor-pointer"
+                  : "bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md cursor-pointer"
               }`}
           >
             {loading ? t("Saving...") : t("Save changes")}
-          </button>
-        
-          </div>
-    
-          
-          
+          </motion.button>
+        </div>
       </div>
     </>
   )

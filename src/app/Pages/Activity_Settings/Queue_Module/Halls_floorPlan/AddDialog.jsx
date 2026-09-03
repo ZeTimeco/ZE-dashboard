@@ -1,6 +1,7 @@
 import { Dialog } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 
 function AddDialog({open , setOpen , handleAddTag , dataSend , setDataSend , currentLang}) {
   const {t} = useTranslation()
@@ -15,12 +16,14 @@ function AddDialog({open , setOpen , handleAddTag , dataSend , setDataSend , cur
     >
       {/* header */}
       <section className="flex justify-end px-6 mt-6">
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={()=>setOpen(false)}
-          className="border border-[#CDD5DF] w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer"
+          className="border border-[#CDD5DF] w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer hover:border-[#9AA4B2] hover:bg-gray-50 transition-colors duration-150"
         >
           <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
-        </button>
+        </motion.button>
       </section>
       <section className="mt-4 px-6">
         <p className="text-[#364152] text-2xl font-medium mb-3">{t("Add a new Tag/logo")}</p>
@@ -48,7 +51,7 @@ function AddDialog({open , setOpen , handleAddTag , dataSend , setDataSend , cur
                 }))
               }
               placeholder={t("Tag name / logo")}
-              className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+              className={`w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 transition-colors duration-150`}
             />
           </div>
 
@@ -57,12 +60,22 @@ function AddDialog({open , setOpen , handleAddTag , dataSend , setDataSend , cur
         {/* btn */}
         <div className='px-6 flex gap-4 mb-6'>
           
-          <button onClick={()=>setOpen(false)} className='w-full border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={()=>setOpen(false)}
+            className='w-full border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer hover:bg-red-50 transition-colors duration-150'
+          >
             {t('cancel')}
-          </button>
-          <button onClick={handleAddTag}  className=' w-full bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleAddTag}
+            className='w-full bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer hover:opacity-95 hover:shadow-md transition-all duration-200'
+          >
             {t('save')}
-          </button>
+          </motion.button>
           
         </div>
         

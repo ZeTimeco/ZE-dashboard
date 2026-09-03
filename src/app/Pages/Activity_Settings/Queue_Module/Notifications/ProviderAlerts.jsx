@@ -2,6 +2,7 @@
 import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 
 function ProviderAlerts({formData , setFormData}) {
   const {t} = useTranslation() 
@@ -62,26 +63,28 @@ function ProviderAlerts({formData , setFormData}) {
       }),
     },
   }));
-
+  
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'
+      >
         <p className='text-[#364152] text-base font-medium'>{t('Provider alerts')}</p>
 
-          <div>
+        <div>
           {/*  */}
-          <div className='flex justify-between items-center mt-4'>
-            <div>
-              <p className='text-[#364152] text-sm font-normal'>{t('Overbooking alert')}</p>
-              <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Alert when bookings exceed capacity')}</p>
-            </div>
+          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+            <p className='text-[#364152] text-sm font-normal'>{t('New booking alert')}</p>
             <p>
               <GreenSwitch
-                checked={formData?.notify_overload_booking_enabled}
+                checked={formData?.notify_new_reservation_enabled}
                 onChange={(e)=>{
                   setFormData((prev)=>({
                     ...prev,
-                    notify_overload_booking_enabled: e.target.checked ? 1 : 0
+                    notify_new_reservation_enabled:e.target.checked ? 1 : 0
                   }))
                 }}
               />
@@ -91,18 +94,15 @@ function ProviderAlerts({formData , setFormData}) {
           <div className='border border-[#E3E8EF] my-3'></div>
 
           {/*  */}
-          <div className='flex justify-between items-center mt-4'>
-            <div>
-              <p className='text-[#364152] text-sm font-normal'>{t('Long wait alert')}</p>
-              <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Alert when the waiting time exceeds 45 minutes')}</p>
-            </div>
+          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+            <p className='text-[#364152] text-sm font-normal'>{t('Cancellation alert')}</p>
             <p>
               <GreenSwitch
-                checked={formData?.notify_long_waiting_enabled}
+                checked={formData?.notify_reservation_cancelled_enabled}
                 onChange={(e)=>{
                   setFormData((prev)=>({
                     ...prev,
-                    notify_long_waiting_enabled: e.target.checked ? 1 : 0 
+                    notify_reservation_cancelled_enabled:e.target.checked ? 1 : 0
                   }))
                 }}
               />
@@ -110,8 +110,7 @@ function ProviderAlerts({formData , setFormData}) {
           </div>
 
         </div>
-
-      </div>
+      </motion.div>
 
     </>
   )

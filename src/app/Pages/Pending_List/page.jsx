@@ -1,17 +1,16 @@
 "use client"
+import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Header from './List/Header';
 import Box from './List/Box';
 import Filter from './List/Filter';
 import Cards from './List/Cards';
-import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import No_Guest_Add from './List/No_Guest_Add';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWaitingListThunk, getwaitlistAnalysisThunk } from '@/redux/slice/Pending_List/Pending_ListSlice';
 import Pagination from './List/Pagination';
-
-
+import { motion } from 'framer-motion'
 
 function Pending_ListPage() {
   const {t} = useTranslation();
@@ -19,11 +18,10 @@ function Pending_ListPage() {
   const [openAdd , setOpenAdd] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
 
-  //api
   const dispatch = useDispatch()
   const {getwaitlistAnalysis ,getWaitingList} = useSelector((state)=>state.PendingList)
 
-  useEffect (()=>{
+  useEffect(()=>{
     dispatch(getwaitlistAnalysisThunk())
   },[dispatch])
 
@@ -48,29 +46,43 @@ function Pending_ListPage() {
 
   return (
     <MainLayout>
-      <Header openAdd={openAdd} setOpenAdd={setOpenAdd}/>
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
+        <Header openAdd={openAdd} setOpenAdd={setOpenAdd} refresh={handleRefresh}/>
+      </motion.div>
 
-      <Box getwaitlistAnalysis={getwaitlistAnalysis}/>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut', delay: 0.05 }}
+      >
+        <Box getwaitlistAnalysis={getwaitlistAnalysis}/>
+      </motion.div>
 
-      <div className='border border-[#E3E8EF] rounded-[3px] p-6 mb-6'>
+      <motion.div
+        className='border border-[#E3E8EF] rounded-[3px] p-6 mb-6'
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut', delay: 0.1 }}
+      >
         <Filter activeTab={activeTab} setActiveTab={handleTabChange}/>
 
         {!getWaitingList?.data?.length ? (
           <No_Guest_Add setOpenAdd={setOpenAdd}/>
         ):(
           <>
-            <Cards  activeTab={activeTab} getWaitingList={getWaitingList} refresh={handleRefresh}/>
+            <Cards activeTab={activeTab} getWaitingList={getWaitingList} refresh={handleRefresh}/>
             <Pagination
               currentPage={pageNumber}
               totalPages={totalPages}
               onPageChange={setCurrentPage}
             />
           </>
-          
         )}
-      
-      </div>
-      
+      </motion.div>
     </MainLayout>
   )
 }

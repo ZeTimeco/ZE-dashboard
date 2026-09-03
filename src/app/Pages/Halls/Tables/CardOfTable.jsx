@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { DeleteTableThunk, getTablesThunk } from '@/redux/slice/Halls/HallsSlice';
+import { motion } from 'framer-motion';
 
 function CardOfTable({getTables ,HallId}) {
   const { t } = useTranslation()
@@ -23,8 +24,8 @@ function CardOfTable({getTables ,HallId}) {
       case 1: //نشط 
       case true :
         return (
-          <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit  h-7.5 rounded-full flex justify-center items-center '>
-            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center justify-center gap-1'>
+          <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center shadow-xs transition-colors duration-200'>
+            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex items-center justify-center gap-1'>
               <span className='text-xs lg1:text-sm'>{t('active')}</span>
             </div>
           </div>
@@ -33,8 +34,8 @@ function CardOfTable({getTables ,HallId}) {
       case 0: //مغلق
       case false :
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  h-7.5 rounded-full flex  items-center '>
-            <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-7.5 rounded-full flex items-center shadow-xs transition-colors duration-200'>
+            <div className='py-1 px-2 flex items-center justify-center gap-1'>
               <span className='text-xs lg1:text-sm'>{t('closed')}</span>
             </div>
           </div>
@@ -47,8 +48,8 @@ function CardOfTable({getTables ,HallId}) {
       case 1: //قابل للحجز 
       case true :
         return (
-          <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit  h-7.5 rounded-full flex justify-center items-center '>
-            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center justify-center gap-1'>
+          <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center shadow-xs transition-colors duration-200'>
+            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex items-center justify-center gap-1'>
               <img src="/images/icons/true.svg" alt="" className='w-4 h-4' />
               <span className='text-xs lg1:text-sm'>{t('Available for booking')}</span>
             </div>
@@ -58,8 +59,8 @@ function CardOfTable({getTables ,HallId}) {
       case 0: //غير قابل للحجز
       case false :
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  h-7.5 rounded-full flex  items-center '>
-            <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
+          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-7.5 rounded-full flex items-center shadow-xs transition-colors duration-200'>
+            <div className='py-1 px-2 flex items-center justify-center gap-1'>
               <img src="/images/icons/xxx.svg" alt="" className='w-4 h-4' />
               <span className='text-xs lg1:text-sm'>{t('Not available for booking')}</span>
             </div>
@@ -69,37 +70,60 @@ function CardOfTable({getTables ,HallId}) {
     }
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.07,
+      },
+    },
+  };
 
-
+  const cardVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.35,
+        ease: "easeOut",
+      },
+    },
+  };
 
   return (
     <>
-      <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className='grid grid-cols-1 lg1:grid-cols-2 gap-6'
+      >
         {getTables?.data?.tables?.map((table , index)=>(
-          <div 
+          <motion.div 
+            variants={cardVariants}
+            whileHover={{ y: -3 }}
             key={table?.id}
-            className={`relative  shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-3 grid grid-cols-4 gap-4   `}
+            className='group relative shadow-[0_0_4px_0_rgba(0,0,0,0.20)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all duration-300 rounded-[3px] p-3 grid grid-cols-4 gap-4 bg-white cursor-pointer'
           >
           
           {/* image */}
-          <div className='bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] flex justify-center items-center rounded-[3px] text-[#FCFCFD] text-[28px] font-medium'>
+          <div className='bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] flex justify-center items-center rounded-[3px] text-[#FCFCFD] text-[28px] font-medium group-hover:scale-[1.03] transition-transform duration-200 shadow-xs'>
             <p>{table?.code}</p>
           </div>
 
-          <div className='col-span-3 '>
-          
+          <div className='col-span-3'>
             {/*  */}
             <div className='flex justify-between mt-4'>
               <div className='flex flex-col gap-2'>
-                <p className='text-[#364152] text-lg font-normal '>{table?.views?.[0]?.name ?? 'Not Found'}</p>
-                <p className='flex gap-1 border border-[#9AA4B2] bg-[#EEF2F6] w-fit px-2  rounded-full'>
+                <p className='text-[#364152] text-lg font-normal group-hover:text-[var(--color-primary)] transition-colors duration-200'>{table?.views?.[0]?.name ?? 'Not Found'}</p>
+                <p className='flex gap-1 border border-[#9AA4B2] bg-[#EEF2F6] w-fit px-2 rounded-full items-center shadow-2xs'>
                   <span className='flex items-center'>
                     <img src="/images/icons/user-group_grey.svg" className="w-4 h-4" />
                   </span>
-                  
                   <span className='text-[#697586] text-base font-normal'>{table?.capacity}</span>
                 </p>
-
               </div>
 
               <div className='flex flex-col gap-2'>
@@ -107,47 +131,42 @@ function CardOfTable({getTables ,HallId}) {
                 {StatusRender(table?.is_active)}
               </div>
             </div>
-
-
-          
           </div>
           
           {/* btns */} 
-          <div className='grid grid-cols-3 gap-4 col-span-4 w-full '>
-            
+          <div className='grid grid-cols-3 gap-4 col-span-4 w-full'>
+            <button 
+              onClick={()=>router.push(`/Pages/Halls/Tables/Edit?id=${table?.id}&hall_id=${HallId}`)} 
+              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
+            >
+              <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
+              <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
+            </button>
 
-          <button onClick={()=>router.push(`/Pages/Halls/Tables/Edit?id=${table?.id}&hall_id=${HallId}`)}  className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
-            <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
-            <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
-          </button>
-
-          {table?.is_active ? (
-              <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            {table?.is_active ? (
+              <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'>
                 <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
                 <p className='text-[#364152] text-sm font-normal'>{t('closing')}</p>
               </button>
             ) : (
-              <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+              <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'>
                 <img src="/images/icons/checkmark-circle-true.svg" className='w-5 h-5' alt="" />
                 <p className='text-[#364152] text-sm font-normal'>{t('reactivation')}</p>
               </button>
             )}
 
-          <button onClick={() => handleDelete(table?.id)} className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
-            <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
-            <p className='text-[#364152] text-sm font-normal'>{t('delete')}</p>
-          </button>
-            
+            <button 
+              onClick={() => handleDelete(table?.id)} 
+              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#F97066] hover:bg-[#FEF3F2] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
+            >
+              <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
+              <p className='text-[#364152] text-sm font-normal'>{t('delete')}</p>
+            </button>
           </div>
 
-          </div>
+          </motion.div>
         ))}
-        
-      
-  
-      </div>
-    
-
+      </motion.div>
     </>
   )
 }

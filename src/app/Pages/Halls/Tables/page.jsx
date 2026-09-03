@@ -8,6 +8,7 @@ import AddBtn from '@/app/Components/Buttons/AddBtn';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 import { getTablesThunk } from '@/redux/slice/Halls/HallsSlice';
+import { motion } from 'framer-motion';
 
 function TablesContent() {
   const {t} = useTranslation()
@@ -24,33 +25,31 @@ function TablesContent() {
     }
   },[dispatch,hall_id])
 
-  
-console.log('hall' , hall_id);
+  console.log('hall' , hall_id);
   return (
     <MainLayout>
-      
-      {/* <No_Tables_Add/> */}
-        <div>
-          {/* header */}
-          <div className=" flex justify-between mb-8">
-            <div>
-              <p className='text-[#364152] text-2xl font-medium'>{t("tables")}</p>
-              <p className='text-[#697586] text-xl font-normal'>{t("Main Hall")} -  2  {t("tables")}</p>
-            </div>
-            <AddBtn               
-              href={`/Pages/Halls/Tables/Add?hall_id=${hall_id}`}
-              label="Add a new table" 
-            />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+      >
+        {/* header */}
+        <div className="flex justify-between mb-8">
+          <div>
+            <p className='text-[#364152] text-2xl font-medium'>{t("tables")}</p>
+            <p className='text-[#697586] text-xl font-normal'>{t("Main Hall")} -  2  {t("tables")}</p>
           </div>
-  
-          {/* cards */}
-          <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
-            <CardOfTable getTables={getTables} HallId={hall_id}/>
-          </div>
-          
-  
-  
-          </div>
+          <AddBtn               
+            href={`/Pages/Halls/Tables/Add?hall_id=${hall_id}`}
+            label="Add a new table" 
+          />
+        </div>
+
+        {/* cards */}
+        <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px] transition-shadow duration-300'>
+          <CardOfTable getTables={getTables} HallId={hall_id}/>
+        </div>
+      </motion.div>
     </MainLayout>
   )
 }

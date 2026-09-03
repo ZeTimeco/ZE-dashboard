@@ -144,7 +144,7 @@ function MapLayout({
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10">
           {topView ? (
             <div 
-              className="flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer"
+              className="flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               style={{ backgroundColor: topView.hex_code || '#F04438' }}
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
@@ -152,7 +152,7 @@ function MapLayout({
             </div>
           ) : (
             <div 
-              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-slate-50 transition-colors"
+              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
               + {translate('Assign Top View')}
@@ -164,7 +164,7 @@ function MapLayout({
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
           {bottomView ? (
             <div 
-              className="flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer"
+              className="flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               style={{ backgroundColor: bottomView.hex_code || '#1485FF' }}
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
@@ -172,7 +172,7 @@ function MapLayout({
             </div>
           ) : (
             <div 
-              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-slate-50 transition-colors"
+              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
               + {translate('Assign Bottom View')}
@@ -185,7 +185,7 @@ function MapLayout({
           <div className="-rotate-90 flex-none">
             {leftView ? (
               <div 
-                className="flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer"
+                className="flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 style={{ backgroundColor: leftView.hex_code || '#E9A72F' }}
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
@@ -193,7 +193,7 @@ function MapLayout({
               </div>
             ) : (
               <div 
-                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-slate-50 transition-colors"
+                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
                 + {translate('Assign Left View')}
@@ -207,7 +207,7 @@ function MapLayout({
           <div className="-rotate-90 flex-none">
             {rightView ? (
               <div 
-                className="flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer"
+                className="flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 style={{ backgroundColor: rightView.hex_code || '#30B952' }}
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
@@ -215,7 +215,7 @@ function MapLayout({
               </div>
             ) : (
               <div 
-                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-slate-50 transition-colors"
+                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
                 + {translate('Assign Right View')}
@@ -237,8 +237,6 @@ function MapLayout({
             const pos = getTablePosition(item);
             const isSelected = selectedTableId === table.id;
             const isActive = !!table.is_active;
-
-
 
             // Shape styles and dimensions matching Figma EXACTLY
             let shapeClass = '';
@@ -262,11 +260,11 @@ function MapLayout({
             // Colors matching Figma EXACTLY: bg-[#f9f5e8] border-[#ddc173] for active, and bg-[#fcfcfd] border-[#697586] for normal/inactive
             let colorClass = '';
             if (isSelected) {
-              colorClass = 'bg-[#f9f5e8] border-[#C69815] border-2 shadow-[0px_2px_8px_rgba(198,152,21,0.6)] z-20 scale-105';
+              colorClass = 'bg-[#f9f5e8] border-[#C69815] border-2 shadow-[0px_2px_12px_rgba(198,152,21,0.5)] z-20 scale-105';
             } else if (!isActive) {
-              colorClass = 'bg-red-50 text-red-500 border border-dashed border-red-300 opacity-60 hover:opacity-80';
+              colorClass = 'bg-red-50 text-red-500 border border-dashed border-red-300 opacity-60 hover:opacity-90 hover:shadow-sm';
             } else {
-              colorClass = 'bg-[#fcfcfd] border-[#697586] border-[0.5px] hover:border-slate-500 hover:shadow-md';
+              colorClass = 'bg-[#fcfcfd] border-[#697586] border-[0.5px] hover:border-slate-500 hover:shadow-md hover:scale-[1.02]';
             }
 
             // Convert coordinates to percentages for drawing on the responsive container
@@ -277,7 +275,7 @@ function MapLayout({
               <div
                 key={item.id}
                 onPointerDown={(e) => handlePointerDown(e, item)}
-                className={`absolute select-none cursor-move flex flex-col justify-center items-center text-black font-sans transition-all duration-100 ${shapeClass} ${colorClass}`}
+                className={`absolute select-none cursor-grab active:cursor-grabbing flex flex-col justify-center items-center text-black font-sans transition-all duration-100 ${shapeClass} ${colorClass}`}
                 style={{
                   left: `${leftPercent}%`,
                   top: `${topPercent}%`,

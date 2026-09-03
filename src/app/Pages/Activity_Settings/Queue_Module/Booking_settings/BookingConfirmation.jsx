@@ -2,6 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
+import { motion } from 'framer-motion'
 
 function BookingConfirmation({formData , setFormData}) {
   const {t} = useTranslation() 
@@ -66,12 +67,17 @@ function BookingConfirmation({formData , setFormData}) {
   
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'
+      >
         <p className='text-[#364152] text-base font-medium'>{t('Booking Confirmation')}</p>
         
         <div>
           {/*  */}
-          <div className='flex justify-between items-center mt-4'>
+          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
             <p className='text-[#364152] text-sm font-normal'>{t('Automatic booking confirmation')}</p>
             <p>
               <GreenSwitch
@@ -93,7 +99,7 @@ function BookingConfirmation({formData , setFormData}) {
           <div className='border border-[#E3E8EF] my-3'></div>
 
           {/*  */}
-          <div className='flex justify-between items-center mt-4'>
+          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
             <p className='text-[#364152] text-sm font-normal'>{t('Manual approval is required')}</p>
             <p>
               <GreenSwitch
@@ -112,7 +118,7 @@ function BookingConfirmation({formData , setFormData}) {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
     </>
   )

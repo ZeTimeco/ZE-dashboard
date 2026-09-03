@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material'
 import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl'
-
+import { motion, AnimatePresence } from 'framer-motion'
 
 function Form({getCategories ,formData , setFormData}) {
   const {t} = useTranslation()
@@ -66,7 +66,6 @@ function Form({getCategories ,formData , setFormData}) {
       images: (prev.images || []).filter((img) => {
         if (img instanceof File) return (img.name + img.size) !== id
         if (typeof img === 'string') return img !== id
-        // API object: { id, image }
         return (img.id ?? img.image ?? img.url) !== id
       }),
     }))
@@ -132,15 +131,15 @@ function Form({getCategories ,formData , setFormData}) {
   return (
     <>
     {/* Basic Information */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Basic Information')}</p>
 
       <div className='flex flex-col gap-3'>
-        {/*Classification name (Arabic)  */}
+        {/* Classification name (Arabic) */}
         <div className='w-full flex flex-col gap-1'>
           <p className='text-sm font-medium mb-1.5'>
-            <span className='text-[#364152] '>{t('Classification name')} ({t('Arabic')})</span>
-            <span className=' text-[#F04438]'>*</span>
+            <span className='text-[#364152]'>{t('Classification name')} ({t('Arabic')})</span>
+            <span className='text-[#F04438]'>*</span>
           </p>  
           <input 
             type="text"
@@ -154,14 +153,14 @@ function Form({getCategories ,formData , setFormData}) {
               }
             }))}
             placeholder={t("Classification name")}
-            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
           />
         </div>
 
-        {/*Classification name (English)  */}
+        {/* Classification name (English) */}
         <div className='w-full flex flex-col gap-1'>
           <p className='text-sm font-medium mb-1.5'>
-            <span className='text-[#364152] '>{t('Classification name')} ({t('English')})</span>
+            <span className='text-[#364152]'>{t('Classification name')} ({t('English')})</span>
           </p>  
           <input 
             type="text"
@@ -175,19 +174,19 @@ function Form({getCategories ,formData , setFormData}) {
               }
             }))}
             placeholder={t("Classification name")}
-            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
           />
         </div>
 
-        {/* ========== category type 1  ========== */}
+        {/* category type 1 */}
         <div className="flex flex-col">
           <p className='text-sm font-medium mb-1.5'>
-            <span className='text-[#364152] '>{t('Classification')} </span>
+            <span className='text-[#364152]'>{t('Classification')} </span>
           </p>
 
           <div className="relative w-full" ref={dropdownRef1}>
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer transition-all hover:border-gray-400 focus-within:border-[var(--color-primary)]"
               onClick={() => setOpen1(!open1)}
             >
               <input
@@ -198,48 +197,55 @@ function Form({getCategories ,formData , setFormData}) {
                   setSearchValue1(e.target.value);
                   setOpen1(true);
                 }}
-                className="h-14 p-3 w-full text-[#364152] focus:outline-none"
+                className="h-14 p-3 w-full text-[#364152] focus:outline-none cursor-pointer"
               />
 
               <span className="absolute left-3 cursor-pointer">
                 {open1 ? (
-                  <img src="/images/icons/ArrowUp.svg" alt="up" />
+                  <img src="/images/icons/ArrowUp.svg" alt="up" className="transition-transform duration-200" />
                 ) : (
-                  <img src="/images/icons/ArrowDown.svg" alt="down" />
+                  <img src="/images/icons/ArrowDown.svg" alt="down" className="transition-transform duration-200" />
                 )}
               </span>
             </div>
 
-            {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                {categoryType
-                  ?.filter((opt) =>
-                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
-                  )
-                  .map((opt) => (
-                    <li
-                      key={opt?.id}
-                      onClick={() => {
-                        setSearchValue1(opt?.name);
-                        setFormData((prev) => ({ ...prev, category_id: opt?.id }));
-                        setOpen1(false);
-                      }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                    >
-                      {opt?.name}
-                    </li>
-                  ))}
-              </ul>
-            )}
+            <AnimatePresence>
+              {open1 && (
+                <motion.ul
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-10 max-h-48 overflow-y-auto"
+                >
+                  {categoryType
+                    ?.filter((opt) =>
+                      opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                    )
+                    .map((opt) => (
+                      <li
+                        key={opt?.id}
+                        onClick={() => {
+                          setSearchValue1(opt?.name);
+                          setFormData((prev) => ({ ...prev, category_id: opt?.id }));
+                          setOpen1(false);
+                        }}
+                        className="p-3 hover:bg-[#F9F5E8] hover:text-[var(--color-primary)] cursor-pointer transition-colors"
+                      >
+                        {opt?.name}
+                      </li>
+                    ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
-
-        {/*description (Arabic)  */}
+        {/* description (Arabic) */}
         <div className='w-full flex flex-col gap-1.5'>
-          <p className='text-sm  mb-1.5'>
+          <p className='text-sm mb-1.5'>
             <span className='text-[#364152] font-medium'>{t('description')} {t('Arabic')} </span>
-            <span className=' text-[#697586] font-normal'>({t('optional')}) </span>
+            <span className='text-[#697586] font-normal'>({t('optional')}) </span>
           </p>  
           <textarea
             name="description"
@@ -254,15 +260,15 @@ function Form({getCategories ,formData , setFormData}) {
               })
             )}
             placeholder={t("Write a brief description")}
-            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
+            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20"
           />
         </div>
 
-        {/*description (English)  */}
+        {/* description (English) */}
         <div className='w-full flex flex-col gap-1.5'>
-          <p className='text-sm  mb-1.5'>
+          <p className='text-sm mb-1.5'>
             <span className='text-[#364152] font-medium'>{t('description')} {t('English')} </span>
-            <span className=' text-[#697586] font-normal'>({t('optional')}) </span>
+            <span className='text-[#697586] font-normal'>({t('optional')}) </span>
           </p>  
           <textarea
             name="description"
@@ -274,19 +280,17 @@ function Form({getCategories ,formData , setFormData}) {
                   ...prev.description,
                   en:e.target.value
                 }
-
               })
             )}
             placeholder={t("Write a brief description")}
-            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
+            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20"
           />
         </div>
-
       </div>
     </div>
 
     {/* images */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] my-6'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] my-6 bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Photos')}</p>
 
       {/* hidden file input */}
@@ -303,44 +307,53 @@ function Form({getCategories ,formData , setFormData}) {
       {images.length > 0 && (
         <div className='grid grid-cols-5 gap-3 mb-3'>
           {images.map((img) => (
-            <div key={img.id} className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'>
-              <img src={img.url} alt={img.name} className='w-full h-full object-cover ' />
-              <button
+            <motion.div 
+              key={img.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'
+            >
+              <img src={img.url} alt={img.name} className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105' />
+              <motion.button
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
                 type='button'
                 onClick={() => handleRemoveImage(img.id)}
-                className='absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer'
+                className='absolute top-1 right-1 w-5 h-5 bg-[#F04438] text-white rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow-sm'
               >
                 ×
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           ))}
         </div>
       )}
 
-      {/* add button — hidden when 5 images uploaded */}
+      {/* add button */}
       {images.length < 5 && (
-        <button
+        <motion.button
+          whileHover={{ borderColor: 'var(--color-primary)', backgroundColor: '#FDFBF7' }}
+          whileTap={{ scale: 0.99 }}
           type='button'
           onClick={() => fileInputRef.current?.click()}
-          className='w-full border border-dashed border-[#CDD5DF] p-4 flex flex-col gap-2 justify-center items-center cursor-pointer rounded-[3px]'
+          className='w-full border border-dashed border-[#CDD5DF] p-4 flex flex-col gap-2 justify-center items-center cursor-pointer rounded-[3px] transition-colors duration-200'
         >
           <p>
             <img src='/images/icons/image-add--gray.svg' alt='' />
           </p>
           <p className='text-[#4B5565] font-normal text-sm'>{t('Add image')}</p>
-        </button>
+        </motion.button>
       )}
 
       <p className='text-[#697586] text-xs font-normal mt-2'>{t('Add up to 5 photos')}</p>
     </div>
 
     {/* price */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] my-6'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] my-6 bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Pricing')}</p>
-      {/*Basic price  */}
       <div className='w-full flex flex-col gap-1'>
         <p className='text-sm font-medium mb-1.5'>
-          <span className='text-[#364152] '>{t('Basic price')} ({t('Egypt')})</span>
+          <span className='text-[#364152]'>{t('Basic price')} ({t('Egypt')})</span>
         </p>  
         <input 
           type="text"
@@ -351,19 +364,18 @@ function Form({getCategories ,formData , setFormData}) {
             base_price:e.target.value
           })}
           placeholder='0:00'
-          className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+          className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
         />
       </div>
-
     </div>
 
     {/* Preparation */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Preparation')}</p>
-      {/*Preparation time  */}
+      {/* Preparation time */}
       <div className='w-full flex flex-col gap-1'>
         <p className='text-sm font-medium mb-1.5'>
-          <span className='text-[#364152] '>{t('Preparation time')} ({t('minutes')})</span>
+          <span className='text-[#364152]'>{t('Preparation time')} ({t('minutes')})</span>
         </p>  
         <input 
           type="number"
@@ -371,14 +383,14 @@ function Form({getCategories ,formData , setFormData}) {
           value={formData?.prep_time_min}
           onChange={(e) => setFormData((prev) => ({ ...prev, prep_time_min: e.target.value }))}
           placeholder='0:00'
-          className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+          className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
         />
       </div>
 
-      {/*Calories */}
+      {/* Calories */}
       <div className='w-full flex flex-col gap-1 mt-3'>
         <p className='text-sm font-medium mb-1.5'>
-          <span className='text-[#364152] '>{t('Calories')} ({t('optional')})</span>
+          <span className='text-[#364152]'>{t('Calories')} ({t('optional')})</span>
         </p>  
         <input 
           type="number"
@@ -386,16 +398,15 @@ function Form({getCategories ,formData , setFormData}) {
           value={formData?.calories}
           onChange={(e) => setFormData((prev) => ({ ...prev, calories: e.target.value }))}
           placeholder='0:00'
-          className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+          className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
         />
       </div>
-
     </div>
 
     {/* Savings schedule */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6 bg-white'>
       <p className='text-[#364152] text-base font-medium'>{t('Savings schedule')}</p>
-      <div className='mt-4 flex justify-between'>
+      <div className='mt-4 flex justify-between items-center'>
         <div className='flex flex-col gap-1'>
           <p className='text-[#364152] text-sm font-normal'>{t('Available all day')}</p>
           <p className='text-[#4B5565] text-sm font-normal'>{t('Available at all times')}</p>
@@ -416,10 +427,10 @@ function Form({getCategories ,formData , setFormData}) {
     </div>
 
     {/* Status */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6 bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Status')}</p>
       
-      <div className='mt-4 flex justify-between'>
+      <div className='mt-4 flex justify-between items-center'>
         <div className='flex flex-col gap-1'>
           <p className='text-[#364152] text-sm font-normal'>{t('active')}</p>
           <p className='text-[#4B5565] text-sm font-normal'>{t('Show this category in the list')}</p>
@@ -435,11 +446,9 @@ function Form({getCategories ,formData , setFormData}) {
         </div>
       </div>
 
-
       <div className="border-[0.5px] border-[#E3E8EF] my-3" />
 
-
-      <div className='mt-4 flex justify-between'>
+      <div className='mt-4 flex justify-between items-center'>
         <div className='flex flex-col gap-1'>
           <p className='text-[#364152] text-sm font-normal'>{t('available')}</p>
           <p className='text-[#4B5565] text-sm font-normal'>{t('Marked as temporarily unavailable')}</p>
@@ -454,14 +463,7 @@ function Form({getCategories ,formData , setFormData}) {
           />
         </div>
       </div>
-
     </div>
-
-
-
-
-  
-
     </>
   )
 }

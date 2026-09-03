@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import EditPage from "./Edit/page";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
 import ConfirmDelete from "./ConfirmDelete";
+import { motion } from 'framer-motion';
 
 function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
   const {t} = useTranslation()
@@ -63,8 +64,8 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
 
       case 'right': //الجانب الايمن 
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F04438] text-[#F04438] w-fit  h-7.5 rounded-full flex justify-center items-center '>
-            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex  items-center justify-center gap-1'>
+          <div className=' bg-[#FEE4E2] border border-[#F04438] text-[#F04438] w-fit h-7.5 rounded-full flex justify-center items-center shadow-xs transition-colors duration-200'>
+            <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex items-center justify-center gap-1'>
               <span className='text-xs lg1:text-sm'>{t('Right side')}</span>
             </div>
           </div>
@@ -72,8 +73,8 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
 
       case 'left': //الجانب الأيسر
         return (
-          <div className=' bg-[#DAECFF] border border-[#007AFF] text-[#007AFF] w-fit  h-7.5 rounded-full flex  items-center '>
-            <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
+          <div className=' bg-[#DAECFF] border border-[#007AFF] text-[#007AFF] w-fit h-7.5 rounded-full flex items-center shadow-xs transition-colors duration-200'>
+            <div className='py-1 px-2 flex items-center justify-center gap-1'>
               <span className='text-xs lg1:text-sm'>{t('Left side')}</span>
             </div>
           </div>
@@ -81,8 +82,8 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
 
       case 'top': //الجانب العلوي 
         return (
-          <div className=' bg-[#FFEFD8] border border-[#FF9500] text-[#FF9500] w-fit  h-7.5 rounded-full flex  items-center '>
-            <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
+          <div className=' bg-[#FFEFD8] border border-[#FF9500] text-[#FF9500] w-fit h-7.5 rounded-full flex items-center shadow-xs transition-colors duration-200'>
+            <div className='py-1 px-2 flex items-center justify-center gap-1'>
               <span className='text-xs lg1:text-sm'>{t('Top side')}</span>
             </div>
           </div>
@@ -90,8 +91,8 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
 
       case 'bottom': //الجانب السفلي
         return (
-          <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#17B26A] w-fit  h-7.5 rounded-full flex  items-center '>
-            <div className='py-1 px-2 flex  items-center justify-center  gap-1'>
+          <div className=' bg-[#DCFAE6] border border-[#17B26A] text-[#17B26A] w-fit h-7.5 rounded-full flex items-center shadow-xs transition-colors duration-200'>
+            <div className='py-1 px-2 flex items-center justify-center gap-1'>
               <span className='text-xs lg1:text-sm'>{t('Bottom side')}</span>
             </div>
           </div>
@@ -103,32 +104,62 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
   const [openEdit , setOpenEdit] = useState(false)
   const [deleteId, setDeleteId] = useState(null)
 
-console.log(getViews);
-const [selectedViewId, setSelectedViewId] = useState(null);
+  console.log(getViews);
+  const [selectedViewId, setSelectedViewId] = useState(null);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.07,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 12 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.35,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <>
-
-      <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6'>
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className='grid grid-cols-1 lg1:grid-cols-2 gap-6'
+      >
         {getViews?.data?.map((view)=>(
-          <div key={view?.id} className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] cursor-pointer rounded-[3px] p-3 '>
+          <motion.div 
+            variants={cardVariants}
+            whileHover={{ y: -3 }}
+            key={view?.id} 
+            className='group shadow-[0_0_4px_0_rgba(0,0,0,0.20)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.1)] transition-all duration-300 cursor-pointer rounded-[3px] p-3 bg-white'
+          >
 
           {/*  */}
           <div className="flex justify-between">
             <div className='flex gap-4'>
               <p
-                className="w-15 h-14 flex items-center justify-center rounded-[3px]"
+                className="w-15 h-14 flex items-center justify-center rounded-[3px] group-hover:scale-105 transition-transform duration-200"
                 style={{ background: view?.hex_code }}
               >
                 <img src={`${IMAGE_BASE_URL}${view?.icon}`} alt="" />
               </p>
-              <p className='text-[#364152] text-xl font-normal flex items-center'>{view?.name}</p>
-
+              <p className='text-[#364152] text-xl font-normal flex items-center group-hover:text-[var(--color-primary)] transition-colors duration-200'>{view?.name}</p>
             </div>
 
             <div className="flex items-center">
               <GreenSwitch checked={view?.status} onChange={() => handleToggle(view?.id)}/>
             </div>
-
           </div>
 
           {/*  */}
@@ -148,25 +179,24 @@ const [selectedViewId, setSelectedViewId] = useState(null);
                 setSelectedViewId(view?.id);
                 setOpenEdit(true);
               }} 
-              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'
+              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
             >
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
             </button>
 
-            <button onClick={() => setDeleteId(view?.id)} className='flex items-center justify-center  gap-1 rounded-[3px] border border-[#E3E8EF] px-2 h-10 w-full cursor-pointer'>
+            <button 
+              onClick={() => setDeleteId(view?.id)} 
+              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#F97066] hover:bg-[#FEF3F2] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
+            >
               <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('delete')}</p>
             </button>
-
           </div>
 
-          
-
-          </div>
+          </motion.div>
         ))}
-        
-      </div>
+      </motion.div>
 
       <EditPage
         open={openEdit}
@@ -176,14 +206,12 @@ const [selectedViewId, setSelectedViewId] = useState(null);
       />
 
       {/* Confirm Delete Dialog */}
-          <ConfirmDelete 
-          deleteId={deleteId}
-          setDeleteId={setDeleteId}
-          handleDelete={handleDelete}
-          />
-
+      <ConfirmDelete 
+        deleteId={deleteId}
+        setDeleteId={setDeleteId}
+        handleDelete={handleDelete}
+      />
     </>
-    
   )
 }
 

@@ -2,10 +2,10 @@
 import { styled, Switch } from '@mui/material';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 
 function QueueingListNotifications({formData , setFormData}) {
   const {t} = useTranslation() 
-
   const GreenSwitch = styled((props) => (
   <Switch
     focusVisibleClassName=".Mui-focusVisible"
@@ -65,20 +65,25 @@ function QueueingListNotifications({formData , setFormData}) {
   
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'
+      >
         <p className='text-[#364152] text-base font-medium'>{t('Queueing list notifications')}</p>
 
         <div>
           {/*  */}
-          <div className='flex justify-between items-center mt-4'>
-            <p className='text-[#364152] text-sm font-normal'>{t('The table is ready')}</p>
+          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+            <p className='text-[#364152] text-sm font-normal'>{t('Queue position updates')}</p>
             <p>
               <GreenSwitch
-                checked={formData?.notify_waitlist_table_ready_enabled}
+                checked={formData?.notify_queue_position_enabled}
                 onChange={(e)=>{
                   setFormData((prev)=>({
                     ...prev,
-                    notify_waitlist_table_ready_enabled: e.target.checked ? 1 : 0
+                    notify_queue_position_enabled:e.target.checked ? 1 : 0
                   }))
                 }}
               />
@@ -88,15 +93,15 @@ function QueueingListNotifications({formData , setFormData}) {
           <div className='border border-[#E3E8EF] my-3'></div>
 
           {/*  */}
-          <div className='flex justify-between items-center mt-4'>
-            <p className='text-[#364152] text-sm font-normal'>{t('Expected time updates')}</p>
+          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+            <p className='text-[#364152] text-sm font-normal'>{t('Table ready notice')}</p>
             <p>
               <GreenSwitch
-                checked={formData?.notify_refresh_waiting_time_enabled}
+                checked={formData?.notify_table_ready_enabled}
                 onChange={(e)=>{
                   setFormData((prev)=>({
                     ...prev,
-                    notify_refresh_waiting_time_enabled: e.target.checked ? 1 : 0
+                    notify_table_ready_enabled:e.target.checked ? 1 : 0
                   }))
                 }}
               />
@@ -104,7 +109,7 @@ function QueueingListNotifications({formData , setFormData}) {
           </div>
 
         </div>
-      </div>
+      </motion.div>
 
     </>
   )

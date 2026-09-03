@@ -7,6 +7,7 @@ import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHallsViewThunk, getTageThunk, addTableThunk } from '@/redux/slice/Halls/HallsSlice'
 import { toast } from 'react-toastify'
+import { motion } from 'framer-motion'
 
 function AddContent() {
   const {t} = useTranslation()
@@ -79,35 +80,44 @@ function AddContent() {
 
   return (
     <MainLayout>
-
-      <div className='flex justify-between mb-10'>
-        <div className='flex flex-col gap-2'>
-          <p className='text-[#364152] text-2xl font-medium '>{t('Add a new table')}</p>
-          <p className='text-[#4B5565] text-base font-normal'>{t('Configuring table settings')}</p>
-        </div>
-        
-        <button onClick={() => router.push(`/Pages/Halls/Tables?hall_id=${hall_id}`)} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
-          <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
-        </button>
-      </div>
-
-
-
-      <Form 
-        getTage={getTage} 
-        getHallsView={getHallsView}
-        formData={formData}
-        setFormData={setFormData}
-      />
-
-      <button 
-        onClick={handleSubmit} 
-        disabled={loading}
-        className='bg-[var(--color-primary)] text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer disabled:opacity-50'
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
       >
-        {loading ? t('saving...') : t('save')}
-      </button>
+        <div className='flex justify-between mb-10'>
+          <div className='flex flex-col gap-2'>
+            <p className='text-[#364152] text-2xl font-medium '>{t('Add a new table')}</p>
+            <p className='text-[#4B5565] text-base font-normal'>{t('Configuring table settings')}</p>
+          </div>
+          
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => router.push(`/Pages/Halls/Tables?hall_id=${hall_id}`)} 
+            className='flex justify-center items-center bg-[var(--color-primary)] hover:opacity-95 transition-all duration-200 w-8 h-8 rounded-[3px] cursor-pointer'
+          >
+            <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
+          </motion.button>
+        </div>
 
+        <Form 
+          getTage={getTage} 
+          getHallsView={getHallsView}
+          formData={formData}
+          setFormData={setFormData}
+        />
+
+        <motion.button 
+          whileHover={!loading ? { scale: 1.01 } : {}}
+          whileTap={!loading ? { scale: 0.98 } : {}}
+          onClick={handleSubmit} 
+          disabled={loading}
+          className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md transition-all duration-200 text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer disabled:opacity-50'
+        >
+          {loading ? t('saving...') : t('save')}
+        </motion.button>
+      </motion.div>
     </MainLayout>
   )
 }

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Form({getHallType, formData, setFormData}) {
   const {t} = useTranslation();
@@ -46,51 +47,51 @@ function Form({getHallType, formData, setFormData}) {
           transform: "translateX(29px)",
           color: "#fff",
 
-          "& + .MuiSwitch-track": {
-            backgroundColor: "#10B981",
-            opacity: 1,
-            border: 0,
-          },
-
-          "&.Mui-disabled + .MuiSwitch-track": {
-            opacity: 0.5,
-          },
+        "& + .MuiSwitch-track": {
+          backgroundColor: "#10B981",
+          opacity: 1,
+          border: 0,
         },
 
-        "&.Mui-focusVisible .MuiSwitch-thumb": {
-          border: "4px solid #fff",
-        },
-
-        "&.Mui-disabled .MuiSwitch-thumb": {
-          color: theme.palette.grey[300],
+        "&.Mui-disabled + .MuiSwitch-track": {
+          opacity: 0.5,
         },
       },
 
-      "& .MuiSwitch-thumb": {
-        width: 18,
-        height: 18,
-        boxSizing: "border-box",
+      "&.Mui-focusVisible .MuiSwitch-thumb": {
+        border: "4px solid #fff",
       },
 
-      "& .MuiSwitch-track": {
-        borderRadius: 12,
-        backgroundColor: "#E9E9EA",
-        opacity: 1,
-        transition: theme.transitions.create("background-color", {
-          duration: theme.transitions.duration.standard,
-        }),
+      "&.Mui-disabled .MuiSwitch-thumb": {
+        color: theme.palette.grey[300],
       },
-    }));
+    },
 
-    useEffect(() => {
-      const handleClickOutside = (event) => {
-        if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
-        if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
-        if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
-      };
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    "& .MuiSwitch-thumb": {
+      width: 18,
+      height: 18,
+      boxSizing: "border-box",
+    },
+
+    "& .MuiSwitch-track": {
+      borderRadius: 12,
+      backgroundColor: "#E9E9EA",
+      opacity: 1,
+      transition: theme.transitions.create("background-color", {
+        duration: theme.transitions.duration.standard,
+      }),
+    },
+  }));
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+      if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) setOpen2(false);
+      if (dropdownRef3.current && !dropdownRef3.current.contains(event.target)) setOpen3(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
     
   return (
     <>
@@ -108,7 +109,7 @@ function Form({getHallType, formData, setFormData}) {
         value={formData.name}
         onChange={(e) => setFormData({...formData, name: e.target.value})}
         placeholder={t('Write the name of the hall')}
-        className={`w-full h-14 p-3 border border-[#C8C8C8]  text-sm text-[#7d8d84] rounded-[3px] outline-none `}
+        className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200`}
       />
       </div>
 
@@ -121,7 +122,7 @@ function Form({getHallType, formData, setFormData}) {
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -132,39 +133,43 @@ function Form({getHallType, formData, setFormData}) {
                 setSearchValue1(e.target.value);
                 setOpen1(true);
               }}
-              className="h-14 p-3 w-full text-[#364152] focus:outline-none"
+              className="h-14 p-3 w-full text-[#364152] focus:outline-none bg-transparent"
             />
 
-            <span className="absolute left-3 cursor-pointer">
-              {open1 ? (
-                <img src="/images/icons/ArrowUp.svg" alt="up" />
-              ) : (
-                <img src="/images/icons/ArrowDown.svg" alt="down" />
-              )}
+            <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open1 ? 'rotate-180' : ''}`}>
+              <img src="/images/icons/ArrowDown.svg" alt="toggle" />
             </span>
           </div>
 
-          {open1 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-              {optionHallType
-                ?.filter((opt) =>
-                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
-                )
-                .map((opt) => (
-                  <li
-                    key={opt?.id}
-                    onClick={() => {
-                      setFormData({...formData, hall_type_id: opt?.id});
-                      setSearchValue1("");
-                      setOpen1(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {opt?.name}
-                  </li>
-                ))}
-            </ul>
-          )}
+          <AnimatePresence>
+            {open1 && (
+              <motion.ul 
+                initial={{ opacity: 0, y: -6, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.99 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+              >
+                {optionHallType
+                  ?.filter((opt) =>
+                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                  )
+                  .map((opt) => (
+                    <li
+                      key={opt?.id}
+                      onClick={() => {
+                        setFormData({...formData, hall_type_id: opt?.id});
+                        setSearchValue1("");
+                        setOpen1(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-150 text-[#364152] text-sm"
+                    >
+                      {opt?.name}
+                    </li>
+                  ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -175,7 +180,7 @@ function Form({getHallType, formData, setFormData}) {
             {t("Floor number")}
           </label>
 
-          <label className="flex gap-2 items-center cursor-pointer">
+          <label className="flex gap-2 items-center cursor-pointer group">
             <input
               type="checkbox"
               checked={formData.floor_number === 0 || formData.floor_number === '0'}
@@ -185,10 +190,10 @@ function Form({getHallType, formData, setFormData}) {
                   floor_number: e.target.checked ? 0 : "",
                 });
               }}
-              className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
+              className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs transition-all duration-150 group-hover:border-[var(--color-primary)]"
             />
 
-            <p className="text-[#4B5565] text-sm font-normal select-none">
+            <p className="text-[#4B5565] text-sm font-normal select-none transition-colors duration-150 group-hover:text-[#1E293B]">
               {t("ground floor")}
             </p>
           </label>
@@ -205,7 +210,7 @@ function Form({getHallType, formData, setFormData}) {
             })
           }
           placeholder={t("Floor number")}
-          className="w-full px-3 py-2 h-14 p-3 border text-sm text-[#7d8d84] rounded-[3px] outline-none border-[#CDD5DF]"
+          className="w-full px-3 py-2 h-14 border text-sm text-[#364152] rounded-[3px] outline-none border-[#CDD5DF] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 transition-all duration-200"
         />
       </div>
 
@@ -216,7 +221,7 @@ function Form({getHallType, formData, setFormData}) {
           <span className=' text-[#F04438]'>*</span>
         </p>
         <div
-          className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+          className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
           onClick={() => setOpen2(!open2)}
         >
           <input
@@ -227,39 +232,43 @@ function Form({getHallType, formData, setFormData}) {
               setSearchValue2(e.target.value);
               setOpen2(true);
             }}
-            className="h-14 p-3 w-full text-[#364152] focus:outline-none"
+            className="h-14 p-3 w-full text-[#364152] focus:outline-none bg-transparent"
           />
 
-          <span className="absolute left-3 cursor-pointer">
-            {open2 ? (
-              <img src="/images/icons/ArrowUp.svg" alt="up" />
-            ) : (
-              <img src="/images/icons/ArrowDown.svg" alt="down" />
-            )}
+          <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open2 ? 'rotate-180' : ''}`}>
+            <img src="/images/icons/ArrowDown.svg" alt="toggle" />
           </span>
         </div>
 
-        {open2 && (
-          <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-            {optionDefaultBookingDuration
-              .filter((opt) =>
-                opt.toLowerCase().includes(searchValue2.toLowerCase())
-              )
-              .map((opt) => (
-                <li
-                  key={opt}
-                  onClick={() => {
-                    setFormData({...formData, default_reservation_duration_min: opt});
-                    setSearchValue2("");
-                    setOpen2(false);
-                  }}
-                  className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                >
-                  {opt}
-                </li>
-              ))}
-          </ul>
-        )}
+        <AnimatePresence>
+          {open2 && (
+            <motion.ul 
+              initial={{ opacity: 0, y: -6, scale: 0.99 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.99 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+            >
+              {optionDefaultBookingDuration
+                .filter((opt) =>
+                  opt.toLowerCase().includes(searchValue2.toLowerCase())
+                )
+                .map((opt) => (
+                  <li
+                    key={opt}
+                    onClick={() => {
+                      setFormData({...formData, default_reservation_duration_min: opt});
+                      setSearchValue2("");
+                      setOpen2(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-150 text-[#364152] text-sm"
+                  >
+                    {opt}
+                  </li>
+                ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ========== The buffer time between bookings  ========== */}
@@ -270,7 +279,7 @@ function Form({getHallType, formData, setFormData}) {
         </p>
 
         <div
-          className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+          className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
           onClick={() => setOpen3(!open3)}
         >
           <input
@@ -281,43 +290,47 @@ function Form({getHallType, formData, setFormData}) {
               setSearchValue3(e.target.value);
               setOpen3(true);
             }}
-            className="h-14 p-3 w-full text-[#364152] focus:outline-none"
+            className="h-14 p-3 w-full text-[#364152] focus:outline-none bg-transparent"
           />
 
-          <span className="absolute left-3 cursor-pointer">
-            {open3 ? (
-              <img src="/images/icons/ArrowUp.svg" alt="up" />
-            ) : (
-              <img src="/images/icons/ArrowDown.svg" alt="down" />
-            )}
+          <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open3 ? 'rotate-180' : ''}`}>
+            <img src="/images/icons/ArrowDown.svg" alt="toggle" />
           </span>
         </div>
 
-        {open3 && (
-          <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-            {optionBufferTimeBetweenBookings
-              .filter((opt) =>
-                opt.toLowerCase().includes(searchValue3.toLowerCase())
-              )
-              .map((opt) => (
-                <li
-                  key={opt}
-                  onClick={() => {
-                    setFormData({...formData, buffer_time_min: opt});
-                    setSearchValue3("");
-                    setOpen3(false);
-                  }}
-                  className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                >
-                  {opt}
-                </li>
-              ))}
-          </ul>
-        )}
+        <AnimatePresence>
+          {open3 && (
+            <motion.ul 
+              initial={{ opacity: 0, y: -6, scale: 0.99 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.99 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+            >
+              {optionBufferTimeBetweenBookings
+                .filter((opt) =>
+                  opt.toLowerCase().includes(searchValue3.toLowerCase())
+                )
+                .map((opt) => (
+                  <li
+                    key={opt}
+                    onClick={() => {
+                      setFormData({...formData, buffer_time_min: opt});
+                      setSearchValue3("");
+                      setOpen3(false);
+                    }}
+                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-150 text-[#364152] text-sm"
+                  >
+                    {opt}
+                  </li>
+                ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* ========== Hall condition =================== */}
-      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] rounded-[3px] py-3 px-4'>
+      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] hover:border-[#E2E8F0] transition-colors duration-200 rounded-[3px] py-3 px-4'>
         <div>
           <p className='text-[#364152] text-lg font-medium'>
             {t('Hall condition')}
@@ -335,14 +348,7 @@ function Form({getHallType, formData, setFormData}) {
         </div>
       </div>
 
-
-      
-
-
-
-
     </div>
-        
     </>
   )
 }

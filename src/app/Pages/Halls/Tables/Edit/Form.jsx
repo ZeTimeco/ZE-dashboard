@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { styled, Switch } from "@mui/material";
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Form({getHallsView, formData, setFormData , availableTags }) {
   const {t} = useTranslation();
@@ -85,7 +86,8 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
       }),
     },
   }));
-    const [selectedTag, setSelectedTag] = useState(null);
+  const [selectedTag, setSelectedTag] = useState(null);
+
   return (
     <>
     <div className='grid grid-cols-2 gap-6'>
@@ -102,7 +104,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
           value={formData?.code || ''}
           onChange={(e) => setFormData({ ...formData, code: e.target.value })}
           placeholder={t('Write the table/number')}
-          className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200`}
         />
       </div>
       
@@ -115,7 +117,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative h-14 flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -126,39 +128,43 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
                 setSearchValue1(e.target.value);
                 setOpen1(true);
               }}
-              className=" p-3 w-full text-sm text-[#364152] focus:outline-none"
+              className="p-3 w-full text-sm text-[#364152] focus:outline-none bg-transparent"
             />
 
-            <span className="absolute left-3 cursor-pointer">
-              {open1 ? (
-                <img src="/images/icons/ArrowUp.svg" alt="up" />
-              ) : (
-                <img src="/images/icons/ArrowDown.svg" alt="down" />
-              )}
+            <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open1 ? 'rotate-180' : ''}`}>
+              <img src="/images/icons/ArrowDown.svg" alt="toggle" />
             </span>
           </div>
 
-          {open1 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-              {option1
-                ?.filter((opt) =>
-                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
-                )
-                .map((opt) => (
-                  <li
-                    key={opt?.value}
-                    onClick={() => {
-                      setFormData(prev => ({ ...prev, shape: opt?.value }));
-                      setSearchValue1("");
-                      setOpen1(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {opt?.name}
-                  </li>
-              ))}
-            </ul>
-          )}
+          <AnimatePresence>
+            {open1 && (
+              <motion.ul 
+                initial={{ opacity: 0, y: -6, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.99 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+              >
+                {option1
+                  ?.filter((opt) =>
+                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                  )
+                  .map((opt) => (
+                    <li
+                      key={opt?.value}
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, shape: opt?.value }));
+                        setSearchValue1("");
+                        setOpen1(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-150 text-[#364152] text-sm"
+                    >
+                      {opt?.name}
+                    </li>
+                ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -171,7 +177,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
 
         <div className="relative w-full" ref={dropdownRef2}>
           <div
-            className="relative h-14 flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
             onClick={() => setOpen2(!open2)}
           >
             <input
@@ -182,62 +188,66 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
                 setSearchValue2(e.target.value);
                 setOpen2(true);
               }}
-              className="p-3 w-full text-sm text-[#364152] focus:outline-none"
+              className="p-3 w-full text-sm text-[#364152] focus:outline-none bg-transparent"
             />
 
-            <span className="absolute left-3 cursor-pointer">
-              {open2 ? (
-                <img src="/images/icons/ArrowUp.svg" alt="up" />
-              ) : (
-                <img src="/images/icons/ArrowDown.svg" alt="down" />
-              )}
+            <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open2 ? 'rotate-180' : ''}`}>
+              <img src="/images/icons/ArrowDown.svg" alt="toggle" />
             </span>
           </div>
 
-          {open2 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-              {option2
-                ?.filter((opt) =>
-                  opt?.name?.toLowerCase().includes(searchValue2.toLowerCase())
-                )
-                .map((opt) => (
-                  <li
-                    key={opt?.id}
-                    onClick={() => {
-                      setFormData(prev => ({ ...prev, views: [opt?.id] }));
-                      setSearchValue2("");
-                      setOpen2(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {opt?.name}
-                  </li>
-                ))}
-            </ul>
-          )}
+          <AnimatePresence>
+            {open2 && (
+              <motion.ul 
+                initial={{ opacity: 0, y: -6, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.99 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+              >
+                {option2
+                  ?.filter((opt) =>
+                    opt?.name?.toLowerCase().includes(searchValue2.toLowerCase())
+                  )
+                  .map((opt) => (
+                    <li
+                      key={opt?.id}
+                      onClick={() => {
+                        setFormData(prev => ({ ...prev, views: [opt?.id] }));
+                        setSearchValue2("");
+                        setOpen2(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-150 text-[#364152] text-sm"
+                    >
+                      {opt?.name}
+                    </li>
+                  ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
       {/*=========== Number of guests =============*/}
-      <div className="w-full  flex flex-col gap-1.5">
+      <div className="w-full flex flex-col gap-1.5">
         <p className='text-sm font-medium text-[#364152]'>{t('Number of guests')}</p>
 
-        <div className=" h-14 px-3 flex items-center justify-between rounded-[3px] border border-[#EEF2F6] bg-[#F8FAFC]  ">
+        <div className="h-14 px-3 flex items-center justify-between rounded-[3px] border border-[#EEF2F6] bg-[#F8FAFC]">
           <button
             onClick={() => setFormData(prev => ({ ...prev, capacity: (prev?.capacity || 1) + 1 }))}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-[white] text-lg text-[#0F022E]"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-95 transition-all duration-150 bg-white text-lg text-[#0F022E]"
           >
             +
           </button>
 
-          <div className="text-center">
+          <div className="text-center select-none">
             <p className="text-xl font-medium text-[var(--color-primary)]">{formData?.capacity || 1}</p>
             <p className="text-sm text-[#364152]">{t('Guests')}</p>
           </div>
 
           <button
             onClick={() => setFormData(prev => ({ ...prev, capacity: Math.max(1, (prev?.capacity || 1) - 1) }))}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-[white] text-lg text-[#0F022E]"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-95 transition-all duration-150 bg-white text-lg text-[#0F022E]"
           >
             -
           </button>
@@ -261,18 +271,18 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
                     return {
                       ...prev,
                       tags: already
-                        ? prev.tags.filter(id => id !== tag.id)   // إلغاء التحديد
-                        : [...(prev.tags || []), tag.id],          // إضافة
+                        ? prev.tags.filter(id => id !== tag.id)
+                        : [...(prev.tags || []), tag.id],
                     };
                   });
                 }}
                 className={`
                   min-h-10 px-4 py-2 flex justify-center items-center gap-2 
-                  text-sm font-normal rounded-full border transition-all
+                  text-sm font-normal rounded-full border hover:scale-[1.02] active:scale-[0.98] transition-all duration-150
                   ${
                     isSelected
-                      ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
-                      : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] cursor-pointer"
+                      ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-xs"
+                      : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] hover:border-[#CDD5DF] cursor-pointer"
                   }
                 `}
               >
@@ -287,7 +297,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
                         tags: prev.tags.filter(id => id !== tag.id),
                       }));
                     }}
-                    className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer"
+                    className="flex items-center justify-center w-5 h-5 rounded-full cursor-pointer hover:scale-110 active:scale-90 transition-transform"
                   >
                     <img src="/images/icons/x_white.svg" alt="close" />
                   </span>
@@ -298,9 +308,8 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
         </div>
       </div>
 
-
       {/* Available for booking */}
-      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] rounded-[3px] py-3 px-4'>
+      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] hover:border-[#CBD5E1] hover:shadow-xs rounded-[3px] py-3 px-4 transition-all duration-200'>
         <div>
           <p className='text-[#364152] text-base font-medium'>
             {t('Available for booking')}
@@ -318,7 +327,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
       </div>
 
       {/* Available*/}
-      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] rounded-[3px] py-3 px-4'>
+      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] hover:border-[#CBD5E1] hover:shadow-xs rounded-[3px] py-3 px-4 transition-all duration-200'>
         <div>
           <p className='text-[#364152] text-base font-medium'>
             {t('Available')}
@@ -335,12 +344,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
         </div>
       </div>
 
-
     </div>
-      
-
-    
-    
     </>
   )
 }

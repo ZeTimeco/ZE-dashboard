@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IMAGE_BASE_URL } from '../../../../../../config/imageUrl';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Form({getHallView , formData , setFormData , getViewsById}) {
   const {t} = useTranslation()
@@ -16,7 +17,6 @@ function Form({getHallView , formData , setFormData , getViewsById}) {
     {name:t('Top side') , value:'top'},
     {name:t('Bottom side') , value:'bottom'},
   ]
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -51,7 +51,7 @@ function Form({getHallView , formData , setFormData , getViewsById}) {
           value={formData?.name}
           onChange={(e)=>setFormData({...formData , name:e.target.value})}
           placeholder={t('Write the name of the view')}
-          className={`w-full h-14  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200`}
         />
       </div>
 
@@ -60,29 +60,30 @@ function Form({getHallView , formData , setFormData , getViewsById}) {
         <p className='text-sm font-medium'>
           <span className='text-[#364152] '>{t('Choose the icon')} </span>
         </p>
-        <div className=' grid grid-cols-3 gap-4'>
+        <div className='grid grid-cols-3 gap-4'>
           {getViewsById?.all_views?.map((items)=>{
             const isSelected = formData?.view_id 
               ? formData?.view_id === items?.id 
               : items?.is_selected;
             return (
-              <div 
+              <motion.div 
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
                 key={items?.id} 
                 onClick={()=>setFormData((prev)=>({...prev , view_id :items?.id}))}
-                className={`border py-3 px-2 flex flex-col gap-2 justify-center items-center rounded-[8px] cursor-pointer
-                  ${isSelected ? 'border-[var(--color-primary)]' : 'border-[#E3E8EF]'}
+                className={`border py-3 px-2 flex flex-col gap-2 justify-center items-center rounded-[8px] cursor-pointer transition-all duration-200
+                  ${isSelected ? 'border-[var(--color-primary)] ring-1 ring-[var(--color-primary)]/30 shadow-xs' : 'border-[#E3E8EF] hover:border-[#CBD5E1] hover:bg-[#F8FAFC]/50'}
                 `}>              
                 <p 
-                  className='w-12.5 h-12  flex items-center justify-center rounded-[3px]'
+                  className='w-12.5 h-12 flex items-center justify-center rounded-[3px] transition-transform duration-200'
                   style={{backgroundColor:items?.hex_code}}
                 >
                   <img src={`${IMAGE_BASE_URL}${items?.icon}`} alt="" />
                 </p>
-                  <p className='text-[#4B5565] text-base font-normal'>{items?.name}</p>
-              </div>
+                <p className='text-[#4B5565] text-base font-normal'>{items?.name}</p>
+              </motion.div>
             );
           })}
-        
         </div>
       </div>
 
@@ -95,7 +96,7 @@ function Form({getHallView , formData , setFormData , getViewsById}) {
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative h-14 flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -106,40 +107,44 @@ function Form({getHallView , formData , setFormData , getViewsById}) {
                 setSearchValue1(e.target.value);
                 setOpen1(true);
               }}
-              className=" p-3 w-full text-sm text-[#364152] focus:outline-none"
+              className="p-3 w-full text-sm text-[#364152] focus:outline-none bg-transparent"
             />
 
-            <span className="absolute left-3 cursor-pointer">
-              {open1 ? (
-                <img src="/images/icons/ArrowUp.svg" alt="up" />
-              ) : (
-                <img src="/images/icons/ArrowDown.svg" alt="down" />
-              )}
+            <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open1 ? 'rotate-180' : ''}`}>
+              <img src="/images/icons/ArrowDown.svg" alt="toggle" />
             </span>
           </div>
 
-          {open1 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-              {option1
-                ?.filter((opt) =>
-                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
-                )
-                .map((opt , index) => (
-                  <li
-                    key={index}
-                    onClick={() => {
-                      setFormData((prev)=>({...prev , side : opt?.value})) 
-                      
-                      setSearchValue1("");
-                      setOpen1(false);
-                    }}
-                    className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                  >
-                    {opt?.name}
-                  </li>
-              ))}
-            </ul>
-          )}
+          <AnimatePresence>
+            {open1 && (
+              <motion.ul 
+                initial={{ opacity: 0, y: -6, scale: 0.99 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -6, scale: 0.99 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+              >
+                {option1
+                  ?.filter((opt) =>
+                    opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                  )
+                  .map((opt , index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setFormData((prev)=>({...prev , side : opt?.value})) 
+                        
+                        setSearchValue1("");
+                        setOpen1(false);
+                      }}
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-150 text-[#364152] text-sm"
+                    >
+                      {opt?.name}
+                    </li>
+                ))}
+              </motion.ul>
+            )}
+          </AnimatePresence>
         </div>
       </div>
       
@@ -158,7 +163,7 @@ function Form({getHallView , formData , setFormData , getViewsById}) {
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             maxLength={100}
             placeholder={t('Write a brief description')}
-            className="w-full h-40 rounded-[3px] border border-[#CDD5DF]  p-3 text-[#364152] outline-none resize-none "
+            className="w-full h-40 rounded-[3px] border border-[#CDD5DF] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 p-3 text-[#364152] outline-none resize-none transition-all duration-200"
           />
 
           <span className="absolute bottom-2 left-3 text-sm text-gray-400">
@@ -171,10 +176,7 @@ function Form({getHallView , formData , setFormData , getViewsById}) {
           <p className='text-[#9AA4B2] text-sm font-normal'>{t('This description helps customers understand the offer.')}</p>
         </div>
       </div>
-    
-
     </div>
-
     </>
   )
 }

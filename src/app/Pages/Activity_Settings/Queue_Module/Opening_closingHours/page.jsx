@@ -7,6 +7,8 @@ import HiddenDates from './HiddenDates'
 import HiddenTables from './HiddenTables'
 import { useDispatch, useSelector } from 'react-redux'
 import { editWorkingTimesSettingsThunk, getWorkingTimesSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 
 function Opening_closingHoursPage() {
@@ -77,10 +79,10 @@ function Opening_closingHoursPage() {
       };
       await dispatch(editWorkingTimesSettingsThunk(payload)).unwrap();
       await dispatch(getWorkingTimesSettingsThunk());
-      alert(t('Restaurant information updated successfully.'));
+      toast.success(t('Restaurant information updated successfully.'));
     } catch (error) {
       console.log(error);
-      alert(error?.message || "Something went wrong.");
+      toast.error(error?.message || t("Something went wrong."));
     } finally {
       setLoading(false);
     }
@@ -106,18 +108,20 @@ function Opening_closingHoursPage() {
 
 
             {/* btn */}
-            <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className={`w-[30%] h-14 rounded-[3px] text-white transition
-              ${
-                loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[var(--color-primary)] cursor-pointer"
-              }`}
-          >
-            {loading ? t("Saving...") : t("Save changes")}
-          </button>
+            <motion.button
+              whileHover={!loading ? { scale: 1.01 } : {}}
+              whileTap={!loading ? { scale: 0.98 } : {}}
+              onClick={handleSubmit}
+              disabled={loading}
+              className={`w-[30%] h-14 rounded-[3px] text-white transition-all duration-200
+                ${
+                  loading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md cursor-pointer"
+                }`}
+            >
+              {loading ? t("Saving...") : t("Save changes")}
+            </motion.button>
 
           </div>
     

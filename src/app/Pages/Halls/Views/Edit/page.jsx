@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { editViewsThunk, getHallViewThunk, getViewsByIdThunk } from '@/redux/slice/Halls/HallsSlice'
+import { motion } from 'framer-motion'
 
 function EditContent({open , setOpen , viewId, refreshViews}) {
   const{t} = useTranslation()
@@ -74,7 +75,7 @@ console.log('getViewsById',getViewsById);
       <section className="flex justify-end px-6 mt-6">
         <button
           onClick={()=>setOpen(false)}
-          className="border border-[#CDD5DF] w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer"
+          className="border border-[#CDD5DF] hover:bg-slate-50 active:scale-95 transition-all duration-150 w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer"
         >
           <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
         </button>
@@ -92,9 +93,14 @@ console.log('getViewsById',getViewsById);
 
       {/* btn */}
       <div className='px-6'>
-        <button onClick={handleSubmit} className=' bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
+        <motion.button 
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleSubmit} 
+          className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer transition-all duration-200'
+        >
           {t('Save changes')}
-        </button>
+        </motion.button>
       </div>
     
     </Dialog>

@@ -2,6 +2,7 @@
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 import Restaurant_informationPage from './Restaurant_information/page';
 import Booking_settingsPage from './Booking_settings/page';
 import Queue_settingsPage from './Queue_settings/page';
@@ -31,39 +32,58 @@ function Queue_ModulePage() {
 
   return (
     <MainLayout>
-      
       <div>
-        <div className='flex  gap-4 border-b border-gray-200 overflow-x-auto whitespace-nowrap scrollbar-none '>
+        <div className='flex gap-4 border-b border-gray-200 overflow-x-auto whitespace-nowrap scrollbar-none'>
           {menuTabBar?.map((tab)=>(
             <button 
               key={tab.id}
               onClick={()=>setActiveTab(tab.id)}
-              className={`w-full cursor-pointer text-sm py-6 px-6 font-normal flex items-center justify-center ${
-                activeTab === tab.id ? "text-[var(--color-primary)] border-b w-full border-[var(--color-primary)]" :"text-[#364152]"
+              className={`relative w-full cursor-pointer text-sm py-6 px-6 font-normal flex items-center justify-center transition-colors duration-200 hover:text-[var(--color-primary)] ${
+                activeTab === tab.id ? "text-[var(--color-primary)]" : "text-[#364152]"
               }`}
             >
-              <div className='flex gap-1'>
-                <img src={activeTab === tab.id ? tab.iconSelected : tab.icons} className="w-5 h-5 mt-1" />
+              <div className='flex gap-1.5 items-center'>
+                <img 
+                  src={activeTab === tab.id ? tab.iconSelected : tab.icons} 
+                  className="w-5 h-5 transition-transform duration-200 hover:scale-110" 
+                  alt="" 
+                />
                 <p className='flex items-center'>
-                  <span className='text-base font-medium' >{tab.name}</span>
+                  <span className='text-base font-medium'>{tab.name}</span>
                 </p>
               </div>
-              
+
+              {activeTab === tab.id && (
+                <motion.div
+                  layoutId="queueModuleActiveTab"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--color-primary)]"
+                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                />
+              )}
             </button>
           ))}
         </div>
         
         <div className='mt-4'>
-          {activeTab===1 && <Restaurant_informationPage/>}
-          {activeTab===2 && <Booking_settingsPage/>}
-          {activeTab===3 && <Queue_settingsPage/>}
-          {activeTab===4 && <Seating_tablesPage/>}
-          {activeTab===5 && <Halls_floorPlanPage/>}
-          {activeTab===6 && <NotificationsPage/>}
-          {activeTab===7 && <PaymentsPage/>}
-          {activeTab===8 && <Staff_AuthoritiesPage/>}
-          {activeTab===9 && <Opening_closingHoursPage/>}
-
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+            >
+              {activeTab===1 && <Restaurant_informationPage/>}
+              {activeTab===2 && <Booking_settingsPage/>}
+              {activeTab===3 && <Queue_settingsPage/>}
+              {activeTab===4 && <Seating_tablesPage/>}
+              {activeTab===5 && <Halls_floorPlanPage/>}
+              {activeTab===6 && <NotificationsPage/>}
+              {activeTab===7 && <PaymentsPage/>}
+              {activeTab===8 && <Staff_AuthoritiesPage/>}
+              {activeTab===9 && <Opening_closingHoursPage/>}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </MainLayout>

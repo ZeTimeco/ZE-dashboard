@@ -9,6 +9,7 @@ import Pagination from './Pagination'
 import EmptyData from './EmptyData'
 import { useDispatch, useSelector } from 'react-redux'
 import { getOrdersThunk, getRestaurantStatusThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function FoodDelivery_ModulePage() {
 
@@ -40,27 +41,47 @@ function FoodDelivery_ModulePage() {
 
   return (
     <MainLayout>
-      
-      <Header getRestaurantStatus={getRestaurantStatus}/>
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+      >
+        <Header getRestaurantStatus={getRestaurantStatus}/>
 
-      <Filter getOrders={getOrders} activeTab={activeTab} setActiveTab={handleTabChange}/>
-      
-      {hasOrders ? (
-        <>
-          <div className='grid grid-cols-1  lg1:grid-cols-2 gap-6 my-8'>
-            <Cards getOrders={getOrders?.data}/>
-          </div>
+        <Filter getOrders={getOrders} activeTab={activeTab} setActiveTab={handleTabChange}/>
+        
+        <AnimatePresence mode="wait">
+          {hasOrders ? (
+            <motion.div
+              key={`${activeTab}-${page}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className='grid grid-cols-1 lg1:grid-cols-2 gap-6 my-8'>
+                <Cards getOrders={getOrders?.data}/>
+              </div>
 
-          <Pagination
-            currentPage={getOrders?.data?.current_page}
-            totalPages={getOrders?.data?.last_page}
-            onPageChange={setPage}
-          />
-        </>
-      ) : (
-        <EmptyData />
-      )}
-      
+              <Pagination
+                currentPage={getOrders?.data?.current_page}
+                totalPages={getOrders?.data?.last_page}
+                onPageChange={setPage}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <EmptyData />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
     </MainLayout>
   )
 }

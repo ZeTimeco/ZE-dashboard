@@ -8,6 +8,7 @@ import AddPage from './Add/page'
 import { useDispatch, useSelector } from 'react-redux'
 import { useSearchParams } from 'next/navigation'
 import { deleteViewThunk, getViewsThunk, toggleViewsThunk } from '@/redux/slice/Halls/HallsSlice'
+import { motion } from 'framer-motion'
 
 function ViewsContent() {
   const {t} = useTranslation()
@@ -43,45 +44,42 @@ function ViewsContent() {
   // console.log('getViews',getViews);
   return (
     <MainLayout>
-      
-      {/* <No_Views_Add/> */}
-
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+      >
         {/* header */}
-        <div className=" flex justify-between mb-8">
+        <div className="flex justify-between mb-8">
           <div>
             <p className='text-[#364152] text-2xl font-medium'>{t("Lounge view")}</p>
             <p className='text-[#697586] text-xl font-normal'>{t("Identifying aspects of the showroom offered to customers")}</p>
           </div>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
             onClick={()=>setOpenAdd(true)}
-            className='lg1:w-[20%] w-[30%] h-14 flex items-center justify-center gap-2  bg-[var(--color-primary)] text-[white] text- cursor-pointer rounded-[3px]'
+            className='lg1:w-[20%] w-[30%] h-14 flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md transition-all duration-200 text-white cursor-pointer rounded-[3px]'
           >
             <span>
               <img src="/images/icons/AddIcon.svg" alt="" />
             </span>
             <span>{t('Add new view')}</span>
-          </button>
+          </motion.button>
         </div>
 
         {/* cards */}
-        <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
-          <CardOfViews  getViews={getViews} handleDelete={handleDelete} handleToggle={handleToggle} refreshViews={() => dispatch(getViewsThunk(id))}/>
+        <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px] transition-shadow duration-300'>
+          <CardOfViews getViews={getViews} handleDelete={handleDelete} handleToggle={handleToggle} refreshViews={() => dispatch(getViewsThunk(id))}/>
         </div>
-        
-      </div>
-
-
+      </motion.div>
 
       <AddPage
         open={openAdd}
         setOpen={setOpenAdd}
         Hallid = {id}
       />
-
     </MainLayout>
-
-
   )
 }
 

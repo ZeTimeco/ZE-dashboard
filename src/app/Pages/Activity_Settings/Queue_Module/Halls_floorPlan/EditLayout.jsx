@@ -2,6 +2,7 @@
 import { styled, Switch } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function EditLayout({formData , setFormData}) {
   const {t} = useTranslation() 
@@ -84,11 +85,16 @@ function EditLayout({formData , setFormData}) {
 
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'
+      >
         <p className='text-[#364152] text-base font-medium'>{t('Edit Layout')}</p>
         
         {/* */}
-        <div className='flex justify-between items-center mt-4'>
+        <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
           <div>
             <p className='text-[#364152] text-sm font-normal'>{t('Draft versus published plan')}</p>
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Save the plans as a draft before publishing')}</p>
@@ -119,7 +125,7 @@ function EditLayout({formData , setFormData}) {
   <div className="relative w-[35%]" ref={dropdownRef1}>
     {/* Trigger */}
     <div
-      className="relative min-h-8 flex flex-wrap items-center gap-1 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer px-2 py-1"
+      className="relative min-h-8 flex flex-wrap items-center gap-1 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer px-2 py-1 hover:border-[#9AA4B2] transition-colors duration-150"
       onClick={() => setOpen1(!open1)}
     >
       {formData.who_can_edit_floor_plan.length > 0 ? (
@@ -136,7 +142,7 @@ function EditLayout({formData , setFormData}) {
 
               <button
                 type="button"
-                className="text-[#364152] hover:text-red-500 leading-none"
+                className="text-[#364152] hover:text-red-500 leading-none transition-colors duration-150"
                 onClick={(e) => {
                   e.stopPropagation();
 
@@ -170,51 +176,59 @@ function EditLayout({formData , setFormData}) {
     </div>
 
     {/* Dropdown */}
-    {open1 && (
-      <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-        {option1.map((opt) => {
-          const isChecked =
-            formData.who_can_edit_floor_plan.includes(opt.value);
+    <AnimatePresence>
+      {open1 && (
+        <motion.ul
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.15 }}
+          className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto"
+        >
+          {option1.map((opt) => {
+            const isChecked =
+              formData.who_can_edit_floor_plan.includes(opt.value);
 
-          return (
-            <li
-              key={opt.value}
-              onClick={(e) => {
-                e.stopPropagation();
+            return (
+              <li
+                key={opt.value}
+                onClick={(e) => {
+                  e.stopPropagation();
 
-                setFormData((prev) => ({
-                  ...prev,
-                  who_can_edit_floor_plan: isChecked
-                    ? prev.who_can_edit_floor_plan.filter(
-                        (v) => v !== opt.value
-                      )
-                    : [
-                        ...prev.who_can_edit_floor_plan,
-                        opt.value,
-                      ],
-                }));
-              }}
-              className={`flex items-center justify-between p-3 hover:bg-[#F5F5F5] cursor-pointer ${
-                isChecked ? "bg-[#F0F4FF]" : ""
-              }`}
-            >
-              <span className="text-sm text-[#364152]">
-                {opt.name}
-              </span>
+                  setFormData((prev) => ({
+                    ...prev,
+                    who_can_edit_floor_plan: isChecked
+                      ? prev.who_can_edit_floor_plan.filter(
+                          (v) => v !== opt.value
+                        )
+                      : [
+                          ...prev.who_can_edit_floor_plan,
+                          opt.value,
+                        ],
+                  }));
+                }}
+                className={`flex items-center justify-between p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-100 ${
+                  isChecked ? "bg-[#F0F4FF]" : ""
+                }`}
+              >
+                <span className="text-sm text-[#364152]">
+                  {opt.name}
+                </span>
 
-              {isChecked && (
-                <img src="/images/icons/xx.svg" alt="selected" />
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    )}
+                {isChecked && (
+                  <img src="/images/icons/xx.svg" alt="selected" />
+                )}
+              </li>
+            );
+          })}
+        </motion.ul>
+      )}
+    </AnimatePresence>
   </div>
 </div>
       
       
-      </div>
+      </motion.div>
 
     </>
   )

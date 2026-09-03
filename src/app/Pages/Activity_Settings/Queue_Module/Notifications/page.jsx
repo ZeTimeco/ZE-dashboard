@@ -8,6 +8,8 @@ import ProviderAlerts from './ProviderAlerts'
 import DeliveryChannels from './DeliveryChannels'
 import { useDispatch, useSelector } from 'react-redux'
 import { editNotificationSettingsThunk, getNotificationSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 function NotificationsPage() {
   const {t} = useTranslation()
@@ -53,10 +55,10 @@ function NotificationsPage() {
     try{
       await dispatch(editNotificationSettingsThunk(formData)).unwrap()
       await dispatch(getNotificationSettingsThunk())
-      alert(t('Restaurant information updated successfully.'));
+      toast.success(t('Restaurant information updated successfully.'));
     }catch(error){
       console.log(error);
-      alert(error?.message || "Something went wrong.");
+      toast.error(error?.message || t("Something went wrong."));
     } finally {
         setLoading(false);
     }
@@ -65,33 +67,32 @@ function NotificationsPage() {
 
   return (
     <>
-      <div className='border border-[#E3E8EF] mb-4'>
-          <div>
-            <Header/>
-          </div>
-    
-          <div className='p-6 flex flex-col gap-4'>
-            <BookingNotifications formData={formData} setFormData={setFormData}/>
-            <QueueingListNotifications formData={formData} setFormData={setFormData}/>
-            <ProviderAlerts formData={formData} setFormData={setFormData}/>
-            <DeliveryChannels formData={formData} setFormData={setFormData}/>
-        
-          <button
+      <div className='border border-[#E3E8EF] mb-4 rounded-[3px] bg-white shadow-2xs'>
+        <div>
+          <Header/>
+        </div>
+  
+        <div className='p-6 flex flex-col gap-4'>
+          <BookingNotifications formData={formData} setFormData={setFormData}/>
+          <QueueingListNotifications formData={formData} setFormData={setFormData}/>
+          <ProviderAlerts formData={formData} setFormData={setFormData}/>
+          <DeliveryChannels formData={formData} setFormData={setFormData}/>
+      
+          <motion.button
+            whileHover={!loading ? { scale: 1.01 } : {}}
+            whileTap={!loading ? { scale: 0.98 } : {}}
             onClick={handleSubmit}
             disabled={loading}
-            className={`w-[30%] h-14 rounded-[3px] text-white transition
+            className={`w-[30%] h-14 rounded-[3px] text-white transition-all duration-200
               ${
                 loading
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[var(--color-primary)] cursor-pointer"
+                  : "bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md cursor-pointer"
               }`}
           >
             {loading ? t("Saving...") : t("Save changes")}
-          </button>
-          </div>
-    
-          
-          
+          </motion.button>
+        </div>
       </div>
     </>
   )

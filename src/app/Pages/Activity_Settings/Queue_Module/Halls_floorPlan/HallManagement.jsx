@@ -2,6 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled, Switch } from '@mui/material';
+import { motion } from 'framer-motion'
 
 function HallManagement({formData , setFormData}) {
   const {t} = useTranslation() 
@@ -65,10 +66,15 @@ function HallManagement({formData , setFormData}) {
 
   return (
     <>
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'
+      >
         <p className='text-[#364152] text-base font-medium'>{t('Hall Management')}</p>
       
-        <div className='flex justify-between items-center mt-4'>
+        <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
           <div>
             <p className='text-[#364152] text-sm font-normal'>{t('Activating the multiple halls')}</p>
             <p className='text-[#4B5565] text-xs font-normal mt-1'>{t('Activate this option if your restaurant has multiple seating areas.')}</p>
@@ -87,7 +93,7 @@ function HallManagement({formData , setFormData}) {
             />
           </p>
         </div>
-      </div>
+      </motion.div>
 
     </>
   )

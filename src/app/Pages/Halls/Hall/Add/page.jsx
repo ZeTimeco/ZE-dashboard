@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { AddHallThunk, getHallTypeThunk } from '@/redux/slice/Halls/HallsSlice'
 import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 
 function AddContent() {
   const {t} = useTranslation();
@@ -28,8 +29,6 @@ function AddContent() {
     image:'',
 
   })
-
-  
 
   const handleSubmit = async () => {
     const data = new FormData();
@@ -59,31 +58,44 @@ function AddContent() {
 
   return (
     <MainLayout>
-
-      <div className='flex justify-between mb-10'>
-        <div className='flex flex-col gap-2'>
-          <p className='text-[#364152] text-2xl font-medium '>{t('Adding a new hall')}</p>
-          <p className='text-[#4B5565] text-base font-normal'>{t('Enter the details of the new lounge to start offering it to your customers.')}</p>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+      >
+        <div className='flex justify-between mb-10'>
+          <div className='flex flex-col gap-2'>
+            <p className='text-[#364152] text-2xl font-medium '>{t('Adding a new hall')}</p>
+            <p className='text-[#4B5565] text-base font-normal'>{t('Enter the details of the new lounge to start offering it to your customers.')}</p>
+          </div>
+          
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => router.push('/Pages/Halls/Hall')} 
+            className='flex justify-center items-center bg-[var(--color-primary)] hover:opacity-95 transition-all duration-200 w-8 h-8 rounded-[3px] cursor-pointer'
+          >
+            <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
+          </motion.button>
         </div>
-        
-        <button onClick={() => router.push('/Pages/Halls/Hall')} className='flex justify-center items-center bg-[var(--color-primary)] w-8 h-8 rounded-[3px] cursor-pointer'>
-          <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
-        </button>
-      </div>
 
-      <div className="flex flex-col gap-6 border border-[#CDD5DF] rounded-[3px] py-8 px-6">
-        <ImageUpload formData={formData} setFormData={setFormData}/>
-        <Form getHallType={getHallType} formData={formData} setFormData={setFormData}/>
-      </div>
+        <div className="flex flex-col gap-6 border border-[#CDD5DF] rounded-[3px] py-8 px-6 transition-all duration-200">
+          <ImageUpload formData={formData} setFormData={setFormData}/>
+          <Form getHallType={getHallType} formData={formData} setFormData={setFormData}/>
+        </div>
 
-      <button onClick={handleSubmit} className='bg-[var(--color-primary)] text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer'>
-        {t('save')}
-      </button>
-      
+        <motion.button 
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleSubmit} 
+          className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer transition-all duration-200'
+        >
+          {t('save')}
+        </motion.button>
+      </motion.div>
     </MainLayout>
   )
 }
-
 
 export default function AddPage() {
   return (

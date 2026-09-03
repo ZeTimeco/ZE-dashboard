@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { DeleteTableThunk, EditRestaurantTableThunk } from '@/redux/slice/Halls/HallsSlice';
 import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 
 function Cards({ table, hallId, onRefresh, setSelectedTableId }) {
   const { t } = useTranslation()
@@ -56,81 +57,34 @@ function Cards({ table, hallId, onRefresh, setSelectedTableId }) {
     }
   }
 
-  // const StatusRender = (status) => {
-  //   switch (status) {
-  //     case 1:
-  //     case true:
-  //       return (
-  //         <div className='bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center'>
-  //           <div className='py-1 px-3 flex items-center justify-center gap-1'>
-  //             <span className='text-xs lg1:text-sm font-medium'>{t('active')}</span>
-  //           </div>
-  //         </div>
-  //       );
-  //     case 0:
-  //     case false:
-  //       return (
-  //         <div className='bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-7.5 rounded-full flex items-center'>
-  //           <div className='py-1 px-3 flex items-center justify-center gap-1'>
-  //             <span className='text-xs lg1:text-sm font-medium'>{t('closed')}</span>
-  //           </div>
-  //         </div>
-  //       );
-  //     default:
-  //       return null;
-  //   }
-  // }
-
-  // const StatusRender2 = (status) => {
-  //   switch (status) {
-  //     case 1:
-  //     case true:
-  //       return (
-  //         <div className='bg-[#DCFAE6] border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center'>
-  //           <div className='py-1 px-3 flex items-center justify-center gap-1'>
-  //             <img src="/images/icons/true.svg" alt="" className='w-4 h-4' />
-  //             <span className='text-xs lg1:text-sm font-medium'>{t('Available for booking')}</span>
-  //           </div>
-  //         </div>
-  //       );
-  //     case 0:
-  //     case false:
-  //       return (
-  //         <div className='bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit h-7.5 rounded-full flex items-center'>
-  //           <div className='py-1 px-3 flex items-center justify-center gap-1'>
-  //             <img src="/images/icons/xxx.svg" alt="" className='w-4 h-4' />
-  //             <span className='text-xs lg1:text-sm font-medium'>{t('Not available for booking')}</span>
-  //           </div>
-  //         </div>
-  //       );
-  //     default:
-  //       return null;
-  //   }
-  // }
-
-console.log('table' , table);
+  console.log('table' , table);
 
   return (
     <div className='grid grid-cols-2'>
-      <div className='mt-8 shadow-[0_0_8px_0_rgba(0,0,0,0.12)] border border-[#E3E8EF] p-6'>
+      <motion.div 
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className='mt-8 shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-[#E3E8EF] p-6 bg-white rounded-[6px]'
+      >
         <div className='flex justify-end items-center'>
           <button 
             onClick={() => setSelectedTableId(null)}
-            className=' text-gray-500  font-medium cursor-pointer text-2xl'
+            className='text-gray-400 hover:text-gray-700 hover:scale-110 active:scale-95 transition-all duration-150 font-medium cursor-pointer text-xl w-6 h-6 flex items-center justify-center'
           >
             ✕
           </button>
         </div>
 
-        <div className='relative  bg-white rounded-[8px] px-5 '>
+        <div className='relative bg-white rounded-[8px] px-2'>
           <div className='flex justify-between'>
             <div className='flex gap-6 w-full'>
               {/* image/shape icon */}
-              <div className='border bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)]  flex  justify-center items-center rounded-[8px] text-[#FCFCFD]  w-35 h-25'>
+              <div className='border border-blue-600/20 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] flex justify-center items-center rounded-[8px] text-[#FCFCFD] w-35 h-25 shadow-xs'>
                 <p className='text-2xl font-bold'>{table?.code}</p>
               </div>
 
-              <div className=' flex flex-col gap-4 justify-center w-full '>
+              <div className='flex flex-col gap-4 justify-center w-full'>
                 <div className='flex gap-1 text-[#4B5565] text-base font-normal'>
                   <p className=''>{table?.views?.[0]?.name || t('No specific view')}</p>
                   <p>-</p>
@@ -142,22 +96,16 @@ console.log('table' , table);
                     <img src="/images/icons/user-group_grey.svg" className="w-4 h-4" alt="" />
                     <span className='text-[#4B5565] text-sm font-medium'>{table?.capacity} {t('Guests')}</span>
                   </p>
-                  
                 </div>
               </div>
             </div>
-
-            {/* <div className='flex flex-col gap-3 justify-end items-center md:items-end border'>
-              {StatusRender(table?.is_active)}
-              {StatusRender2(table?.is_bookable)}
-            </div> */}
           </div>
 
           {/* Action buttons */} 
-          <div className='grid grid-cols-3 gap-4  pt-4 w-full'>
+          <div className='grid grid-cols-3 gap-4 pt-4 w-full'>
             <button 
               onClick={() => router.push(`/Pages/Halls/Tables/Edit?id=${table?.id}&hall_id=${hallId}`)}  
-              className='flex items-center justify-center gap-2 rounded-[4px] border border-[#CDD5DF] bg-white hover:bg-slate-50 transition-colors px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
+              className='flex items-center justify-center gap-2 rounded-[4px] border border-[#CDD5DF] bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
             >
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <span>{t('modification')}</span>
@@ -165,7 +113,7 @@ console.log('table' , table);
 
             <button 
               onClick={handleToggleActive}
-              className='flex items-center justify-center gap-2 rounded-[4px] border border-[#CDD5DF] bg-white hover:bg-slate-50 transition-colors px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
+              className='flex items-center justify-center gap-2 rounded-[4px] border border-[#CDD5DF] bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
             >
               <img src={table?.is_active ? "/images/icons/shut-down.svg" : "/images/icons/checkmark-circle-true.svg"} className='w-5 h-5' alt="" />
               <span>{table?.is_active ? t('closing') : t('reactivation')}</span>
@@ -173,16 +121,14 @@ console.log('table' , table);
 
             <button 
               onClick={handleDelete} 
-              className='flex items-center justify-center gap-2 rounded-[4px] border border-red-200 bg-red-50 hover:bg-red-100 transition-colors px-2 h-11 w-full cursor-pointer font-medium text-red-700 text-sm'
+              className='flex items-center justify-center gap-2 rounded-[4px] border border-red-200 bg-red-50 hover:bg-red-100 hover:border-red-300 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-red-700 text-sm'
             >
               <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
               <span>{t('delete')}</span>
             </button>
           </div>
-
-
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

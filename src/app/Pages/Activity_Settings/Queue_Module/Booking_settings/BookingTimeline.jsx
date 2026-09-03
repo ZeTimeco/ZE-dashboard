@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function BookingTimeline({formData , setFormData}) {
   const {t} = useTranslation() 
@@ -28,8 +29,12 @@ function BookingTimeline({formData , setFormData}) {
   
   return (
     <>
-
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25 }}
+        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'
+      >
         <p className='text-[#364152] text-base font-medium'>{t('Booking Timeline')}</p>
         
 
@@ -39,7 +44,7 @@ function BookingTimeline({formData , setFormData}) {
             <p className='text-[#364152] text-sm font-normal w-[85%]'>{t('Duration of the time period')}</p>
             <div className="relative w-[15%]" ref={dropdownRef1}>
               <div
-                className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer"
+                className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer hover:border-[#9AA4B2] transition-colors duration-150"
                 onClick={() => setOpen1(!open1)}
               >
                 <input
@@ -64,29 +69,37 @@ function BookingTimeline({formData , setFormData}) {
                   )}
                 </span>
               </div>
-              {open1 && (
-                <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                  {option1
-                    ?.filter((opt) =>
-                      opt?.toLowerCase().includes(searchValue1.toLowerCase())
-                    )
-                    .map((opt) => (
-                      <li
-                        key={opt}
-                        onClick={() => {
-                          setOpen1(false);
-                          setFormData((prev)=>({
-                            ...prev,
-                            reservation_duration_minutes:opt
-                          }))
-                        }}
-                        className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                      >
-                        {opt}
-                      </li>
-                  ))}
-                </ul>
-              )}
+              <AnimatePresence>
+                {open1 && (
+                  <motion.ul
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto"
+                  >
+                    {option1
+                      ?.filter((opt) =>
+                        opt?.toLowerCase().includes(searchValue1.toLowerCase())
+                      )
+                      .map((opt) => (
+                        <li
+                          key={opt}
+                          onClick={() => {
+                            setOpen1(false);
+                            setFormData((prev)=>({
+                              ...prev,
+                              reservation_duration_minutes:opt
+                            }))
+                          }}
+                          className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-100"
+                        >
+                          {opt}
+                        </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
@@ -97,7 +110,7 @@ function BookingTimeline({formData , setFormData}) {
             <p className='text-[#364152] text-sm font-normal w-[85%]'>{t('Time between bookings')}</p>
             <div className="relative w-[15%]" ref={dropdownRef2}>
               <div
-                className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer"
+                className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer hover:border-[#9AA4B2] transition-colors duration-150"
                 onClick={() => setOpen2(!open2)}
               >
                 <input
@@ -122,36 +135,44 @@ function BookingTimeline({formData , setFormData}) {
                   )}
                 </span>
               </div>
-              {open2 && (
-                <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
-                  {option2
-                    ?.filter((opt) =>
-                      opt?.toLowerCase().includes(searchValue2.toLowerCase())
-                    )
-                    .map((opt) => (
-                      <li
-                        key={opt}
-                        onClick={() => {
-                          setSearchValue2("");
-                          setOpen2(false);
-                          setFormData((prev)=>({
-                            ...prev,
-                            gap_between_reservations_minutes:opt
-                          }))
-                        }}
-                        className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
-                      >
-                        {opt}
-                      </li>
-                  ))}
-                </ul>
-              )}
+              <AnimatePresence>
+                {open2 && (
+                  <motion.ul
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto"
+                  >
+                    {option2
+                      ?.filter((opt) =>
+                        opt?.toLowerCase().includes(searchValue2.toLowerCase())
+                      )
+                      .map((opt) => (
+                        <li
+                          key={opt}
+                          onClick={() => {
+                            setSearchValue2("");
+                            setOpen2(false);
+                            setFormData((prev)=>({
+                              ...prev,
+                              gap_between_reservations_minutes:opt
+                            }))
+                          }}
+                          className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-100"
+                        >
+                          {opt}
+                        </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
             </div>
           </div>
         </div>
 
 
-      </div>
+      </motion.div>
 
     </>
   )

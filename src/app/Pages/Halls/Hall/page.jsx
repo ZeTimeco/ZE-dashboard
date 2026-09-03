@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getHallsThunk } from '@/redux/slice/Halls/HallsSlice'
 
 
+import { motion } from 'framer-motion'
+
 function HallContent() {
   const {t} = useTranslation()
 
@@ -19,16 +21,17 @@ function HallContent() {
     dispatch(getHallsThunk());
   }, [dispatch])
 
-  
-  
   return (
     <MainLayout>
       <>
-
       {halls?.data?.label === 0 ? (
         <No_Halls_Add />
       ):(
-        <div>
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+        >
         {/* header */}
         <div className=" flex justify-between mb-8">
           <div>
@@ -42,16 +45,12 @@ function HallContent() {
         </div>
 
         {/* cards */}
-        <div  className='border border-[#E3E8EF] py-8 px-6 rounded-[3px]'>
+        <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px] transition-shadow duration-300'>
           <CardOfHall halls={halls}/>
         </div>
         
-
-
-        </div>
+        </motion.div>
       )}
-      
-      
       </>
     </MainLayout>
   )
