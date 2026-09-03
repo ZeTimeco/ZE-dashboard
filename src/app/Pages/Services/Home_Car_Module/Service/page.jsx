@@ -56,7 +56,7 @@ function ServicePage() {
     setCurrentPage(1);
   };
 
-  //link api data to cards
+  // Link API data to cards
   const dispatch = useDispatch();
   const { services, loading, error, pagination } = useSelector((state) => state.services);
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,79 +80,79 @@ function ServicePage() {
 
   return (
     <MainLayout>
-      {loading || services?.length > 0 ? (
-        <motion.div 
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="w-full"
-        >
-          <section>
-            {/* 📱 Mobile / Tablet Header */}
-            <div className="lg1:hidden flex justify-between mb-8 items-center">
-              <p className="text-[#000] text-2xl font-medium flex items-center tracking-tight">
-                {t("Services")}
-              </p>
+      <motion.div 
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="w-full"
+      >
+        <section>
+          {/* 📱 Mobile / Tablet Header */}
+          <div className="lg1:hidden flex justify-between mb-8 items-center">
+            <p className="text-[#000] text-2xl font-medium flex items-center tracking-tight">
+              {t("Services")}
+            </p>
+            <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+              <AddBtn               
+                href="/Pages/Services/Home_Car_Module/Service/Add"
+                label="Add a sub-service" 
+              />
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center gap-4">
+            <div className="flex-1">
+              <SearchForm 
+                placeholderKey="Search by worker name, job title, or phone number" 
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+            </div>
+            <div className="lg1:flex lg1:gap-4 gap-6 items-center">
               <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
-                <AddBtn               
+                <FilterBtn onClick={handleClickOpen} />
+              </div>
+              <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                <AddBtn
                   href="/Pages/Services/Home_Car_Module/Service/Add"
-                  label="Add a sub-service" 
+                  label="Add a sub-service"
+                  className="hidden lg1:flex"
                 />
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="flex justify-between items-center gap-4">
-              <div className="flex-1">
-                <SearchForm 
-                  placeholderKey="Search by worker name, job title, or phone number" 
-                  onChange={(e) => handleSearch(e.target.value)}
-                />
+        <section className="mt-10 w-full mb-8">
+          {loading ? (
+            <section className="grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
+              <div className="flex justify-center items-center h-60 w-full col-span-full">
+                <CircularProgress color="warning" size={60} />
               </div>
-              <div className="lg1:flex lg1:gap-4 gap-6 items-center">
-                <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
-                  <FilterBtn onClick={handleClickOpen} />
-                </div>
-                <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
-                  <AddBtn
-                    href="/Pages/Services/Home_Car_Module/Service/Add"
-                    label="Add a sub-service"
-                    className="hidden lg1:flex"
-                  />
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section className="mt-10 w-full mb-8">
-            {loading ? (
-              <section className="grid grid-cols-2 gap-4 lg1:grid-cols-3 lg1:gap-6">
-                <div className="flex justify-center items-center h-60 w-full col-span-full">
-                  <CircularProgress color="warning" size={60} />
-                </div>
-              </section>
-            ) : !error && services?.length > 0 ? (
-              <motion.section 
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid gap-4  lg1:grid-cols-3 lg1:gap-6"
-              >
-                {services.map((service, index) => (
-                  <ServiceCard key={service.id} service={service} index={index} />
-                ))}
-              </motion.section>
-            ) : null}
-          </section>
-          
+            </section>
+          ) : !error && services?.length > 0 ? (
+            <motion.section 
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid gap-4 lg1:grid-cols-3 lg1:gap-6"
+            >
+              {services.map((service, index) => (
+                <ServiceCard key={service.id} service={service} index={index} />
+              ))}
+            </motion.section>
+          ) : (
+            <No_services_Add />
+          )}
+        </section>
+        
+        {services?.length > 0 && pagination?.last_page > 1 && (
           <Pagination
             totalPages={pagination?.last_page || 1}
             currentPage={currentPage}
             onPageChange={handlePageChange}
           />
-        </motion.div>
-      ) : (
-        <No_services_Add />
-      )}
+        )}
+      </motion.div>
 
       <FiltersPage 
         open={open} 

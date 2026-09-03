@@ -1,116 +1,134 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 
 function PaymentPage({getReservationsById}) {
   const {t} = useTranslation()
   const status = 'pending'
-    // '!pending','!confirmed','!seated','!completed','!cancelled','no_show','!arrived','!rejected'
+
+  // '!pending','!confirmed','!seated','!completed','!cancelled','no_show','!arrived','!rejected'
   const StatusRender = (status) => {
     switch (status) {
-      case "confirmed": //مؤكد
+      case "confirmed":
         return (
-          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
-          <div className='py-1.5 px-3 flex gap-1'>
-            <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-            <span className=''>{t('certain')}</span>
-          </div>
-        </div>
-        );
-      case "completed"://مكتملة
-        return (
-          <div className=' bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit  h-9.5 rounded-3xl'>
-          <div className='py-1.5 px-3 flex gap-1'>
-            <img src="/images/icons/Active Status.svg" alt="" className=' mt-1' />
-            <span className=''>{t('Complete')}</span>
-          </div>
-        </div>
-        );
-      case "pending": //قيد الانتظار          
-        return (
-          <div className=' bg-[#FFFAEB] border  border-[#F79009] text-[#DC6803] w-fit h-9.5 rounded-3xl'>
+          <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/pending Status.svg" alt=""className=' mt-1' />
+              <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
+              <span className=''>{t('certain')}</span>
+            </div>
+          </div>
+        );
+      case "completed":
+        return (
+          <div className='bg-[#DCFAE6] border border-[#067647] text-[#067647] w-fit h-9.5 rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/Active Status.svg" alt="" className='mt-1' />
+              <span className=''>{t('Complete')}</span>
+            </div>
+          </div>
+        );
+      case "pending":
+        return (
+          <div className='bg-[#FFFAEB] border border-[#F79009] text-[#DC6803] w-fit h-9.5 rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/pending Status.svg" alt="" className='mt-1' />
               <span className=''>{t('Pending')}</span>
             </div>
           </div>
         );
-      case "arrived": // وصل
+      case "arrived":
         return (
-          <div className=' bg-[#F9F5E8] border border-[#9E7A11] text-[#9E7A11] w-fit h-9.5 rounded-3xl'>
+          <div className='bg-[#F9F5E8] border border-[#9E7A11] text-[#9E7A11] w-fit h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/tabler_map-pin-check.svg" alt="" className=' mt-1' />
+              <img src="/images/icons/tabler_map-pin-check.svg" alt="" className='mt-1' />
               <span className=''>{t('receipt')}</span>
             </div>
           </div>
         );
-      case "seated": // جالس
-      return (
-        <div className=' bg-[#E3E8EF] border border-[#697586] text-[#4B5565] w-fit h-9.5 rounded-3xl'>
-          <div className='py-1.5 px-3 flex gap-1'>
-            <img src="/images/icons/chair-gray.svg" alt="" className=' mt-1' />
-            <span className=''>{t('sitting')}</span>
-          </div>
-        </div>
-      );
-      case "no_show": // لم يحضر
+      case "seated":
         return (
-          <div className=' bg-[#EDE7FD] border border-[#713DEC] text-[#713DEC] w-fit h-9.5 rounded-3xl'>
+          <div className='bg-[#E3E8EF] border border-[#697586] text-[#4B5565] w-fit h-9.5 rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/tabler_map-pin-x.svg" alt="" className=' mt-1'/>
+              <img src="/images/icons/chair-gray.svg" alt="" className='mt-1' />
+              <span className=''>{t('sitting')}</span>
+            </div>
+          </div>
+        );
+      case "no_show":
+        return (
+          <div className='bg-[#EDE7FD] border border-[#713DEC] text-[#713DEC] w-fit h-9.5 rounded-3xl'>
+            <div className='py-1.5 px-3 flex gap-1'>
+              <img src="/images/icons/tabler_map-pin-x.svg" alt="" className='mt-1' />
               <span className=''>{t('not_attend')}</span>
             </div>
           </div>
         );
-      case "canceled": // ملغيه
+      case "canceled":
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
+          <div className='bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
+              <img src="/images/icons/refused Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('cancelled')}</span>
             </div>
           </div>
         );
-      case "rejected": // مرفوضه
+      case "rejected":
         return (
-          <div className=' bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit  rounded-3xl'>
+          <div className='bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] w-fit rounded-3xl'>
             <div className='py-1.5 px-3 flex gap-1'>
-              <img src="/images/icons/refused Status.svg" alt="" className=' mt-1' />
+              <img src="/images/icons/refused Status.svg" alt="" className='mt-1' />
               <span className='text-xs font-normal flex items-center'>{t('rejected')}</span>
             </div>
           </div>
         );
-      }
+    }
   };
+
   return (
     <>
       <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4'>
-        <p className='flex gap-1'>
+        <motion.p
+          className='flex gap-1 items-center'
+          initial={{ opacity: 0, x: -8 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
           <img src="/images/icons/save-money-dollar-Yellow.svg" alt="" />
           <span className='text-[#364152] text-xl font-medium'>{t('Payment')}</span>
-        </p>
+        </motion.p>
 
-        <div className='flex justify-between my-4'>
+        <motion.div
+          className='flex justify-between my-4'
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut', delay: 0.08 }}
+        >
           <div className='font-normal'>
             <p className='text-[#697586] text-base'>{t('Deposit amount')}</p>
-            <p className='text-[#364152] text-lg'>{getReservationsById?.payment?.deposit_paid} جنيه </p>
+            <p className='text-[#364152] text-lg'>{getReservationsById?.payment?.deposit_paid} جنيه</p>
           </div>
-
           <div className='flex items-center'>
             {StatusRender(getReservationsById?.status)}
           </div>
-        </div>
+        </motion.div>
 
-        <div className='border border-[#48A1FF] bg-[#EFF6FF] flex gap-2 p-3 rounded-[3px] mt-5 '>
-          <p className='flex items-center'>
-            <img src="/images/icons/ii_blue.svg" className="w-4 h-4" />
+        <motion.div
+          className='border border-[#48A1FF] bg-[#EFF6FF] flex gap-2 p-3 rounded-3px mt-5'
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut', delay: 0.16 }}
+          whileHover={{
+            boxShadow: '0 2px 12px 0 rgba(72,161,255,0.15)',
+            transition: { duration: 0.2 },
+          }}
+        >
+          <p className='flex items-center flex-shrink-0'>
+            <img src="/images/icons/ii_blue.svg" className="w-4 h-4" alt="" />
           </p>
           <p className='text-[#364152] text-base font-normal'>{t('Refunds are available up to 12 hours before booking.')}</p>
-        </div>
-
+        </motion.div>
       </div>
-
-
     </>
   )
 }

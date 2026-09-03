@@ -1,67 +1,129 @@
 "use client"
 import React from 'react'
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.07,
+      duration: 0.4,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
 
 function BoxPage({getcounters}) {
   const {t} = useTranslation();
   
   return (
     <>
-    <section className='mb-10 grid grid-cols-2 lg1:grid-cols-4 gap-4 '>
+      <section className='mb-10 grid grid-cols-2 lg1:grid-cols-4 gap-4'>
 
-      {/* Today bookings */}
-      <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-        <div className='flex items-center gap-3'>
-          <p className=' w-10 h-10 flex justify-center items-center bg-[#FEF3F2] rounded-md'>
-            <img src="/images/icons/invoice-red.svg" alt="" />
-          </p>
-          <p className=''>{t('Today bookings')}</p>
-        </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>{getcounters?.today_reservations_count}</p>
-      </div>
-    
-      {/* Active tables */}
-      <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-        <div className='flex items-center gap-3'>
-          <p className=' w-10 h-10 flex justify-center items-center bg-[#B4F0CC] rounded-md'>
-            <img src="/images/icons/invoice-green.svg" alt="" />
-          </p>
-          <p className=''>{t('Active tables')}</p>
-        </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>{getcounters?.active_tables_count}</p>
+        {/* Today bookings */}
+        <motion.div 
+          custom={0}
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-red-200 transition-all duration-300'
+        >
+          <div className='flex items-center gap-3.5'>
+            <div className='w-12 h-12 flex justify-center items-center bg-red-50 text-red-600 rounded-3px group-hover:scale-110 group-hover:bg-red-100/80 transition-all duration-300 shadow-xs'>
+              <img src="/images/icons/invoice-red.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
+            </div>
+            <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
+              {t('Today bookings')}
+            </p>
+          </div>
+          <div className='mt-4 flex items-baseline justify-between'>
+            <p className='text-slate-900 text-xl lg1:text-2xl font-bold tracking-tight'>
+              {getcounters?.today_reservations_count ?? 0}
+            </p>
+          </div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-red-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+        </motion.div>
       
-      </div>
+        {/* Active tables */}
+        <motion.div 
+          custom={1}
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-emerald-200 transition-all duration-300'
+        >
+          <div className='flex items-center gap-3.5'>
+            <div className='w-12 h-12 flex justify-center items-center bg-emerald-50 text-emerald-600 rounded-3px group-hover:scale-110 group-hover:bg-emerald-100/80 transition-all duration-300 shadow-xs'>
+              <img src="/images/icons/invoice-green.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
+            </div>
+            <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
+              {t('Active tables')}
+            </p>
+          </div>
+          <div className='mt-4 flex items-baseline justify-between'>
+            <p className='text-slate-900 text-xl lg1:text-2xl font-bold tracking-tight'>
+              {getcounters?.active_tables_count ?? 0}
+            </p>
+          </div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-emerald-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+        </motion.div>
 
-      {/* waiting list */}
-      <div className=' border border-[#CDD5DF] rounded-[3px] p-4'>
-        <div className='flex items-center gap-3'>
-          <p className=' w-10 h-10 flex justify-center items-center bg-[#FEF0C7] rounded-md'>
-            <img src="/images/icons/loading-yellow.svg" alt="" />
-          </p>
-          <p className=''>{t('waiting list')}</p>
-        </div>
-        <p className='text-[#202939] text-lg font-medium my-2.5'>{getcounters?.waitlist_count}</p>
-      </div>
+        {/* waiting list */}
+        <motion.div 
+          custom={2}
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-amber-200 transition-all duration-300'
+        >
+          <div className='flex items-center gap-3.5'>
+            <div className='w-12 h-12 flex justify-center items-center bg-amber-50 text-amber-600 rounded-3px group-hover:scale-110 group-hover:bg-amber-100/80 transition-all duration-300 shadow-xs'>
+              <img src="/images/icons/loading-yellow.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
+            </div>
+            <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
+              {t('waiting list')}
+            </p>
+          </div>
+          <div className='mt-4 flex items-baseline justify-between'>
+            <p className='text-slate-900 text-xl lg1:text-2xl font-bold tracking-tight'>
+              {getcounters?.waitlist_count ?? 0}
+            </p>
+          </div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-amber-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+        </motion.div>
 
-      {/* Complete */}
-      <div className='border border-[#CDD5DF] rounded-[3px] p-4'>
-        <div className='flex items-center gap-3'>
-          <p className='w-10 h-10 flex justify-center items-center bg-[#EDE7FD] rounded-md'>
-            <img src="/images/icons/tick-blue.svg" alt="" />
-          </p>
-          <p>{t('Complete')}</p>
-        </div>
+        {/* Complete */}
+        <motion.div 
+          custom={3}
+          variants={cardVariants}
+          initial="hidden"
+          animate="visible"
+          whileHover={{ y: -4, transition: { duration: 0.2 } }}
+          className='group relative overflow-hidden bg-white border border-slate-200/85 rounded-3px p-5 shadow-xs hover:shadow-lg hover:border-violet-200 transition-all duration-300'
+        >
+          <div className='flex items-center gap-3.5'>
+            <div className='w-12 h-12 flex justify-center items-center bg-violet-50 text-violet-600 rounded-3px group-hover:scale-110 group-hover:bg-violet-100/80 transition-all duration-300 shadow-xs'>
+              <img src="/images/icons/tick-blue.svg" alt="" className='w-6 h-6 transition-transform duration-300 group-hover:rotate-3' />
+            </div>
+            <p className='text-slate-600 font-medium text-sm lg1:text-base group-hover:text-slate-900 transition-colors'>
+              {t('Complete')}
+            </p>
+          </div>
+          <div className='mt-4 flex items-baseline justify-between'>
+            <p className='text-slate-900 text-xl lg1:text-2xl font-bold tracking-tight'>
+              {getcounters?.completed_count ?? 0}
+            </p>
+          </div>
+          <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-violet-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
+        </motion.div>
 
-        <div className='my-2.5 '>
-          <p className='text-[#121926] text-base font-medium'>
-            <span>{getcounters?.completed_count}</span>{' '}
-          </p>
-        </div>
-      </div>
-
-
-    </section>
-
+      </section>
     </>
   )
 }

@@ -7,6 +7,7 @@ import CardOfRequests from './CardOfRequests'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { getReservationsThunk } from '@/redux/slice/Requests/RequestsSlice'
+import { motion } from 'framer-motion'
 
 function Queue_ModulePage() {
   const {t} = useTranslation()
@@ -15,18 +16,33 @@ function Queue_ModulePage() {
   const getReservationsSummary = getReservations?.summary
   const getReservationsData = getReservations?.data
 
-
-
   return (
     <MainLayout>
-      <p className='text-[#364152] text-2xl font-medium mb-10'>{t('Reservations')}</p>
+      <motion.p
+        className='text-[#364152] text-2xl font-medium mb-10'
+        initial={{ opacity: 0, y: -12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
+        {t('Reservations')}
+      </motion.p>
 
-      <BoxPage getReservationsSummary={getReservationsSummary}/>
-      
-      <div>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+      >
+        <BoxPage getReservationsSummary={getReservationsSummary}/>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: 'easeOut', delay: 0.1 }}
+      >
         <NavRequest/>
         <CardOfRequests getReservationsData={getReservationsData}/>
-      </div>
+      </motion.div>
       
     </MainLayout>
   )
