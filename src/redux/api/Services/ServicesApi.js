@@ -7,8 +7,10 @@ import API from "../../../../config/api";
 //*********************************************************************** */
 
 export const getAllServices = async (params = {}) => {
+  const payload = typeof params === "object" && params !== null ? { ...params } : { module_id: params };
   const response = await API.get("/provider/services", {
-    params: params,
+    params: payload,
+    data: payload,
   });
   return response.data; 
 };

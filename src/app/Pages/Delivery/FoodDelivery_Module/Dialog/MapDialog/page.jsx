@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import Dialog from '@mui/material/Dialog'
 import 'leaflet/dist/leaflet.css'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 
 // ─── Dynamic imports (no SSR) ─────────────────────────────────────────────────
 const MapContainer = dynamic(
@@ -27,7 +28,7 @@ const Tooltip = dynamic(
 // ─── Purple pin SVG ────────────────────────────────────────────────────────────
 const PIN_SVG = `
 <svg width="32" height="40" viewBox="0 0 30 38" fill="none" xmlns="http://www.w3.org/2000/svg"
-  style="filter:drop-shadow(0 3px 8px rgba(105,65,198,0.40));display:block;">
+  style="filter:drop-shadow(0 4px 10px rgba(105,65,198,0.45));display:block;">
   <path d="M15 0C6.716 0 0 6.716 0 15C0 23.284 15 38 15 38C15 38 30 23.284 30 15C30 6.716 23.284 0 15 0Z" fill="#6941C6"/>
   <circle cx="15" cy="15" r="6" fill="white"/>
   <circle cx="15" cy="15" r="3" fill="#6941C6"/>
@@ -42,31 +43,34 @@ function PopupCard({ location }) {
   return (
     <div style={{
       background: 'white',
-      borderRadius: '8px',
-      boxShadow: '0 4px 24px rgba(0,0,0,0.14)',
+      borderRadius: '10px',
+      border: '1px solid #EAECF0',
+      boxShadow: '0 12px 28px -4px rgba(0,0,0,0.14), 0 6px 12px -2px rgba(0,0,0,0.06)',
       overflow: 'hidden',
-      minWidth: '200px',
-      maxWidth: '230px',
+      minWidth: '210px',
+      maxWidth: '240px',
       fontFamily: 'inherit',
       pointerEvents: 'none',
+      animation: 'mapTooltipIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
     }}>
       {/* Title */}
-      <div style={{ padding: '10px 12px 8px 12px' }}>
-        <p style={{ color: '#364152', fontWeight: 400, fontSize: '13px', margin: 0 }}>
+      <div style={{ padding: '12px 14px 10px 14px' }}>
+        <p style={{ color: '#364152', fontWeight: 500, fontSize: '13px', margin: '0 0 6px 0', lineHeight: 1.3 }}>
           {t('request')} / {location?.order_number}
         </p>
-        <p className='border border-[#4D0CE7] bg-[#EDE7FD] rounded-full text-[#4D0CE7] text-xs font-normal w-fit px-2 flex gap-1'>
-          <img src="/images/icons/delivery-truck-blue.svg" className='w-2.5 h-2.5 mt-1' />
+        <p className='border border-[#4D0CE7] bg-[#EDE7FD] rounded-full text-[#4D0CE7] text-xs font-normal w-fit px-2 py-0.5 flex items-center gap-1'>
+          <img src="/images/icons/delivery-truck-blue.svg" className='w-2.5 h-2.5' alt="" />
           <span>{t('in the way')}</span>
         </p>
       </div>
-    
+
+      <div style={{ height: '1px', background: '#F2F4F7', margin: '0 14px' }} />
       
       {/* Rows */}
-      <div style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-        <InfoRow label={t('Captain')}     value={location?.driver?.name}    />
-        <InfoRow label={t('Expected time')}        value={location?.estimated_minutes}       />
-        <InfoRow label={t('Customer')}     value={location?.customer?.name}    />
+      <div style={{ padding: '10px 14px 12px 14px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
+        <InfoRow label={t('Captain')} value={location?.driver?.name} />
+        <InfoRow label={t('Expected time')} value={location?.estimated_minutes} />
+        <InfoRow label={t('Customer')} value={location?.customer?.name} />
         <InfoRow label={t('Location')} value={location.delivery_address} />
       </div>
     </div>
@@ -77,7 +81,7 @@ function InfoRow({ label, value }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
       <span style={{ color: '#667085', fontSize: '11px', fontWeight: 500, whiteSpace: 'nowrap' }}>{label}:</span>
-      <span style={{ color: '#667085', fontSize: '11px', fontWeight: 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</span>
+      <span style={{ color: '#4B5565', fontSize: '11px', fontWeight: 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</span>
     </div>
   )
 }
@@ -94,8 +98,8 @@ function InfoRow({ label, value }) {
 export default function MapDialog({ open, onClose, location }) {
   const iconRef = useRef(null)
   const [leafletReady, setLeafletReady] = useState(false)
-  const { t } = useTranslation(); 
- 
+  const { t } = useTranslation()
+
   useEffect(() => {
     import('leaflet').then((L) => {
       iconRef.current = L.divIcon({
@@ -107,7 +111,7 @@ export default function MapDialog({ open, onClose, location }) {
           flex-direction:column;
           align-items:center;
           cursor:pointer;
-          transition:transform 0.18s ease;
+          transition:transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
           transform-origin:bottom center;
         ">${PIN_SVG}</div>`,
         iconSize: [32, 40],
@@ -128,30 +132,41 @@ export default function MapDialog({ open, onClose, location }) {
       maxWidth="md"
       fullWidth
       PaperProps={{
-        style: { borderRadius: '12px', overflow: 'hidden', padding: 0 },
+        style: {
+          borderRadius: '16px',
+          overflow: 'hidden',
+          padding: 0,
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        },
       }}
     >
-
       <div className='px-6'>
         {/* ── Header ── */}
         <div className='flex justify-end mt-4'>
-          <button 
+          <motion.button 
+            whileHover={{ scale: 1.08, rotate: 90, backgroundColor: 'rgba(0,0,0,0.04)' }}
+            whileTap={{ scale: 0.92 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose} 
-            className='border border-[rgba(102,107,109,0.20)] w-12 h-12  rounded-[58.182px] flex justify-center items-center'
+            className='border border-[rgba(102,107,109,0.20)] w-12 h-12 rounded-[58.182px] flex justify-center items-center cursor-pointer transition-colors'
+            aria-label="Close dialog"
           >
             <img src="/images/icons/xx.svg" alt="" />
-          </button>
+          </motion.button>
         </div>
 
-        <div className='flex flex-col  items-start mt-2 '>
-          <p className='text-[#364152] text-lg font-medium mb-2'>
+        <div className='flex flex-col items-start mt-2'>
+          <p className='text-[#364152] text-lg font-medium mb-2 tracking-tight'>
             {t('Delivery')}
           </p>
           <p className='flex items-center gap-2'>
-            <img src="/images/icons/delivery-truck-blue.svg" alt="" />
+            <img
+              src="/images/icons/delivery-truck-blue.svg"
+              alt=""
+              className='transition-transform duration-200 hover:scale-110'
+            />
             <span className='text-[#4B5565] text-base font-normal'>5 {t('in the way')}</span>
           </p>
-        
         </div>
       </div>
 
@@ -161,6 +176,10 @@ export default function MapDialog({ open, onClose, location }) {
       <div className='px-6 pb-6' style={{ height: 460, position: 'relative' }}>
         {/* Override Leaflet tooltip styles to remove default border/bg */}
         <style>{`
+          @keyframes mapTooltipIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
           .leaflet-tooltip.custom-map-tooltip {
             background: transparent !important;
             border: none !important;
@@ -173,36 +192,41 @@ export default function MapDialog({ open, onClose, location }) {
         `}</style>
 
         {!leafletReady ? (
-          <div className="w-full h-full flex items-center justify-center bg-[#F9FAFB]">
-            <div className="w-10 h-10 rounded-full border-4 border-[#6941C6] border-t-transparent animate-spin" />
+          <div className="w-full h-full flex items-center justify-center bg-[#F9FAFB] rounded-[10px]">
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-10 h-10 rounded-full border-4 border-[#6941C6] border-t-transparent animate-spin" />
+              <p className="text-[#667085] text-sm">Loading map...</p>
+            </div>
           </div>
         ) : (
-          <MapContainer
-            key={`${center[0]}-${center[1]}`}
-            center={center}
-            zoom={15}
-            style={{ height: '100%', width: '100%' }}
-            zoomControl={true}
-            scrollWheelZoom={true}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-            />
-            {iconRef.current && (
-              <Marker position={center} icon={iconRef.current}>
-                {/* Tooltip shows on hover — direction="top" places it above the pin */}
-                <Tooltip
-                  direction="top"
-                  offset={[0, -44]}
-                  opacity={1}
-                  className="custom-map-tooltip"
-                >
-                  <PopupCard location={location} />
-                </Tooltip>
-              </Marker>
-            )}
-          </MapContainer>
+          <div className="w-full h-full rounded-[10px] overflow-hidden border border-[#EAECF0] shadow-sm">
+            <MapContainer
+              key={`${center[0]}-${center[1]}`}
+              center={center}
+              zoom={15}
+              style={{ height: '100%', width: '100%' }}
+              zoomControl={true}
+              scrollWheelZoom={true}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+              />
+              {iconRef.current && (
+                <Marker position={center} icon={iconRef.current}>
+                  {/* Tooltip shows on hover — direction="top" places it above the pin */}
+                  <Tooltip
+                    direction="top"
+                    offset={[0, -44]}
+                    opacity={1}
+                    className="custom-map-tooltip"
+                  >
+                    <PopupCard location={location} />
+                  </Tooltip>
+                </Marker>
+              )}
+            </MapContainer>
+          </div>
         )}
       </div>
 

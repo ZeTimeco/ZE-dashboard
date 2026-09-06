@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import MarkerPopup from './MarkerPopup'
 
 /**
@@ -20,8 +21,8 @@ function CustomMarker({ marker, isOpen, onClick, onClose }) {
     <div
       className="relative flex flex-col items-center cursor-pointer select-none"
       style={{
-        transform: hovered ? 'scale(1.2)' : 'scale(1)',
-        transition: 'transform 0.18s ease',
+        transform: hovered ? 'scale(1.22)' : 'scale(1)',
+        transition: 'transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.22s ease',
         transformOrigin: 'bottom center',
       }}
       onMouseEnter={() => setHovered(true)}
@@ -32,7 +33,9 @@ function CustomMarker({ marker, isOpen, onClick, onClose }) {
       }}
     >
       {/* Popup floats above the marker icon */}
-      {isOpen && <MarkerPopup marker={marker} onClose={onClose} />}
+      <AnimatePresence>
+        {isOpen && <MarkerPopup marker={marker} onClose={onClose} />}
+      </AnimatePresence>
 
       {/* Purple pin icon */}
       <svg
@@ -41,7 +44,12 @@ function CustomMarker({ marker, isOpen, onClick, onClose }) {
         viewBox="0 0 30 38"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ filter: 'drop-shadow(0 3px 6px rgba(105,65,198,0.35))' }}
+        style={{
+          filter: hovered
+            ? 'drop-shadow(0 6px 14px rgba(105,65,198,0.55))'
+            : 'drop-shadow(0 3px 6px rgba(105,65,198,0.35))',
+          transition: 'filter 0.22s ease',
+        }}
       >
         {/* Pin body */}
         <path

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -9,7 +9,7 @@ import SearchForm from "@/app/Components/Forms/SearchForm";
 import FilterBtn from "@/app/Components/Buttons/FilterBtn";
 import ServiceCard from "@/app/Components/Cards/ServiceCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllServicesThunk } from "@/redux/slice/Services/ServicesSlice";
+import { getAllServicesThunk, getmodulesThunk } from "@/redux/slice/Services/ServicesSlice";
 import Pagination from "./Pagination";
 import { CircularProgress } from "@mui/material";
 import No_services_Add from "./No_services_Add";
@@ -58,15 +58,89 @@ function ServicePage() {
 
   // Link API data to cards
   const dispatch = useDispatch();
-  const { services, loading, error, pagination } = useSelector((state) => state.services);
+  const { services, loading, error, pagination, getmodules } = useSelector((state) => state.services);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(6);
+  const [perPage, setPerPage] = useState(12);
+
+  // Determine initial module id: 2 for car_services, 1 for home_services
+  const getInitialModuleId = () => {
+    if (typeof window !== "undefined") {
+      try {
+        const userData = JSON.parse(localStorage.getItem("user") || "{}");
+        return userData?.current_module_key === "car_services" ? 2 : 1;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return 1;
+  };
+
+  const [currentModuleId, setCurrentModuleId] = useState(getInitialModuleId);
+
+  // Sync with localStorage and user_updated event
+  useEffect(() => {
+    const fetchUserData = () => {
+      if (typeof window !== "undefined") {
+        try {
+          const userData = JSON.parse(localStorage.getItem("user") || "{}");
+          const activeKey = userData?.current_module_key;
+          if (activeKey === "car_services") {
+            setCurrentModuleId(2);
+          } else if (activeKey === "home_services") {
+            setCurrentModuleId(1);
+          }
+        } catch (e) {
+          console.error("Error reading user from localStorage:", e);
+        }
+      }
+    };
+
+    fetchUserData();
+    window.addEventListener("user_updated", fetchUserData);
+    return () => window.removeEventListener("user_updated", fetchUserData);
+  }, []);
 
   useEffect(() => {
-    dispatch(getAllServicesThunk({ page: currentPage, per_page: perPage, ...filterParams }));
-  }, [dispatch, currentPage, perPage, filterParams]);
+    if (!getmodules || getmodules.length === 0) {
+      dispatch(getmodulesThunk());
+    }
+  }, [dispatch, getmodules]);
 
-  console.log('services' , services);
+  // Reset page when module changes
+  const prevModuleIdRef = useRef(currentModuleId);
+  useEffect(() => {
+    if (prevModuleIdRef.current !== currentModuleId) {
+      prevModuleIdRef.current = currentModuleId;
+      setCurrentPage(1);
+    }
+  }, [currentModuleId]);
+
+  // Fetch services when page, perPage, filter, or currentModuleId changes
+  useEffect(() => {
+    dispatch(
+      getAllServicesThunk({
+        page: currentPage,
+        per_page: perPage,
+        module_id: currentModuleId,
+        ...filterParams,
+      })
+    );
+  }, [dispatch, currentPage, perPage, filterParams, currentModuleId]);
+
+  // Strict filter by module_id: 1 for home_services, 2 for car_services
+  const displayedServices = (services || []).filter((service) => {
+    const sModId = Number(service.module_id || service.module?.id);
+    const sModKey = service.module?.module_key;
+
+    if (currentModuleId === 1) {
+      return sModId === 1 || sModKey === "home_services";
+    }
+    if (currentModuleId === 2) {
+      return sModId === 2 || sModKey === "car_services";
+    }
+    return sModId === currentModuleId;
+  });
+
   const handlePageChange = (page) => setCurrentPage(page);
 
   const containerVariants = {
@@ -130,14 +204,14 @@ function ServicePage() {
                 <CircularProgress color="warning" size={60} />
               </div>
             </section>
-          ) : !error && services?.length > 0 ? (
+          ) : !error && displayedServices?.length > 0 ? (
             <motion.section 
               variants={containerVariants}
               initial="hidden"
               animate="visible"
               className="grid gap-4 lg1:grid-cols-3 lg1:gap-6"
             >
-              {services.map((service, index) => (
+              {displayedServices.map((service, index) => (
                 <ServiceCard key={service.id} service={service} index={index} />
               ))}
             </motion.section>
@@ -146,13 +220,11 @@ function ServicePage() {
           )}
         </section>
         
-        {services?.length > 0 && pagination?.last_page > 1 && (
-          <Pagination
-            totalPages={pagination?.last_page || 1}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        )}
+        <Pagination
+          totalPages={pagination?.last_page || 1}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </motion.div>
 
       <FiltersPage 
