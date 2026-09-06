@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { toggleAvailabilityThunk, getProductDetailsThunk, updateStatusesThunk } from '@/redux/slice/Menus/MenusSlice'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function SecondSection({getProductDetailsData}) {
   const {t} = useTranslation()
@@ -12,11 +13,11 @@ function SecondSection({getProductDetailsData}) {
   const [open2 , setOpen2] = useState(false)
 
   const GreenSwitch = styled((props) => (
-  <Switch
-    focusVisibleClassName=".Mui-focusVisible"
-    disableRipple
-    {...props}
-  />
+    <Switch
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
   ))(({ theme }) => ({
     width: 53,
     height: 24,
@@ -94,15 +95,15 @@ function SecondSection({getProductDetailsData}) {
   return (
     <>
       {/* Additions */}
-      <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-4">
-        <div className="flex justify-between">
+      <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-4 rounded-[3px] bg-white">
+        <div className="flex justify-between items-center">
           <p className="text-[#364152] text-base font-normal">
             {t("Additions")}
           </p>
 
           <button
             onClick={() => setOpen(!open)}
-            className="cursor-pointer transition-transform duration-300"
+            className="cursor-pointer p-1"
           >
             <img
               src="/images/icons/ArrowDown_gray.svg"
@@ -114,36 +115,48 @@ function SecondSection({getProductDetailsData}) {
           </button>
         </div>
 
-        {open &&  getProductDetailsData?.addons?.map((addon) => (
-            <div
-              key={addon?.id}
-              className="p-3 border border-[#E3E8EF] rounded-[3px] my-5 cursor-pointer"
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
             >
-              <div className="flex gap-4">
-                <div className="bg-[#F9F5E8] w-14 h-12 flex justify-center items-center rounded-[3px]">
-                  <img src="/images/burger.svg" alt="" />
-                </div>
+              {getProductDetailsData?.addons?.map((addon) => (
+                <div
+                  key={addon?.id}
+                  className="p-3 border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-gray-50/50 rounded-[3px] my-3 cursor-pointer transition-colors duration-150"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="bg-[#F9F5E8] w-14 h-12 flex justify-center items-center rounded-[3px] shrink-0">
+                      <img src="/images/burger.svg" alt="" />
+                    </div>
 
-                <div className="flex flex-col gap-1">
-                  <span className="text-[#364152] text-base font-normal">
-                    {addon?.name}
-                  </span>
-                  <span className="text-[var(--color-primary)] text-base font-normal">
-                    {addon?.base_price}
-                  </span>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[#364152] text-base font-normal">
+                        {addon?.name}
+                      </span>
+                      <span className="text-[var(--color-primary)] text-base font-normal">
+                        {addon?.base_price}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Options */}
-      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)]  p-4 mb-4'>
-        <div className='flex justify-between'>
+      <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 mb-4 rounded-[3px] bg-white'>
+        <div className='flex justify-between items-center'>
           <p className='text-[#364152] text-base font-normal'>{t('Options')}</p>
           <button
             onClick={() => setOpen2(!open2)}
-            className="cursor-pointer transition-transform duration-300"
+            className="cursor-pointer p-1"
           >
             <img
               src="/images/icons/ArrowDown_gray.svg"
@@ -154,25 +167,37 @@ function SecondSection({getProductDetailsData}) {
             />
           </button>
         </div>
-        {open2 && getProductDetailsData?.foodDeliveryOptionGroups?.map((option) => (
-            <div
-              key={option?.id}
-              className="p-3 border border-[#E3E8EF] rounded-[3px] my-5 cursor-pointer"
-            >
-              <p className="text-[#364152] text-base font-normal">
-                {option.name}
-              </p>
 
-              <p className="text-[#697586] text-sm font-normal">
-                {option.options?.map((item) => item.name).join(" / ")}
-              </p>
-            </div>
-          ))
-        }
+        <AnimatePresence>
+          {open2 && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden"
+            >
+              {getProductDetailsData?.foodDeliveryOptionGroups?.map((option) => (
+                <div
+                  key={option?.id}
+                  className="p-3 border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-gray-50/50 rounded-[3px] my-3 cursor-pointer transition-colors duration-150"
+                >
+                  <p className="text-[#364152] text-base font-normal">
+                    {option.name}
+                  </p>
+
+                  <p className="text-[#697586] text-sm font-normal mt-1">
+                    {option.options?.map((item) => item.name).join(" / ")}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Available for order */}
-      <div className='border border-[#EEF2F6] bg-[#F8FAFC] p-3 rounded-[3px] flex justify-between'>
+      <div className='border border-[#EEF2F6] bg-[#F8FAFC] p-3 rounded-[3px] flex justify-between items-center transition-colors duration-150 hover:bg-[#F1F5F9]'>
         <p className='flex flex-col gap-1'>
           <span className='text-[#364152] text-base font-medium'>{t('Available for order')}</span>
           <span className='text-[#697586] text-sm font-normal'>{t('Customers can order this product')}</span>
@@ -185,9 +210,8 @@ function SecondSection({getProductDetailsData}) {
         </p>
       </div>
 
-
       {/* Availability status */}
-      <div className='border border-[#EEF2F6] bg-[#F8FAFC] p-3 rounded-[3px] flex justify-between my-4'>
+      <div className='border border-[#EEF2F6] bg-[#F8FAFC] p-3 rounded-[3px] flex justify-between items-center my-4 transition-colors duration-150 hover:bg-[#F1F5F9]'>
         <p className='flex flex-col gap-1'>
           <span className='text-[#364152] text-base font-medium'>{t('Availability status')}</span>
           <span className='text-[#697586] text-sm font-normal'>{t('The product is available to order')}</span>
@@ -199,7 +223,6 @@ function SecondSection({getProductDetailsData}) {
           />
         </p>
       </div>
-      
     </>
   )
 }

@@ -37,7 +37,8 @@ function Navbar({ onMenuClick }) {
     dispatch(getCurrentLoginThunk());
   }, [dispatch]);
 
-  const [openServiceToggle, setOpenServiceToggle] = useState(false);
+
+
 
   return (
     <>
@@ -84,23 +85,8 @@ function Navbar({ onMenuClick }) {
         {/* Right side actions & User Info */}
         <div className="flex gap-4 items-center">
           <div className="flex items-center gap-3">
-            {/* Switch activity button */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.15 }}
-              onClick={() => setOpenServiceToggle(true)}
-              className="px-3.5 gap-2 h-10 bg-[var(--color-primary)] hover:bg-[#b08612] flex justify-center items-center rounded-[4px] cursor-pointer shadow-xs transition-colors"
-            >
-              <motion.img 
-                animate={{ rotate: openServiceToggle ? 180 : 0 }}
-                transition={{ duration: 0.2 }}
-                src="/images/icons/toggleArrow_white.svg" 
-                alt="" 
-                className="w-4 h-4" 
-              />
-              <span className="text-white text-sm font-medium whitespace-nowrap">{t('Switch activity')}</span>
-            </motion.div>
+            {/* Switch activity dropdown */}
+            <ServiceToggle />
 
             {/* Language Dropdown */}
             <div ref={dropdownRef} className="relative">
@@ -197,8 +183,6 @@ function Navbar({ onMenuClick }) {
           </div>
         </div>
       </motion.header>
-
-      <ServiceToggle openServiceToggle={openServiceToggle} setOpenServiceToggle={setOpenServiceToggle}/>
     </>
   );
 }

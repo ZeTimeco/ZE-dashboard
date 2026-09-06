@@ -66,6 +66,7 @@ function ServicePage() {
     dispatch(getAllServicesThunk({ page: currentPage, per_page: perPage, ...filterParams }));
   }, [dispatch, currentPage, perPage, filterParams]);
 
+  console.log('services' , services);
   const handlePageChange = (page) => setCurrentPage(page);
 
   const containerVariants = {

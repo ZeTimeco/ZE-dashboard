@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProductDetailsThunk } from '@/redux/slice/Menus/MenusSlice'
 import Delete from './Dialog/Delete/Delete'
+import { motion } from 'framer-motion'
 
 function DetailsPage({open , setOpen ,itemId}) {
   const {t} = useTranslation()
@@ -16,66 +17,69 @@ function DetailsPage({open , setOpen ,itemId}) {
   const dispatch = useDispatch()
   const {getProductDetails} = useSelector((state)=>state.Menus)
   useEffect(()=>{
-    if(itemId){
+    if(itemId && open){
       dispatch(getProductDetailsThunk(itemId))
     }
-
-  },[dispatch , itemId])
-
-  console.log('getProductDetails' , getProductDetails );
+  },[dispatch , itemId, open])
 
   const[openDelete , setOpenDelete] = useState(false)
+
   return (
     <>
-    <Dialog
-      open={open}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-      PaperProps={{ className: "rerquest-dialog" }}
-    >
-      {/* header */}
-      <section className="flex justify-end px-6 mt-6">
-        <button
-          onClick={()=>setOpen(false)}
-          className="border border-[#CDD5DF] w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer"
-        >
-          <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
-        </button>
-      </section>
-      
-      <p className='text-[#364152] text-xl font-medium px-6'>{t('Product details')}</p>
-      <div className='border border-[#CDD5DF] my-5'></div>
+      <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        PaperProps={{ className: "rerquest-dialog" }}
+      >
+        {/* header */}
+        <section className="flex justify-end px-6 mt-6">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={()=>setOpen(false)}
+            className="border border-[#CDD5DF] w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer hover:bg-gray-50 hover:border-[#9AA4B2] transition-colors duration-150"
+          >
+            <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
+          </motion.button>
+        </section>
+        
+        <p className='text-[#364152] text-xl font-medium px-6'>{t('Product details')}</p>
+        <div className='border border-[#CDD5DF] my-5'></div>
 
-      <div className='px-6'>
-        <FirstSection  getProductDetailsData={getProductDetails?.data} />
-        <SecondSection getProductDetailsData={getProductDetails?.data} />
-      </div>
+        <div className='px-6'>
+          <FirstSection getProductDetailsData={getProductDetails?.data} />
+          <SecondSection getProductDetailsData={getProductDetails?.data} />
+        </div>
 
         {/* btn */}
-      <div className='px-6 grid grid-cols-2 gap-6 mb-6'>
+        <div className='px-6 grid grid-cols-2 gap-6 mb-6'>
+          <motion.button 
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={()=>setOpenDelete(true)} 
+            className='border border-[#B42318] text-[#B42318] w-full text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer hover:bg-red-50/70 transition-colors duration-150'
+          >
+            {t('delete')}
+          </motion.button>
 
-        <button onClick={()=>setOpenDelete(true)} className='border border-[#B42318] text-[#B42318] w-full text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
-          {t('delete')}
-        </button>
-
-        <button 
-          onClick={()=>{router.push(`/Pages/Menus/FoodDelivery_Module/Products/Edit?id=${getProductDetails?.data?.id}`)}}
-          className='bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px]  cursor-pointer'>
-          {t('modification')}
-        </button>
-
-      </div>
-      
-
-    </Dialog>
-      
+          <motion.button 
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={()=>{router.push(`/Pages/Menus/FoodDelivery_Module/Products/Edit?id=${getProductDetails?.data?.id}`)}}
+            className='bg-[var(--color-primary)] text-white w-full text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer hover:opacity-95 hover:shadow-md transition-all duration-200'
+          >
+            {t('modification')}
+          </motion.button>
+        </div>
+      </Dialog>
+        
       <Delete
         open={openDelete}
         setOpen={setOpenDelete}
         itemId={itemId}
         setOpenDetails={setOpen}
       />
-
     </>
   )
 }
