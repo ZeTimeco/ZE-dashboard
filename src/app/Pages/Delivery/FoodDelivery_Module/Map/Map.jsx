@@ -94,7 +94,7 @@ const MARKERS = [
 // ─── Purple pin SVG string ────────────────────────────────────────────────────
 const PIN_SVG = `
 <svg width="30" height="38" viewBox="0 0 30 38" fill="none" xmlns="http://www.w3.org/2000/svg"
-  style="filter:drop-shadow(0 3px 6px rgba(105,65,198,0.35));display:block;">
+  style="filter:drop-shadow(0 4px 8px rgba(105,65,198,0.40));display:block;">
   <path d="M15 0C6.716 0 0 6.716 0 15C0 23.284 15 38 15 38C15 38 30 23.284 30 15C30 6.716 23.284 0 15 0Z" fill="#6941C6"/>
   <circle cx="15" cy="15" r="6" fill="white"/>
   <circle cx="15" cy="15" r="3" fill="#6941C6"/>
@@ -106,7 +106,7 @@ function buildPopupHtml(marker) {
   const row = (label, value) => value ? `
     <div style="display:flex;align-items:center;gap:6px;">
       <span style="color:#667085;font-size:11px;font-weight:500;white-space:nowrap;">${label}:</span>
-      <span style="color:#667085;font-size:11px;font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${value}</span>
+      <span style="color:#4B5565;font-size:11px;font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${value}</span>
     </div>
   ` : ''
 
@@ -122,10 +122,11 @@ function buildPopupHtml(marker) {
       bottom:calc(100% + 12px);
       left:50%;
       transform:translateX(-50%);
-      min-width:200px;
-      max-width:230px;
+      min-width:210px;
+      max-width:240px;
       z-index:9999;
       pointer-events:auto;
+      animation:mapPopupFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     " class="map-popup-card">
       <!-- Arrow -->
       <div style="
@@ -134,26 +135,29 @@ function buildPopupHtml(marker) {
         border-left:8px solid transparent;
         border-right:8px solid transparent;
         border-top:8px solid white;
+        filter:drop-shadow(0 2px 4px rgba(0,0,0,0.08));
       "></div>
       <!-- Card -->
-      <div style="background:white;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,0.14);overflow:hidden;font-family:inherit;">
-        <div style="padding:10px 12px 8px 12px;">
+      <div style="background:white;border-radius:10px;box-shadow:0 12px 28px -4px rgba(0,0,0,0.14),0 6px 12px -2px rgba(0,0,0,0.06);border:1px solid #EAECF0;overflow:hidden;font-family:inherit;">
+        <div style="padding:12px 14px 10px 14px;">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
             <div>
-              <p style="color:#364152;font-weight:400;font-size:13px;line-height:1.3;margin:0 0 4px 0;">${orderTitle}</p>
+              <p style="color:#364152;font-weight:500;font-size:13px;line-height:1.3;margin:0 0 6px 0;">${orderTitle}</p>
               <div style="border:1px solid #4D0CE7;background:#EDE7FD;border-radius:9999px;color:#4D0CE7;font-size:12px;font-weight:400;width:fit-content;padding:2px 8px;display:flex;align-items:center;gap:4px;">
-                <img src="/images/icons/delivery-truck-blue.svg" alt="" style="width:14px;height:14px;" />
+                <img src="/images/icons/delivery-truck-blue.svg" alt="" style="width:12px;height:12px;" />
                 <span>في الطريق</span>
               </div>
             </div>
             <button
               data-popup-close="${marker.id}"
-              style="color:#9CA3AF;font-size:18px;font-weight:700;background:none;border:none;cursor:pointer;line-height:1;flex-shrink:0;padding:0;margin-top:-1px;"
+              style="color:#9CA3AF;font-size:18px;font-weight:700;background:none;border:none;cursor:pointer;line-height:1;flex-shrink:0;padding:0;margin-top:-2px;transition:color 0.15s ease;"
+              onmouseover="this.style.color='#364152'"
+              onmouseout="this.style.color='#9CA3AF'"
             >×</button>
           </div>
         </div>
-        <div style="height:1px;background:#F2F4F7;margin:0 12px;"></div>
-        <div style="padding:10px 12px;display:flex;flex-direction:column;gap:6px;">
+        <div style="height:1px;background:#F2F4F7;margin:0 14px;"></div>
+        <div style="padding:10px 14px 12px 14px;display:flex;flex-direction:column;gap:7px;">
           ${row('الكابتن', captain)}
           ${row('الوقت المتوقع', expectedTime)}
           ${row('العميل', customer)}
@@ -208,7 +212,7 @@ export default function Map({ getDeliveryMap }) {
                 flex-direction:column;
                 align-items:center;
                 cursor:pointer;
-                transition:transform 0.18s ease;
+                transition:transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
                 transform-origin:bottom center;
               "
             >
@@ -250,7 +254,7 @@ export default function Map({ getDeliveryMap }) {
           })
         }
 
-        el.style.transform = 'scale(1.15)'
+        el.style.transform = 'scale(1.18)'
         el.style.zIndex = '10000'
       } else {
         el.style.transform = 'scale(1)'
@@ -269,7 +273,7 @@ export default function Map({ getDeliveryMap }) {
 
         const handleMouseEnter = () => {
           if (activeIdRef.current !== m.id) {
-            el.style.transform = 'scale(1.2)'
+            el.style.transform = 'scale(1.22)'
           }
         }
         const handleMouseLeave = () => {
@@ -293,7 +297,7 @@ export default function Map({ getDeliveryMap }) {
   if (!leafletReady) {
     return (
       <div
-        className="w-full mt-4 rounded-[8px] overflow-hidden bg-[#F9FAFB] flex items-center justify-center"
+        className="w-full mt-4 rounded-[12px] overflow-hidden bg-[#F9FAFB] border border-[#EAECF0] flex items-center justify-center"
         style={{ height: 'calc(100vh - 180px)' }}
       >
         <div className="flex flex-col items-center gap-3">
@@ -311,9 +315,15 @@ export default function Map({ getDeliveryMap }) {
 
   return (
     <div
-      className="w-full mt-4 rounded-[8px] overflow-hidden shadow-sm"
-      style={{ height: 'calc(100vh - 180px)' }}
+      className="w-full mt-4 rounded-[12px] overflow-hidden shadow-sm border border-[#EAECF0] transition-shadow duration-300 hover:shadow-md"
+      style={{ height: 'calc(100vh - 180px)', position: 'relative' }}
     >
+      <style>{`
+        @keyframes mapPopupFadeIn {
+          from { opacity: 0; transform: translate(-50%, 6px); }
+          to { opacity: 1; transform: translate(-50%, 0); }
+        }
+      `}</style>
       <MapContainer
         center={center}
         zoom={13}
