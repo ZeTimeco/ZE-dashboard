@@ -225,3 +225,8 @@ font-size: 50px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* style calender direction */
+.MuiPickersInputBase-sectionsContainer {
+    direction: ltr !important;
+}

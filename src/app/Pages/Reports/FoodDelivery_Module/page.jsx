@@ -3,7 +3,7 @@ import React from 'react'
 
 function FoodDelivery_ModulePage() {
   return (
-    <MainLayout>FoodDelivery_ModulePage</MainLayout>
+    <MainLayout>report FoodDelivery_ModulePage</MainLayout>
   )
 }
 

@@ -6,6 +6,7 @@ import Property_Module from './Property_Module/page';
 import Home_Car_Street_Module from './Home_Car_Street_Module/page';
 import Queue_Module from './Queue_Module/page';
 import FoodDelivery_Module from './FoodDelivery_Module/page';
+import Delivery_Module from './Delivery_Module/page';
 
 
 function settingsPage() {
@@ -37,7 +38,10 @@ function settingsPage() {
       content = <Queue_Module />
     } else if (current_module_key === 'food_delivery'){
       content = <FoodDelivery_Module />
-    } else {
+    } else if (current_module_key === 'delivery'){
+      content = <Delivery_Module />
+    }
+     else {
       content =(
         <MainLayout>
           <div className='flex justify-center items-center text-red-500 text-2xl'>

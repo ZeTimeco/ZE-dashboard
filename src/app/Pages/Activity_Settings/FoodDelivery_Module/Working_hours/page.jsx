@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditWorkingHoursConfigThunk, getWorkingHoursConfigThunk } from '@/redux/slice/Setting/SettingSlice'
 import { toast } from 'react-toastify'
+import { motion } from 'framer-motion'
 
 function Working_hoursPage() {
   const { t } = useTranslation()
@@ -68,7 +69,6 @@ function Working_hoursPage() {
   }, [getWorkingHoursConfig])
 
   const handleSubmit = async () => {
-    // Validate enabled days before submitting
     for (const day of schedule) {
       if (day.isEnabled) {
         const hasEmpty = day.periods.some((p) => !p.from || !p.to);
@@ -96,7 +96,6 @@ function Working_hoursPage() {
       }
     }
 
-    // Build payload matching APIdog POST structure
     const payload = {
       schedule: schedule.map((day) => ({
         day: day.dayKey,
@@ -123,28 +122,33 @@ function Working_hoursPage() {
 
   return (
     <>
-      <div className='border border-[#E3E8EF] rounded-3px mb-4'>
-        <div>
-          <Header />
-        </div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className='border border-[#E3E8EF] rounded-3px mb-4 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
+      >
+        <Header />
 
         <div className='p-6 flex flex-col gap-4'>
           <Content schedule={schedule} setSchedule={setSchedule} />
 
-          <button
+          <motion.button
+            whileHover={!loading ? { scale: 1.02, filter: 'brightness(1.06)' } : {}}
+            whileTap={!loading ? { scale: 0.98 } : {}}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             disabled={loading}
             onClick={handleSubmit}
-            className={`w-[25%] h-14 rounded-3px text-white transition font-medium
-              ${
-                loading
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-primary hover:bg-primary/90 cursor-pointer"
+            className={`w-[25%] h-14 rounded-3px text-white transition-all duration-200 font-medium shadow-sm
+              ${loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-primary hover:bg-primary/90 cursor-pointer hover:shadow-md"
               }`}
           >
             {loading ? t("Saving...") : t("Save changes")}
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
     </>
   )
 }

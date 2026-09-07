@@ -1,17 +1,13 @@
+
 home_services /
-car_services /
-property_rental/
+car_services / 
+property_rental 
 queue / 
 delivery
-street_assistant /
+street_assistant / 
+food_delivery /
 
-home_services
-car_services
-property_rental
-queue
-delivery
-street_assistant
-food_delivery
+
 
       {id:40 , Label:'Battery operation'},
       {id:36 , Label:'Wheel repair'},

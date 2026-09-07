@@ -6,6 +6,7 @@ import MainLayout from '@/app/Components/MainLayout/MainLayout';
 import { useTranslation } from 'react-i18next';
 import Queue_Module from './Queue_Module/Services/page';
 import { useRouter } from 'next/navigation';
+import Delivery_ModulePage from './Delivery_Module/page';
 
 
 function HomePage() {
@@ -43,7 +44,10 @@ function HomePage() {
       content = <Property_Module />
     }else if (current_module_key === 'queue'){
       content = <Queue_Module />
-    } else {
+    } else if (current_module_key === 'delivery') {
+      content = <Delivery_ModulePage />
+    }
+    else {
       content =(
         <MainLayout>
           <div className='flex justify-center items-center text-red-500 text-2xl'>

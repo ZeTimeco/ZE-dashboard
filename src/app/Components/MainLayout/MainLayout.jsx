@@ -6,6 +6,7 @@ import SidebarProperty from './Sidebar/SidebarProperty';
 import SidebarQueue from './Sidebar/SidebarQueue';
 import SidebarHomeCarStreet from './Sidebar/SidebarHomeCarStreet';
 import SidebarFoodDelivery from './Sidebar/SidebarFoodDelivery';
+import SidebarDelivery from './Sidebar/SidebarDelivery';
 
 
 function MainLayout({ children }) {
@@ -60,7 +61,12 @@ function MainLayout({ children }) {
             setIsSidebarOpen={setIsSidebarOpen}
           />
         )}
-
+        {current_module_key === "delivery" && (
+          <SidebarDelivery
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+          />
+        )}
 
 
 
