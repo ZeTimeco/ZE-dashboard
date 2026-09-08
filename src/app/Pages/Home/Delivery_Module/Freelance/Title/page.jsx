@@ -4,9 +4,10 @@ import { styled } from '@mui/material/styles'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { getDriverSettingsThunk } from '@/redux/slice/Home/HomeSlice';
 
 
-function TitlePage({getParcelHome}) {
+function TitlePage({getParcelHome, dispatch}) {
   const {t} = useTranslation();
   
   const GreenSwitch = styled((props) => (
@@ -55,8 +56,20 @@ function TitlePage({getParcelHome}) {
     },
   }));
 
-  const [isConnected, setIsConnected] = useState(false);
 
+  const handleStatusChange = async (e) => {
+    try {
+      await dispatch(
+        getDriverSettingsThunk({
+          is_available: e.target.checked,
+        })
+      ).unwrap()
+
+      window.location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -84,8 +97,8 @@ function TitlePage({getParcelHome}) {
         </div>
 
         <GreenSwitch
-          checked={getParcelHome?.provider?.is_active}
-          onChange={(e) => setIsConnected(e.target.checked)}
+          checked={getParcelHome?.provider?.is_active ?? false}
+          onChange={handleStatusChange}
         />
       </motion.div>
 

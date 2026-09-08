@@ -45,8 +45,12 @@ function Card({getParcelHome}) {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className='border border-[#CDD5DF] my-10 p-6 rounded-3px'
     >
+      <p className='text-lg text-[#364152] font-medium mb-6'>
+          {t('New incoming requests')}
+        </p>
       {/* Cards*** */}
       <div className='grid grid-cols-2 gap-6'>
+        
         {getParcelHome?.new_requests?.map((request, index) => (
           <motion.div
             initial={{ opacity: 0, y: 15 }}

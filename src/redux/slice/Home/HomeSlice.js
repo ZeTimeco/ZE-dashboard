@@ -1,4 +1,4 @@
-import { changeStatus, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getParcelHome, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId } from "@/redux/api/Home/HomeApi";
+import { changeStatus, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getDriverSettings, getParcelHome, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -164,6 +164,18 @@ export const getParcelHomeThunk = createAsyncThunk('parcel/getParcelHomeThunk',
   }
 )
 
+export const getDriverSettingsThunk = createAsyncThunk('parcel/getDriverSettingsThunk',
+  async (FormData , thunkAPI) => {
+    try {
+      const data = await getDriverSettings(FormData)
+      return data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data)
+    }
+  }
+) 
+
+
 
 
 
@@ -184,6 +196,7 @@ const initialState = {
   getUpcoming:[],
   getWaitlist:[],
   getParcelHome:null,
+  
 
 
 
@@ -395,6 +408,19 @@ const homeSlice = createSlice({
         state.error = null;
       })
       .addCase(getParcelHomeThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getDriverSettingsThunk
+      .addCase(getDriverSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDriverSettingsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(getDriverSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

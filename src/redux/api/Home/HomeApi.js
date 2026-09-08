@@ -83,6 +83,10 @@ export const getParcelHome = async ({ latitude, longitude }) => {
       longitude,
     },
   })
-
   return response.data
 }
+
+export const getDriverSettings = async (formData) => {
+  const response = await API.post('/provider/parcel/driver-settings', formData);
+  return response.data;
+};
