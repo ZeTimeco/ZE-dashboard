@@ -1,4 +1,4 @@
-import { changeStatus, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId } from "@/redux/api/Home/HomeApi";
+import { changeStatus, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getParcelHome, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -150,6 +150,20 @@ export const getWaitlistThunk = createAsyncThunk('/Home/getWaitlistThunk',
   }
 )
 
+//delivery_module
+//*************************************************
+
+export const getParcelHomeThunk = createAsyncThunk('parcel/getParcelHomeThunk',
+  async ({ latitude, longitude }, thunkAPI) => {
+    try {
+      const data = await getParcelHome({latitude,longitude})
+      return data.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data)
+    }
+  }
+)
+
 
 
 
@@ -169,6 +183,8 @@ const initialState = {
   getcounters:null,
   getUpcoming:[],
   getWaitlist:[],
+  getParcelHome:null,
+
 
 
 
@@ -367,6 +383,22 @@ const homeSlice = createSlice({
         state.loading = false;
         state.error = action.payload; 
       })
+
+      //getParcelHomeThunk
+      .addCase(getParcelHomeThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getParcelHomeThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getParcelHome = action.payload;
+        state.error = null;
+      })
+      .addCase(getParcelHomeThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
       
   }
 })

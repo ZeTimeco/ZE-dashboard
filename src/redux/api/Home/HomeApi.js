@@ -72,3 +72,17 @@ export const getWaitlist = async()=>{
   const response = await API.get('/provider/dashboard/waitlist-preview')
   return  response.data
 }
+
+//delivery_module
+//************************************************* */
+
+export const getParcelHome = async ({ latitude, longitude }) => {
+  const response = await API.get('provider/parcel/home/', {
+    params: {
+      latitude,
+      longitude,
+    },
+  })
+
+  return response.data
+}

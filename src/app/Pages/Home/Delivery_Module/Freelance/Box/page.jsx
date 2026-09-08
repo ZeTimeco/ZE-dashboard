@@ -16,7 +16,7 @@ const cardVariants = {
   }),
 };
 
-function BoxPage() {
+function BoxPage({getParcelHome}) {
   const {t} = useTranslation();
   
 
@@ -44,7 +44,7 @@ function BoxPage() {
           </div>
           <div className='mt-4 '>
             <p className='text-slate-900 text-lg  font-medium tracking-tight'>
-              55 {t('pound')}
+              {getParcelHome?.statistics?.today_earnings} {t('pound')}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-red-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
@@ -69,7 +69,7 @@ function BoxPage() {
           </div>
           <div className='mt-4'>
             <p className='text-slate-900 text-lg font-medium tracking-tight'>
-            77
+              {getParcelHome?.statistics?.rating}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-emerald-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
@@ -94,7 +94,7 @@ function BoxPage() {
           </div>
           <div className='mt-4 '>
             <p className='text-slate-900 text-lg font-medium tracking-tight'>
-              55
+              {getParcelHome?.statistics?.active_hours}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-amber-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
@@ -120,7 +120,7 @@ function BoxPage() {
 
           <div className='mt-4 '>
             <p className='text-slate-900 text-lg font-medium tracking-tight flex items-center gap-1.5'>
-              5
+              {getParcelHome?.statistics?.today_deliveries}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-violet-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>

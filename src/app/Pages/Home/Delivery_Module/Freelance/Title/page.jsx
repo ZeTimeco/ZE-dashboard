@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 
-function TitlePage() {
+function TitlePage({getParcelHome}) {
   const {t} = useTranslation();
   
   const GreenSwitch = styled((props) => (
@@ -64,11 +64,11 @@ function TitlePage() {
         <div>
           <div className='flex items-center gap-2 mb-1.5'>
             <h1 className='text-[#697586] text-xl font-normal tracking-tight'>
-              اهلا بيك 
+              {t('Welcome')}
             </h1>
           </div>
           <p className='text-[#364152] text-2xl  font-medium leading-relaxed'>
-            أحمد محمد 
+            {getParcelHome?.provider?.name}
           </p>
         </div>
 
@@ -79,12 +79,12 @@ function TitlePage() {
       >
         <div className="flex items-center gap-2.5">
           <p className="text-[#1E293B] text-sm md:text-base font-medium select-none">
-            {isConnected ? t("Connected to orders") : t("Offline for orders")}
+            {getParcelHome?.provider?.is_active ? t("Connected to orders") : t("Offline for orders")}
           </p>
         </div>
 
         <GreenSwitch
-          checked={isConnected}
+          checked={getParcelHome?.provider?.is_active}
           onChange={(e) => setIsConnected(e.target.checked)}
         />
       </motion.div>
