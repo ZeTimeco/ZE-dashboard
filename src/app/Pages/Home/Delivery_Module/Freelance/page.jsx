@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import BoxPage from './Box/page'
 import TitlePage from './Title/page'
@@ -54,11 +56,11 @@ function FreelancePage() {
       <TitlePage getParcelHome={getParcelHome} dispatch={dispatch}/>
       <BoxPage getParcelHome={getParcelHome}/>
 
-    <div className='flex justify-end mt-10'>
+    {/* <div className='flex justify-end mt-10'>
       <button className='border cursor-pointer px-3' onClick={() => setOpenIncomingRequestDialog(true)}>
         IncomingRequest
       </button>
-    </div>
+    </div> */}
       
       
       {getParcelHome?.new_requests?.length === 0 && getParcelHome?.active_delivery === null  

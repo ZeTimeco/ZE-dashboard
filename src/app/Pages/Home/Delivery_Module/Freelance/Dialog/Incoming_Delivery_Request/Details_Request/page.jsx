@@ -1,11 +1,12 @@
 "use client"
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import FirstSection from './FirstSection'
 import SecondSection from './SecondSection'
 import ThirdSection from './ThirdSection'
+import Under_ReviewPage from '../Under_Review/page'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,6 +30,12 @@ const itemVariants = {
 
 function Details_RequestPage({ open, setOpen }) { 
   const { t } = useTranslation()
+  const [openUnderReview, setOpenUnderReview] = useState(false)
+
+  const handleSendOffer = () => {
+    setOpen(false)
+    setOpenUnderReview(true)
+  }
 
   return (
     <>
@@ -87,6 +94,7 @@ function Details_RequestPage({ open, setOpen }) {
           <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4 w-full pt-1">
             <motion.button
               type="button"
+              onClick={() => setOpen(false)}
               whileHover={{ scale: 1.015 }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.15 }}
@@ -97,6 +105,7 @@ function Details_RequestPage({ open, setOpen }) {
 
             <motion.button
               type="button"
+              onClick={handleSendOffer}
               whileHover={{ scale: 1.015, filter: 'brightness(1.03)' }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.15 }}
@@ -108,6 +117,12 @@ function Details_RequestPage({ open, setOpen }) {
         </div>
       </motion.div>
     </Dialog>
+
+    {/* Under Review Popup */}
+    <Under_ReviewPage
+      open={openUnderReview}
+      setOpen={setOpenUnderReview}
+    />
     </>
   )
 }

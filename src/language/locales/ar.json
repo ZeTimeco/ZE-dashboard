@@ -1661,6 +1661,20 @@
   "Send an offer":"ارسال عرض",
   "Submit a price quote":"قدم عرض سعر",
   "Enter your price":"أدخل سعرك",
+  "Offer withdrawal":"سحب العرض",
+  "The offer has been sent":"تم ارسال العرض",
+  "Awaiting customer response":"بانتظار رد العميل",
+  "Your offer is under review":"عرضك قيد المراجعة",
+  "We have sent your offer to the customer. A notification will appear as soon as the offer is accepted or another delivery person is chosen.":"أرسلنا عرضك إلى العميل. سيظهر إشعار فور قبول العرض أو اختيار موصّل آخر.",
+  "Your offer":"عرضك",
+  "Competitive offers":"عروض منافسة",
+  "Connectors":"موصلين",
+  "Return to main page":"الرجوع للرئيسية",
+  "Your offer has been rejected":"تم رفض عرضك",
+  "Unfortunately, your offer was not selected this time.":"للأسف لم يتم اختيار عرضك هذه المرة",
+  "Your offer has been accepted":"تم قبول عرضك",
+  "You can now track the status of your current offer and monitor order updates step by step.":"يمكنك الآن تتبع حالة عرضك الحالي ومراقبة تحديثات الطلب خطوة بخطوة",
+  "Go to order details":"انتقال الي تفاصيل الطلب",
   
 
 
