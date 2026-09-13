@@ -77,7 +77,7 @@ export const getWaitlist = async()=>{
 //************************************************* */
 
 export const getParcelHome = async ({ latitude, longitude }) => {
-  const response = await API.get('provider/parcel/home/', {
+  const response = await API.get('/provider/parcel/home', {
     params: {
       latitude,
       longitude,
