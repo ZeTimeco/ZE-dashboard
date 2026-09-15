@@ -1,11 +1,11 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getActiveDeliveryThunk, updateBookingStatusThunk } from '@/redux/slice/Home/HomeSlice'
+import { getActiveDeliveryThunk } from '@/redux/slice/Home/HomeSlice'
 import Map from './Map'
 
 /* ─── Fallback coordinates (Riyadh) ───────────────────────────── */
@@ -28,12 +28,10 @@ function Pickup_pointContent() {
     }
   }, [dispatch, id])
 
-  console.log('getActiveDelivery******', getActiveDelivery)
+  console.log('getActiveDelivery', getActiveDelivery)
 
-  const lat = getActiveDelivery?.data?.pickup?.latitude
-  const lng = getActiveDelivery?.data?.pickup?.longitude
-
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const lat = 55.55
+  const lng = 10.33
 
   const openGoogleMaps = () => {
     window.open(
@@ -41,27 +39,6 @@ function Pickup_pointContent() {
       '_blank',
       'noopener,noreferrer'
     )
-  }
-
-  const handleArrivedAtPickup = async () => {
-    const bookingId = id || getActiveDelivery?.data?.id
-    if (!bookingId) return
-
-    try {
-      setIsSubmitting(true)
-      await dispatch(
-        updateBookingStatusThunk({
-          BookingID: bookingId,
-          formData: { status: 'arrived_at_pickup' },
-        })
-      ).unwrap()
-      await dispatch(getActiveDeliveryThunk(bookingId))
-      router.push(`/Pages/Home/Delivery_Module/Freelance/Cards/DetailsActiveConnections/ConfirmPickup?id=${bookingId}`)
-    } catch (error) {
-      console.error('Failed to update booking status:', error)
-    } finally {
-      setIsSubmitting(false)
-    }
   }
 
   return (
@@ -80,7 +57,7 @@ function Pickup_pointContent() {
       </motion.div>
 
       {/* ── Map ───────────────────────────────────────────────────── */}
-      <Map lat={lat} lng={lng}  getActiveDelivery={getActiveDelivery}/>
+      <Map lat={lat} lng={lng} />
       <div className="flex justify-end">
         <button onClick={openGoogleMaps} className='text-primary cursor-pointer border border-primary w-full h-10 mt-3 rounded-3px'>Open map</button>
       </div>
@@ -100,25 +77,23 @@ function Pickup_pointContent() {
           }}
           whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          onClick={() => router.push('/Pages/Home/Delivery_Module/Freelance')}
+          onClick={() => router.back()}
         >
           {t('Return')}
         </motion.button>
 
         <motion.button
           type="button"
-          disabled={isSubmitting}
-          className="bg-primary w-[20%] h-14 cursor-pointer text-white text-base font-semibold rounded-3px disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-primary w-[20%] h-14 cursor-pointer text-white text-base font-semibold rounded-3px"
           whileHover={{
-            scale: isSubmitting ? 1 : 1.02,
+            scale: 1.02,
             boxShadow: '0 6px 20px rgba(0,0,0,0.18)',
             filter: 'brightness(1.06)',
           }}
-          whileTap={{ scale: isSubmitting ? 1 : 0.97 }}
+          whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          onClick={handleArrivedAtPickup}
         >
-          {isSubmitting ? t('Loading...') : t('The pickup point has arrived')}
+          {t('The pickup point has arrived')}
         </motion.button>
       </motion.div>
 

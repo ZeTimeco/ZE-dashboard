@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
@@ -10,12 +11,33 @@ const MapContainer = dynamic(
   () => import('react-leaflet').then((m) => m.MapContainer),
   { ssr: false }
 )
+
 const TileLayer = dynamic(
   () => import('react-leaflet').then((m) => m.TileLayer),
   { ssr: false }
 )
+
 const Marker = dynamic(
   () => import('react-leaflet').then((m) => m.Marker),
+  { ssr: false }
+)
+
+const MapUpdater = dynamic(
+  () => import('react-leaflet').then((m) => {
+    const MapUpdaterComponent = ({ position }) => {
+      const map = m.useMap()
+
+      useEffect(() => {
+        if (position?.[0] && position?.[1]) {
+          map.setView(position, 14)
+        }
+      }, [map, position])
+
+      return null
+    }
+
+    return MapUpdaterComponent
+  }),
   { ssr: false }
 )
 
@@ -29,26 +51,50 @@ const YELLOW_PIN_SVG = `
 </svg>
 `
 
+function Map({  getActiveDelivery }) {
+    const { t } = useTranslation()
 
-const FALLBACK_LAT = 24.7136
-const FALLBACK_LNG = 46.6753
-
-function Map({ lat, lng }) {
-  const position = [lat ?? FALLBACK_LAT, lng ?? FALLBACK_LNG]
-  const { t } = useTranslation()
   const [leafletReady, setLeafletReady] = useState(false)
   const iconRef = useRef(null)
+
+  // Get pickup coordinates
+  const lat = getActiveDelivery?.data?.pickup?.latitude
+  const lng = getActiveDelivery?.data?.pickup?.longitude
+
+  // Convert API values to numbers
+  const latitude = Number(lat)
+  const longitude = Number(lng)
+
+  // Check coordinates
+  const hasValidPosition =
+    Number.isFinite(latitude) &&
+    Number.isFinite(longitude)
+
+  // Leaflet position = [latitude, longitude]
+  const position = hasValidPosition
+    ? [latitude, longitude]
+    : null
+
+  console.log('lat:', lat)
+  console.log('lng:', lng)
+  console.log('position:', position)
 
   /* Build Leaflet DivIcon once on client */
   useEffect(() => {
     if (typeof window === 'undefined') return
+
     import('leaflet').then((L) => {
       iconRef.current = L.divIcon({
         className: '',
         iconAnchor: [17, 44],
-        html: `<div style="display:flex;flex-direction:column;align-items:center;">${YELLOW_PIN_SVG}</div>`,
+        html: `
+          <div style="display:flex;flex-direction:column;align-items:center;">
+            ${YELLOW_PIN_SVG}
+          </div>
+        `,
         iconSize: [34, 44],
       })
+
       setLeafletReady(true)
     })
   }, [])
@@ -59,99 +105,150 @@ function Map({ lat, lng }) {
       style={{ height: '420px' }}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, delay: 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{
+        duration: 0.45,
+        delay: 0.08,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
     >
-      {/* Loading placeholder */}
-      {!leafletReady && (
+
+      {/* Loading / invalid position */}
+      {!leafletReady || !hasValidPosition ? (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#F9FAFB] z-10">
           <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin mb-3" />
-          <p className="text-[#697586] text-sm">{t('Loading map...')}</p>
-        </div>
-      )}
 
-      {/* Leaflet Map */}
-      {leafletReady && (
+          <p className="text-[#697586] text-sm">
+            {t('Loading map...')}
+          </p>
+        </div>
+      ) : (
+
+        /* ─── Leaflet Map ───────────────────────────────────── */
         <MapContainer
           center={position}
           zoom={14}
-          style={{ height: '100%', width: '100%' }}
+          style={{
+            height: '100%',
+            width: '100%',
+          }}
           zoomControl={true}
           scrollWheelZoom={true}
         >
+
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+            attribution="&copy; OpenStreetMap contributors"
           />
+
+          {/* Update map center when lat/lng change */}
+          <MapUpdater position={position} />
+
+          {/* Pickup Marker */}
           <Marker
             position={position}
             icon={iconRef.current}
           />
+
         </MapContainer>
       )}
 
       {/* ── Pickup info card overlay ─────────────────────────── */}
       <motion.div
-        className="absolute bottom-4 right-4 z-[999] bg-white rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.14)] border border-[#EAECF0] p-4 w-[280px]"
+        className="absolute bottom-4 left-4 z-[999] bg-white rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.14)] border border-[#EAECF0] p-4 w-[40%]"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{
+          duration: 0.4,
+          delay: 0.3,
+          ease: [0.25, 0.46, 0.45, 0.94],
+        }}
         dir="rtl"
       >
+
         {/* Header */}
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-[#364152] text-sm font-medium">{t('Pickup point')}</p>
-          <motion.button
-            type="button"
+        <div className="flex items-center gap-2 mb-2">
+
+          <motion.div
             className="w-8 h-8 rounded-sm bg-[#F4EAD0] flex items-center justify-center cursor-pointer"
-            whileHover={{ scale: 1.1, backgroundColor: '#EDD98A' }}
+            whileHover={{
+              scale: 1.1,
+              backgroundColor: '#EDD98A',
+            }}
             whileTap={{ scale: 0.93 }}
             transition={{ duration: 0.18 }}
-            title={t('Copy address')}
           >
-            <svg
-              width="16" height="16" viewBox="0 0 24 24" fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ display: 'block' }}
-            >
-              <rect x="9" y="9" width="13" height="13" rx="2" stroke="#C49400" strokeWidth="1.8" fill="none"/>
-              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="#C49400" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          </motion.button>
+            <img
+              src="/images/icons/map-pinpoint_yellow.svg"
+              alt=""
+            />
+          </motion.div>
+
+          <p className="text-[#697586] text-lg font-normal">
+            {t('Pickup point')}
+          </p>
+
         </div>
 
         {/* Address */}
-        <p className="text-[#364152] text-sm font-semibold mb-1 leading-5">
-          City center, 123 Main Street
+        <p className="text-[#364152] text-lg font-medium mb-1">
+          {getActiveDelivery?.data?.pickup?.address}
         </p>
 
         {/* Sender */}
-        <p className="text-[#697586] text-xs font-normal mb-4">
-        Ask about: Client Ahmed· Documents
+        <p className="text-[#697586] text-lg font-normal mb-4">
+          {t('Ask about')}: {t('Customer')}{' '}
+          {getActiveDelivery?.data?.contact?.name}
         </p>
 
         {/* Action buttons */}
         <div className="flex gap-2">
-          {/* Call — primary */}
+
+          {/* Call */}
           <motion.button
             type="button"
-            className="flex-1 h-10 bg-primary text-white text-sm font-semibold rounded-[6px] cursor-pointer"
-            whileHover={{ scale: 1.03, filter: 'brightness(1.07)', boxShadow: '0 4px 14px rgba(196,148,0,0.30)' }}
+            onClick={() => {
+              const phone =
+                getActiveDelivery?.data?.contact?.phone
+
+              if (phone) {
+                window.location.href = `tel:${phone}`
+              }
+            }}
+            className="flex-1 h-10 bg-primary text-white text-sm font-semibold rounded-md cursor-pointer"
+            whileHover={{
+              scale: 1.03,
+              filter: 'brightness(1.07)',
+              boxShadow:
+                '0 4px 14px rgba(196,148,0,0.30)',
+            }}
             whileTap={{ scale: 0.96 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
+            transition={{
+              duration: 0.18,
+              ease: 'easeOut',
+            }}
           >
-            Call
+            {t('communication')}
           </motion.button>
 
-          {/* Message — outlined */}
+          {/* Message */}
           <motion.button
             type="button"
-            className="flex-1 h-10 border border-[#CDD5DF] text-[#364152] text-sm font-semibold rounded-[6px] cursor-pointer bg-white"
-            whileHover={{ scale: 1.03, boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderColor: '#9CA3AF' }}
+            className="flex-1 h-10 border border-[#CDD5DF] text-[#364152] text-sm font-semibold rounded-md cursor-pointer bg-white"
+            whileHover={{
+              scale: 1.03,
+              boxShadow:
+                '0 4px 12px rgba(0,0,0,0.08)',
+              borderColor: '#9CA3AF',
+            }}
             whileTap={{ scale: 0.96 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
+            transition={{
+              duration: 0.18,
+              ease: 'easeOut',
+            }}
           >
-            {t('Message')}
+            {t('message')}
           </motion.button>
+
         </div>
       </motion.div>
     </motion.div>

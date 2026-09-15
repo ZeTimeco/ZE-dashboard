@@ -1688,6 +1688,23 @@
   "The pickup point has arrived":"وصلت نقطة الاستلام" , 
   "Head to pick-up":"التوجة للاستلام",
   "Head to the delivery point":"التوجة لنقطة التسليم",
+  "Pickup point":"نقطة الاستلام",
+  "Ask about":"اسأل عن",
+  "Confirmation of receipt and departure":"تأكيد الاستلام والانطلاق",
+  "Confirmation of receipt":"تأكيد الاستلام",
+  "Check the package before setting off":"تحقق من الطرد قبل الانطلاق",
+  "Checklist":"قائمة التحقق",
+  "The package matches the description (documents, medium box)":"الطرد مطابق للوصف (وثائق · صندوق متوسط)",
+  "Weight is the same (2.5 kg)":"الوزن مطابق (2.5 كجم)",
+  "The packaging is intact and undamaged.":"التغليف سليم وغير تالف",
+  "New requests":"طلبات جديدة",
+  "Active connections":"توصيلات نشطة",
+  "Connected drivers":"سائقون متصلون",
+  "Confirmed":"تم التأكيد",
+  "Arrived at the pickup point":"وصل لنقطة الاستلام",
+  "On the way for delivery":"في الطريق للتسليم",
+  "Arrived at the delivery point":"وصل لنقطة التسليم",
+  "Delivered":"تم التسليم",
   
 
 

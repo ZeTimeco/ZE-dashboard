@@ -1687,6 +1687,23 @@
   "The pickup point has arrived":"The pickup point has arrived",
   "Head to pick-up":"Head to pick-up",
   "Head to the delivery point":"Head to the delivery point",
+  "Pickup point":"Pickup point",
+  "Ask about":"Ask about",
+  "Confirmation of receipt and departure":"Confirmation of receipt and departure",
+  "Confirmation of receipt":"Confirmation of receipt",
+  "Check the package before setting off":"Check the package before setting off",
+  "Checklist":"Checklist",
+  "The package matches the description (documents, medium box)":"The package matches the description (documents, medium box)",
+  "Weight is the same (2.5 kg)":"Weight is the same (2.5 kg)",
+  "The packaging is intact and undamaged.":"The packaging is intact and undamaged.",
+  "New requests":"New requests",
+  "Active connections":"Active connections",
+  "Connected drivers":"Connected drivers",
+  "Confirmed":"Confirmed",
+  "Arrived at the pickup point":"Arrived at the pickup point",
+  "On the way for delivery":"On the way for delivery",
+  "Arrived at the delivery point":"Arrived at the delivery point",
+  "Delivered":"Delivered",
   
 
 
