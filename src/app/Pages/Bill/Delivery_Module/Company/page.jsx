@@ -11,7 +11,7 @@ function CompanyPage() {
     <>
       <h1 className='text-[#364152] text-2xl font-medium'>{t('Profits and Invoice')}</h1>
 
-      <div className='grid grid-cols-2 gap-6'>
+      <div className='grid grid-cols-2 gap-6 mt-10'>
         <Net_profitPage/>
         <Monthly_SummaryPage/>
       </div>
