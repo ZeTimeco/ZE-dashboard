@@ -33,7 +33,7 @@ function SidebarDelivery({ isSidebarOpen, setIsSidebarOpen }) {
     },
     {
       key: "Connections",
-      path: "/Pages/Connections/Delivery_Module",
+      path: "/Pages/Delivery/Delivery_Module",
       icon: "/images/icons/Connections.svg",
     },
     {

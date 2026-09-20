@@ -1,36 +1,50 @@
 'use client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
+import { useRouter } from 'next/navigation';
 
-function ActiveConnectionPage({getCompanyDashboard}) {
+function Cards({ activeTab = 'all', getMyDeliveries, loading }) {
   const { t } = useTranslation()
+  const router = useRouter()
+  const shouldReduceMotion = useReducedMotion()
 
+  const deliveries = getMyDeliveries?.deliveries || []
 
-  const getProgressPercentage = (status) => {
-    switch (status) {
-      case 'offer_accepted':
-        return 30
-      case 'pending':
-        return 10
-      case 'broadcasting':
-        return 20
-      case 'on_way_to_pickup':
-        return 45
-      case 'arrived_at_pickup':
-        return 60
-      case 'picked_up':
-        return 70
-      case 'arrived_at_dropoff':
-        return 10
-      case 'delivered':
-        return 80
-      case 'cancelled':
-        return 100
-      default:
-        return 0
+  const ACTIVE_STATUSES = [
+    'offer_accepted',
+    'on_way_to_pickup',
+    'arrived_at_pickup',
+    'picked_up',
+    'arrived_at_dropoff',
+  ]
+
+  const COMPLETED_STATUSES = [
+    'delivered',
+    'cancelled',
+  ]
+
+  const filteredDeliveries = React.useMemo(() => {
+    const tab = (activeTab || 'all').toLowerCase()
+
+    if (tab === 'all') {
+      return deliveries
     }
-  }
+
+    if (tab === 'active') {
+      return deliveries.filter((delivery) =>
+        ACTIVE_STATUSES.includes(delivery?.status?.toLowerCase()?.trim())
+      )
+    }
+
+    if (tab === 'completed' || tab === 'complete') {
+      return deliveries.filter((delivery) =>
+        COMPLETED_STATUSES.includes(delivery?.status?.toLowerCase()?.trim())
+      )
+    }
+
+    return deliveries
+  }, [deliveries, activeTab])
 
   const StatusRender = (status) => {
     switch (status) {
@@ -169,51 +183,84 @@ function ActiveConnectionPage({getCompanyDashboard}) {
     }
   }
 
+
+  const getDisplayDate = (date) => {
+    if (!date) return '-----'
+
+    const [year, month, day] = date.split('-').map(Number)
+
+    const targetDate = new Date(year, month - 1, day)
+
+    const today = new Date()
+    const todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    )
+
+    const diffInDays = Math.round(
+      (targetDate - todayStart) / (1000 * 60 * 60 * 24)
+    )
+
+    if (diffInDays === 0) return 'اليوم'
+    if (diffInDays === 1) return 'غدًا'
+    if (diffInDays === -1) return 'أمس'
+
+    return date
+  }
+  
   return (
     <>
-      <div className="border border-[#CDD5DF] mt-10  mb-6 p-6 rounded-3px">
-        <p className="text-[#364152] text-lg font-medium">
-          {t('Active connections')}
-        </p>
-
-        {getCompanyDashboard?.active_deliveries?.map((order)=>(
-          <div key={order?.id} className="border border-[#DFDFDF] p-3.5 mt-4 rounded-3px bg-white">
-            <div className="flex justify-between items-center">
-              <h3 className="text-[#364152] text-base font-medium">{order?.booking_number}</h3>
-              <div>{StatusRender(order?.status)}</div>
-            </div>
-
-            <div>
-              <p className="flex gap-1 items-center mt-2">
-                <span className="flex items-center">
-                  <img
-                    src="/images/icons/user-full-view-black.svg"
-                    alt=""
-                    className="w-4 h-4"
-                  />
-                </span>
-                <span className="text-[#6E6E6E] text-base font-normal">
-                  {order?.driver?.name}
-                </span>
+      <div
+        className='border border-[#CDD5DF] rounded-3px p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 bg-white/40 min-h-[140px]'
+      >
+        {filteredDeliveries?.length === 0 ? (
+          <div className='col-span-full py-12 flex flex-col items-center justify-center text-center'>
+            <p className='text-[#697586] text-lg font-medium'>
+              {t('No active delivery flights')}
+            </p>
+          </div>
+        ) : (
+          filteredDeliveries?.map((delivery)=>(
+            <div
+              key={delivery?.id}
+              className='group relative bg-white border border-[#E3E8EF] hover:border-[#CDD5DF] shadow-[0_0_4px_0_rgba(0,0,0,0.15)] hover:shadow-[0_6px_16px_0_rgba(0,0,0,0.10)] rounded-3px p-3 transition-all duration-200'
+            >
+              <div className='flex justify-between items-center gap-2'>
+                <button
+                  type="button"
+                  onClick={() => router.push(`/Pages/Delivery/Delivery_Module/Company/Details?id=${delivery?.id}`)}
+                  className='text-[#364152] text-lg font-medium transition-colors duration-200 group-hover:text-primary cursor-pointer hover:underline underline-offset-2'
+                >
+                  {delivery?.booking_number}
+                </button>
+                <div>
+                  {StatusRender(delivery?.status)}
+                </div>
+              </div>
+              <p className='text-[#4B5565] text-base font-normal mt-2 transition-colors duration-200'>
+                {delivery?.pickup_address}
               </p>
 
-              {/* progress bar */}
-              <div className="w-full bg-[#EAECF0] h-1 rounded-full overflow-hidden mt-3">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${getProgressPercentage(order?.status)}%` }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
-                  className="bg-[#1570EF] h-full rounded-full ms-0"
-                />
+              <div className='border-t border-[#E3E8EF] my-4'></div>
+
+              <div className='flex justify-between items-center'>
+                <p className="flex gap-1 text-[#4B5565] text-base font-normal">
+                <span>{getDisplayDate(delivery?.display_date)}</span>
+                :
+                <span>{delivery?.display_time ?? '-----'}</span>
+              </p>
+
+                <p className='text-primary text-lg font-semibold transition-transform duration-200 group-hover:scale-[1.03]'>
+                  {delivery?.total_amount} {t('pound')}
+                </p>
               </div>
             </div>
-          </div>
-        ))}
-
-        
+          ))
+        )}
       </div>
     </>
   )
 }
 
-export default ActiveConnectionPage
+export default Cards

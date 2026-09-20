@@ -1,30 +1,48 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import Tracking_number from './Tracking_number'
 import Shipment_details from './Shipment_details'
 import Delivery_points from './Delivery_points'
 import Price from './Price'
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getActiveDeliveryIDThunk } from '@/redux/slice/Delivery/DeliverySlice'
 
 function DetailsPage() {
   const {t} = useTranslation()
   const router = useRouter()
+
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+  console.log('id' , id);
+
+  const dispatch = useDispatch()
+  const {getActiveDeliveryID} = useSelector((state)=>state.Delivery)
+
+  useEffect(()=>{
+    if(id){
+      dispatch(getActiveDeliveryIDThunk(id))
+    }
+  },[dispatch , id])
+
+  console.log('getActiveDeliveryID' , getActiveDeliveryID);
+
   return (
     <MainLayout>
         <div className='flex flex-col gap-3'>
           <h1 className='text-[#364152] text-2xl font-medium'>{t('Order details')}</h1>
-          <p className='text-[#697586] text-xl font-normal'>ZT-PR-1234</p>
+          <p className='text-[#697586] text-xl font-normal'>{getActiveDeliveryID?.booking_number}</p>
         </div>
 
         <>
-          <Tracking_number/>
-          <Shipment_details/>
+          <Tracking_number getActiveDeliveryID={getActiveDeliveryID}/>
+          <Shipment_details getActiveDeliveryID={getActiveDeliveryID}/>
           <div className='grid grid-cols-2 gap-6 my-6 border border-[#CDD5DF] rounded-3px p-6'>
-            <Delivery_points/>
-            <Price/>
+            <Delivery_points getActiveDeliveryID={getActiveDeliveryID}/>
+            <Price getActiveDeliveryID={getActiveDeliveryID}/>
           </div>
         </>
 

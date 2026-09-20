@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 
 
-function TitlePage() {
+function TitlePage({getCompanyDashboard}) {
   const {t} = useTranslation();
-    const isActive = true;
+  const getCompanyDashboardProvider = getCompanyDashboard?.provider
+    
+  const isActive = getCompanyDashboardProvider?.is_active ;
 
 
 
@@ -17,7 +19,7 @@ function TitlePage() {
         <div>
           <div className='flex items-center gap-2 mb-1.5'>
             <h1 className='text-[#364152] text-2xl font-medium '>
-              سوفت بوست للشحن
+              {getCompanyDashboardProvider?.company_name || "Company Name "}
             </h1>
           </div>
           <p className="text-[#686868] text-lg font-normal flex items-center gap-2">
@@ -27,7 +29,7 @@ function TitlePage() {
               }`}
             />
 
-            {isActive ? "نشطة - شركة موثقة" : "غير نشطة - شركة موثقة"}
+            {isActive ? "نشطة" : "غير نشطة"}
           </p>
         </div>
 

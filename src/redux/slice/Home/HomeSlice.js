@@ -1,4 +1,4 @@
-import { changeStatus, ConfirmDelivery, ConfirmPickUp, getActiveDelivery, getBookingNew, getBookingOngoing, getconversationsLatestUnseen, getcounters, getDriverSettings, getParcelHome, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId, updateBookingStatus } from "@/redux/api/Home/HomeApi";
+import { changeStatus, ConfirmDelivery, ConfirmPickUp, getActiveDelivery, getBookingNew, getBookingOngoing, getCompanyDashboard, getconversationsLatestUnseen, getcounters, getDriverSettings, getParcelHome, getPropertiesAnalysis, getPropertiesTop, getProviderRate, getProviderState, gettopThreeBookings, getUpcoming, getWaitlist, setModuleId, updateBookingStatus } from "@/redux/api/Home/HomeApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
@@ -222,6 +222,17 @@ export const ConfirmDeliveryThunk = createAsyncThunk('parcel/ConfirmDeliveryThun
 ) 
 
 
+export const getCompanyDashboardThunk = createAsyncThunk('parcel/getCompanyDashboard',
+  async (_ , thunkAPI) => {
+    try {
+      const response = await getCompanyDashboard()
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data)
+    }
+  }
+) 
+
 
 const initialState = {
   loading:false,
@@ -241,6 +252,9 @@ const initialState = {
   getWaitlist:[],
   getParcelHome:null,
   getActiveDelivery:null,
+  getCompanyDashboard:null,
+
+
 
   
 
@@ -523,6 +537,21 @@ const homeSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })    
+      //getCompanyDashboardThunk
+      .addCase(getCompanyDashboardThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCompanyDashboardThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.getCompanyDashboard = action.payload;
+        state.error = null;
+      })
+      .addCase(getCompanyDashboardThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
   }
 })
 export const {} = homeSlice.actions;

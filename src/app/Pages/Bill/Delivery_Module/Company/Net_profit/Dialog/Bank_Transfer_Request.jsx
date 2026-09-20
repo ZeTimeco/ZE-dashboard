@@ -1,3 +1,4 @@
+'use client'
 import { Dialog } from '@mui/material'
 import React from 'react'
 import { motion } from 'framer-motion'

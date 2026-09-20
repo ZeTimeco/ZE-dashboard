@@ -9,26 +9,25 @@ function Filter({ activeTab, setActiveTab }) {
 
   const tabs = [
     {
-      id: "All",
+      id: "all",
       label: t("All"),
-      active: ["All"],
     },
     {
       id: "active",
       label: t("active"),
-      active: ["active"],
     },
     {
-      id: "Complete",
+      id: "completed",
       label: t("Complete"),
-      active: ["Complete"],
     },
   ];
 
   return (
     <div className="lg1:w-[50%] w-full border border-[#E3E8EF] bg-[#F8FAFC] grid grid-cols-3 gap-2 sm:gap-6 p-2 rounded-[3px] shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
       {tabs.map((tab) => {
-        const isActive = tab.id === activeTab;
+        const isActive =
+          tab.id === activeTab?.toLowerCase() ||
+          (tab.id === "completed" && activeTab?.toLowerCase() === "complete");
         return (
           <motion.button
             key={tab.id}

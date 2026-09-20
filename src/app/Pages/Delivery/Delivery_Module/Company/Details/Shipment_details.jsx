@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Shipment_details() {
+function Shipment_details({getActiveDeliveryID}) {
   const {t} = useTranslation()
   return (
     <>

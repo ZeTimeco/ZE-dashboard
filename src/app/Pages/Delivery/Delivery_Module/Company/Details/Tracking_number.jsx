@@ -1,8 +1,9 @@
 'use client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { IMAGE_BASE_URL } from '../../../../../../../config/imageUrl'
 
-function Tracking_number() {
+function Tracking_number({getActiveDeliveryID}) {
   const {t} = useTranslation()
 
   const StatusRender = (status) => {
@@ -137,6 +138,7 @@ function Tracking_number() {
         return null
     }
   }
+  
   return (
     <div className='grid grid-cols-2 gap-6 mb-8 mt-10'>
 
@@ -144,20 +146,20 @@ function Tracking_number() {
       <div className='border border-[#F5DFA3] rounded-3px  bg-[#FDF7E8] p-3'>
         <div className='flex justify-between'>
           <p className='text-[#697586] text-sm font-normal'>{t('Tracking number')}</p>
-          <>{StatusRender('offer_accepted')}</>
+          <>{StatusRender(getActiveDeliveryID?.status)}</>
         </div>
-        <p className='text-[#364152] text-sm font-normal'>ZT-PR-1234</p>
+        <p className='text-[#364152] text-sm font-normal'>{getActiveDeliveryID?.booking_number}</p>
 
         <p className='flex gap-1 text-[#4B5565] text-sm font-normal'>
           <span>اليوم</span> : 
-          <span>4:00 ص </span>
+          <span>{getActiveDeliveryID?.time}</span>
         </p>
 
       </div>
 
       {/* image */}
-      <div className='rounded-3px '>
-        <img src="/images/Frame.svg" alt="" />
+      <div className='rounded-3px overflow-hidden '>
+        <img src={`${IMAGE_BASE_URL}${getActiveDeliveryID?.photo}`} className="h-30 w-full object-cover" />
       </div>
       
     </div>

@@ -3,23 +3,25 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: i * 0.07,
-      duration: 0.4,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  }),
-};
 
-function BoxPage() {
+
+function BoxPage({getCompanyDashboard}) {
   const {t} = useTranslation();
   
+  const getCompanyDashboardStatistics = getCompanyDashboard?.statistics
 
+  const cardVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.07,
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    }),
+  };
 
   return (
     <>
@@ -44,7 +46,7 @@ function BoxPage() {
           </div>
           <div className='mt-4 '>
             <p className='text-slate-900 text-lg  font-medium tracking-tight'>
-              2 {t('pound')}
+              {getCompanyDashboardStatistics?.new_orders_count} {t('pound')}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-red-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
@@ -69,7 +71,7 @@ function BoxPage() {
           </div>
           <div className='mt-4'>
             <p className='text-slate-900 text-lg font-medium tracking-tight'>
-              1
+              {getCompanyDashboardStatistics?.today_earnings}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-emerald-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
@@ -94,7 +96,7 @@ function BoxPage() {
           </div>
           <div className='mt-4 '>
             <p className='text-slate-900 text-lg font-medium tracking-tight'>
-              11
+              {getCompanyDashboardStatistics?.active_deliveries_count}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-amber-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>
@@ -120,7 +122,7 @@ function BoxPage() {
 
           <div className='mt-4 '>
             <p className='text-slate-900 text-lg font-medium tracking-tight flex items-center gap-1.5'>
-              3
+              {getCompanyDashboardStatistics?.online_drivers_count}
             </p>
           </div>
           <div className='absolute -bottom-6 -left-6 w-20 h-20 bg-violet-500/5 rounded-3px blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-500'></div>

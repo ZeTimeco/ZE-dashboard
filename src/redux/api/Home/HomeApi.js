@@ -112,3 +112,9 @@ export const ConfirmDelivery = async(BookingID , formData) =>{
   const response = await API.post(`/provider/parcel/bookings/${BookingID}/confirm-delivery` , formData)
   return response.data
 }
+
+export const getCompanyDashboard = async () => {
+  const response = await API.get('/provider/parcel/Company/dashboard')
+  return response.data
+}
+

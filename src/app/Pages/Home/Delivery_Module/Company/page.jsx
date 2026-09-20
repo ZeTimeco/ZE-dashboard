@@ -1,16 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import TitlePage from './Title/page'
 import BoxPage from './Box/page'
 import ActiveConnectionPage from './ActiveConnection/page'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCompanyDashboardThunk } from '@/redux/slice/Home/HomeSlice'
 
 function CompanyPage() {
+  const dispatch = useDispatch()
+  const {getCompanyDashboard} = useSelector((state)=>state.Home)
+  useEffect(()=>{
+    dispatch(getCompanyDashboardThunk())
+  },[dispatch])
+
+  // console.log('getCompanyDashboard' , getCompanyDashboard);
   return (
     <div>
-      <TitlePage/>
+      <TitlePage getCompanyDashboard={getCompanyDashboard}/>
       
-      <BoxPage/>
+      <BoxPage getCompanyDashboard={getCompanyDashboard}/>
 
-      <ActiveConnectionPage/>
+      <ActiveConnectionPage getCompanyDashboard={getCompanyDashboard}/>
     </div>
   )
 }

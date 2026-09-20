@@ -4,7 +4,7 @@ import FreelancePage from './Freelance/page';
 import CompanyPage from './Company/page';
 
 function Delivery_ModulePage() {
-  const role = 'Freelance';
+  const role = 'Company';
 
   return (
     <MainLayout>
