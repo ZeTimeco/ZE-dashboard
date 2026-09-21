@@ -1732,7 +1732,26 @@
   "bank account":"الحساب البنكي",
   "The transfer takes place within 1–3 business days depending on the settlement cycle.":"يتم التحويل خلال 1–3 أيام عمل حسب دورة التسوية",
   "Confirm transfer":"تاكيد التحويل",
+  "Connection unit settings":"إعدادات وحدة التوصيل",
+  "Exclusive to a free connector. Managed independently of your account.":"خاصة بموصل حر . تدار بشكل مستقل عن حسابك",
+  "Ongoing":"جاري",
+  "No designated driver":"لا يوجد سائق متحدد",
+  "Determining the number of orders":"تحديد عدد الطلبات",
+  "Specify concurrent requests":"حدد الطلبات المتزامنة",
+  "Pricing and profit distribution":"التسعير وتوزيع الأرباح",
+  "Types of subsidized parcels":"انواع الطرود المدعومة",
+  "Fleet and powers":"الأسطول والصلاحيات",
+  "Fleet":"الاسطول",
+  "Fleet Coverage Area":"منطقة تغطية الاسطول",
+  "Allowing the driver to refuse the request":"السماح للسائق برفض الطلب",
+  "Up to 10 deliveries":"حتي 10 توصيلة",
+  "Up to 20 deliveries":"حتي 20 توصيلة",
+  "Up to 50 deliveries":"حتي 50 توصيلة",
+  "without limit":"بلا حد",
+  "Limit on simultaneous orders":"حد الطلبات المتزامنة",
+  "Types of supported parcels":"أنواع الطرود المدعومة",
   
+
 
 
 

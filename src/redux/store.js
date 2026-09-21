@@ -10,6 +10,8 @@ import hallsReducer from './slice/Halls/HallsSlice'
 import Pending_ListReducer from './slice/Pending_List/Pending_ListSlice'
 import MenusReducer from './slice/Menus/MenusSlice'
 import DeliveryReducer from './slice/Delivery/DeliverySlice'
+import BillReducer from './slice/Bill/BillSlice'
+
 export const store = configureStore({
   reducer:{
     auth: authReducer,
@@ -23,6 +25,8 @@ export const store = configureStore({
     PendingList:Pending_ListReducer,
     Menus:MenusReducer,
     Delivery:DeliveryReducer,
+    Bill:BillReducer,
+
 
   }
 })

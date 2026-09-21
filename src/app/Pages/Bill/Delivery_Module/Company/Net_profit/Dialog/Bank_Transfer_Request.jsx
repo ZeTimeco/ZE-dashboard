@@ -1,11 +1,40 @@
 'use client'
 import { Dialog } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
+import { withdrawParcelThunk } from '@/redux/slice/Bill/BillSlice'
 
-function Bank_Transfer_Request({open , setOpen}) {
+function Bank_Transfer_Request({open , setOpen , getEarnings}) {
   const {t} = useTranslation()
+  //api
+  const dispatch = useDispatch()
+  const [amount, setAmount] = useState('')
+
+const handleConfirmTransfer = async () => {
+  if (!amount) return
+
+  const formData = new FormData()
+  formData.append('amount', amount)
+
+  try {
+    const result = await dispatch(
+      withdrawParcelThunk({ formData })
+    ).unwrap()
+
+    console.log('Success:', result)
+
+    alert(t('Transfer completed successfully'))
+
+    setOpen(false)
+    setAmount('')
+  } catch (error) {
+    console.log('Transfer failed:', error)
+
+    alert(error?.message || error?.error || t('Transfer failed'))
+  }
+}
 
   return (
     <>
@@ -35,7 +64,7 @@ function Bank_Transfer_Request({open , setOpen}) {
 
           <div className='border border-[#F5DFA3] bg-[#FDF7E8] p-4 mt-4 rounded-3px flex flex-col items-center gap-1'>
             <p className='text-[#3B3B3B] text-base  font-medium'>{t('Transferable balance')}</p>
-            <p className='text-primary text-xl font-semibold'>1,284.50  {t('pound')}</p>
+            <p className='text-primary text-xl font-semibold'>{getEarnings?.summary?.company_net} {t('pound')}</p>
           </div>
 
           <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-3'>
@@ -49,6 +78,8 @@ function Bank_Transfer_Request({open , setOpen}) {
               <input 
                 type="number" 
                 placeholder="0 جنية"
+                value={amount}
+                onChange={(e)=>setAmount(e.target.value)}
                 className="w-full h-14 px-4 border border-[#C7C7C7] rounded-3px text-right focus:outline-none focus:border-black placeholder:text-[#9CA3AF]" 
               />
             </div>
@@ -73,6 +104,7 @@ function Bank_Transfer_Request({open , setOpen}) {
 
           <div className='flex w-full gap-6'>
             <motion.button
+              onClick={handleConfirmTransfer}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className='flex justify-center items-center h-14 w-full  gap-2  bg-primary rounded-3px px-4 py-2.5 cursor-pointer  transition-colors duration-150'

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Bank_Transfer_Request from './Dialog/Bank_Transfer_Request'
 
-function Net_profitPage() {
+function Net_profitPage({getEarnings}) {
   const {t} = useTranslation()
   const [openBank ,setOpenBank] = useState(false)
 
@@ -17,7 +17,7 @@ function Net_profitPage() {
         <p className='text-[#FFF] text-xl font-normal'>{t('Company net profit')} ({t('per month')})</p>
       </div>
 
-      <p className='text-[#FFF] text-2xl font-semibold my-5'>1,284.55 {t('pound')}</p>
+      <p className='text-[#FFF] text-2xl font-semibold my-5'>{getEarnings?.summary?.company_net}{t('pound')}</p>
 
       <button  onClick={()=>setOpenBank(true)} className='w-full h-14 bg-[#FAEFD1] text-primary text-lg font-semibold rounded-3px cursor-pointer'>
         {t('bank transfer request')}
@@ -29,6 +29,7 @@ function Net_profitPage() {
     <Bank_Transfer_Request
       open={openBank}
       setOpen={setOpenBank}
+      getEarnings={getEarnings}
     />
       
     </>

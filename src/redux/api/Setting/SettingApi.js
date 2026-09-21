@@ -483,3 +483,10 @@ export const getExportExcelReport = async(period)=>{
   })
   return response.data
 }
+
+//---------------------------------------------------------------------------------------
+/**delivery */
+export const getShowSetting = async()=>{
+  const response = await API.get(`/company/parcel/show/settings`)
+  return response.data
+}

@@ -77,7 +77,7 @@ function DetailsPage() {
           }}
           whileTap={{ scale: 0.97 }}
           transition={{ duration: 0.18, ease: 'easeOut' }}
-          onClick={() => router.push('/Pages/Connections/Delivery_Module/Company/Details/DeliveryTracking')}
+          onClick={() => router.push('/Pages/Delivery/Delivery_Module/Company/Details/DeliveryTracking')}
         >
           {t('Live coverage')}
         </motion.button>

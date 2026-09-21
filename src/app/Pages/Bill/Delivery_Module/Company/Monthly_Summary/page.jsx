@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Monthly_SummaryPage() {
+function Monthly_SummaryPage({getEarnings}) {
   const {t} = useTranslation()
 
   return (
@@ -15,19 +15,13 @@ function Monthly_SummaryPage() {
           {/* Total delivery fees  */}
           <div className='flex justify-between'>
             <p className='text-[#161616] text-sm font-normal'>{t('Total delivery fees')}</p>
-            <p className='text-[#707070] text-sm font-medium'>42,180  {t('pound')}</p>
-          </div>
-
-          {/* Drivers' entitlements  */}
-          <div className='flex justify-between'>
-            <p className='text-[#161616] text-sm font-normal'>{t("Drivers' entitlements")} (70%)</p>
-            <p className='text-[#C61515] text-sm font-medium'>42,180  {t('pound')}</p>
+            <p className='text-[#707070] text-sm font-medium'>{getEarnings?.summary?.total_profit} {t('pound')}</p>
           </div>
 
           {/* Platform commission  */}
           <div className='flex justify-between'>
-            <p className='text-[#161616] text-sm font-normal'>{t("Platform commission")} (15%)</p>
-            <p className='text-[#C61515] text-sm font-medium'>-29,526   {t('pound')}</p>
+            <p className='text-[#161616] text-sm font-normal'>{t("Platform commission")} ({getEarnings?.summary?.platform_fee_percentage}%)</p>
+            <p className='text-[#C61515] text-sm font-medium'>{getEarnings?.summary?.platform_fee}   {t('pound')}</p>
           </div>
 
           <div className='border border-[#E3E8EF] my-4'></div>
@@ -35,7 +29,7 @@ function Monthly_SummaryPage() {
           {/* Company net  */}
           <div className='flex justify-between'>
             <p className='text-[#161616] text-sm font-normal'>{t("Company net")} </p>
-            <p className='text-primary text-sm font-medium'>29,526 {t('pound')}</p>
+            <p className='text-primary text-sm font-medium'>{getEarnings?.summary?.company_net}{t('pound')}</p>
           </div>
 
 

@@ -1731,7 +1731,26 @@
   "bank account":"bank account",
   "The transfer takes place within 1–3 business days depending on the settlement cycle.":"The transfer takes place within 1–3 business days depending on the settlement cycle.",
   "Confirm transfer":"Confirm transfer",
+  "Connection unit settings":"Connection unit settings",
+  "Exclusive to a free connector. Managed independently of your account.":"Exclusive to a free connector. Managed independently of your account.",
+  "Ongoing":"Ongoing",
+  "No designated driver":"No designated driver",
+  "Determining the number of orders":"Determining the number of orders",
+  "Specify concurrent requests":"Specify concurrent requests",
+  "Pricing and profit distribution":"Pricing and profit distribution",
+  "Types of subsidized parcels":"Types of subsidized parcels",
+  "Fleet and powers":"Fleet and powers",
+  "Fleet":"Fleet",
+  "Fleet Coverage Area":"Fleet Coverage Area",
+  "Allowing the driver to refuse the request":"Allowing the driver to refuse the request",
+  "Up to 10 deliveries":"Up to 10 deliveries",
+  "Up to 20 deliveries":"Up to 20 deliveries",
+  "Up to 50 deliveries":"Up to 50 deliveries",
+  "without limit":"without limit",
+  "Limit on simultaneous orders":"Limit on simultaneous orders",
+  "Types of supported parcels":"Types of supported parcels",
   
+
 
 
 
