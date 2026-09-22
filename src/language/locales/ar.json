@@ -1751,6 +1751,9 @@
   "Limit on simultaneous orders":"حد الطلبات المتزامنة",
   "Types of supported parcels":"أنواع الطرود المدعومة",
   "She hasn't added any space yet.":"لم تضف أي مكان بعد",
+  "Add workplace":"اضافة مكان العمل",
+  "Are you sure about deleting the workplace?":"هل أنت متأكد من حذف مكان العمل؟",
+  "You will not be able to receive requests related to this location after deletion.":"لن تتمكن من استقبال طلبات مرتبطة بهذا المكان بعد الحذف.",
   
 
 

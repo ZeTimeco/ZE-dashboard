@@ -110,6 +110,7 @@ function FleetAndPermissionsSettingsPage() {
         <motion.div className='flex justify-between mt-4' variants={rowVariants}>
           <p className='text-[#161616] text-base font-normal'>{t('Fleet')}</p>
           <motion.button
+            onClick={()=>router.push(`/Pages/Activity_Settings/Delivery_Module/Company/FleetAndPermissionsSettings/Fleet`)}
             className='cursor-pointer group'
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
