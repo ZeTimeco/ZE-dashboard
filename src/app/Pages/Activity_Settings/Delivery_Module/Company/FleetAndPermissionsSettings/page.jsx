@@ -3,6 +3,7 @@ import { styled, Switch } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 
 const GreenSwitch = styled((props) => (
   <Switch
@@ -82,6 +83,7 @@ const listVariants = {
 
 function FleetAndPermissionsSettingsPage() {
   const { t } = useTranslation()
+  const router = useRouter()
 
   return (
     <motion.div
@@ -135,6 +137,7 @@ function FleetAndPermissionsSettingsPage() {
         <motion.div className='flex justify-between mt-4' variants={rowVariants}>
           <p className='text-[#161616] text-base font-normal'>{t('Fleet Coverage Area')}</p>
           <motion.button
+            onClick={()=>router.push(`/Pages/Activity_Settings/Delivery_Module/Company/FleetAndPermissionsSettings/Workplaces`)}
             className='cursor-pointer group'
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
