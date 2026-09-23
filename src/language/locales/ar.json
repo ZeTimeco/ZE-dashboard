@@ -1754,15 +1754,27 @@
   "Add workplace":"اضافة مكان العمل",
   "Are you sure about deleting the workplace?":"هل أنت متأكد من حذف مكان العمل؟",
   "You will not be able to receive requests related to this location after deletion.":"لن تتمكن من استقبال طلبات مرتبطة بهذا المكان بعد الحذف.",
+  "Connected from":"متصل من",
+  "offline":"غير متصل",
+  "In delivery":"في توصيلة",
+  "Adding a driver to the fleet":"إضافة سائق للأسطول",
+  "Add driver":"إضافة سائق",
+  "Add a new driver to your fleet":"أضف سائقا جديدا إلى أسطولك",
+  "Driver's name":"اسم السائق",
+  "The driver will receive an invitation to install the driver app and link their account to the fleet.":" سيصل السائق دعوة لتثبيت تطبيق السائق وربط حسابه بالأسطول",
+  "In addition to the fleet":"إضافة للأسطول",
+  "Delivery method":"وسيلة التوصيل",
+  "Driver modification":"تعديل سائق",
+  "Modify your fleet":"عدل أسطولك",
+
+
+
+
+
   
 
 
 
-
   
-
-
-
-  
-  "":"" 
+"d":"d"
 }
