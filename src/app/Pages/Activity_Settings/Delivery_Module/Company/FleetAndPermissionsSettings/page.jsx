@@ -81,9 +81,23 @@ const listVariants = {
   },
 }
 
-function FleetAndPermissionsSettingsPage() {
+function FleetAndPermissionsSettingsPage({ getShowSetting, handleUpdate, handleSubmit }) {
   const { t } = useTranslation()
   const router = useRouter()
+
+  const isRejectAllowed = Boolean(
+    getShowSetting?.allow_driver_reject === 1 ||
+    getShowSetting?.allow_driver_reject === true ||
+    getShowSetting?.allow_driver_reject === '1'
+  )
+
+  const handleToggleReject = async (e) => {
+    const checked = e.target.checked
+    const updateFn = handleUpdate || handleSubmit
+    if (updateFn) {
+      await updateFn({ allow_driver_reject: checked ? 1 : 0 })
+    }
+  }
 
   return (
     <motion.div
@@ -130,7 +144,10 @@ function FleetAndPermissionsSettingsPage() {
             whileTap={{ scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           >
-            <GreenSwitch />
+            <GreenSwitch 
+              checked={isRejectAllowed}
+              onChange={handleToggleReject}
+            />
           </motion.div>
         </motion.div>
 

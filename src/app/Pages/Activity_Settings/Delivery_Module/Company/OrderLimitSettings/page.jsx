@@ -1,32 +1,53 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import Concurrent_Orders_Limit from '../Dialogs/Concurrent_Orders_Limit'
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 14 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
-}
 
-const rowVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
-}
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-}
-
-function OrderLimitSettingsPage() {
+function OrderLimitSettingsPage({ getShowSetting, handleUpdate, handleSubmit }) {
   const { t } = useTranslation()
 
-  const [open , setOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const limitsData = [
+    { id: 10, name: t('Up to 10 deliveries') },
+    { id: 20, name: t('Up to 20 deliveries') },
+    { id: 30, name: t('Up to 30 deliveries') },
+    { id: 50, name: t('Up to 50 deliveries') },
+    { id: 80, name: t('Up to 80 deliveries') },
+  ]
+
+  const currentLimit = limitsData.find(
+    (item) => Number(item.id) === Number(getShowSetting?.max_concurrent_orders)
+  )
+
+  const displayLimit = currentLimit
+    ? currentLimit.name
+    : getShowSetting?.max_concurrent_orders
+      ? `${t('Up to')} ${getShowSetting.max_concurrent_orders} ${t('deliveries')}`
+      : t('Specify concurrent requests')
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 14 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+  }
+
+  const rowVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
+  }
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  }
+
 
   return (
     <>
@@ -59,7 +80,7 @@ function OrderLimitSettingsPage() {
           </motion.p>
 
           <motion.button
-            onClick={()=>setOpen(true)}
+            onClick={() => setOpen(true)}
             className='flex gap-3 cursor-pointer group'
             variants={rowVariants}
             whileHover={{ scale: 1.03 }}
@@ -67,7 +88,7 @@ function OrderLimitSettingsPage() {
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           >
             <p className='text-primary text-base font-normal transition-opacity duration-200 group-hover:opacity-80'>
-              حتي 20 توصيلة
+              {displayLimit}
             </p>
             <p className='flex items-center transition-transform duration-200 group-hover:translate-x-0.5'>
               <img src="/images/icons/arrowyellowOnly.svg" alt="" />
@@ -79,6 +100,9 @@ function OrderLimitSettingsPage() {
       <Concurrent_Orders_Limit
         open={open}
         setOpen={setOpen}
+        getShowSetting={getShowSetting}
+        handleUpdate={handleUpdate}
+        handleSubmit={handleSubmit}
       />
     </>
   )

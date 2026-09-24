@@ -5,11 +5,13 @@ import { useTranslation } from 'react-i18next'
 import Cards from './Cards'
 import { useRouter } from 'next/navigation'
 import AddPage from './Add/page'
+import DetailsPage from './Details/page'
 
 function FleetPage() {
   const {t} = useTranslation()
   const router = useRouter()
   const [open , setOpen] = useState(false)
+  const [openDetails, setOpenDetails] = useState(false)
 
 
   return (
@@ -20,7 +22,7 @@ function FleetPage() {
       </div>
 
       <div className='border border-[#CDD5DF] rounded-3px p-6 grid grid-cols-2 gap-6 mt-10'>
-        <Cards/>
+        <Cards onClick={() => setOpenDetails(true)}/>
       </div>
 
       <button
@@ -34,6 +36,11 @@ function FleetPage() {
       <AddPage
         open={open}
         setOpen={setOpen}
+      />
+
+      <DetailsPage
+        open={openDetails}
+        setOpen={setOpenDetails}
       />
 
       

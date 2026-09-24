@@ -1765,12 +1765,19 @@
   "Delivery method":"Delivery method",
   "Driver modification":"Driver modification",
   "Modify your fleet":"Modify your fleet",
-  
-
-
-
-
-  
-  
+  "Driver file":"Driver file",
+  "Show your fleet":"Show your fleet",
+  "join":"join",
+  "Completion":"Completion",
+  "Current connection":"Current connection",
+  "This week's profits":"This week's profits",
+  "Driver's powers":"Driver's powers",
+  "Driver data modification":"Driver data modification",
+  "Temporary Disable":"Temporary Disable",
+  "Up to 30 deliveries":"Up to 30 deliveries",
+  "Up to 80 deliveries":"Up to 80 deliveries",
+  "All types":"All types",
+  "Settings updated successfully.":"Settings updated successfully.",
+  "Failed to update settings.":"Failed to update settings.",
   "":"" 
 }

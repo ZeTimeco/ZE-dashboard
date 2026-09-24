@@ -1766,15 +1766,19 @@
   "Delivery method":"وسيلة التوصيل",
   "Driver modification":"تعديل سائق",
   "Modify your fleet":"عدل أسطولك",
-
-
-
-
-
-  
-
-
-
-  
+  "Driver file":"ملف سائق",
+  "Show your fleet":"عرض أسطولك",
+  "join":"انضم",
+  "Completion":"الإتمام",
+  "Current connection":"التوصيلة الحالية",
+  "This week's profits":"أرباح هذا الأسبوع",
+  "Driver's powers":"صلاحيات السائق",
+  "Driver data modification":"تعديل بيانات السائق",
+  "Temporary Disable":"تعطيل مؤقت",
+  "Up to 30 deliveries":"حتي 30 توصيلة",
+  "Up to 80 deliveries":"حتي 80 توصيلة",
+  "All types":"جميع الأنواع",
+  "Settings updated successfully.":"تم تحديث الإعدادات بنجاح.",
+  "Failed to update settings.":"فشل تحديث الإعدادات.",
 "d":"d"
 }

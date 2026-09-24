@@ -1,12 +1,44 @@
 'use client'
-import React from 'react'
+import { Dialog } from '@mui/material'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import Content from './Content'
+import EditPage from '../Edit/page'
 
-function Cards({ onClick }) {
+function DetailsPage({ open, setOpen }) {
   const {t} = useTranslation()
+  const [editOpen, setEditOpen] = useState(false)
 
   const StatusRender = (status) => {
+    switch (status) {
+      case 'available':
+        return (
+          <div className="group/badge bg-[#ECFDF3] border border-[#ABEFC6] text-[#067647] h-7 rounded-3xl transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_2px_6px_rgba(6,118,71,0.12)] cursor-default select-none">
+            <div className="px-3 flex gap-1.5 items-center h-full">
+              <span className="font-normal text-xs md:text-sm">
+                {t('available')}
+              </span>
+            </div>
+          </div>
+        )
+
+      case 'offline':
+        return (
+          <div className="group/badge bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] h-7 rounded-3xl transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_2px_6px_rgba(217,45,32,0.12)] cursor-default select-none">
+            <div className="px-3 flex gap-1.5 items-center h-full">
+              <span className="font-normal text-xs md:text-sm">
+                {t('offline')}
+              </span>
+            </div>
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
+  const StatusBookingRender = (status) => {
     switch (status) {
       case 'offer_accepted':
         return (
@@ -134,91 +166,57 @@ function Cards({ onClick }) {
           </div>
         )
       
-      case 'available':
-        return (
-          <div className="group/badge bg-[#ECFDF3] border border-[#ABEFC6] text-[#067647] h-7 rounded-3xl transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_2px_6px_rgba(6,118,71,0.12)] cursor-default select-none">
-            <div className="px-3 flex gap-1.5 items-center h-full">
-              <span className="font-normal text-xs md:text-sm">
-                {t('available')}
-              </span>
-            </div>
-          </div>
-        )
-
-      case 'offline':
-        return (
-          <div className="group/badge bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] h-7 rounded-3xl transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_2px_6px_rgba(217,45,32,0.12)] cursor-default select-none">
-            <div className="px-3 flex gap-1.5 items-center h-full">
-              <span className="font-normal text-xs md:text-sm">
-                {t('offline')}
-              </span>
-            </div>
-          </div>
-        )
-
-      case 'in_delivery':
-        return (
-          <div className="group/badge bg-[#EFF8FF] border border-[#B2DDFF] text-[#175CD3] h-7 rounded-3xl transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_2px_6px_rgba(23,92,211,0.12)] cursor-default select-none">
-            <div className="px-3 flex gap-1.5 items-center h-full">
-              <span className="font-normal text-xs md:text-sm">
-                {t('In delivery')}
-              </span>
-            </div>
-          </div>
-        )
-
       default:
         return null
     }
   }
 
-
   return (
-    <>
-      <motion.div
-        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px flex flex-col gap-3'
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
-        whileHover={{
-          scale: 1.02,
-          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-          transition: { duration: 0.2 },
-        }}
-        whileTap={{ scale: 0.97 }}
-      >
+    <Dialog
+      open={open}
+      aria-labelledby="details-dialog-title"
+      aria-describedby="details-dialog-description"
+      PaperProps={{ className: 'rerquest-dialog' }}
+    >
+      {/* Header */}
+      <div className="flex justify-end px-6 mt-6">
+        <button
+          onClick={() => setOpen(false)}
+          className="border border-[#CDD5DF] w-12 h-12 cursor-pointer rounded-[100px] flex justify-center items-center hover:bg-gray-50 hover:border-[#9AA4B2] transition-colors duration-150"
+        >
+          <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
+        </button>
+      </div>
 
-        {/*  */}
-        <div className='flex justify-between'>
-          <div className='flex gap-2'>
-            <p className='w-8 h-8 bg-[#EAEAEA] rounded-full flex justify-center items-center'><img src="/images/icons/user_black.svg" alt="" /></p>
-            <p
-              className='text-[#364152] text-base font-normal flex items-center cursor-pointer hover:underline hover:text-primary transition-colors duration-150'
-              onClick={onClick}
-            >
-              محمد أحمد
-            </p>
-          </div>
-          <>{StatusRender('offline')}</>
+      <div className='flex flex-col items-center gap-2 mt-5'>
+        <h1 className='text-[#364152] text-2xl font-semibold'>{t('Driver file')}</h1>
+        <p className='text-[#697586] text-xl font-medium'>{t('Show your fleet')}</p>
+      </div>
+
+      {/* Content */}
+      <Content/>
+
+      {/* btn */}
+        <div className='grid grid-cols-2 gap-6 my-4  w-full px-6 '>
+            
+          <button
+            onClick={() => setEditOpen(true)}
+            className="h-15 w-full bg-primary text-white rounded-3px cursor-pointer"
+          >
+            {t('Driver data modification')}
+          </button>
+
+          <EditPage open={editOpen} setOpen={setEditOpen} />
+
+          <button
+            className="h-15 w-full  border border-[#CDD5DF] text-[#697586] rounded-3px cursor-pointer"
+          >
+            {t('Temporary Disable')}
+          </button>
+
         </div>
-
-        <p className='text-[#364152] text-base font-light'>Honda PCX 150</p>
-
-        <div className='flex gap-4'>
-          <p className='text-[#4B5565] text-sm font-light flex gap-1'>
-            <span>{t('Delivery')}</span>
-            <span>1.240</span>
-          </p>
-          <p className='flex gap-1'>
-            <span ><img src="/images/icons/star.svg" alt="" /></span>
-            <span className='text-[#0B0E12] text-xs font-normal'>5.5</span>
-          </p>
-
-        </div>
-
-      </motion.div>
-    </>
+    </Dialog>
   )
 }
 
-export default Cards
+export default DetailsPage

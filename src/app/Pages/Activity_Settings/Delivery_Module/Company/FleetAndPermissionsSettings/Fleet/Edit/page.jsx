@@ -82,7 +82,7 @@ function EditPage({open , setOpen}) {
               <button
                 className="h-15 w-full bg-primary text-white rounded-3px cursor-pointer"
               >
-                {t('In addition to the fleet')}
+                {t('save')}
               </button>
 
               <button
@@ -101,4 +101,4 @@ function EditPage({open , setOpen}) {
   )
 }
 
-export default AddPage
+export default EditPage

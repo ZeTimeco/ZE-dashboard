@@ -1,10 +1,13 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import OrderLimitSettingsPage from './OrderLimitSettings/page'
 import PricingAndProfitSettingsPage from './PricingAndProfitSettings/page'
 import FleetAndPermissionsSettingsPage from './FleetAndPermissionsSettings/page'
+import { getShowSettingThunk, ParcelSettingThunk } from '@/redux/slice/Setting/SettingSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 16 },
@@ -22,6 +25,63 @@ const containerVariants = {
 
 function CompanyPage() {
   const { t } = useTranslation()
+
+  //api
+  const dispatch = useDispatch()
+  const { getShowSetting } = useSelector((state) => state.setting)
+
+  useEffect(() => {
+    dispatch(getShowSettingThunk())
+  }, [dispatch])
+
+  const [formData, setFormData] = useState({
+    max_concurrent_orders: '',
+    parcel_category_ids: [],
+    allow_driver_reject: 1
+  })
+
+  useEffect(() => {
+    if (getShowSetting) {
+      const selectedCategoryIds =
+        getShowSetting.parcel_category_ids ??
+        getShowSetting.parcel_categories
+          ?.filter((item) => item.selected === true)
+          .map((item) => item.id) ??
+        []
+
+      setFormData({
+        max_concurrent_orders: getShowSetting.max_concurrent_orders ?? '',
+        parcel_category_ids: selectedCategoryIds,
+        allow_driver_reject:
+          getShowSetting.allow_driver_reject !== undefined
+            ? (Number(getShowSetting.allow_driver_reject) ? 1 : 0)
+            : 1
+      })
+    }
+  }, [getShowSetting])
+
+  const handleUpdate = async (updatedFields = {}) => {
+    const updatedForm = {
+      max_concurrent_orders: formData.max_concurrent_orders,
+      parcel_category_ids: formData.parcel_category_ids,
+      allow_driver_reject: formData.allow_driver_reject,
+      ...updatedFields
+    }
+    setFormData(updatedForm)
+    try {
+      await dispatch(ParcelSettingThunk(updatedForm)).unwrap()
+      await dispatch(getShowSettingThunk())
+      toast.success(t('Settings updated successfully.'))
+      return true
+    } catch (error) {
+      toast.error(error?.message || t('Failed to update settings.'))
+      return false
+    }
+  }
+
+  const handleSubmit = async (updatedFields) => {
+    return await handleUpdate(updatedFields || {})
+  }
 
   return (
     <motion.div
@@ -41,10 +101,22 @@ function CompanyPage() {
         variants={fadeInUp}
       >
         <div className='grid grid-cols-2 gap-6'>
-          <OrderLimitSettingsPage />
-          <PricingAndProfitSettingsPage />
+          <OrderLimitSettingsPage
+            getShowSetting={getShowSetting}
+            handleUpdate={handleUpdate}
+            handleSubmit={handleSubmit}
+          />
+          <PricingAndProfitSettingsPage
+            getShowSetting={getShowSetting}
+            handleUpdate={handleUpdate}
+            handleSubmit={handleSubmit}
+          />
         </div>
-        <FleetAndPermissionsSettingsPage />
+        <FleetAndPermissionsSettingsPage
+          getShowSetting={getShowSetting}
+          handleUpdate={handleUpdate}
+          handleSubmit={handleSubmit}
+        />
       </motion.div>
     </motion.div>
   )

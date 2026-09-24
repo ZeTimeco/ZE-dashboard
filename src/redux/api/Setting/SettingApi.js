@@ -490,3 +490,9 @@ export const getShowSetting = async()=>{
   const response = await API.get(`/company/parcel/show/settings`)
   return response.data
 }
+
+
+export const ParcelSetting = async(formData)=>{
+  const response = await API.post(`/company/parcel/settings`, formData)
+  return response.data
+}
