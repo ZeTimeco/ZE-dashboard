@@ -1,11 +1,13 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Cards from './Cards'
 import { useRouter } from 'next/navigation'
 import AddPage from './Add/page'
 import DetailsPage from './Details/page'
+import { getDriverSettingThunk } from '@/redux/slice/Setting/SettingSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 function FleetPage() {
   const {t} = useTranslation()
@@ -13,16 +15,34 @@ function FleetPage() {
   const [open , setOpen] = useState(false)
   const [openDetails, setOpenDetails] = useState(false)
 
+  //api
+  const dispatch = useDispatch()
+  const { getDriverSetting, loading } = useSelector((state) => state.setting)
+
+  useEffect(() => {
+    dispatch(getDriverSettingThunk())
+  }, [dispatch])
+
+  console.log('getDriverSetting' , getDriverSetting);
 
   return (
     <MainLayout>
       <div>
         <h1 className='text-[#364152] text-2xl font-medium'>{t('Fleet')}</h1>
-        <p className='text-[#697586] text-xl font-normal'>5 {t('Connected from')} 52</p>
+        <p className='text-[#697586] text-xl font-normal'>
+          {getDriverSetting?.summary?.online_drivers}  {' '}
+          {t('Connected from')}  {' '}
+          {getDriverSetting?.summary?.total_drivers} 
+        </p>
       </div>
 
       <div className='border border-[#CDD5DF] rounded-3px p-6 grid grid-cols-2 gap-6 mt-10'>
-        <Cards onClick={() => setOpenDetails(true)}/>
+        <Cards 
+          onClick={() => setOpenDetails(true)} 
+          getDriverSetting={getDriverSetting} 
+          openDetails={openDetails} 
+          setOpenDetails={setOpenDetails}
+        />
       </div>
 
       <button
@@ -38,10 +58,7 @@ function FleetPage() {
         setOpen={setOpen}
       />
 
-      <DetailsPage
-        open={openDetails}
-        setOpen={setOpenDetails}
-      />
+    
 
       
     </MainLayout>

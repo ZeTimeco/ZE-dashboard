@@ -1,39 +1,41 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import No_WorkPlaces from './No_WorkPlaces'
+import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
+import { DeleteCoverageAreasThunk, getCoverageAreasThunk } from '@/redux/slice/Setting/SettingSlice'
 import Delete from './Dialog/Delete'
 
-function Locations() {
+function Locations({ getCoverageAreas }) {
   const { t } = useTranslation()
   const router = useRouter()
-  const [workplaces, setWorkplaces] = useState([])
+  const dispatch = useDispatch()
   const [pendingDeleteId, setPendingDeleteId] = useState(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
-  /* قراءة العناوين من localStorage */
-  useEffect(() => {
-    const load = () => {
-      const data = JSON.parse(localStorage.getItem('workplaces') || '[]')
-      setWorkplaces(data)
+  const areasList = Array.isArray(getCoverageAreas)
+    ? getCoverageAreas
+    : Array.isArray(getCoverageAreas?.data)
+    ? getCoverageAreas.data
+    : Array.isArray(getCoverageAreas?.data?.data)
+    ? getCoverageAreas.data.data
+    : []
+
+  const handleDelete = async (id) => {
+    if (!id) return
+    try {
+      setIsDeleting(true)
+      await dispatch(DeleteCoverageAreasThunk(id)).unwrap()
+      toast.success(t('Workplace deleted successfully'))
+      dispatch(getCoverageAreasThunk())
+    } catch (error) {
+      toast.error(error?.message || error?.data?.message || t('Failed to delete workplace'))
+    } finally {
+      setIsDeleting(false)
+      setPendingDeleteId(null)
     }
-    load()
-    window.addEventListener('focus', load)
-    return () => window.removeEventListener('focus', load)
-  }, [])
-
-  const handleDelete = (id) => {
-    const updated = workplaces.filter((w) => w.id !== id)
-    localStorage.setItem('workplaces', JSON.stringify(updated))
-    setWorkplaces(updated)
-    setPendingDeleteId(null)
-  }
-
-  if (workplaces.length === 0) {
-    return (
-      <No_WorkPlaces/>
-    )
   }
 
   return (
@@ -42,9 +44,9 @@ function Locations() {
       <div className='border border-[#CDD5DF] p-6 rounded-3px'>
         <div className='grid grid-cols-2 gap-6'>
           <AnimatePresence>
-            {workplaces.map((wp) => (
+            {areasList?.map((wp) => (
               <motion.div
-                key={wp.id}
+                key={wp.id || wp._id}
                 className='border border-[#E7E7E7] rounded-lg p-4 bg-white flex items-start justify-between gap-3 shadow-sm hover:shadow-md transition-shadow'
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -57,11 +59,13 @@ function Locations() {
                     <img src="/images/icons/location.svg" alt="" />
                   </div>
                   <div className="flex flex-col min-w-0">
-                    
-                    {(wp.country || wp.city) && (
-                      <p className="text-[#364152] font-normal text-base mt-0.5" dir="rtl">
-                        {[wp.city, wp.country].filter(Boolean).join('، ')}
-                      </p>
+                    <span className="text-[#364152] text-base font-semibold truncate">
+                      {wp.city && wp.area ? `${wp.city} - ${wp.area}` : (wp.city || wp.area || wp.address || '')}
+                    </span>
+                    {wp.address && (
+                      <span className="text-[#697586] text-xs font-normal truncate mt-0.5" title={wp.address}>
+                        {wp.address}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -73,12 +77,11 @@ function Locations() {
                     className="cursor-pointer"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    onClick={() => setPendingDeleteId(wp.id)}
+                    onClick={() => setPendingDeleteId(wp.id || wp._id)}
                   >
-                  <img src="/images/icons/xxxx.svg" className="w-6 h-6" />
+                    <img src="/images/icons/xxxx.svg" className="w-6 h-6" alt="delete" />
                   </motion.button>
                 </div>
-                
               </motion.div>
             ))}
           </AnimatePresence>
@@ -88,26 +91,27 @@ function Locations() {
       {/* btn */}
       <div className='flex justify-between my-6'>
         <button
-          onClick={()=>router.push(`/Pages/Activity_Settings/Delivery_Module`)}
-          className={`flex gap-2 justify-center items-center  bg-primary w-[20%] h-14 rounded-3px px-3 cursor-pointer`}
+          onClick={() => router.push(`/Pages/Activity_Settings/Delivery_Module`)}
+          className={`flex gap-2 justify-center items-center bg-primary w-[20%] h-14 rounded-3px px-3 cursor-pointer`}
         >
           <span className="text-white text-base font-medium">{t('Return')}</span>
         </button>
 
         <button
-          onClick={()=>router.push(`/Pages/Activity_Settings/Delivery_Module/Company/FleetAndPermissionsSettings/Workplaces/Add`)}
-          className={`flex gap-2 justify-center items-center  bg-primary w-[20%] h-14 rounded-3px px-3 cursor-pointer`}
+          onClick={() => router.push(`/Pages/Activity_Settings/Delivery_Module/Company/FleetAndPermissionsSettings/Workplaces/Add`)}
+          className={`flex gap-2 justify-center items-center bg-primary w-[20%] h-14 rounded-3px px-3 cursor-pointer`}
         >
           <span className="text-white text-base font-medium">{t('Add a place')}</span>
           <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" />
         </button>
       </div>
-    
+
       {/* Delete confirmation dialog */}
       <Delete
         isOpen={pendingDeleteId !== null}
+        loading={isDeleting}
         onConfirm={() => handleDelete(pendingDeleteId)}
-        onCancel={() => setPendingDeleteId(null)}
+        onCancel={() => !isDeleting && setPendingDeleteId(null)}
       />
     </>
   )

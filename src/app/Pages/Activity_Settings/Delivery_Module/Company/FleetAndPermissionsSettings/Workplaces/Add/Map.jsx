@@ -64,11 +64,21 @@ async function reverseGeocode(lat, lng) {
       data.address?.city ||
       data.address?.town ||
       data.address?.village ||
+      data.address?.municipality ||
       data.address?.county ||
+      data.address?.state ||
       ''
-    return { address, country, city }
+    const area =
+      data.address?.suburb ||
+      data.address?.neighbourhood ||
+      data.address?.quarter ||
+      data.address?.city_district ||
+      data.address?.district ||
+      city ||
+      ''
+    return { address, country, city: city || area, area: area || city }
   } catch {
-    return { address: `${lat.toFixed(5)}, ${lng.toFixed(5)}`, country: '', city: '' }
+    return { address: `${lat.toFixed(5)}, ${lng.toFixed(5)}`, country: '', city: '', area: '' }
   }
 }
 
@@ -103,12 +113,25 @@ function Map({ onAddressSelect }) {
       setAddress('')
       setCountry('')
       setCity('')
+      if (onAddressSelect) {
+        onAddressSelect({ lat, lng, address: '', country: '', city: '', area: '', loading: true })
+      }
       const result = await reverseGeocode(lat, lng)
       setAddress(result.address)
       setCountry(result.country)
       setCity(result.city)
       setGeocoding(false)
-      if (onAddressSelect) onAddressSelect({ lat, lng, address: result.address, country: result.country, city: result.city })
+      if (onAddressSelect) {
+        onAddressSelect({
+          lat,
+          lng,
+          address: result.address,
+          country: result.country,
+          city: result.city,
+          area: result.area,
+          loading: false,
+        })
+      }
     },
     [onAddressSelect]
   )

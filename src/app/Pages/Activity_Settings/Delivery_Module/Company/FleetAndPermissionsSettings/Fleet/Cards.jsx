@@ -1,10 +1,13 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { motion } from 'framer-motion'
+import DetailsPage from './Details/page'
+import { useDispatch, useSelector } from 'react-redux'
 
-function Cards({ onClick }) {
+function Cards({  getDriverSetting ,openDetails , setOpenDetails }) {
   const {t} = useTranslation()
+
+
 
   const StatusRender = (status) => {
     switch (status) {
@@ -172,51 +175,53 @@ function Cards({ onClick }) {
     }
   }
 
+  const [selectedDriverId, setSelectedDriverId] = useState(null)
+
 
   return (
     <>
-      <motion.div
-        className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px flex flex-col gap-3'
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
-        whileHover={{
-          scale: 1.02,
-          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-          transition: { duration: 0.2 },
-        }}
-        whileTap={{ scale: 0.97 }}
-      >
+      {getDriverSetting?.drivers?.map((driver , index)=>(
+        <div
+          key={driver?.id}
+          className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px flex flex-col gap-3'
+        >
 
-        {/*  */}
-        <div className='flex justify-between'>
-          <div className='flex gap-2'>
-            <p className='w-8 h-8 bg-[#EAEAEA] rounded-full flex justify-center items-center'><img src="/images/icons/user_black.svg" alt="" /></p>
-            <p
-              className='text-[#364152] text-base font-normal flex items-center cursor-pointer hover:underline hover:text-primary transition-colors duration-150'
-              onClick={onClick}
-            >
-              محمد أحمد
+          {/*  */}
+          <div className='flex justify-between'>
+            <div className='flex gap-2'>
+              <p className='w-8 h-8 bg-[#EAEAEA] rounded-full flex justify-center items-center'>
+                <img src="/images/icons/user_black.svg" alt="" />
+              </p>
+              <p
+                className='text-[#364152] text-base font-normal flex items-center cursor-pointer hover:underline hover:text-primary transition-colors duration-150'
+                onClick={() => {
+                        setSelectedDriverId(driver?.id)
+                        setOpenDetails(true)
+                      }}
+              >
+                {driver?.name}
+              </p>
+            </div>
+            <>{StatusRender(driver?.curren_status)}</>
+          </div>
+
+          <div className='flex gap-4'>
+            <p className='text-[#364152] text-base font-light'>{driver?.vehicle}</p>
+            <p className='flex items-center gap-1'>
+              <span ><img src="/images/icons/star.svg" alt="" /></span>
+              <span className='text-[#0B0E12] text-xs font-normal'>{driver?.rating}</span>
             </p>
           </div>
-          <>{StatusRender('offline')}</>
-        </div>
-
-        <p className='text-[#364152] text-base font-light'>Honda PCX 150</p>
-
-        <div className='flex gap-4'>
-          <p className='text-[#4B5565] text-sm font-light flex gap-1'>
-            <span>{t('Delivery')}</span>
-            <span>1.240</span>
-          </p>
-          <p className='flex gap-1'>
-            <span ><img src="/images/icons/star.svg" alt="" /></span>
-            <span className='text-[#0B0E12] text-xs font-normal'>5.5</span>
-          </p>
 
         </div>
+      ))}
 
-      </motion.div>
+      <DetailsPage
+        open={openDetails}
+        setOpen={setOpenDetails}
+        driverId={selectedDriverId}
+      />
+      
     </>
   )
 }

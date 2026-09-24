@@ -496,3 +496,40 @@ export const ParcelSetting = async(formData)=>{
   const response = await API.post(`/company/parcel/settings`, formData)
   return response.data
 }
+
+export const getCoverageAreas = async()=>{
+  const response = await API.get(`/provider/parcel/coverage-areas`)
+  return response.data
+}
+
+export const addCoverageAreas = async(formData)=>{
+  const response = await API.post(`/provider/parcel/coverage-areas`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+  return response.data
+}
+
+
+export const DeleteCoverageAreas = async(areaID)=>{
+  try {
+    const response = await API.delete(`/provider/parcel/coverage-areas/${areaID}`)
+    return response.data
+  } catch (error) {
+    if (error.response && error.response.status === 405) {
+      const fallbackResponse = await API.post(`/provider/parcel/coverage-areas/${areaID}`)
+      return fallbackResponse.data
+    }
+    throw error
+  }
+}
+
+export const getDriverSetting = async()=>{
+  const response = await API.get(`/company/parcel/settings/driver`)
+  return response.data
+}
+export const getShowDriver = async(id)=>{
+  const response = await API.get(`/company/parcel/settings/driver/show/${id}`)
+  return response.data
+}

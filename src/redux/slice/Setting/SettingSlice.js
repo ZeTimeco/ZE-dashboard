@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig, getReport, getExportPdfReport, getExportExcelReport, getShowSetting, ParcelSetting } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig, getReport, getExportPdfReport, getExportExcelReport, getShowSetting, ParcelSetting, getCoverageAreas, addCoverageAreas, DeleteCoverageAreas, getDriverSetting, getShowDriver } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -1001,6 +1001,65 @@ export const ParcelSettingThunk = createAsyncThunk('setting/ParcelSetting',
   }
 )
 
+export const getCoverageAreasThunk = createAsyncThunk('setting/getCoverageAreas',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getCoverageAreas()
+      return response?.data !== undefined ? response.data : response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const addCoverageAreasThunk = createAsyncThunk('setting/addCoverageAreas',
+  async(formData , {rejectWithValue} )=>{
+    try{
+      const response = await addCoverageAreas(formData)
+      return response?.data !== undefined ? response.data : response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+
+  }
+)
+
+export const DeleteCoverageAreasThunk = createAsyncThunk('setting/DeleteCoverageAreas',
+  async(areaID , {rejectWithValue} )=>{
+    try{
+      const response = await DeleteCoverageAreas(areaID)
+      return response?.data !== undefined ? response.data : response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+
+  }
+)
+
+export const getDriverSettingThunk = createAsyncThunk('setting/getDriverSetting',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getDriverSetting()
+      return response.data 
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+  }
+)
+
+export const getShowDriverThunk = createAsyncThunk('setting/getShowDriver',
+  async(id , {rejectWithValue} )=>{
+    try{
+      const response = await getShowDriver(id)
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);  
+    }
+
+  }
+)
+
+
 const initialState ={
   success:false,
   loading: false,
@@ -1078,10 +1137,9 @@ const initialState ={
   getExportExcelReport:null,
 
   getShowSetting:[],
-  
-  
-
-
+  getCoverageAreas:null,
+  getDriverSetting:[],
+  getShowDriver:null,
   
 
 }
@@ -2243,7 +2301,77 @@ const settingSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      //getCoverageAreasThunk
+      .addCase(getCoverageAreasThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCoverageAreasThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getCoverageAreas = action.payload;
+      })
+      .addCase(getCoverageAreasThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
+      //addCoverageAreasThunk
+      .addCase(addCoverageAreasThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addCoverageAreasThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(addCoverageAreasThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //DeleteCoverageAreasThunk
+      .addCase(DeleteCoverageAreasThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(DeleteCoverageAreasThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        const deletedId = action.meta.arg;
+        if (Array.isArray(state.getCoverageAreas)) {
+          state.getCoverageAreas = state.getCoverageAreas.filter((item) => (item.id || item._id) !== deletedId);
+        } else if (Array.isArray(state.getCoverageAreas?.data)) {
+          state.getCoverageAreas.data = state.getCoverageAreas.data.filter((item) => (item.id || item._id) !== deletedId);
+        }
+      })
+      .addCase(DeleteCoverageAreasThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      //getDriverSettingThunk
+      .addCase(getDriverSettingThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getDriverSettingThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getDriverSetting = action.payload;
+      })
+      .addCase(getDriverSettingThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getShowDriverThunk
+      .addCase(getShowDriverThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getShowDriverThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getShowDriver = action.payload;
+      })
+      .addCase(getShowDriverThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 }
 })
 

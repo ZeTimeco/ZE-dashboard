@@ -3,7 +3,7 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
-function Delete({ isOpen, onConfirm, onCancel }) {
+function Delete({ isOpen, onConfirm, onCancel, loading = false }) {
   const { t } = useTranslation()
 
   return (
@@ -16,7 +16,9 @@ function Delete({ isOpen, onConfirm, onCancel }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          onClick={onCancel}
+          onClick={() => {
+            if (!loading && onCancel) onCancel()
+          }}
         >
           {/* Blur overlay */}
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
@@ -54,32 +56,36 @@ function Delete({ isOpen, onConfirm, onCancel }) {
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3 w-full mt-1" >
+            <div className="flex gap-3 w-full mt-1">
               {/* Confirm delete */}
               <motion.button
                 type="button"
-                className="flex-1 h-12 rounded-3px bg-[#D92D20] text-white text-sm font-medium cursor-pointer"
-                whileHover={{ scale: 1.02, filter: 'brightness(1.08)' }}
-                whileTap={{ scale: 0.97 }}
+                disabled={loading}
+                className="flex-1 h-12 rounded-3px bg-[#D92D20] text-white text-sm font-medium cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+                whileHover={!loading ? { scale: 1.02, filter: 'brightness(1.08)' } : {}}
+                whileTap={!loading ? { scale: 0.97 } : {}}
                 transition={{ duration: 0.15 }}
                 onClick={onConfirm}
               >
-                {t('delete')}
+                {loading ? (
+                  <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                ) : (
+                  t('delete')
+                )}
               </motion.button>
 
               {/* Cancel */}
               <motion.button
                 type="button"
-                className="flex-1 h-12 rounded-3px border border-[#CDD5DF] text-[#364152] text-sm font-medium cursor-pointer"
-                whileHover={{ scale: 1.02, backgroundColor: '#F9FAFB' }}
-                whileTap={{ scale: 0.97 }}
+                disabled={loading}
+                className="flex-1 h-12 rounded-3px border border-[#CDD5DF] text-[#364152] text-sm font-medium cursor-pointer disabled:opacity-50"
+                whileHover={!loading ? { scale: 1.02, backgroundColor: '#F9FAFB' } : {}}
+                whileTap={!loading ? { scale: 0.97 } : {}}
                 transition={{ duration: 0.15 }}
                 onClick={onCancel}
               >
                 {t('cancel')}
               </motion.button>
-
-              
             </div>
           </motion.div>
         </motion.div>

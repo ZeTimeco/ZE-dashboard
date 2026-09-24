@@ -2,12 +2,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Content() {
+function Content({getShowDriver}) {
   const {t} = useTranslation()
   
   const StatusRender = (status) => {
     switch (status) {
-      case 'available':
+      case true:
         return (
           <div className="group/badge bg-[#ECFDF3] border border-[#ABEFC6] text-[#067647] h-7 rounded-3xl transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_2px_6px_rgba(6,118,71,0.12)] cursor-default select-none">
             <div className="px-3 flex gap-1.5 items-center h-full">
@@ -18,7 +18,7 @@ function Content() {
           </div>
         )
 
-      case 'offline':
+      case false:
         return (
           <div className="group/badge bg-[#FEE4E2] border border-[#F97066] text-[#D92D20] h-7 rounded-3xl transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_2px_6px_rgba(217,45,32,0.12)] cursor-default select-none">
             <div className="px-3 flex gap-1.5 items-center h-full">
@@ -177,24 +177,24 @@ function Content() {
               <img src="/images/icons/user-white.svg" alt="" />
             </p>
             <p className='flex flex-col gap-1'>
-              <span className='text-[#364152] text-lg font-normal'>سيد علي</span>
-              <span className='text-[#364152] text-sm font-light'>{t('join')} 2023  .  Honda PCX 150</span>
+              <span className='text-[#364152] text-lg font-normal'> {getShowDriver?.driver?.name}</span>
+              <span className='text-[#364152] text-sm font-light'>{t('join')} {getShowDriver?.driver?.joined_at}  .  {getShowDriver?.driver?.vehicle?.name}</span>
             </p>
           </div>
           <>
-            {StatusRender('available')}
+            {StatusRender(getShowDriver?.driver?.status)}
           </>
         </div>
 
         {/*  */}
         <div className='grid grid-cols-3 gap-6 my-4'>
           <div className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 '>
-            <p className='text-[#0B0E12] text-base font-semibold'>15%</p>
+            <p className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.completed_deliveries}%</p>
             <p className='text-[#6C6C6C] text-sm font-normal'>{t('Completion')}</p>
           </div>
 
           <div className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 '>
-            <p className='text-[#0B0E12] text-base font-semibold'>1,240</p>
+            <p className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.total_deliveries}</p>
             <p className='text-[#6C6C6C] text-sm font-normal'>{t('Delivery')}</p>
           </div>
 
@@ -203,7 +203,7 @@ function Content() {
               <span className=''>
                 <img src="/images/icons/star.svg" className="w-5 h-5" />
               </span>
-              <span className='text-[#0B0E12] text-base font-semibold'>4.8</span>
+              <span className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.rating}</span>
             </p>
             <p className='text-[#6C6C6C] text-sm font-normal'>{t('Evaluation')}</p>
           </div>
@@ -216,11 +216,11 @@ function Content() {
           <div className='border border-[#E3E8EFAA] h-[0.5px] my-2'></div>
           <div className='flex justify-between'>
             <p className='flex flex-col gap-1'>
-              <span className='text-[#364152] text-base font-normal'>ZT-PR-1234</span>
-              <span className='text-[#4F4F4F] text-sm font-normal'>وسط المدينة - شارع البرين</span>
+              <span className='text-[#364152] text-base font-normal'>{getShowDriver?.current_delivery?.booking_number}</span>
+              <span className='text-[#4F4F4F] text-sm font-normal'>{getShowDriver?.current_delivery?.total_amount}</span>
             </p>
             <>
-            {StatusBookingRender('offer_accepted')}
+            {StatusBookingRender(getShowDriver?.current_delivery?.status)}
             </>
           </div>
 
