@@ -544,3 +544,8 @@ export const editDriver = async(id , formData)=>{
   const response = await API.post(`/company/parcel/settings/drivers/${id}` , formData)
   return response.data
 }
+
+export const toggleStatus = async(id , formData)=>{
+  const response = await API.post(`/company/parcel/${id}/status` , formData)
+  return response.data
+}

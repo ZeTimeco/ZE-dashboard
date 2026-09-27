@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next'
 import Content from './Content'
 import EditPage from '../Edit/page'
 import { useDispatch, useSelector } from 'react-redux'
-import { getShowDriverThunk } from '@/redux/slice/Setting/SettingSlice'
+import { getDriverSettingThunk, getShowDriverThunk, toggleStatusThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function DetailsPage({ open, setOpen ,driverId }) {
   const {t} = useTranslation()
@@ -20,12 +21,34 @@ function DetailsPage({ open, setOpen ,driverId }) {
     }
   },[dispatch , driverId])
 
-  console.log('getShowDriverid' , getShowDriver);
-
+  console.log('getShowDriver' , getShowDriver);
 
   const [editOpen, setEditOpen] = useState(false)
+  const [statusLoading, setStatusLoading] = useState(false)
 
   console.log('driverId' , driverId);
+
+  const handleToggleStatus = async (isActive) => {
+    const targetDriverId = driverId || getShowDriver?.driver?.id
+    if (!targetDriverId || statusLoading) return
+
+    try {
+      setStatusLoading(true)
+      await dispatch(
+        toggleStatusThunk({
+          id: targetDriverId,
+          formData: { is_active: isActive },
+        })
+      ).unwrap()
+
+      await dispatch(getShowDriverThunk(targetDriverId))
+      dispatch(getDriverSettingThunk())
+    } catch (error) {
+      console.log('Toggle status error:', error)
+    } finally {
+      setStatusLoading(false)
+    }
+  }
   
   return (
     <Dialog
@@ -62,11 +85,46 @@ function DetailsPage({ open, setOpen ,driverId }) {
             {t('Driver data modification')}
           </button>
 
-          <button
-            className="h-15 w-full  border border-[#CDD5DF] text-[#697586] rounded-3px cursor-pointer"
-          >
-            {t('Temporary Disable')}
-          </button>
+          <AnimatePresence mode="wait">
+            {getShowDriver?.driver?.status === true ? (
+              <motion.button
+                key="disable"
+                type="button"
+                disabled={statusLoading}
+                onClick={() => handleToggleStatus(0)}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.2 }}
+                whileTap={{ scale: 0.98 }}
+                className="h-15 w-full border border-[#CDD5DF] text-[#697586] rounded-3px cursor-pointer flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
+              >
+                {statusLoading && (
+                  <span className="w-4 h-4 border-2 border-[#697586] border-t-transparent rounded-full animate-spin" />
+                )}
+                <span>{t('Temporary Disable')}</span>
+              </motion.button>
+            ) : (
+              <motion.button
+                key="enable"
+                type="button"
+                disabled={statusLoading}
+                onClick={() => handleToggleStatus(1)}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.2 }}
+                whileTap={{ scale: 0.98 }}
+                className="h-15 w-full border border-[#CDD5DF] text-[#697586] rounded-3px cursor-pointer flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
+              >
+                {statusLoading && (
+                  <span className="w-4 h-4 border-2 border-[#697586] border-t-transparent rounded-full animate-spin" />
+                )}
+                <span>{t('Not disabled')}</span>
+              </motion.button>
+            )}
+          </AnimatePresence>
+          
 
         </div>
 
