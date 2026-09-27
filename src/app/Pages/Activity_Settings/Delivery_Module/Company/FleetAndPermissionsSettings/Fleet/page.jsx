@@ -47,7 +47,7 @@ function FleetPage() {
 
       <button
         onClick={()=>setOpen(true)}  
-        className={`flex gap-2 justify-center items-center  bg-primary w-[30%] h-14 rounded-3px px-3 mt-6 cursor-pointer`}
+        className={`flex gap-2 justify-center items-center  bg-primary w-[30%] h-14 rounded-3px px-3 my-4 cursor-pointer`}
       >
         <span className="text-white text-base font-medium">{t('Adding a driver to the fleet')}</span>
         <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" />

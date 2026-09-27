@@ -529,7 +529,13 @@ export const getDriverSetting = async()=>{
   const response = await API.get(`/company/parcel/settings/driver`)
   return response.data
 }
+
 export const getShowDriver = async(id)=>{
   const response = await API.get(`/company/parcel/settings/driver/show/${id}`)
+  return response.data
+}
+
+export const addDriver = async(formData)=>{
+  const response = await API.post(`/company/parcel/settings/add_driver` , formData)
   return response.data
 }

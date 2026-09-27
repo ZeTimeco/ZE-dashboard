@@ -209,28 +209,32 @@ function Content({getShowDriver}) {
           </div>
         </div>
 
-        {/*  */}
-        <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] py-4 px-3'>
-          <p className='text-[#161616] text-lg font-normal'>{t('Current connection')}</p>
 
-          <div className='border border-[#E3E8EFAA] h-[0.5px] my-2'></div>
-          <div className='flex justify-between'>
-            <p className='flex flex-col gap-1'>
-              <span className='text-[#364152] text-base font-normal'>{getShowDriver?.current_delivery?.booking_number}</span>
-              <span className='text-[#4F4F4F] text-sm font-normal'>{getShowDriver?.current_delivery?.total_amount}</span>
-            </p>
-            <>
-            {StatusBookingRender(getShowDriver?.current_delivery?.status)}
-            </>
+        {/*Current connection  */}
+        {getShowDriver?.current_delivery ===null ? null :(
+          <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] py-4 px-3'>
+            <p className='text-[#161616] text-lg font-normal'>{t('Current connection')}</p>
+
+            <div className='border border-[#E3E8EFAA] h-[0.5px] my-2'></div>
+            <div className='flex justify-between'>
+              <p className='flex flex-col gap-1'>
+                <span className='text-[#364152] text-base font-normal'>{getShowDriver?.current_delivery?.booking_number}</span>
+                <span className='text-[#4F4F4F] text-sm font-normal'>{getShowDriver?.current_delivery?.total_amount}</span>
+              </p>
+              <>
+              {StatusBookingRender(getShowDriver?.current_delivery?.status)}
+              </>
+            </div>
+
           </div>
+        )}
 
-        </div>
-
+        
         {/*  */}
         <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] py-4 px-3 my-4'>
           <div className='flex justify-between'>
             <p className='text-[#161616] text-sm font-normal'>{t("This week's profits")}</p>
-            <p className='text-primary text-sm font-semibold'>1,420 {t('pound')}</p>
+            <p className='text-primary text-sm font-semibold'>{getShowDriver?.weekly_earnings} {t('pound')}</p>
           </div>
 
           <div className='border border-[#E3E8EFAA] h-[0.5px] my-4'></div>
