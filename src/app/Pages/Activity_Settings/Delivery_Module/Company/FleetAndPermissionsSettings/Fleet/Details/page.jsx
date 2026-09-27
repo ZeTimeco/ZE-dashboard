@@ -70,7 +70,7 @@ function DetailsPage({ open, setOpen ,driverId }) {
 
         </div>
 
-        <EditPage open={editOpen} setOpen={setEditOpen} />
+        <EditPage open={editOpen} setOpen={setEditOpen} getShowDriver={getShowDriver}/>
     </Dialog>
   )
 }

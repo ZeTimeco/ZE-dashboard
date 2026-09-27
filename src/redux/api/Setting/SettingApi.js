@@ -539,3 +539,8 @@ export const addDriver = async(formData)=>{
   const response = await API.post(`/company/parcel/settings/add_driver` , formData)
   return response.data
 }
+
+export const editDriver = async(id , formData)=>{
+  const response = await API.post(`/company/parcel/settings/drivers/${id}` , formData)
+  return response.data
+}
