@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getActiveDeliveryThunk } from '@/redux/slice/Home/HomeSlice'
 import Map from './Map'
+import DeliveryTrackingCard from './DeliveryTrackingCard'
 
 /* ─── Fallback coordinates (Riyadh) ───────────────────────────── */
 const FALLBACK_LAT = 24.7136
@@ -190,6 +191,16 @@ function DeliveryTrackingContent() {
       <div className="flex justify-end">
         <button onClick={openGoogleMaps} className='text-primary cursor-pointer border border-primary w-full h-10 mt-3 rounded-3px'>Open map</button>
       </div>
+
+      {/* ── Tracking & Driver Card under Map button on tablet/mobile (< lg1) ── */}
+      <motion.div
+        className="block lg1:hidden mt-4 bg-white rounded-[10px] shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-[#E5E7EB] p-3.5"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <DeliveryTrackingCard />
+      </motion.div>
       {/* ── Bottom action buttons ──────────────────────────────────── */}
       <motion.div
         className="flex justify-between w-full mt-6 mb-6"

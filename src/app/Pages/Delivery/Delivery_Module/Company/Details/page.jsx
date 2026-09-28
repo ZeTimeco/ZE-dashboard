@@ -40,7 +40,7 @@ function DetailsPage() {
         <>
           <Tracking_number getActiveDeliveryID={getActiveDeliveryID}/>
           <Shipment_details getActiveDeliveryID={getActiveDeliveryID}/>
-          <div className='grid grid-cols-2 gap-6 my-6 border border-[#CDD5DF] rounded-3px p-6'>
+          <div className='grid grid-cols-1 lg1:grid-cols-2 gap-6 my-6 border border-[#CDD5DF] rounded-3px p-6'>
             <Delivery_points getActiveDeliveryID={getActiveDeliveryID}/>
             <Price getActiveDeliveryID={getActiveDeliveryID}/>
           </div>

@@ -23,7 +23,7 @@ function FleetPage() {
     dispatch(getDriverSettingThunk())
   }, [dispatch])
 
-  console.log('getDriverSetting' , getDriverSetting);
+  // console.log('getDriverSetting' , getDriverSetting);
 
   return (
     <MainLayout>
@@ -36,7 +36,7 @@ function FleetPage() {
         </p>
       </div>
 
-      <div className='border border-[#CDD5DF] rounded-3px p-6 grid grid-cols-2 gap-6 mt-10'>
+      <div className='border border-[#CDD5DF] rounded-3px p-6 grid grid-cols-1 lg1:grid-cols-2 gap-6 mt-10'>
         <Cards 
           onClick={() => setOpenDetails(true)} 
           getDriverSetting={getDriverSetting} 

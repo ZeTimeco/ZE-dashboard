@@ -21,7 +21,7 @@ function DetailsPage({ open, setOpen ,driverId }) {
     }
   },[dispatch , driverId])
 
-  console.log('getShowDriver' , getShowDriver);
+  // console.log('getShowDriver' , getShowDriver);
 
   const [editOpen, setEditOpen] = useState(false)
   const [statusLoading, setStatusLoading] = useState(false)

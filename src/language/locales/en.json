@@ -19,6 +19,21 @@
   "Email":"Email",
   "phone number":"phone number",
   "Log in"  : "Log in",
+  "Logging in...": "Logging in...",
+  "Redirecting...": "Redirecting...",
+  "Redirecting to dashboard, please wait...": "Redirecting to dashboard, please wait...",
+  "Verifying data, please wait...": "Verifying data, please wait...",
+  "Please wait while we load your dashboard...": "Please wait while we load your dashboard...",
+  "Sending...": "Sending...",
+  "Sending verification code...": "Sending verification code...",
+  "Verifying code...": "Verifying code...",
+  "Code verified! Redirecting...": "Code verified! Redirecting...",
+  "Updating password...": "Updating password...",
+  "Please wait...": "Please wait...",
+  "Invalid verification code": "Invalid verification code",
+  "Creating your account...": "Creating your account...",
+  "Creating account...": "Creating account...",
+  "To check the code": "To check the code",
   "password":"password",
   "Forgot your password?":"Forgot your password?",
   "Dont have an account?":"Don't have an account?",
@@ -1779,5 +1794,11 @@
   "All types":"All types",
   "Settings updated successfully.":"Settings updated successfully.",
   "Failed to update settings.":"Failed to update settings.",
+  "Login failed. Please check your credentials.":"Login failed. Please check your credentials.",
+  "Incorrect password":"Incorrect password",
+  
+
+
+
   "":"" 
 }

@@ -100,7 +100,7 @@ function CompanyPage() {
         className='border border-[#CDD5DF] rounded-3px p-6 mt-10 mb-6'
         variants={fadeInUp}
       >
-        <div className='grid grid-cols-2 gap-6'>
+        <div className='grid grid-cols-1 lg1:grid-cols-2 gap-6'>
           <OrderLimitSettingsPage
             getShowSetting={getShowSetting}
             handleUpdate={handleUpdate}

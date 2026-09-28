@@ -19,6 +19,21 @@
   "Email":"البريد الإلكتروني",
   "phone number":"رقم الهاتف",
   "Log in"  : "تسجيل الدخول",
+  "Logging in...": "جاري تسجيل الدخول...",
+  "Redirecting...": "جاري التحويل...",
+  "Redirecting to dashboard, please wait...": "جاري نقلك إلى لوحة التحكم، يرجى الانتظار...",
+  "Verifying data, please wait...": "جاري التحقق من البيانات، يرجى الانتظار...",
+  "Please wait while we load your dashboard...": "يرجى الانتظار لحظات حتى تكتمل لوحة التحكم...",
+  "Sending...": "جاري الإرسال...",
+  "Sending verification code...": "جاري إرسال رمز التحقق...",
+  "Verifying code...": "جاري التحقق من الرمز...",
+  "Code verified! Redirecting...": "تم التحقق بنجاح! جاري تحويلك...",
+  "Updating password...": "جاري حفظ كلمة المرور...",
+  "Please wait...": "يرجى الانتظار...",
+  "Invalid verification code": "رمز التحقق غير صحيح",
+  "Creating your account...": "جاري إنشاء حسابك...",
+  "Creating account...": "جاري إنشاء الحساب...",
+  "To check the code": "للتحقق من الرمز",
   "password":"كلمة المرور",
   "Forgot your password?":"هل نسيت كلمة المرور؟",
   "Dont have an account?":"ليس لديك حساب؟",
@@ -1780,5 +1795,12 @@
   "All types":"جميع الأنواع",
   "Settings updated successfully.":"تم تحديث الإعدادات بنجاح.",
   "Failed to update settings.":"فشل تحديث الإعدادات.",
+  "Login failed. Please check your credentials.":"فشل تسجيل الدخول. يرجى التحقق من بيانات اعتمادك.",
+  "Incorrect password":"كلمه السر غير صحيحه",
+  
+
+
+
+
 "d":"d"
 }
