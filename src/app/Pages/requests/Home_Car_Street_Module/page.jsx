@@ -8,6 +8,7 @@ import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBookingsThunk } from '@/redux/slice/Requests/RequestsSlice'
 import Loader from '@/app/Components/Loader/Loader'
+import No_Requests from './No_Requests'
 
 function RequestsPage() {
   const dispatch = useDispatch()
@@ -65,21 +66,28 @@ function RequestsPage() {
         animate="visible"
         className="w-full"
       >
-        <NavRequest 
-          onApplyFilters={handleApplyFilters} 
-          onResetFilters={handleResetFilters} 
-          onSearch={setSearchTerm}
-        />
+        {bookings?.bookings?.data?.length === 0 ?(
+          <No_Requests/>
+        ):(
+          <>
+            <NavRequest 
+              onApplyFilters={handleApplyFilters} 
+              onResetFilters={handleResetFilters} 
+              onSearch={setSearchTerm}
+            />
 
-        <Suspense fallback={<Loader />}>
-          <TableRequest bookings={bookings} bookingDetails={bookingDetails} searchTerm={searchTerm}/>
-        </Suspense>
-        
-        <Pagination
-          totalPages={pagination?.last_page || 1}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
+            <Suspense fallback={<Loader />}>
+              <TableRequest bookings={bookings} bookingDetails={bookingDetails} searchTerm={searchTerm}/>
+            </Suspense>
+            
+            <Pagination
+              totalPages={pagination?.last_page || 1}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
+            />
+          </>
+        )}
+      
       </motion.div>
     </MainLayout>
   )

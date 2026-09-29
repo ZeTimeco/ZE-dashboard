@@ -1815,5 +1815,7 @@
   "Front national ID card photo is required": "صورة بطاقة الهوية الوطنية من الأمام مطلوبة",
   "Back national ID card photo is required": "صورة بطاقة الهوية الوطنية من الخلف مطلوبة",
   "Please complete all required fields": "يرجى إكمال جميع الحقول المطلوبة",
-  "Worker added successfully": "تمت إضافة العامل بنجاح"
+  "Worker added successfully": "تمت إضافة العامل بنجاح",
+  "No additional requests":"لا توجد طلبات مضافه" ,
+  "":""
 }

@@ -38,17 +38,17 @@ const getStepMessages = (step) => {
   
   return (
     <>
-      <div className='mb-6 w-full  gap-8  border border-[#CDD5DF] rounded-[3px] p-6 '>
+      <div className='mb-6 w-full  gap-8  border border-[#CDD5DF] rounded-3px p-6 '>
         <p className=' text-[#364152] text-lg font-normal mb-6'>{t('Select the section you want to edit.')}</p>
         
 
         <div className='grid grid-cols-1 lg1:grid-cols-2 gap-4'>
 
           {/* Basic Information */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/home_white.svg" alt="" />
                 </p>
               </div>
@@ -92,10 +92,10 @@ const getStepMessages = (step) => {
           </div>
 
           {/* the address */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/location_white.svg" alt="" />
                 </p>
               </div>
@@ -135,10 +135,10 @@ const getStepMessages = (step) => {
           </div>
 
           {/* Room and bathroom details */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/bed-single-white.svg" alt="" />
                 </p>
               </div>
@@ -180,10 +180,10 @@ const getStepMessages = (step) => {
           </div>
 
           {/* Property details */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4 '>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/building-white.svg" alt="" />
                 </p>
               </div>
@@ -233,10 +233,10 @@ const getStepMessages = (step) => {
           </div>
 
           {/* Property amenities */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/wifi-white.svg" alt="" />
                 </p>
               </div>
@@ -279,10 +279,10 @@ const getStepMessages = (step) => {
           </div>
 
           {/* Pricing and policies */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/dollar-white.svg" alt="" />
                 </p>
               </div>
@@ -323,10 +323,10 @@ const getStepMessages = (step) => {
           </div>
 
           {/* Availability */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/calendar-white.svg" alt="" />
                 </p>
               </div>
@@ -367,10 +367,10 @@ const getStepMessages = (step) => {
           </div>
 
           {/* Images and Media */}
-          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-[3px]'>
+          <div className='border border-[#CDD5DF] p-4 flex justify-between gap-4 rounded-3px'>
             <div className='flex  gap-4'>
               <div className='flex items-start'>
-                <p className='w-8 h-8 bg-[var(--color-primary)] flex justify-center items-center rounded-[3px]'>
+                <p className='w-8 h-8 bg-primary flex justify-center items-center rounded-3px'>
                   <img src="/images/icons/camera-white.svg" alt="" />
                 </p>
               </div>

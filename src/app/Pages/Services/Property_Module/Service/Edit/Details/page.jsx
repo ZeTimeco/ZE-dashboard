@@ -48,8 +48,8 @@ function DetailsContent() {
 
   return (
     <>
-      <div className='mb-6 w-full flex flex-col sm:flex-row gap-6 border border-[#CDD5DF] bg-white rounded-[3px] p-4 shadow-xs transition-shadow duration-200 hover:shadow-sm'>
-        <div className='w-full sm:w-[28%] overflow-hidden rounded-[2px]'>
+      <div className='mb-6 w-full flex flex-col sm:flex-row gap-6 border border-[#CDD5DF] bg-white rounded-3px p-4 shadow-xs transition-shadow duration-200 hover:shadow-sm'>
+        <div className='w-full sm:w-[28%] overflow-hidden rounded-3px'>
           <img 
             src={`${IMAGE_BASE_URL}${getDetailsData?.primary_image?.image_path}`} 
             alt="" 
@@ -85,7 +85,7 @@ function DetailsContent() {
             </div>
           </div>
 
-          <div className='text-[var(--color-primary)] text-base font-semibold mt-3 flex items-center gap-2' > 
+          <div className='text-primary text-base font-semibold mt-3 flex items-center gap-2' > 
             <p>
               <span>{getDetailsData?.base_price}</span> {' '}
               <span>{getDetailsData?.currency}</span>

@@ -67,23 +67,34 @@ function BasicInformationPageContent() {
   const [childrenReplacementCounter, setChildrenReplacementCounter] = useState(0);
   const [canReplaceAdults, setCanReplaceAdults] = useState(false);
 
-  useEffect(()=>{
-    if(getBasicInfoData){
-      setFormData({
-        title: getBasicInfoData?.title || '',
-        description: getBasicInfoData?.description || '',
-        property_type_id: getBasicInfoData?.property_type_id || '',
-        max_children: getBasicInfoData?.max_children || '',
-        max_adults: getBasicInfoData?.max_adults || '',
-        children_equivalent_to_adult: getBasicInfoData?.children_equivalent_to_adult || '',
-      });
-      setAdultsCounter(getBasicInfoData?.max_adults || 0);
-      setChildrenCounter(getBasicInfoData?.max_children || 0);
-      setChildrenReplacementCounter(getBasicInfoData?.children_equivalent_to_adult || 0);
-      setCanReplaceAdults(getBasicInfoData?.children_equivalent_to_adult > 0);
-      if(getBasicInfoData?.description) setCount(getBasicInfoData.description.length);
-    }
-  },[getBasicInfoData])
+  useEffect(() => {
+    if (!getBasicInfoData) return;
+
+    setFormData({
+      title: getBasicInfoData.title ?? '',
+      description: getBasicInfoData.description ?? '',
+      property_type_id: getBasicInfoData.property_type_id ?? '',
+      max_children: getBasicInfoData.max_children ?? 0,
+      max_adults: getBasicInfoData.max_adults ?? 0,
+      children_equivalent_to_adult:
+        getBasicInfoData.children_equivalent_to_adult ?? '',
+    });
+
+    setAdultsCounter(getBasicInfoData.max_adults ?? 0);
+
+    setChildrenCounter(getBasicInfoData.max_children ?? 0);
+
+    setChildrenReplacementCounter(
+      getBasicInfoData.children_equivalent_to_adult ?? 0
+    );
+
+    setCanReplaceAdults(
+      (getBasicInfoData.children_equivalent_to_adult ?? 0) > 0
+    );
+
+    setCount(getBasicInfoData.description?.length ?? 0);
+  }, [getBasicInfoData]);
+
   const handleBack = () => {
     if (from === 'Add') {
       router.push(
@@ -97,21 +108,55 @@ function BasicInformationPageContent() {
   }
 
   const handleSubmit = () => {
-    if (!id) return;
-    
+    if (!id || !getBasicInfoData) return;
+
     const dataToSubmit = {
-      ...formData,
-      max_adults: adultsCounter,
-      max_children: childrenCounter,
-      children_equivalent_to_adult: canReplaceAdults ? childrenReplacementCounter : 0,
+      // Text fields
+      title: formData.title || getBasicInfoData.title || '',
+
+      description:
+        formData.description || getBasicInfoData.description || '',
+
+      // Property type
+      property_type_id:
+        formData.property_type_id ??
+        getBasicInfoData.property_type_id ??
+        '',
+
+      // Counters
+      max_adults:
+        adultsCounter ?? getBasicInfoData.max_adults ?? 0,
+
+      max_children:
+        childrenCounter ?? getBasicInfoData.max_children ?? 0,
+
+      // Children replacement
+      children_equivalent_to_adult: canReplaceAdults
+        ? (
+            childrenReplacementCounter ??
+            getBasicInfoData.children_equivalent_to_adult ??
+            ''
+          )
+        : '',
     };
 
-    dispatch(UpdateBasicInfoThunk({ property_id: id, formData: dataToSubmit })).then((res) => {
+    // console.log('Data To Submit:', dataToSubmit);
+
+    dispatch(
+      UpdateBasicInfoThunk({
+        property_id: id,
+        formData: dataToSubmit,
+      })
+    ).then((res) => {
       if (!res.error) {
         if (from === 'Add') {
-          router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
+          router.push(
+            `/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`
+          );
         } else {
-          router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+          router.push(
+            `/Pages/Services/Property_Module/Service/Edit?id=${id}`
+          );
         }
       }
     });
@@ -139,7 +184,7 @@ function BasicInformationPageContent() {
     <MainLayout>
       <TitleOfHeader/>
       
-      <div className='border border-[#E6E6E6] p-8 rounded-[3px] mb-4'>
+      <div className='border border-[#E6E6E6] p-8 rounded-3px mb-4'>
 
         <div>
           <p className='text-[#364152] text-xl font-medium mb-3'>
@@ -161,7 +206,7 @@ function BasicInformationPageContent() {
               type="text"
               placeholder='مثال : - فيلا حي الروابي' 
               value={formData?.title}
-              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#1A1A1A] rounded-3px outline-none'
               onChange={(e)=> setFormData(prev => ({...prev, title: e.target.value}))}
             />
           </div>
@@ -188,7 +233,7 @@ function BasicInformationPageContent() {
                     setSelected1(null);
                   }}
 
-                  className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+                  className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#1A1A1A] rounded-3px outline-none'
                 />
 
                 <span className="absolute left-3 cursor-pointer">
@@ -201,7 +246,7 @@ function BasicInformationPageContent() {
               </div>
 
               {open1 && (
-                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                   {optionPropertyType
                     .filter((opt) =>
                       opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
@@ -244,7 +289,7 @@ function BasicInformationPageContent() {
                 }}             
               placeholder={t("Write a brief description of the property.")}
               maxLength={500}
-              className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
+              className="w-full h-20 border border-[#C8C8C8] rounded-3px p-3 text-sm text-[#1A1A1A]  outline-none "
             />
 
             {/* counter */}
@@ -270,7 +315,7 @@ function BasicInformationPageContent() {
           {/*  */}
           <div className='flex gap-6 w-full'>
             {/* adults */}
-            <div className='bg-[#F8FAFC] border border-[#EEF2F6] w-full h-15 rounded-[3px] px-3 flex items-center justify-between'>
+            <div className='bg-[#F8FAFC] border border-[#EEF2F6] w-full h-15 rounded-3px px-3 flex items-center justify-between'>
               <div className='flex gap-3'>
                 <img src="/images/icons/user-group-darkgray.svg" alt="" />
                 <p className='text-[#4B5565] text-base font-normal'>{t('adults')}</p>
@@ -302,7 +347,7 @@ function BasicInformationPageContent() {
               </div>
             </div>
             {/* children */}
-            <div className='bg-[#F8FAFC] border border-[#EEF2F6] w-full h-15 rounded-[3px] px-3 flex items-center justify-between'>
+            <div className='bg-[#F8FAFC] border border-[#EEF2F6] w-full h-15 rounded-3px px-3 flex items-center justify-between'>
               <div className='flex gap-3'>
                 <img src="/images/icons/user-group-darkgray.svg" alt="" />
                 <p className='text-[#4B5565] text-base font-normal'>{t('children')}</p>
@@ -345,14 +390,14 @@ function BasicInformationPageContent() {
                 type="checkbox"
                 checked={canReplaceAdults}
                 onChange={(e) => setCanReplaceAdults(e.target.checked)}
-                className="w-5 h-5 appearance-none border rounded-[3px]  border-gray-300 bg-white  checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"
+                className="w-5 h-5 appearance-none border rounded-3px  border-gray-300 bg-white  checked:bg-primary checked:border-primary relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex  checked:after:items-center checked:after:justify-center checked:after:text-xs"
               /> 
               <p className='text-[#232323] text-sm font-normal'>{t('Adults can be replaced by a number of children')}</p>      
             </div>
             
             {/*   */}
             {canReplaceAdults && (
-              <div className='bg-[#F8FAFC] border border-[#EEF2F6] w-full h-15 rounded-[3px] px-3 flex items-center justify-between'>
+              <div className='bg-[#F8FAFC] border border-[#EEF2F6] w-full h-15 rounded-3px px-3 flex items-center justify-between'>
                 <div className=''>
                   <p className='text-[#4B5565] text-base font-normal'>{t('How many children replace one adult?')}</p>
                 </div>
@@ -389,7 +434,7 @@ function BasicInformationPageContent() {
         
 
         {/* Quick tips */}
-        <div className='border border-[#FEDF89] bg-[#FFFCF5] rounded-[3px] px-3 py-4 mt-4'>
+        <div className='border border-[#FEDF89] bg-[#FFFCF5] rounded-3px px-3 py-4 mt-4'>
           <div className='flex gap-2'>
             <img src="/images/icons/ii.svg" alt="" />
             <p className='text-[#364152] text-base font-medium'>{t('Quick tips')}</p>
@@ -417,14 +462,14 @@ function BasicInformationPageContent() {
           <div className='flex gap-2 justify-start w-full '>
             <button
               onClick={handleBack}
-              className="h-15 w-[30%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-3px cursor-pointer"
             >
               {t('Return')}
             </button>
 
             <button
               onClick={handleSubmit}
-              className="h-15 w-[30%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] bg-primary text-white rounded-3px cursor-pointer"
             >
               {t('Save changes')}
             </button>
