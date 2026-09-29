@@ -34,6 +34,8 @@
   "Creating your account...": "جاري إنشاء حسابك...",
   "Creating account...": "جاري إنشاء الحساب...",
   "To check the code": "للتحقق من الرمز",
+  "Saving worker data...": "جاري حفظ بيانات العامل...",
+  "Saving...": "جاري الحفظ...",
   "password":"كلمة المرور",
   "Forgot your password?":"هل نسيت كلمة المرور؟",
   "Dont have an account?":"ليس لديك حساب؟",
@@ -1797,10 +1799,21 @@
   "Failed to update settings.":"فشل تحديث الإعدادات.",
   "Login failed. Please check your credentials.":"فشل تسجيل الدخول. يرجى التحقق من بيانات اعتمادك.",
   "Incorrect password":"كلمه السر غير صحيحه",
+  "She hasn't added any worker yet.":"لم تُضف أي عامل حتى الآن.",
   
 
 
 
 
-"d":"d"
+  "Invalid email address": "عنوان البريد الإلكتروني غير صالح",
+  "Password is required": "كلمة المرور مطلوبة",
+  "Password confirmation is required": "تأكيد كلمة المرور مطلوب",
+  "Job is required": "الوظيفة مطلوبة",
+  "Employee address is required": "عنوان الموظف مطلوب",
+  "Workplaces are required": "أماكن العمل مطلوبة",
+  "Working hours are required": "ساعات العمل مطلوبة",
+  "Front national ID card photo is required": "صورة بطاقة الهوية الوطنية من الأمام مطلوبة",
+  "Back national ID card photo is required": "صورة بطاقة الهوية الوطنية من الخلف مطلوبة",
+  "Please complete all required fields": "يرجى إكمال جميع الحقول المطلوبة",
+  "Worker added successfully": "تمت إضافة العامل بنجاح"
 }

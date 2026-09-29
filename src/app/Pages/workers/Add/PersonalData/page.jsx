@@ -4,8 +4,17 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
+import { toast } from "react-toastify";
 
-function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,handleChange }) {
+function PersonalDataPage({
+  handleNext,
+  handleGoBack,
+  formData,
+  setFormData,
+  handleChange,
+  errors = {},
+  setErrors = () => {}
+}) {
   const { t } = useTranslation();
 
   // images
@@ -22,13 +31,13 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
 
     const allowedTypes = ["image/webp", "image/png", "image/svg+xml", "image/jpeg"];
     if (!allowedTypes.includes(file.type)) {
-      alert(t("Please select a valid image file (WEBP, PNG, SVG, JPG)"));
+      toast.error(t("Please select a valid image file (WEBP, PNG, SVG, JPG)"));
       return;
     }
 
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) {
-      alert(t("File size should not exceed 5MB"));
+      toast.error(t("File size should not exceed 5MB"));
       return;
     }
 
@@ -40,6 +49,10 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
       ...prev,
       image: file,
     }));
+
+    if (errors?.image) {
+      setErrors((prev) => ({ ...prev, image: '' }));
+    }
   };
 
   const handleDeleteFile = () => {
@@ -56,8 +69,6 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [rules, setRules] = useState({
     uppercase: false,
     symbol: false,
@@ -70,6 +81,10 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
     const value = e.target.value;
     setFormData(prev => ({ ...prev, password: value }));
 
+    if (errors?.password) {
+      setErrors((prev) => ({ ...prev, password: '' }));
+    }
+
     setRules({
       uppercase: /[A-Z]/.test(value),
       symbol: /[!@#$%^&*(),.?":{}|<>]/.test(value),
@@ -79,13 +94,28 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
   };
 
   const handleConfirmPasswordChange = (e) => {
-    setFormData(prev => ({ ...prev, password_confirmation: e.target.value }));
+    const value = e.target.value;
+    setFormData(prev => ({ ...prev, password_confirmation: value }));
+
+    if (errors?.password_confirmation) {
+      setErrors((prev) => ({ ...prev, password_confirmation: '' }));
+    }
   };
 
   // ✅ Check if passwords match
   const passwordsMatch =
-    formData?.password_confirmation.length > 0 &&
+    Boolean(formData?.password_confirmation && formData?.password_confirmation.length > 0) &&
     formData?.password === formData?.password_confirmation;
+
+  // Animation variants
+  const containerVariants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.07 } },
+  };
+  const fieldVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.25, ease: 'easeOut' } },
+  };
 
   return (
     <>
@@ -95,7 +125,9 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
           {!imagePreview ? (
             <>
               <div className="w-full flex justify-center mb-6">
-                <div className="w-38 h-38 border border-[#CDD5DF] rounded-[138px] flex justify-center items-center bg-white shadow-xs">
+                <div className={`w-38 h-38 border rounded-[138px] flex justify-center items-center bg-white shadow-xs transition-colors ${
+                  errors?.image ? "border-red-500" : "border-[#CDD5DF]"
+                }`}>
                   <span
                     className="cursor-pointer transition-transform duration-200 hover:scale-105"
                     onClick={handleFileSelect}
@@ -115,7 +147,11 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
                   whileHover={{ scale: 1.02, filter: "brightness(1.02)" }}
                   whileTap={{ scale: 0.98 }}
                   type="button"
-                  className="w-full flex justify-center items-center gap-2 border border-[var(--color-primary)] text-[var(--color-primary)] font-medium py-2.5 px-4 rounded-[3px] cursor-pointer shadow-xs transition-all"
+                  className={`w-full flex justify-center items-center gap-2 border font-medium py-2.5 px-4 rounded-[3px] cursor-pointer shadow-xs transition-all ${
+                    errors?.image 
+                      ? "border-red-500 text-red-500" 
+                      : "border-[var(--color-primary)] text-[var(--color-primary)]"
+                  }`}
                   onClick={handleFileSelect}
                 >
                   <span>{t("Image selection")}</span>  
@@ -153,6 +189,9 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
               </div>
             </div>
           )}
+          {errors?.image && (
+            <p className="text-red-500 text-xs sm:text-sm mt-2 text-center font-normal">{errors.image}</p>
+          )}
           <input
             ref={fileInputRef}
             name="image"
@@ -164,48 +203,89 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
         </div>
       </div>
 
-      <form action="" className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <motion.form
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"
+      >
         {/* first name */}
-        <div className="flex flex-col">
+        <motion.div variants={fieldVariants} className="flex flex-col">
           <label className="text-[#364152] text-base font-normal">{t('First Name')}</label>
           <input 
             type="text"
             name='firstname' 
-            value={formData?.firstname}
-            onChange={handleChange}
+            value={formData?.firstname || ''}
+            onChange={(e) => {
+              handleChange(e);
+              if (errors?.firstname) {
+                setErrors((prev) => ({ ...prev, firstname: '' }));
+              }
+            }}
             placeholder={t('Enter first name')}
-            className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal focus:border-[#C69815] transition-colors" 
+            className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+              errors?.firstname
+                ? "border-red-500 focus:border-red-500"
+                : "border-[#C8C8C8] focus:border-[#C69815]"
+            }`}
           />
-        </div>
+          {errors?.firstname && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.firstname}</p>
+          )}
+        </motion.div>
 
         {/* Last Name */}
-        <div className="flex flex-col">
+        <motion.div variants={fieldVariants} className="flex flex-col">
           <label className="text-[#364152] text-base font-normal">{t('Last Name')}</label>
           <input 
             type="text" 
             name='lastname'
-            value={formData?.lastname}
-            onChange={handleChange}
+            value={formData?.lastname || ''}
+            onChange={(e) => {
+              handleChange(e);
+              if (errors?.lastname) {
+                setErrors((prev) => ({ ...prev, lastname: '' }));
+              }
+            }}
             placeholder={t('Enter last name/family name')}
-            className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal focus:border-[#C69815] transition-colors" 
+            className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+              errors?.lastname
+                ? "border-red-500 focus:border-red-500"
+                : "border-[#C8C8C8] focus:border-[#C69815]"
+            }`}
           />
-        </div>
+          {errors?.lastname && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.lastname}</p>
+          )}
+        </motion.div>
 
         {/* Email */}
-        <div className="flex flex-col">
+        <motion.div variants={fieldVariants} className="flex flex-col">
           <label className="text-[#364152] text-base font-normal">{t('Email')}</label>
           <input 
             type="text" 
             name='email'
-            value={formData?.email}
-            onChange={handleChange}
+            value={formData?.email || ''}
+            onChange={(e) => {
+              handleChange(e);
+              if (errors?.email) {
+                setErrors((prev) => ({ ...prev, email: '' }));
+              }
+            }}
             placeholder={t('Enter your email')}
-            className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal focus:border-[#C69815] transition-colors" 
+            className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+              errors?.email
+                ? "border-red-500 focus:border-red-500"
+                : "border-[#C8C8C8] focus:border-[#C69815]"
+            }`}
           />
-        </div>
+          {errors?.email && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.email}</p>
+          )}
+        </motion.div>
 
         {/* Mobile number */}
-        <div className="flex flex-col">
+        <motion.div variants={fieldVariants} className="flex flex-col">
           <label className="text-[#364152] text-base font-normal mb-3 block">
             {t("Mobile number")}
           </label>
@@ -213,25 +293,35 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
           <div className="relative">
             <PhoneInput
               country={"sa"}
-              value={formData?.phone}  
+              value={formData?.phone || ''}  
               onChange={(value, country) => {
                 setFormData({
                   ...formData,
                   phone: value,               
                   country_code: country.dialCode  
                 });
+                if (errors?.phone) {
+                  setErrors((prev) => ({ ...prev, phone: '' }));
+                }
               }}
               placeholder="000000000"
               containerClass="!w-full"
-              inputClass="!w-full !h-[60px] !border !border-[#C8C8C8] !rounded-[3px] !pl-24 !text-left !shadow-sm !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
+              inputClass={`!w-full !h-[60px] !border !rounded-[3px] !pl-24 !text-left !shadow-sm !text-[#364152] placeholder-[#9A9A9A] outline-none transition-colors ${
+                errors?.phone
+                  ? "!border-red-500 focus:!border-red-500"
+                  : "!border-[#C8C8C8] focus:!border-[#C69815]"
+              }`}
               buttonClass="!absolute !left-0 !top-0 !h-full !px-3 !flex !items-center !gap-2 !bg-transparent !border-r-0"
               dropdownClass="!absolute !left-0 !top-full !mt-1 !z-50 !border !border-[#C8C8C8] !rounded-md !shadow-sm"
             />
           </div>
-        </div>
+          {errors?.phone && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.phone}</p>
+          )}
+        </motion.div>
     
         {/* New Password */}
-        <div className="flex flex-col">
+        <motion.div variants={fieldVariants} className="flex flex-col">
           <label className="text-[#364152] text-base font-normal">
             {t("password")}
           </label>
@@ -249,14 +339,21 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
             </span>
             <input
               type={showPassword ? "text" : "password"}
-              value={formData?.password}
+              value={formData?.password || ''}
               placeholder={t("Enter your password")}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               onChange={handlePasswordChange}
-              className="w-full h-15 p-3 pl-10 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal focus:border-[#C69815] transition-colors"
+              className={`w-full h-15 p-3 pl-10 rounded-[3px] border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+                errors?.password
+                  ? "border-red-500 focus:border-red-500"
+                  : "border-[#C8C8C8] focus:border-[#C69815]"
+              }`}
             />
           </div>
+          {errors?.password && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.password}</p>
+          )}
 
           {/* Show rules only when focused */}
           {isFocused && (
@@ -314,10 +411,10 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
               </li>
             </ul>
           )}
-        </div>
+        </motion.div>
 
         {/* Confirm Password */}
-        <div className="flex flex-col">
+        <motion.div variants={fieldVariants} className="flex flex-col">
           <label className="text-[#364152] text-base font-normal">
             {t("Confirm password")}
           </label>
@@ -335,11 +432,13 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
             </span>
             <input
               type={showPasswordConfirm ? "text" : "password"}
-              value={formData?.password_confirmation}
+              value={formData?.password_confirmation || ''}
               placeholder={t("Re-enter your password")}
               onChange={handleConfirmPasswordChange}
               className={`w-full h-15 p-3 pl-10 rounded-[3px] border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
-                formData?.password_confirmation
+                errors?.password_confirmation
+                  ? "border-red-500 focus:border-red-500"
+                  : formData?.password_confirmation
                   ? formData?.password === formData?.password_confirmation
                     ? "border-green-500"
                     : "border-red-500"
@@ -348,7 +447,9 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
             />
           </div>
 
-          {confirmPassword.length > 0 && (
+          {errors?.password_confirmation ? (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.password_confirmation}</p>
+          ) : formData?.password_confirmation && formData.password_confirmation.length > 0 ? (
             <p
               className={`mt-2 text-sm ${
                 passwordsMatch ? "text-green-600" : "text-red-500"
@@ -358,22 +459,39 @@ function PersonalDataPage({handleNext , handleGoBack ,formData ,setFormData ,han
                 ? t("Passwords match") 
                 : t("Passwords do not match")}
             </p>
-          )}
-        </div>
-      </form>
+          ) : null}
+        </motion.div>
+      </motion.form>
 
       {/* National ID number */}
-      <div className="flex flex-col w-full mb-6">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.45, duration: 0.25, ease: 'easeOut' }}
+        className="flex flex-col w-full mb-6"
+      >
         <label className="text-[#364152] text-base font-normal">{t('National ID number')}</label>
         <input 
           type="text" 
           name="national_id"
-          value={formData?.national_id}
-          onChange={handleChange}
+          value={formData?.national_id || ''}
+          onChange={(e) => {
+            handleChange(e);
+            if (errors?.national_id) {
+              setErrors((prev) => ({ ...prev, national_id: '' }));
+            }
+          }}
           placeholder={t('Enter your national ID number')}
-          className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal focus:border-[#C69815] transition-colors" 
+          className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+            errors?.national_id
+              ? "border-red-500 focus:border-red-500"
+              : "border-[#C8C8C8] focus:border-[#C69815]"
+          }`}
         />
-      </div>
+        {errors?.national_id && (
+          <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.national_id}</p>
+        )}
+      </motion.div>
       
       {/* btns */}
       <div className="my-12 flex gap-3">

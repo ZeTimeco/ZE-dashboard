@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Pagination from './Pagination'
 import NavWorker from './NavWorker'
 import TableWorkers from './TableWorkers'
+import No_workers from './No_workers'
 import dynamic from 'next/dynamic'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllWorkersThunk, getDesignationsThunk, setPage } from '@/redux/slice/Workers/WorkersSlice'
@@ -67,39 +68,46 @@ function WorkersPage() {
     }
   }
 
+  // Show empty state only when: not loading AND no workers AND no active filters/search
+  const isEmpty = !loading && workers?.length === 0 && Object.keys(filterParams).length === 0;
+
   return (
     <MainLayout>
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="w-full"
-      >
-        <NavWorker 
-          handleClickOpen={handleClickOpen}
-          onSearch={handleSearch}
-        />
+      {isEmpty ? (
+        <No_workers />
+      ) : (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full"
+        >
+          <NavWorker 
+            handleClickOpen={handleClickOpen}
+            onSearch={handleSearch}
+          />
 
-        <TableWorkers 
-          workers={workers} 
-          loading={loading}
-        />
+          <TableWorkers 
+            workers={workers} 
+            loading={loading}
+          />
 
-        <Pagination
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={handlePageChange} 
-        />
+          <Pagination
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={handlePageChange} 
+          />
 
-        <FiltersPage 
-          open={open} 
-          handleClose={handleClose} 
-          getDesignations={getDesignations} 
-          onApply={handleApply}
-          onReset={handleReset}
-          currentFilters={filterParams}
-        />
-      </motion.div>
+          <FiltersPage 
+            open={open} 
+            handleClose={handleClose} 
+            getDesignations={getDesignations} 
+            onApply={handleApply}
+            onReset={handleReset}
+            currentFilters={filterParams}
+          />
+        </motion.div>
+      )}
     </MainLayout>
   )
 }

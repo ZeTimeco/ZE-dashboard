@@ -34,6 +34,8 @@
   "Creating your account...": "Creating your account...",
   "Creating account...": "Creating account...",
   "To check the code": "To check the code",
+  "Saving worker data...": "Saving worker data...",
+  "Saving...": "Saving...",
   "password":"password",
   "Forgot your password?":"Forgot your password?",
   "Dont have an account?":"Don't have an account?",
@@ -1796,9 +1798,20 @@
   "Failed to update settings.":"Failed to update settings.",
   "Login failed. Please check your credentials.":"Login failed. Please check your credentials.",
   "Incorrect password":"Incorrect password",
+  "She hasn't added any worker yet.":"She hasn't added any worker yet.",
   
 
 
 
-  "":"" 
+  "Invalid email address": "Invalid email address",
+  "Password is required": "Password is required",
+  "Password confirmation is required": "Password confirmation is required",
+  "Job is required": "Job is required",
+  "Employee address is required": "Employee address is required",
+  "Workplaces are required": "Workplaces are required",
+  "Working hours are required": "Working hours are required",
+  "Front national ID card photo is required": "Front national ID card photo is required",
+  "Back national ID card photo is required": "Back national ID card photo is required",
+  "Please complete all required fields": "Please complete all required fields",
+  "Worker added successfully": "Worker added successfully"
 }

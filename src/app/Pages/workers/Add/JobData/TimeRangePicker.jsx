@@ -7,7 +7,7 @@ export default function TimeRangePicker({
     onChange,
     label = 'Working Hours',
     language = 'ar',
-    
+    hasError = false,
 }) {
     const [isOpen, setIsOpen] = useState(false);
     const [startTime, setStartTime] = useState(value.start);
@@ -406,6 +406,7 @@ export default function TimeRangePicker({
                     style={{
                         ...styles.mainInput,
                         ...(isOpen && styles.mainInputActive),
+                        ...(hasError && { borderColor: '#ef4444' }),
                     }}
                     type="button"
                 >

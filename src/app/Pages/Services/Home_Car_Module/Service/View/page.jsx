@@ -179,15 +179,15 @@ function ViewPage({ open, handleClose ,serviceId }) {
 
         <span className="border-[0.5px] border-[#E3E8EF]" />
         
-        <div className="overflow-y-auto overflow-x-hidden">
+        <div className="overflow-y-auto overflow-x-hidden my-2">
           {/* Image Slider */}
-          <section className="relative w-[586px] h-[261px] m-6 rounded-[6px] overflow-hidden shadow-sm">
+          <section className="relative w-full h-[261px]  p-8 rounded-3px overflow-hidden ">
             {images.map((img, index) => (
               <img
                 key={index}
                 src={img}
                 alt={`service-image-${index}`}
-                className={`absolute top-0 left-0 w-[586px] h-[261px] object-cover transition-opacity duration-500 ${
+                className={`absolute top-0 right-1 w-full h-[261px] object-cover transition-opacity duration-500 ${
                   index === current ? "opacity-100 scale-100" : "opacity-0 scale-98 pointer-events-none"
                 }`}    
               />

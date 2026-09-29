@@ -6,13 +6,24 @@ import MapDialog from './MapDialog';
 import TimeRangePicker from './TimeRangePicker';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllAreasThunk } from '@/redux/slice/Services/ServicesSlice';
+import { toast } from 'react-toastify';
 
-function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handleChange ,handleSubmit  }) {
-  const {t}= useTranslation();
+function JobDataPage({
+  handlePrev,
+  getDesignations,
+  formData,
+  setFormData,
+  handleChange,
+  handleSubmit,
+  isSubmitting,
+  errors = {},
+  setErrors = () => {}
+}) {
+  const { t } = useTranslation();
   
   //api
   const dispatch = useDispatch()
-  const {getAreas } = useSelector(state=>state.services)
+  const { getAreas } = useSelector(state => state.services)
   useEffect(() => {
     dispatch(getAllAreasThunk()); 
   }, [dispatch])
@@ -24,11 +35,38 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
   const dropdownRef1 = useRef(null);
   const optionJob = getDesignations || []
 
+  // Sync selected1 with formData?.designation_id
+  useEffect(() => {
+    if (formData?.designation_id && optionJob?.length > 0) {
+      const found = optionJob.find(item => item.id === formData.designation_id);
+      if (found && !selected1) {
+        setSelected1(found.name);
+      }
+    }
+  }, [formData?.designation_id, optionJob, selected1]);
+
   // workplace 
   const [open2, setOpen2] = useState(false);
   const [selected2, setSelected2] = useState([]);
   const dropdownRef2 = useRef(null);
   const optionWorkplace = getAreas?.areas || [];
+
+  // Sync selected2 with formData?.provider_areas
+  useEffect(() => {
+    if (formData?.provider_areas?.length > 0 && optionWorkplace?.length > 0 && selected2.length === 0) {
+      const preselected = optionWorkplace.filter(item => formData.provider_areas.includes(item.id));
+      if (preselected.length > 0) {
+        setSelected2(preselected);
+      }
+    }
+  }, [formData?.provider_areas, optionWorkplace, selected2.length]);
+
+  // Clear address error when address is populated
+  useEffect(() => {
+    if (formData?.address && errors?.address) {
+      setErrors(prev => ({ ...prev, address: '' }));
+    }
+  }, [formData?.address, errors?.address, setErrors]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -56,23 +94,33 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.type === "application/pdf") {
-      setFile(selectedFile);
+    if (!selectedFile) return;
 
-      setFormData((prev)=>({
-        ...prev, 
-        id_front: selectedFile,
-      }))
-      let uploaded = 0;
-      const interval = setInterval(() => {
-        uploaded += 20;
-        if (uploaded >= 100) {
-          uploaded = 100;
-          clearInterval(interval);
-        }
-        setProgress(uploaded);
-      }, 500);
+    if (selectedFile.type !== "application/pdf") {
+      toast.error(t("The file format must be PDF."));
+      return;
     }
+
+    setFile(selectedFile);
+
+    setFormData((prev)=>({
+      ...prev, 
+      id_front: selectedFile,
+    }));
+
+    if (errors?.id_front) {
+      setErrors((prev) => ({ ...prev, id_front: '' }));
+    }
+
+    let uploaded = 0;
+    const interval = setInterval(() => {
+      uploaded += 20;
+      if (uploaded >= 100) {
+        uploaded = 100;
+        clearInterval(interval);
+      }
+      setProgress(uploaded);
+    }, 500);
   };
 
   const handleRemove = () => {
@@ -82,7 +130,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
     setFormData((prev)=>({
       ...prev, 
       id_front: null,
-    }))
+    }));
   };
   
   //back national ID card photo
@@ -91,25 +139,34 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
   
   const handleBackFileChange = (e)=>{
     const selectBackFile = e.target.files[0];
-    if(selectBackFile && selectBackFile.type === "application/pdf" ){
-      setBackFile(selectBackFile);
-      let uploaded = 0;
+    if (!selectBackFile) return;
 
-      setFormData((prev)=>({
-        ...prev, 
-        id_back: selectBackFile,
-      }))
-
-      const interval = setInterval(() => {
-        uploaded += 20;
-        if (uploaded >= 100) {
-          uploaded = 100;
-          clearInterval(interval);
-        }
-        setBackProgress(uploaded);
-      }, 500);
+    if (selectBackFile.type !== "application/pdf") {
+      toast.error(t("The file format must be PDF."));
+      return;
     }
-  }
+
+    setBackFile(selectBackFile);
+    let uploaded = 0;
+
+    setFormData((prev)=>({
+      ...prev, 
+      id_back: selectBackFile,
+    }));
+
+    if (errors?.id_back) {
+      setErrors((prev) => ({ ...prev, id_back: '' }));
+    }
+
+    const interval = setInterval(() => {
+      uploaded += 20;
+      if (uploaded >= 100) {
+        uploaded = 100;
+        clearInterval(interval);
+      }
+      setBackProgress(uploaded);
+    }, 500);
+  };
   const handleBackRemove = () => {
     setBackFile(null);
     setBackProgress(0);
@@ -117,13 +174,13 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
     setFormData((prev)=>({
       ...prev, 
       id_back: null,
-    }))
+    }));
   };
 
   // Working hours
   const [workingHours, setWorkingHours] = useState({
-    start: '00:00',
-    end: '00:00',
+    start: '09:00',
+    end: '17:00',
   });
 
   return (
@@ -137,7 +194,11 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
     
           <div className="relative w-full" ref={dropdownRef1}>
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer focus-within:border-[#C69815] transition-colors"
+              className={`relative flex items-center border rounded-[3px] cursor-pointer transition-colors ${
+                errors?.designation_id
+                  ? "border-red-500 focus-within:border-red-500"
+                  : "border-[#C8C8C8] focus-within:border-[#C69815]"
+              }`}
               onClick={() => setOpen1(!open1)}
             >
               {/* Input */}
@@ -149,6 +210,9 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
                   setSearchValue1(e.target.value);
                   setOpen1(true);
                   setSelected1(null);
+                  if (errors?.designation_id) {
+                    setErrors((prev) => ({ ...prev, designation_id: '' }));
+                  }
                 }}
                 className="h-15 p-3 w-full text-[#364152] focus:outline-none"
               />
@@ -183,7 +247,11 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
                         setFormData((prev)=>({
                           ...prev,
                           designation_id: option?.id,
-                        }))
+                        }));
+
+                        if (errors?.designation_id) {
+                          setErrors((prev) => ({ ...prev, designation_id: '' }));
+                        }
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors"
                     >
@@ -193,6 +261,9 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
               </ul>
             )}
           </div>
+          {errors?.designation_id && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.designation_id}</p>
+          )}
         </div>
       
         {/* Employee address */}
@@ -205,8 +276,15 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
             placeholder={t("Enter the address")}
             value={formData?.address || ""}
             onClick={handleClickOpen}
-            className="h-15 p-3 border border-[#C8C8C8] outline-[#C69815] rounded-[3px] placeholder:text-[#9A9A9A] focus:border-[#C69815] cursor-pointer transition-colors resize-none"
+            className={`h-15 p-3 border outline-none rounded-[3px] placeholder:text-[#9A9A9A] cursor-pointer transition-colors resize-none ${
+              errors?.address
+                ? "border-red-500 focus:border-red-500"
+                : "border-[#C8C8C8] focus:border-[#C69815]"
+            }`}
           />
+          {errors?.address && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.address}</p>
+          )}
         </div>
 
         {/* workplace */}
@@ -218,7 +296,11 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
           <div className="relative w-full" ref={dropdownRef2}>
             <div
               onClick={() => setOpen2(!open2)}
-              className="p-2 min-h-15 border border-[#C8C8C8] rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2 focus-within:border-[#C69815] transition-colors"
+              className={`p-2 min-h-15 border rounded-[3px] cursor-pointer flex items-center flex-wrap gap-2 transition-colors ${
+                errors?.provider_areas
+                  ? "border-red-500 focus-within:border-red-500"
+                  : "border-[#C8C8C8] focus-within:border-[#C69815]"
+              }`}
             >
               {/* Selected tags / placeholder */}
               {selected2.length > 0 ? (
@@ -232,7 +314,12 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelected2(selected2.filter((_, i) => i !== index));
+                        const updated = selected2.filter((_, i) => i !== index);
+                        setSelected2(updated);
+                        setFormData(prev => ({
+                          ...prev,
+                          provider_areas: updated.map(it => it.id),
+                        }));
                       }}
                       className="text-[#364152] hover:opacity-75"
                     >
@@ -269,6 +356,10 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
                           ...prev,
                           provider_areas: updatedSelected.map(item => item.id), // IDs فقط
                         }));
+
+                        if (errors?.provider_areas) {
+                          setErrors(prev => ({ ...prev, provider_areas: '' }));
+                        }
                       }
 
                       setOpen2(false);
@@ -281,6 +372,9 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
               </ul>
             )}
           </div>
+          {errors?.provider_areas && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.provider_areas}</p>
+          )}
         </div>
 
         {/* Working hours */}
@@ -288,7 +382,7 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
           <TimeRangePicker
             value={workingHours}
             onChange={(timeRange)=>{
-              setWorkingHours(timeRange)
+              setWorkingHours(timeRange);
 
               function formatTime12(time24) {
                 const [hour, minute] = time24.split(':').map(Number);
@@ -299,12 +393,20 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
 
               setFormData((prev)=>({
                 ...prev,
-                working_time: `${formatTime12(timeRange.start)} - ${formatTime12(timeRange.end)}` // خليهم جنب بعض
-              }))
+                working_time: `${formatTime12(timeRange.start)} - ${formatTime12(timeRange.end)}`
+              }));
+
+              if (errors?.working_time) {
+                setErrors(prev => ({ ...prev, working_time: '' }));
+              }
             }}
             label={t('Working hours')}
             language="ar"
+            hasError={Boolean(errors?.working_time)}
           />
+          {errors?.working_time && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.working_time}</p>
+          )}
         </div>
       </form>
 
@@ -313,7 +415,9 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
         <div className="flex flex-col w-full">
           <label className="text-[#364152] text-base font-normal mb-3">{t("Front national ID card photo")}</label>
           {!file ? (
-            <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer hover:border-[var(--color-primary)] transition-colors">
+            <label className={`flex items-center relative gap-2 h-15 p-3 border rounded-[3px] text-[#9A9A9A] cursor-pointer hover:border-[var(--color-primary)] transition-colors ${
+              errors?.id_front ? "border-red-500" : "border-[#C8C8C8]"
+            }`}>
               <img
                 src="/images/icons/upload.svg"
                 alt="upload"
@@ -373,6 +477,9 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
               </button>
             </div>
           )}
+          {errors?.id_front && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.id_front}</p>
+          )}
         </div>
 
         {/* Back national ID card photo */}
@@ -380,7 +487,9 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
           <label className="text-[#364152] text-base font-normal mb-3">{t("Back national ID card photo")}</label>
 
           {!BackFile ? (
-            <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer hover:border-[var(--color-primary)] transition-colors">
+            <label className={`flex items-center relative gap-2 h-15 p-3 border rounded-[3px] text-[#9A9A9A] cursor-pointer hover:border-[var(--color-primary)] transition-colors ${
+              errors?.id_back ? "border-red-500" : "border-[#C8C8C8]"
+            }`}>
               <img
                 src="/images/icons/upload.svg"
                 alt="upload"
@@ -440,25 +549,40 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
               </button>
             </div>
           )}
+          {errors?.id_back && (
+            <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.id_back}</p>
+          )}
         </div>
       </div>
       
       <div className="my-12 flex gap-3">
         <motion.button
-          whileHover={{ scale: 1.02, backgroundColor: "rgba(198, 152, 21, 0.04)" }}
+          whileHover={{ scale: isSubmitting ? 1 : 1.02, backgroundColor: "rgba(198, 152, 21, 0.04)" }}
           whileTap={{ scale: 0.98 }}
-          onClick={handlePrev} 
-          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer transition-colors"
+          onClick={handlePrev}
+          disabled={isSubmitting}
+          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {t('the previous')}
         </motion.button>
         <motion.button
-          whileHover={{ scale: 1.02, filter: "brightness(1.05)" }}
+          whileHover={{ scale: isSubmitting ? 1 : 1.02, filter: isSubmitting ? 'none' : 'brightness(1.05)' }}
           whileTap={{ scale: 0.98 }}
-          onClick={handleSubmit}
-          className="border border-[#C69815] w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer shadow-xs transition-all"
+          onClick={isSubmitting ? undefined : handleSubmit}
+          disabled={isSubmitting}
+          className="border border-[#C69815] w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer shadow-xs transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          {t('save')}
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+              </svg>
+              <span>{t('Saving...')}</span>
+            </>
+          ) : (
+            t('save')
+          )}
         </motion.button>
       </div>
 
@@ -473,4 +597,4 @@ function JobDataPage({handlePrev , getDesignations ,formData ,setFormData,handle
   )
 }
 
-export default JobDataPage
+export default JobDataPage;
