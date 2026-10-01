@@ -54,10 +54,10 @@ const Pagination = ({
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-4 py-2 flex items-center gap-2 rounded-[3px] ${
+        className={`px-4 py-2 flex items-center gap-2 rounded-3px ${
           currentPage === 1
             ? "text-gray-400 border cursor-not-allowed"
-            : "bg-[var(--color-primary)] text-white"
+            : "bg-primary text-white"
         }`}
       >
         {t("the previous")}
@@ -71,7 +71,7 @@ const Pagination = ({
             disabled={page === "..."}
             className={`w-10 h-10 rounded-md ${
               page === currentPage
-                ? "bg-[var(--color-primary)] text-white"
+                ? "bg-primary text-white"
                 : "border text-gray-500"
             }`}
           >
@@ -83,10 +83,10 @@ const Pagination = ({
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-4 py-2 flex items-center gap-2 rounded-[3px] ${
+        className={`px-4 py-2 flex items-center gap-2 rounded-3px ${
           currentPage === totalPages
             ? "text-gray-400 border cursor-not-allowed"
-            : "bg-[var(--color-primary)] text-white"
+            : "bg-primary text-white"
         }`}
       >
         {t("the next")}

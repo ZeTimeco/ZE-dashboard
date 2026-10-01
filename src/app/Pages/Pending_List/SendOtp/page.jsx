@@ -104,7 +104,7 @@ const handleSubmit = async () => {
             }
             placeholder='XXXXXX'
           
-            className={`w-full h-14 text-center  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14 text-center  p-3 border border-[#C8C8C8]  text-sm text-[#364152]  rounded-3px outline-none `}
           />
         </div>
         {/* note */}
@@ -116,14 +116,14 @@ const handleSubmit = async () => {
           
           <button
             onClick={()=>setOpen(false)}
-            className="w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
+            className="w-full h-14 border border-primary text-primary rounded-3px cursor-pointer"
           >
             {t('cancel')}
           </button>
 
           <button
             onClick={handleSubmit}
-            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            className="w-full h-14 bg-primary text-white rounded-3px cursor-pointer"
           >
             {t('confirmation')}
           </button>

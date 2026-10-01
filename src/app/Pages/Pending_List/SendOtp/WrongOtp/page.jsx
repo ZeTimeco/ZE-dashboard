@@ -28,7 +28,7 @@ function WrongOtpPage({open , setOpen , setOpenOtp}) {
         <div className='p-6'>
 
           {/*  */}
-          <div className='border border-[#F04438] bg-[#FEF3F2] flex flex-col gap-1 items-center p-4 rounded-[3px] '>
+          <div className='border border-[#F04438] bg-[#FEF3F2] flex flex-col gap-1 items-center p-4 rounded-3px '>
             
             <p className='flex justify-center items-center bg-[#F04438] w-14 h-14 rounded-full mb-2'>
               <img src="/images/icons/cancel-circle-white.svg" alt="" />
@@ -39,7 +39,7 @@ function WrongOtpPage({open , setOpen , setOpenOtp}) {
           </div>
 
           {/*  */}
-          <div className='bg-[#F9F5E8] rounded-[3px] p-4 my-8'>
+          <div className='bg-[#F9F5E8] rounded-3px p-4 my-8'>
             <p className='text-[#B54708] text-base font-normal '>{t('Please check:')}</p>
             <ul className='mt-2 space-y-2 text-[#DC6803] list-disc pr-5 '>
               <li>{t('The symbol belongs to this branch.')}</li>
@@ -51,7 +51,7 @@ function WrongOtpPage({open , setOpen , setOpenOtp}) {
           {/* btn */}
           <button
             onClick={handleOpen}
-            className="w-full h-14 flex justify-center items-center gap-2  bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            className="w-full h-14 flex justify-center items-center gap-2  bg-primary text-white rounded-3px cursor-pointer"
           >
             <img src="/images/icons/return.svg" className="w-6 h-6" />
             <span className='text-base font-normal'>{t('Re-search')}</span>

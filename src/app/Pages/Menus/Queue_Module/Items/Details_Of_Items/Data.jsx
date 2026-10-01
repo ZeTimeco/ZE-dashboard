@@ -21,7 +21,7 @@ function Data({ getItemsDetails }) {
     switch (status) {
       case 'active':
         return (
-          <div className='bg-[#fff] border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center'>
+          <div className='bg-white border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center'>
             <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex items-center gap-1'>
               <img src="/images/icons/true_green.svg" alt="" className='w-3.5 h-3.5' />
               <span className='text-xs lg1:text-sm font-medium'>{t('active')}</span>
@@ -39,12 +39,12 @@ function Data({ getItemsDetails }) {
       {/* Image Carousel */}
       {images.length > 0 && (
         <div
-          className="relative w-full rounded-[6px] overflow-hidden bg-gray-50 border border-slate-100"
+          className="relative w-full rounded-md overflow-hidden bg-gray-50 border border-slate-100"
           style={{ aspectRatio: "16/9" }}
         >
           {imageLoading && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-              <div className="w-8 h-8 border-4 border-gray-300 border-t-[var(--color-primary)] rounded-full animate-spin" />
+              <div className="w-8 h-8 border-4 border-gray-300 border-t-primary rounded-full animate-spin" />
             </div>
           )}
 
@@ -99,8 +99,8 @@ function Data({ getItemsDetails }) {
           <span>
             {StatusRender(item?.status)}
           </span>
-          <p className="text-[var(--color-primary)] text-lg font-semibold">
-            {item?.base_price} جنيه
+          <p className="text-primary text-lg font-semibold">
+            {item?.base_price} {t('pound')}
           </p>
         </div>
       </motion.div>
@@ -110,7 +110,7 @@ function Data({ getItemsDetails }) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.05 }}
-        className="shadow-[0px_0px_4px_0px_rgba(0,0,0,0.12)] rounded-[3px] p-4 bg-white"
+        className="shadow-[0px_0px_4px_0px_rgba(0,0,0,0.12)] rounded-md p-4 bg-white"
       >
         <div className="mb-2">  
           <p className="text-[#364152] text-base font-medium mb-2">{t('description')}</p>
@@ -125,7 +125,7 @@ function Data({ getItemsDetails }) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.1 }}
-        className="shadow-[0px_0px_4px_0px_rgba(0,0,0,0.12)] rounded-[6px] p-4 bg-white"
+        className="shadow-[0px_0px_4px_0px_rgba(0,0,0,0.12)] rounded-md p-4 bg-white"
       >
         <div className="mb-2">
           <p className="text-[#364152] text-base font-semibold">{t('Additional information')}</p>

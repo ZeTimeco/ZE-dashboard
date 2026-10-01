@@ -14,7 +14,7 @@ function DetailsBookingLoginPage({open , setOpen ,guestID, refresh ,token}) {
 
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
-  console.log('token===', token);
+  // console.log('token===', token);
 
   const handleSeated = async () => {
     try {
@@ -39,7 +39,7 @@ function DetailsBookingLoginPage({open , setOpen ,guestID, refresh ,token}) {
     }
   }, [dispatch, token]);
 
-  console.log('getScanWaitlist+++++++', getScanWaitlist);
+  // console.log('getScanWaitlist+++++++', getScanWaitlist);
 
   return (
     <Dialog
@@ -72,7 +72,7 @@ function DetailsBookingLoginPage({open , setOpen ,guestID, refresh ,token}) {
 
       <div className='p-6'>
         <motion.div
-          className='border border-[#17B26A] bg-[#ECFDF3] p-4 flex gap-3 rounded-[3px]'
+          className='border border-[#17B26A] bg-[#ECFDF3] p-4 flex gap-3 rounded-3px'
           initial={{ opacity: 0, scale: 0.97, y: 8 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -120,7 +120,7 @@ function DetailsBookingLoginPage({open , setOpen ,guestID, refresh ,token}) {
             onClick={() => setOpen(false)}
             whileHover={{ scale: 1.02, transition: { duration: 0.18 } }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
-            className="w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]"
+            className="w-full h-14 border border-primary text-primary rounded-3px cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]"
           >
             {t('cancel')}
           </motion.button>
@@ -134,7 +134,7 @@ function DetailsBookingLoginPage({open , setOpen ,guestID, refresh ,token}) {
               transition: { duration: 0.18 },
             }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
-            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer transition-opacity duration-200 hover:opacity-90 disabled:opacity-50"
+            className="w-full h-14 bg-primary text-white rounded-3px cursor-pointer transition-opacity duration-200 hover:opacity-90 disabled:opacity-50"
           >
             {loading ? t('Loading...') : t('Successfully seated')}
           </motion.button>

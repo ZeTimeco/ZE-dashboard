@@ -47,7 +47,7 @@ function Form({getViews, formData ,setFormData}) {
             value={formData?.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
             placeholder={t("Write the guest's name")}
-            className='w-full h-14 p-3 border border-[#C8C8C8] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
+            className='w-full h-14 p-3 border border-[#C8C8C8] text-sm text-[#364152] rounded-3px outline-none transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary/20'
           />
         </motion.div>
 
@@ -66,7 +66,7 @@ function Form({getViews, formData ,setFormData}) {
             value={formData?.phone}
             onChange={(e) => setFormData({...formData, phone: e.target.value})}
             placeholder='xxxxxxxxxxx'
-            className='w-full h-14 p-3 border border-[#C8C8C8] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
+            className='w-full h-14 p-3 border border-[#C8C8C8] text-sm text-[#364152] rounded-3px outline-none transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary/20'
           />
         </motion.div>
 
@@ -76,7 +76,7 @@ function Form({getViews, formData ,setFormData}) {
           custom={2} variants={fieldVariants} initial="hidden" animate="visible"
         >
           <p className="text-sm font-medium text-[#364152]">{t('Number of guests')}</p>
-          <div className="h-14 px-3 flex items-center justify-between rounded-[3px] border border-[#EEF2F6] bg-[#F8FAFC]">
+          <div className="h-14 px-3 flex items-center justify-between rounded-3px border border-[#EEF2F6] bg-[#F8FAFC]">
             <motion.button
               whileHover={{ scale: 1.08, transition: { duration: 0.15 } }}
               whileTap={{ scale: 0.93, transition: { duration: 0.1 } }}
@@ -85,12 +85,12 @@ function Form({getViews, formData ,setFormData}) {
                 setGuests(newGuests);
                 setFormData((prev) => ({ ...prev, number_of_guests: newGuests }));
               }}
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-white text-lg text-[#0F022E] transition-colors duration-200 hover:border-gray-300 hover:bg-gray-50"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-3px border border-[#E3E8EF] bg-white text-lg text-[#0F022E] transition-colors duration-200 hover:border-gray-300 hover:bg-gray-50"
             >
               +
             </motion.button>
             <div className="text-center">
-              <p className="text-xl font-medium text-[var(--color-primary)]">{guests}</p>
+              <p className="text-xl font-medium text-primary">{guests}</p>
               <p className="text-sm text-[#364152]">{t('Guests')}</p>
             </div>
             <motion.button
@@ -101,7 +101,7 @@ function Form({getViews, formData ,setFormData}) {
                 setGuests(newGuests);
                 setFormData((prev) => ({ ...prev, number_of_guests: newGuests }));
               }}
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] bg-white text-lg text-[#0F022E] transition-colors duration-200 hover:border-gray-300 hover:bg-gray-50"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-3px border border-[#E3E8EF] bg-white text-lg text-[#0F022E] transition-colors duration-200 hover:border-gray-300 hover:bg-gray-50"
             >
               -
             </motion.button>
@@ -126,10 +126,10 @@ function Form({getViews, formData ,setFormData}) {
                 onClick={() => {
                   setFormData((prev) => ({ ...formData, favourite_view_id: item.id }))
                 }}
-                className={`py-2.5 px-2 flex justify-center items-center rounded-[3px] cursor-pointer transition-all duration-200
+                className={`py-2.5 px-2 flex justify-center items-center rounded-3px cursor-pointer transition-all duration-200
                   ${
                     formData.favourite_view_id === item.id
-                      ? "bg-[#FFFDF5] border border-[var(--color-primary)]"
+                      ? "bg-[#FFFDF5] border border-primary"
                       : "bg-white border border-[#D5D7DA] hover:border-gray-400 hover:bg-gray-50"
                   }`}
               >
@@ -154,7 +154,7 @@ function Form({getViews, formData ,setFormData}) {
               onChange={(e) => setFormData((prev) => ({ ...prev, notes: e.target.value }))}
               maxLength={100}
               placeholder={t('Write a brief comments')}
-              className="w-full h-40 rounded-[3px] border border-[#CDD5DF] p-3 text-[#364152] outline-none resize-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20"
+              className="w-full h-40 rounded-3px border border-[#CDD5DF] p-3 text-[#364152] outline-none resize-none transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary/20"
             />
             <span className="absolute bottom-2 left-3 text-sm text-gray-400">
               {formData?.notes.length}/100

@@ -131,7 +131,7 @@ function Form({getCategories ,formData , setFormData}) {
   return (
     <>
     {/* Basic Information */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] bg-white'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Basic Information')}</p>
 
       <div className='flex flex-col gap-3'>
@@ -153,7 +153,7 @@ function Form({getCategories ,formData , setFormData}) {
               }
             }))}
             placeholder={t("Classification name")}
-            className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
+            className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-3px outline-none transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary/20'
           />
         </div>
 
@@ -174,7 +174,7 @@ function Form({getCategories ,formData , setFormData}) {
               }
             }))}
             placeholder={t("Classification name")}
-            className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20'
+            className='w-full h-14 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-3px outline-none transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary/20'
           />
         </div>
 
@@ -186,7 +186,7 @@ function Form({getCategories ,formData , setFormData}) {
 
           <div className="relative w-full" ref={dropdownRef1}>
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer transition-all hover:border-gray-400 focus-within:border-[var(--color-primary)]"
+              className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer transition-all hover:border-gray-400 focus-within:border-[var(--color-primary)]"
               onClick={() => setOpen1(!open1)}
             >
               <input
@@ -216,7 +216,7 @@ function Form({getCategories ,formData , setFormData}) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-10 max-h-48 overflow-y-auto"
+                  className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-10 max-h-48 overflow-y-auto"
                 >
                   {categoryType
                     ?.filter((opt) =>
@@ -230,7 +230,7 @@ function Form({getCategories ,formData , setFormData}) {
                           setFormData((prev) => ({ ...prev, category_id: opt?.id }));
                           setOpen1(false);
                         }}
-                        className="p-3 hover:bg-[#F9F5E8] hover:text-[var(--color-primary)] cursor-pointer transition-colors"
+                        className="p-3 hover:bg-[#F9F5E8] hover:text-primary cursor-pointer transition-colors"
                       >
                         {opt?.name}
                       </li>
@@ -260,7 +260,7 @@ function Form({getCategories ,formData , setFormData}) {
               })
             )}
             placeholder={t("Write a brief description")}
-            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none transition-all duration-200 focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20"
+            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-3px outline-none resize-none transition-all duration-200 focus:border-primary focus:ring-1 focus:ring-primary/20"
           />
         </div>
 
@@ -290,7 +290,7 @@ function Form({getCategories ,formData , setFormData}) {
     </div>
 
     {/* images */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] my-6 bg-white'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px my-6 bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Photos')}</p>
 
       {/* hidden file input */}
@@ -312,7 +312,7 @@ function Form({getCategories ,formData , setFormData}) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'
+              className='relative group rounded-3px overflow-hidden border border-[#CDD5DF] aspect-square'
             >
               <img src={img.url} alt={img.name} className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105' />
               <motion.button
@@ -349,7 +349,7 @@ function Form({getCategories ,formData , setFormData}) {
     </div>
 
     {/* price */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] my-6 bg-white'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px my-6 bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Pricing')}</p>
       <div className='w-full flex flex-col gap-1'>
         <p className='text-sm font-medium mb-1.5'>
@@ -370,7 +370,7 @@ function Form({getCategories ,formData , setFormData}) {
     </div>
 
     {/* Preparation */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] bg-white'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Preparation')}</p>
       {/* Preparation time */}
       <div className='w-full flex flex-col gap-1'>
@@ -404,7 +404,7 @@ function Form({getCategories ,formData , setFormData}) {
     </div>
 
     {/* Savings schedule */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6 bg-white'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px mt-6 bg-white'>
       <p className='text-[#364152] text-base font-medium'>{t('Savings schedule')}</p>
       <div className='mt-4 flex justify-between items-center'>
         <div className='flex flex-col gap-1'>
@@ -427,7 +427,7 @@ function Form({getCategories ,formData , setFormData}) {
     </div>
 
     {/* Status */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6 bg-white'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px mt-6 bg-white'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Status')}</p>
       
       <div className='mt-4 flex justify-between items-center'>

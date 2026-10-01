@@ -60,7 +60,7 @@ function DeleteItems({deleteId , setDeleteId ,handleDelete }) {
             }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             onClick={() => { handleDelete(deleteId); setDeleteId(null); }}
-            className='w-full bg-[#D92D20] text-[#fff] h-13.5 rounded-[3px] cursor-pointer transition-opacity hover:opacity-90'
+            className='w-full bg-[#D92D20] text-white h-13.5 rounded-3px cursor-pointer transition-opacity hover:opacity-90'
           >
             <span className='text-base font-medium'>{t('delete')}</span>
           </motion.button>
@@ -68,7 +68,7 @@ function DeleteItems({deleteId , setDeleteId ,handleDelete }) {
             whileHover={{ scale: 1.02, transition: { duration: 0.18 } }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             onClick={() => setDeleteId(false)} 
-            className='w-full border border-[#697586] text-[#4B5565] h-13.5 rounded-[3px] cursor-pointer transition-colors hover:bg-gray-50'
+            className='w-full border border-[#697586] text-[#4B5565] h-13.5 rounded-3px cursor-pointer transition-colors hover:bg-gray-50'
           >
             <span className='text-base font-normal'>{t('cancel')}</span>
           </motion.button>

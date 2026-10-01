@@ -32,7 +32,7 @@ function No_Guest_Add({setOpenAdd}) {
             transition: { duration: 0.18 },
           }}
           whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
-          className='flex justify-center gap-2 bg-[var(--color-primary)] text-white px-4 py-2.5 h-14 w-[25%] rounded-[3px] my-6 cursor-pointer transition-opacity duration-200 hover:opacity-90'
+          className='flex justify-center gap-2 bg-primary text-white px-4 py-2.5 h-14 w-[25%] rounded-3px my-6 cursor-pointer transition-opacity duration-200 hover:opacity-90'
         >
           <p className='text-base flex items-center'>{t('Add guest')}</p>
           <p className='flex items-center'>

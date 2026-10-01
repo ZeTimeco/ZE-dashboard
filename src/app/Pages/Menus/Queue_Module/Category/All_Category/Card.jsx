@@ -25,7 +25,7 @@ function Card({ onViewCategoryItems , getCategories }) {
     switch (status) {
       case 'active':
         return (
-          <div className='bg-[#fff] border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center'>
+          <div className='bg-white border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center'>
             <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex items-center gap-1'>
               <img src="/images/icons/true_green.svg" alt="" className='w-3.5 h-3.5' />
               <span className='text-xs lg1:text-sm font-medium'>{t('active')}</span>

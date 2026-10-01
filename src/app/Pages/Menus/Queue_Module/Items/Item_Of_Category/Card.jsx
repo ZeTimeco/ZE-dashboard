@@ -35,11 +35,11 @@ function Card({ item, selectedCategoryId, index = 0 }) {
           boxShadow: '0 8px 24px 0 rgba(0,0,0,0.08)',
           transition: { duration: 0.2 },
         }}
-        className='group shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] pt-4 px-4 pb-3 bg-white border border-transparent hover:border-slate-200 transition-all duration-300'
+        className='group shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-3px pt-4 px-4 pb-3 bg-white border border-transparent hover:border-slate-200 transition-all duration-300'
       >
         <div className='flex justify-between items-center'>
           <div className='flex gap-3 items-center'>
-            <div className='pb-1 overflow-hidden rounded-[3px]'>
+            <div className='pb-1 overflow-hidden rounded-3px'>
               <img 
                 src={item?.image ? `${IMAGE_BASE_URL}${item.image}` : "/images/P.p.svg"} 
                 className="w-25 h-20 object-cover transition-transform duration-300 group-hover:scale-105" 
@@ -48,7 +48,7 @@ function Card({ item, selectedCategoryId, index = 0 }) {
             </div>
             <div className='flex flex-col justify-center'>
               <p className='text-[#364152] text-xl font-normal group-hover:text-slate-900 transition-colors'>{item?.name}</p>
-              <p className='text-[var(--color-primary)] text-lg font-medium'>{item?.base_price} {t('EGP')}</p>
+              <p className='text-primary text-lg font-medium'>{item?.base_price} {t('EGP')}</p>
             </div>
           </div>
           <div className='flex items-center'>

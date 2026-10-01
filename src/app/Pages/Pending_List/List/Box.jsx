@@ -29,7 +29,7 @@ function Box({getwaitlistAnalysis}) {
       icon: '/images/icons/user-group_yellow.svg',
       label: t('Expected guests'),
       badge: (
-        <p className='bg-[#F9F5E8] text-[var(--color-primary)] w-fit flex items-center px-1 py-1 lg1:py-1.5 lg1:px-2 rounded-full'>
+        <p className='bg-[#F9F5E8] text-primary w-fit flex items-center px-1 py-1 lg1:py-1.5 lg1:px-2 rounded-full'>
           <img src="/images/icons/tick-yellow.svg" className="w-6 h-6 hidden lg1:block" alt="" />
           <span className='text-[10px] lg1:text-sm'>{t('Active list')}</span>
         </p>

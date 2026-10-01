@@ -82,7 +82,7 @@ function Details_Of_ItemsPage({open , setOpen ,itemID , selectedCategoryId}) {
             }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             onClick={()=>setOpenEditItem(true)}  
-            className='flex justify-center items-center gap-3 w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer transition-opacity hover:opacity-90'
+            className='flex justify-center items-center gap-3 w-[40%] bg-primary text-white text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-opacity hover:opacity-90'
           >
             {t('Service modification')} <img src="/images/icons/edit.svg" className="w-5 h-5" alt="edit" />
           </motion.button>
@@ -94,7 +94,7 @@ function Details_Of_ItemsPage({open , setOpen ,itemID , selectedCategoryId}) {
             }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             onClick={() => setDeleteId(itemID)} 
-            className='w-[20%] border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer transition-colors duration-200 hover:bg-[#fff5f5]'
+            className='w-[20%] border border-[#F04438] text-[#F04438] text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-colors duration-200 hover:bg-[#fff5f5]'
           >
             {t('delete')}
           </motion.button>

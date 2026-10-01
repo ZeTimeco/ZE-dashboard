@@ -35,7 +35,7 @@ function Filter({activeTab , setActiveTab}) {
               rounded-full h-12.5 cursor-pointer border transition-colors duration-200
               ${
                 activeTab === tab.id
-                  ? 'border-[var(--color-primary)] bg-[#F9F5E8] text-[var(--color-primary)]'
+                  ? 'border-primary bg-[#F9F5E8] text-primary'
                   : 'border-gray-300 bg-white text-gray-500 hover:border-gray-400 hover:bg-gray-50'
               }
             `}

@@ -227,6 +227,6 @@ font-size: 50px;
 }
 
 /* style calender direction */
-.MuiPickersInputBase-sectionsContainer {
+/* .MuiPickersInputBase-sectionsContainer {
     direction: ltr !important;
-}
+} */

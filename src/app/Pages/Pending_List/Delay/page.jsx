@@ -89,7 +89,7 @@ function DelayPage({open , setOpen , guestID , guestDetails }) {
 
       <div className='p-6'>
         <motion.section
-          className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 rounded-[3px] mb-4 flex gap-1'
+          className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 rounded-3px mb-4 flex gap-1'
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: 'easeOut', delay: 0.05 }}
@@ -123,9 +123,9 @@ function DelayPage({open , setOpen , guestID , guestDetails }) {
                   setSelectedTime(index)
                   setFormData((prev) => ({ ...prev, delay_time: item?.value }))
                 }}
-                className={`py-2.5 px-2 flex gap-2 justify-center items-center rounded-[3px] cursor-pointer border transition-all duration-200 ${
+                className={`py-2.5 px-2 flex gap-2 justify-center items-center rounded-3px cursor-pointer border transition-all duration-200 ${
                   selectedTime === index
-                    ? 'border-[var(--color-primary)] bg-[#FFFDF5]'
+                    ? 'border-primary bg-[#FFFDF5]'
                     : 'border-[#E3E8EF] hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -160,9 +160,9 @@ function DelayPage({open , setOpen , guestID , guestDetails }) {
                   setSelectedReason(item.id)
                   setFormData((prev) => ({ ...prev, reason: item?.value }))
                 }}
-                className={`py-2.5 px-2 flex items-center rounded-[3px] cursor-pointer border transition-all duration-200 ${
+                className={`py-2.5 px-2 flex items-center rounded-3px cursor-pointer border transition-all duration-200 ${
                   selectedReason === item.id
-                    ? 'border-[var(--color-primary)] bg-[#FFFDF5]'
+                    ? 'border-primary bg-[#FFFDF5]'
                     : 'border-[#E3E8EF] bg-white hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -183,7 +183,7 @@ function DelayPage({open , setOpen , guestID , guestDetails }) {
             onClick={() => setOpen(false)}
             whileHover={{ scale: 1.02, transition: { duration: 0.18 } }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
-            className="w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]"
+            className="w-full h-14 border border-primary text-primary rounded-3px cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]"
           >
             {t('cancel')}
           </motion.button>
@@ -196,7 +196,7 @@ function DelayPage({open , setOpen , guestID , guestDetails }) {
               transition: { duration: 0.18 },
             }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
-            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer transition-opacity duration-200 hover:opacity-90"
+            className="w-full h-14 bg-primary text-white rounded-3px cursor-pointer transition-opacity duration-200 hover:opacity-90"
           >
             {t('Delay confirmed')}
           </motion.button>

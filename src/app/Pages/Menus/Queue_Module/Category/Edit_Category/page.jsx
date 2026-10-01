@@ -119,15 +119,15 @@ function Edit_CategoryPage({open , setOpen , categoryID}) {
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             disabled={loading}
             onClick={handleSubmit}  
-            className='w-[40%] bg-[var(--color-primary)] text-white text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50'
+            className='w-[40%] bg-[primary text-white text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50'
           >
-            {loading ? t('loading...') : t('Save changes')}
+            {loading ? t('Loading...') : t('Save changes')}
           </motion.button>
           <motion.button 
             whileHover={{ scale: 1.02, transition: { duration: 0.18 } }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             onClick={()=>setOpen(false)} 
-            className='w-[20%] border border-[var(--color-primary)] text-[var(--color-primary)] text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]'
+            className='w-[20%] border border-primary text-primary text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]'
           >
             {t('cancel')}
           </motion.button>

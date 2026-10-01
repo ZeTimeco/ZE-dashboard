@@ -56,7 +56,7 @@ function SendNotificationPage({open , setOpen ,guestID ,guestDetails  }) {
 
         <div className='p-6'>
         
-        <section className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 rounded-[3px] mb-4 flex gap-1'>
+        <section className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 rounded-3px mb-4 flex gap-1'>
           <img src="/images/icons/user_gray.svg" alt="" />
           <p className='text-[#697586] text-base font-normal'>{t('guest')} : </p>
           <p className='text-[#364152] text-base font-normal'>{guestDetails?.guest_name} </p>
@@ -75,7 +75,7 @@ function SendNotificationPage({open , setOpen ,guestID ,guestDetails  }) {
                 ...formData , 
                 message : e.target.value
               })}
-              className={`w-full h-50 border rounded-[3px] p-3 text-sm text-[#7d8d84] outline-none border-[#CDD5DF]`}
+              className={`w-full h-50 border rounded-3px p-3 text-sm text-[#7d8d84] outline-none border-[#CDD5DF]`}
             />
 
             {/* counter */}
@@ -90,14 +90,14 @@ function SendNotificationPage({open , setOpen ,guestID ,guestDetails  }) {
           
           <button
             onClick={()=>setOpen(false)}
-            className="w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
+            className="w-full h-14 border border-primary text-primary rounded-3px cursor-pointer"
           >
             {t('cancel')}
           </button>
 
           <button
             onClick={handleSubmit}
-            className="w-full h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+            className="w-full h-14 bg-primary text-white rounded-3px cursor-pointer"
           >
             {t('send')}
           </button>

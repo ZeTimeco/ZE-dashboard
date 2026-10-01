@@ -65,7 +65,7 @@ function Form({formData , setFormData}) {
 
   return (
     <>
-      <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] bg-white'>
+      <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px bg-white'>
         <p className='text-[#364152] text-lg font-medium mb-4'>{t('Basic Information')}</p>
 
         <div className='flex flex-col gap-3'>
@@ -153,7 +153,7 @@ function Form({formData , setFormData}) {
       </div>
 
       {/* Condition and appearance */}
-      <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6 bg-white'>
+      <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px mt-6 bg-white'>
         <p className='text-[#364152] text-base font-medium'>{t('Condition and appearance')}</p>
         <div className='mt-4 flex justify-between items-center'>
           <div className='flex flex-col gap-1'>
@@ -176,7 +176,7 @@ function Form({formData , setFormData}) {
       </div>
 
       {/* Appearance settings */}
-      <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] mt-6 bg-white'>
+      <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px mt-6 bg-white'>
         <p className='text-[#364152] text-base font-medium'>{t('Appearance settings')}</p>
         <div className='mt-4 flex justify-between items-center'>
           <div className='flex flex-col gap-1'>

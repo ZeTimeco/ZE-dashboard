@@ -122,7 +122,7 @@ function AddPage({open , setOpen, refresh}) {
           onClick={() => setOpen(false)}
           whileHover={{ scale: 1.02, transition: { duration: 0.18 } }}
           whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
-          className='border border-[var(--color-primary)] text-[var(--color-primary)] w-full text-base font-medium py-3 px-6 rounded-[3px] cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]'
+          className='border border-primary text-primary w-full text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-colors duration-200 hover:bg-[#fffdf5]'
         >
           {t('cancel')}
         </motion.button>
@@ -139,13 +139,13 @@ function AddPage({open , setOpen, refresh}) {
               : {}
           }
           whileTap={isFormValid && !loading ? { scale: 0.97, transition: { duration: 0.1 } } : {}}
-          className={`w-full text-base font-medium py-3 px-6 rounded-[3px] transition-all duration-200 ${
+          className={`w-full text-base font-medium py-3 px-6 rounded-3px transition-all duration-200 ${
             isFormValid
               ? 'bg-primary text-white cursor-pointer hover:opacity-90'
               : 'bg-[#E3E8EF] text-[#9AA4B2] cursor-not-allowed'
           } ${loading ? 'opacity-70 cursor-wait' : ''}`}
         >
-          {loading ? t('loading...') : t('Add to the queue')}
+          {loading ? t('Loading...') : t('Add to the queue')}
         </motion.button>
       </motion.div>
     </Dialog>

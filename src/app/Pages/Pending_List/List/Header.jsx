@@ -31,10 +31,10 @@ function Header({openAdd , setOpenAdd, refresh}) {
             transition: { duration: 0.18 },
           }}
           whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
-          className='flex justify-center items-center gap-3 w-fit px-4 h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer transition-opacity duration-200 hover:opacity-90'
+          className='flex justify-center items-center gap-3 w-fit px-4 h-14 bg-primary text-white rounded-3px cursor-pointer transition-opacity duration-200 hover:opacity-90'
         >
           <img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" />
-          <span className="text-[#fff] text-base font-medium">{t('Add a new guest')}</span>
+          <span className="text-white text-base font-medium">{t('Add a new guest')}</span>
         </motion.button>
       </header>
 

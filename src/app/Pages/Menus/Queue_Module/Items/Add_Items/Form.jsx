@@ -117,7 +117,7 @@ const handleRemoveImage = (id) => {
   return (
     <>
     {/* Basic Information */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Basic Information')}</p>
 
       <div className='flex flex-col gap-3'>
@@ -138,7 +138,7 @@ const handleRemoveImage = (id) => {
               } 
             })}
             placeholder={t("Classification name")}
-            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-3px outline-none `}
           />
         </div>
 
@@ -158,7 +158,7 @@ const handleRemoveImage = (id) => {
               } 
             })}
             placeholder={t("Classification name")}
-            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)]  text-sm text-[#364152]  rounded-3px outline-none `}
           />
         </div>
 
@@ -170,7 +170,7 @@ const handleRemoveImage = (id) => {
 
           <div className="relative w-full" ref={dropdownRef1}>
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+              className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
               onClick={() => setOpen1(!open1)}
             >
               <input
@@ -200,7 +200,7 @@ const handleRemoveImage = (id) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-10 max-h-48 overflow-y-auto"
+                  className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-10 max-h-48 overflow-y-auto"
                 >
                   {categoryType
                     ?.filter((opt) =>
@@ -214,7 +214,7 @@ const handleRemoveImage = (id) => {
                           setSearchValue1(opt?.name);
                           setOpen1(false);
                         }}
-                        className="p-3 hover:bg-[#F9F5E8] hover:text-[var(--color-primary)] cursor-pointer transition-colors"
+                        className="p-3 hover:bg-[#F9F5E8] hover:text-primary cursor-pointer transition-colors"
                       >
                         {opt?.name}
                       </li>
@@ -241,7 +241,7 @@ const handleRemoveImage = (id) => {
               } 
             })}
             placeholder={t("Write a brief description")}
-            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
+            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-3px outline-none resize-none"
           />
         </div>
 
@@ -261,7 +261,7 @@ const handleRemoveImage = (id) => {
               } 
             })}
             placeholder={t("Write a brief description")}
-            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none resize-none"
+            className="w-full h-25 p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-3px outline-none resize-none"
           />
         </div>
 
@@ -269,7 +269,7 @@ const handleRemoveImage = (id) => {
     </div>
 
     {/* images */}
-    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-[3px] my-6'>
+    <div className='shadow-[0px_0px_4px_0px_rgba(0,0,0,0.20)] p-4 rounded-3px my-6'>
       <p className='text-[#364152] text-lg font-medium mb-4'>{t('Photos')}</p>
 
       {/* hidden file input */}
@@ -291,7 +291,7 @@ const handleRemoveImage = (id) => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className='relative group rounded-[3px] overflow-hidden border border-[#CDD5DF] aspect-square'
+              className='relative group rounded-3px overflow-hidden border border-[#CDD5DF] aspect-square'
             >
               <img src={img.url} alt={img.name} className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105' />
               <motion.button
