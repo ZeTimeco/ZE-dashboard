@@ -27,7 +27,7 @@ function SidebarHomeCarStreet({ isSidebarOpen, setIsSidebarOpen }) {
     { key: 'workers',           path: '/Pages/workers',                        icon: '/images/icons/workers.svg' },
     { key: 'Services',          path: '/Pages/Services',                       icon: '/images/icons/Services.svg' },
     { key: 'Subscription',      path: '/Pages/Subscription',                   icon: '/images/icons/Subscription.svg' },
-    { key: 'conversations',     path: '/Pages/conversations',                  icon: '/images/icons/conversations.svg' },
+    { key: 'conversations',     path: '/Pages/Chat',                  icon: '/images/icons/conversations.svg' },
     { key: 'Finance',           path: '/Pages/finance',                        icon: '/images/icons/Finance.svg' },
     { key: 'technical support', path: '/Pages/technicalSupport',               icon: '/images/icons/dashboard.svg' },
   ];

@@ -1817,5 +1817,14 @@
   "Please complete all required fields": "يرجى إكمال جميع الحقول المطلوبة",
   "Worker added successfully": "تمت إضافة العامل بنجاح",
   "No additional requests":"لا توجد طلبات مضافه" ,
+  "All conversations":"كل المحادثات",
+  "Unread": "غير مقروء",
+  "Read": "مقروء",
+  "Write your message here...":"اكتب رسالتك هنا...",
+  
+
+
+
+
   "":""
 }

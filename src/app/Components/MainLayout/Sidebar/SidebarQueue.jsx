@@ -58,7 +58,7 @@ function SidebarQueue({ isSidebarOpen, setIsSidebarOpen }) {
     },
     {
       key: "conversations",
-      path: "/Pages/conversations",
+      path: "/Pages/Chat",
       icon: "/images/icons/conversations.svg",
     },
     {
