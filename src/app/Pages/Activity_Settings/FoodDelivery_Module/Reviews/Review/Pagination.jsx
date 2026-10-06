@@ -50,7 +50,7 @@ const Pagination = ({
         className={`px-4 py-2 flex items-center gap-2 rounded-3px transition ${
           isDisabledPrev
             ? 'text-[#364152] border border-[#697586] cursor-not-allowed opacity-50'
-            : 'bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152] cursor-pointer'
+            : 'bg-primary text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152] cursor-pointer'
         }`}
       >
         <img
@@ -74,7 +74,7 @@ const Pagination = ({
             onClick={() => typeof page === 'number' && handlePageChange(page)}
             className={`w-10 h-10 rounded-md transition ${
               page === currentPage
-                ? 'bg-[var(--color-primary)] text-white font-medium'
+                ? 'bg-primary text-white font-medium'
                 : page === '...'
                 ? 'cursor-default text-gray-500'
                 : 'border border-[#CDD5DF] text-[#697586] hover:bg-gray-50 cursor-pointer'
@@ -95,7 +95,7 @@ const Pagination = ({
         className={`px-4 py-2 flex items-center gap-2 rounded-3px transition ${
           isDisabledNext
             ? 'text-[#364152] border border-[#697586] cursor-not-allowed opacity-50'
-            : 'bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152] cursor-pointer'
+            : 'bg-primary text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152] cursor-pointer'
         }`}
       >
         <span>{t('the next')}</span>

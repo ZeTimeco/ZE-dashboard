@@ -7,7 +7,7 @@ function SearchForm({ placeholderKey ,width, ...props }) {
 // 546--556
   return (
     <>
-      <div className={`relative h-14 w-[50%] lg1:w-[60%] rounded-[3px]`} >
+      <div className={`relative h-14 w-[50%] lg1:w-[60%] rounded-3px`} >
         <img
           src="/images/icons/search.svg"
           alt="search"
@@ -16,7 +16,7 @@ function SearchForm({ placeholderKey ,width, ...props }) {
         <input
           type="text"
           placeholder={t(placeholderKey)}
-          className="w-full h-14 pl-5  pr-10 border border-[#C8C8C8] rounded-[3px] text-[#364152] placeholder-[#9AA4B2] focus:outline-none"
+          className="w-full h-14 pl-5  pr-10 border border-[#C8C8C8] rounded-3px text-[#364152] placeholder-[#9AA4B2] focus:outline-none"
           {...props}
         />
       </div>

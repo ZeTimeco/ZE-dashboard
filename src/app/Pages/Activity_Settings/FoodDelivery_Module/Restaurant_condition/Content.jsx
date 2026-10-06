@@ -77,7 +77,7 @@ function Content({ getResturantStatus }) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div
-                  className={`flex h-11 w-11 items-center justify-center rounded-[3px] transition-all duration-200 ${
+                  className={`flex h-11 w-11 items-center justify-center rounded-3px transition-all duration-200 ${
                     selectedStatus === item.key ? "bg-white" : item.iconBg
                   }`}
                 >

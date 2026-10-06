@@ -14,7 +14,7 @@ function ReportsPage() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
-      className='border border-[#E3E8EF] rounded-[3px] mb-4 bg-white shadow-2xs overflow-hidden'
+      className='border border-[#E3E8EF] rounded-3px mb-4 bg-white shadow-2xs overflow-hidden'
     >
       <div>
         <Header/>

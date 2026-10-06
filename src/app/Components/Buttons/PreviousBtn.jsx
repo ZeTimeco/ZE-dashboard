@@ -13,10 +13,10 @@ function PreviousBtn({onClick,className,path}) {
         className={`
           h-15 
           px-4 py-2.5 
-          bg-[#fff] text-[#C69815]
-          border border-[#C69815] 
+          bg-white text-primary
+          border border-primary 
           text-base font-medium
-          rounded-[3px] 
+          rounded-3px 
           ${className}
         `}
         >

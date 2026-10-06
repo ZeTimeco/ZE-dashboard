@@ -75,18 +75,18 @@ function ServiceCard({ service, index = 0 }) {
         onClick={handleClickOpen}
         className='bg-white shadow-[0_1px_4px_0_rgba(0,0,0,0.08)] hover:shadow-[0_4px_16px_0_rgba(0,0,0,0.12)] border border-transparent hover:border-[#F2DCA0] px-3 py-3.5 rounded-[4px] cursor-pointer transition-all duration-200 group'
       >
-        <div className="relative mb-4 overflow-hidden rounded-[3px]">
+        <div className="relative mb-4 overflow-hidden rounded-3px">
           <img
             src={`${IMAGE_BASE_URL}${service?.image}`}
             alt=""
-            className="w-full h-43.5 object-cover rounded-[3px] transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-43.5 object-cover rounded-3px transition-transform duration-300 group-hover:scale-105"
           />
           <div className="absolute top-2.5 left-3.5 px-1 py-1">
             {StatusRender(service?.status)}
           </div>
         </div>
 
-        <p className='text-[#364152] text-base font-medium cursor-pointer line-clamp-1 group-hover:text-[var(--color-primary)] transition-colors'>
+        <p className='text-[#364152] text-base font-medium cursor-pointer line-clamp-1 group-hover:text-primary transition-colors'>
           {service?.category?.title}
         </p>
 
@@ -94,13 +94,13 @@ function ServiceCard({ service, index = 0 }) {
         {service?.price_on_inspection === true ? (
           <div className='flex gap-1.5 w-full col-span-2 mt-4 items-center'>
             <img src="/images/icons/price.svg" alt="" />
-            <p className='text-[#C69815] text-base font-medium'>{t('Price upon viewing')}</p>
+            <p className='text-primary text-base font-medium'>{t('Price upon viewing')}</p>
           </div>
         ) : (
           <div className='grid grid-cols-2 mt-4 w-full items-center'>
             <div className='flex gap-1.5 w-full items-center'>
               <img src="/images/icons/price.svg" alt="" />
-              <p className='text-[#C69815] text-lg font-medium'>{service?.sale_price}{t('Pound')}</p>
+              <p className='text-primary text-lg font-medium'>{service?.sale_price}{t('Pound')}</p>
             </div>
             {/* sale price */}
             {service?.sale_price && Number(service.sale_price) !== 0 && Number(service.price) !== 0 && (
@@ -120,7 +120,7 @@ function ServiceCard({ service, index = 0 }) {
             <img src="/images/icons/Revenues.svg" alt="" className='w-6 h-6' />
             <p className='text-sm font-normal'>
               <span className='text-[#697586] ml-1'>{t('Revenues')}</span>
-              <span className='text-[#C69815] font-medium'> {service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price} {t('Pound')}</span>
+              <span className='text-primary font-medium'> {service?.bookings_sum_price == null ? '0' : service?.bookings_sum_price} {t('Pound')}</span>
             </p>
           </div>
           
@@ -135,7 +135,7 @@ function ServiceCard({ service, index = 0 }) {
             <img src="/images/icons/Available areas.svg" alt="" className='w-6 h-6' />
             <p className='text-sm font-normal'>
               <span className='text-[#697586]'>{t('areas')}</span>
-              <span className='text-[#C69815] font-medium'>
+              <span className='text-primary font-medium'>
                 ({service?.areas?.length || 0}+)
               </span>
             </p>

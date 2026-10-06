@@ -21,7 +21,7 @@ function BasicInformation({formData , setFormData , getRestaurantType, currentLa
     
   
   return (
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.2)] rounded-[3px] p-6'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.2)] rounded-3px p-6'>
       <p className='text-[#364152] text-base font-normal'>{t('Basic Information')}</p>
       
       <div className= 'grid grid-cols-3 gap-4 mt-4'>
@@ -43,7 +43,7 @@ function BasicInformation({formData , setFormData , getRestaurantType, currentLa
               }
             }))}
             placeholder={t('Restaurant name')}
-            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-3px outline-none `}
           />
         </div>
 
@@ -56,7 +56,7 @@ function BasicInformation({formData , setFormData , getRestaurantType, currentLa
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative h-14 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer"
+            className="relative h-14 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-3px cursor-pointer"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -80,7 +80,7 @@ function BasicInformation({formData , setFormData , getRestaurantType, currentLa
           </div>
 
           {open1 && (
-            <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+            <ul className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
               {option1
                 ?.filter((opt) =>
                   opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
@@ -127,7 +127,7 @@ function BasicInformation({formData , setFormData , getRestaurantType, currentLa
               }
             }))}
             placeholder={t('Branch name')}
-            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-[3px] outline-none `}
+            className={`w-full h-14  p-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152]  rounded-3px outline-none `}
           />
         </div>
 

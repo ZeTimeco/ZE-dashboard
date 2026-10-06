@@ -77,7 +77,7 @@ function SoundAndVibration({formData , setFormData}) {
 
   return (
     <>
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
 
       <p className='flex flex-col gap-1'>
         <span className='text-[#364152] text-base font-medium'>{t('Sound and vibration')}</span>
@@ -85,10 +85,10 @@ function SoundAndVibration({formData , setFormData}) {
       </p>
 
       {/* Activate sound  */}
-      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-3px mt-4 p-4'>
         <div className='flex gap-2'>
           <div className='flex items-center'>
-            <p className='bg-[#F4EAD0] w-8 h-8 flex justify-center items-center rounded-[3px]' >
+            <p className='bg-[#F4EAD0] w-8 h-8 flex justify-center items-center rounded-3px' >
               <img src="/images/icons/volume-high-yellow.svg" className="w-5 h-5" />
             </p>
           </div>
@@ -134,9 +134,9 @@ function SoundAndVibration({formData , setFormData}) {
                     notification_sound_type: option.id,
                   }))
                 }
-                className={`h-10 rounded-[3px] border text-sm font-normal transition-colors cursor-pointer
+                className={`h-10 rounded-3px border text-sm font-normal transition-colors cursor-pointer
                   ${isActive
-                      ? "border-[var(--color-primary)] bg-[#FFFBEB] text-[var(--color-primary)]"
+                      ? "border-primary bg-[#FFFBEB] text-primary"
                       : "border-[#CDD5DF] bg-[#F8FAFC] text-[#4B5565] hover:bg-[#F1F5F9]"
                   }
                 `}
@@ -151,10 +151,10 @@ function SoundAndVibration({formData , setFormData}) {
 
 
       {/*Activate vibration  */}
-      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-3px mt-4 p-4'>
         <div className='flex gap-2'>
           <div className='flex items-center'>
-            <p className='bg-[#EEF2F6] w-8 h-8 flex justify-center items-center rounded-[3px]' >
+            <p className='bg-[#EEF2F6] w-8 h-8 flex justify-center items-center rounded-3px' >
               <img src="/images/icons/smart-phone-gray2.svg" className="w-5 h-5" />
             </p>
           </div>

@@ -94,7 +94,7 @@ function Navbar({ onMenuClick }) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.15 }}
-                className="w-10 h-10 border border-[#CDD5DF] hover:border-[#94A3B8] hover:bg-slate-50 rounded-[4px] flex items-center justify-center cursor-pointer transition-colors"
+                className="w-10 h-10 border border-[#CDD5DF] hover:border-[#94A3B8] hover:bg-slate-50 rounded-3px flex items-center justify-center cursor-pointer transition-colors"
                 onClick={() => setOpen(!open)}
                 aria-label="Language selector"
               >
@@ -113,14 +113,14 @@ function Navbar({ onMenuClick }) {
                     <motion.li
                       whileHover={{ x: 3 }}
                       onClick={() => handleLangChange("en")}
-                      className="px-4 py-2 text-sm text-slate-700 hover:bg-amber-50 hover:text-[var(--color-primary)] cursor-pointer flex items-center gap-2 transition-colors font-medium"
+                      className="px-4 py-2 text-sm text-slate-700 hover:bg-amber-50 hover:text-primary cursor-pointer flex items-center gap-2 transition-colors font-medium"
                     >
                       <span>🇬🇧</span> English
                     </motion.li>
                     <motion.li
                       whileHover={{ x: 3 }}
                       onClick={() => handleLangChange("ar")}
-                      className="px-4 py-2 text-sm text-slate-700 hover:bg-amber-50 hover:text-[var(--color-primary)] cursor-pointer flex items-center gap-2 transition-colors font-medium"
+                      className="px-4 py-2 text-sm text-slate-700 hover:bg-amber-50 hover:text-primary cursor-pointer flex items-center gap-2 transition-colors font-medium"
                     >
                       <span>🇸🇦</span> العربية
                     </motion.li>
@@ -134,7 +134,7 @@ function Navbar({ onMenuClick }) {
               whileHover={{ scale: 1.05, rotate: 8 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.15 }}
-              className="w-10 h-10 border border-[#CDD5DF] hover:border-[#94A3B8] hover:bg-slate-50 rounded-[4px] flex items-center justify-center cursor-pointer transition-colors"
+              className="w-10 h-10 border border-[#CDD5DF] hover:border-[#94A3B8] hover:bg-slate-50 rounded-3px flex items-center justify-center cursor-pointer transition-colors"
               aria-label="Notifications"
             >
               <img src="/images/icons/notification.svg" alt="Notification" className="w-5 h-5" />
@@ -169,7 +169,7 @@ function Navbar({ onMenuClick }) {
                 ) : (
                   <motion.div 
                     whileHover={{ scale: 1.05 }}
-                    className="w-10 h-10 rounded-full bg-amber-100 text-[var(--color-primary)] flex items-center justify-center font-bold text-sm border border-amber-200 cursor-pointer shadow-2xs"
+                    className="w-10 h-10 rounded-full bg-amber-100 text-primary flex items-center justify-center font-bold text-sm border border-amber-200 cursor-pointer shadow-2xs"
                   >
                     {user?.firstname ? user.firstname.charAt(0).toUpperCase() : 'Z'}
                   </motion.div>

@@ -169,15 +169,15 @@ function ServiceToggle({ openServiceToggle, setOpenServiceToggle }) {
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className="h-10 px-3.5 flex items-center justify-between gap-2.5 bg-white border border-[var(--color-primary)] hover:bg-amber-50/40 rounded-[4px] cursor-pointer shadow-2xs transition-colors"
+        className="h-10 px-3.5 flex items-center justify-between gap-2.5 bg-white border border-primary hover:bg-amber-50/40 rounded-3px cursor-pointer shadow-2xs transition-colors"
       >
-        <span className="text-[var(--color-primary)] text-sm font-medium whitespace-nowrap">
+        <span className="text-primary text-sm font-medium whitespace-nowrap">
           {buttonLabel}
         </span>
         <motion.svg
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
-          className="w-3.5 h-3.5 text-[var(--color-primary)] shrink-0"
+          className="w-3.5 h-3.5 text-primary shrink-0"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -201,7 +201,7 @@ function ServiceToggle({ openServiceToggle, setOpenServiceToggle }) {
           >
             {loadingDetails && (!getmodules || getmodules.length === 0) ? (
               <div className="p-4 flex items-center justify-center gap-2 text-slate-400 text-sm">
-                <svg className="animate-spin h-4 w-4 text-[var(--color-primary)]" viewBox="0 0 24 24">
+                <svg className="animate-spin h-4 w-4 text-primary" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
@@ -254,13 +254,13 @@ function ServiceToggle({ openServiceToggle, setOpenServiceToggle }) {
                       {/* End: Checkmark or Spinner */}
                       <div className="shrink-0 flex items-center justify-center w-5 h-5">
                         {isSwitching ? (
-                          <svg className="animate-spin h-3.5 w-3.5 text-[var(--color-primary)]" viewBox="0 0 24 24">
+                          <svg className="animate-spin h-3.5 w-3.5 text-primary" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                           </svg>
                         ) : isSelected ? (
                           <svg
-                            className="w-4 h-4 text-[var(--color-primary)] stroke-[2.5]"
+                            className="w-4 h-4 text-primary stroke-[2.5]"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"

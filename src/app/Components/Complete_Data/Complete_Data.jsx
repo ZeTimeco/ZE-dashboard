@@ -38,7 +38,7 @@ function Complete_Data({setNationalId}) {
       <div className='px-6 mb-6'>
         <button 
           onClick={handleCompleteData}
-          className='flex justify-center  bg-[var(--color-primary)] text-white px-4 py-2.5 h-14 w-full rounded-[3px] cursor-pointer'>
+          className='flex justify-center  bg-primary text-white px-4 py-2.5 h-14 w-full rounded-3px cursor-pointer'>
           <p className='text-base flex items-center'>{t("Complete your data")} </p>
         </button>
       </div>

@@ -115,7 +115,7 @@ const handleConfirm = async () => {
           {t("select location")}
         </h3>
 
-        <div className="relative w-full h-[400px] border border-[#CDD5DF] rounded-[3px] overflow-hidden">
+        <div className="relative w-full h-[400px] border border-[#CDD5DF] rounded-3px overflow-hidden">
           <MapContainer
             center={mapPosition}
             zoom={13}
@@ -135,14 +135,14 @@ const handleConfirm = async () => {
         <div className="flex justify-end mt-4 gap-2">
           <button
             onClick={handleClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-[3px] transition-colors cursor-pointer"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-3px transition-colors cursor-pointer"
           >
             {t("cancel")}
           </button>
 
           <button
             onClick={handleConfirm}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-[3px] transition-colors cursor-pointer"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-3px transition-colors cursor-pointer"
           >
             {t("confirmation")}
           </button>

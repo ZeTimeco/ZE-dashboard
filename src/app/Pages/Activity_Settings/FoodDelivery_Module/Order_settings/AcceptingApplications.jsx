@@ -15,7 +15,7 @@ function AcceptingApplications({formData , setFormData}) {
   };
 
   return (
-    <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px] flex flex-col gap-4">
+    <div className="shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px flex flex-col gap-4">
       {/* Header */}
       <div className="">
 
@@ -38,7 +38,7 @@ function AcceptingApplications({formData , setFormData}) {
                 ...prev,
                 order_acceptance_mode:'auto'
               }))}
-          className={`flex gap-4 border rounded-[3px] py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("auto")}`}
+          className={`flex gap-4 border rounded-3px py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("auto")}`}
         >
           <div className="flex items-center">
             <input
@@ -71,7 +71,7 @@ function AcceptingApplications({formData , setFormData}) {
                 ...prev,
                 order_acceptance_mode:'manual'
               }))}
-          className={`flex gap-4 border rounded-[3px] py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("manual")}`}
+          className={`flex gap-4 border rounded-3px py-2 px-3 w-full cursor-pointer transition-all duration-200 ${getCardStyle("manual")}`}
         >
           <div className="flex items-center">
             <input

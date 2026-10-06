@@ -1,0 +1,470 @@
+{
+    "info": {
+        "name": "ZeTime",
+        "description": "",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Provider",
+            "description": "",
+            "item": [
+                {
+                    "name": "Chat",
+                    "description": "",
+                    "item": [
+                        {
+                            "name": "Update Typing Status",
+                            "description": "",
+                            "event": [],
+                            "auth": {},
+                            "request": {
+                                "auth": {},
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"conversation_id\":1,\r\n    \"is_typing\":true\r\n\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{Auth}}",
+                                        "description": "",
+                                        "type": "string"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/provider/typing-status",
+                                    "path": [
+                                        "provider",
+                                        "typing-status"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {
+                                "strictSSL": false,
+                                "followRedirects": true
+                            }
+                        },
+                        {
+                            "name": "Send Message",
+                            "description": "",
+                            "event": [],
+                            "auth": {},
+                            "request": {
+                                "auth": {
+                                    "type": "noauth",
+                                    "noauth": []
+                                },
+                                "method": "POST",
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "conversation_id",
+                                            "value": "1",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "message",
+                                            "value": "Hello, I need help with my booking.",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "attachment",
+                                            "type": "file"
+                                        }
+                                    ]
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{Auth}}",
+                                        "description": "",
+                                        "type": "string"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/provider/sendMessage",
+                                    "path": [
+                                        "provider",
+                                        "sendMessage"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Success",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [
+                                            {
+                                                "key": "Authorization",
+                                                "value": "Bearer {{Auth}}",
+                                                "description": "",
+                                                "disabled": false
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/provider/sendMessage",
+                                            "path": [
+                                                "provider",
+                                                "sendMessage"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "body": {
+                                            "mode": "formdata",
+                                            "formdata": [
+                                                {
+                                                    "key": "conversation_id",
+                                                    "value": "1",
+                                                    "type": "text",
+                                                    "disabled": false
+                                                },
+                                                {
+                                                    "key": "message",
+                                                    "value": "Hello, I need help with my booking.",
+                                                    "type": "text",
+                                                    "disabled": false
+                                                },
+                                                {
+                                                    "key": "attachment",
+                                                    "type": "text",
+                                                    "disabled": true
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "cookie": []
+                                }
+                            ],
+                            "protocolProfileBehavior": {
+                                "strictSSL": false,
+                                "followRedirects": true
+                            }
+                        },
+                        {
+                            "name": "getChats",
+                            "description": "",
+                            "event": [],
+                            "auth": {},
+                            "request": {
+                                "auth": {
+                                    "type": "noauth",
+                                    "noauth": []
+                                },
+                                "method": "GET",
+                                "body": {},
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "bearer {{Auth}}",
+                                        "description": "",
+                                        "type": "string"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/provider/getChats",
+                                    "path": [
+                                        "provider",
+                                        "getChats"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Success",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Authorization",
+                                                "value": "bearer {{Auth}}",
+                                                "description": "",
+                                                "disabled": false
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/provider/getChats",
+                                            "path": [
+                                                "provider",
+                                                "getChats"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "body": {}
+                                    },
+                                    "cookie": []
+                                }
+                            ],
+                            "protocolProfileBehavior": {
+                                "strictSSL": false,
+                                "followRedirects": true
+                            }
+                        },
+                        {
+                            "name": "fetchChat",
+                            "description": "",
+                            "event": [],
+                            "auth": {},
+                            "request": {
+                                "auth": {
+                                    "type": "noauth",
+                                    "noauth": []
+                                },
+                                "method": "GET",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\r\n    \"conversation_id\":37\r\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "bearer {{Auth}}",
+                                        "description": "",
+                                        "type": "string"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/provider/fetchChat",
+                                    "path": [
+                                        "provider",
+                                        "fetchChat"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                }
+                            },
+                            "response": [
+                                {
+                                    "name": "Success",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Authorization",
+                                                "value": "bearer {{Auth}}",
+                                                "description": "",
+                                                "disabled": false
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/provider/fetchChat",
+                                            "path": [
+                                                "provider",
+                                                "fetchChat"
+                                            ],
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "query": [],
+                                            "variable": []
+                                        },
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\r\n    \"conversation_id\":1\r\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "language": "json"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "cookie": []
+                                }
+                            ],
+                            "protocolProfileBehavior": {
+                                "strictSSL": false,
+                                "followRedirects": true
+                            }
+                        },
+                        {
+                            "name": "Create new conversation ",
+                            "description": "",
+                            "event": [],
+                            "auth": {},
+                            "request": {
+                                "auth": {
+                                    "type": "noauth",
+                                    "noauth": []
+                                },
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"user_id\": 2,\n    \"message\": \"pleasse check the service quality\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{Auth}}",
+                                        "description": "",
+                                        "type": "string"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/provider/conversations/create",
+                                    "path": [
+                                        "provider",
+                                        "conversations",
+                                        "create"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {
+                                "strictSSL": false,
+                                "followRedirects": true
+                            }
+                        },
+                        {
+                            "name": "Delete Chat",
+                            "description": "",
+                            "event": [],
+                            "auth": {},
+                            "request": {
+                                "auth": {},
+                                "method": "GET",
+                                "body": {},
+                                "header": [
+                                    {
+                                        "key": "Authorization",
+                                        "value": "bearer {{Auth}}",
+                                        "description": "",
+                                        "type": "string"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/delete-chat/34",
+                                    "path": [
+                                        "delete-chat",
+                                        "34"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                }
+                            },
+                            "response": [],
+                            "protocolProfileBehavior": {
+                                "strictSSL": false,
+                                "followRedirects": true
+                            }
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "prerequest",
+                            "script": {
+                                "exec": [],
+                                "type": "text/javascript",
+                                "packages": {}
+                            }
+                        },
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [],
+                                "type": "text/javascript",
+                                "packages": {}
+                            }
+                        }
+                    ],
+                    "auth": {}
+                }
+            ],
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "auth": {}
+        }
+    ],
+    "variable": [],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "exec": [
+                    ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "exec": [
+                    ""
+                ],
+                "type": "text/javascript",
+                "packages": {}
+            }
+        }
+    ],
+    "auth": {}
+}

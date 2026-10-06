@@ -40,7 +40,7 @@ function AddPage() {
         <button
           type="button"
           onClick={() => router.back()}
-          className=" bg-[var(--color-primary)] rounded-[3px] w-8 h-8 flex justify-center items-center cursor-pointer"
+          className=" bg-primary rounded-3px w-8 h-8 flex justify-center items-center cursor-pointer"
         >
           <img src="/images/icons/arrow-right-go.svg" className="w-5 h-5" />
         </button>

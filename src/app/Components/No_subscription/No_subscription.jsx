@@ -27,7 +27,7 @@ function No_subscription({setHasSubscription}) {
       <hr className='border border-[#E4E4E7] w-full  mb-6' />
 
       <div className='px-6 mb-6'>
-        <button className='flex justify-center  bg-[var(--color-primary)] text-white px-4 py-2.5 h-14 w-full rounded-[3px] cursor-pointer'>
+        <button className='flex justify-center  bg-primary text-white px-4 py-2.5 h-14 w-full rounded-3px cursor-pointer'>
           <p className='text-base flex items-center'>{t("Subscribe")} </p>
         </button>
       </div>

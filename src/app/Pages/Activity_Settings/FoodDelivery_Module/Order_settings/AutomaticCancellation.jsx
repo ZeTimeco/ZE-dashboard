@@ -22,7 +22,7 @@ function AutomaticCancellation({formData , setFormData}) {
     
   
   return (
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
       <div className='flex gap-2'>
         <p >
           <img src="/images/icons/cancel-circle-redd.svg" className="w-5 h-5" />
@@ -39,13 +39,13 @@ function AutomaticCancellation({formData , setFormData}) {
         <button 
           type="button" 
           onClick={increaseMaxGuests} 
-          className="flex h-11 w-13 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer" 
+          className="flex h-11 w-13 items-center justify-center rounded-3px bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer" 
         > 
           + 
         </button> 
 
         {/* Number */} 
-        <span className="w-full h-11 bg-[#FEE4E2] flex items-center justify-center rounded-[3px] text-center text-[#364152] text-base font-medium"> 
+        <span className="w-full h-11 bg-[#FEE4E2] flex items-center justify-center rounded-3px text-center text-[#364152] text-base font-medium"> 
           {formData?.order_auto_cancel_after} {t('minute')}
         </span>
 
@@ -53,7 +53,7 @@ function AutomaticCancellation({formData , setFormData}) {
         <button 
           type="button" 
           onClick={decreaseMaxGuests} 
-          className="flex h-11 w-13 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-xl text-[#0F022E] cursor-pointer" 
+          className="flex h-11 w-13 items-center justify-center rounded-3px bg-[#EEF2F6] text-xl text-[#0F022E] cursor-pointer" 
         > 
           - 
         </button>

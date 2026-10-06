@@ -11,7 +11,7 @@ function RoleData({open , setOpen, roleId}) {
 
   const [openGroupId, setOpenGroupId] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
-  const [saveStatus, setSaveStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
+  const [saveStatus, setSaveStatus] = useState('idle');    // 'idle' | 'loading' | 'success' | 'error'
   const inputClassName = "w-5 h-5 appearance-none border border-gray-300 rounded-md bg-white cursor-pointer relative checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] after:absolute after:hidden checked:after:block checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:font-bold checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2";
 
   // console.log('roleId' , roleId);

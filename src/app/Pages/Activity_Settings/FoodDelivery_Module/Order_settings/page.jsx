@@ -78,7 +78,7 @@ function Order_settingsPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
-        className='border border-[#E3E8EF] rounded-[3px] mb-4 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
+        className='border border-[#E3E8EF] rounded-3px mb-4 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
       >
         <Header />
 

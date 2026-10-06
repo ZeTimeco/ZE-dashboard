@@ -82,7 +82,7 @@ function NotificationsPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: 'easeOut' }}
-        className='border border-[#E3E8EF] rounded-[3px] mb-4 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
+        className='border border-[#E3E8EF] rounded-3px mb-4 bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
       >
         <Header />
 
@@ -109,10 +109,10 @@ function NotificationsPage() {
             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             disabled={loading}
             onClick={handleSubmit}
-            className={`w-[25%] h-14 rounded-[3px] text-white transition-all duration-200 shadow-sm
+            className={`w-[25%] h-14 rounded-3px text-white transition-all duration-200 shadow-sm
               ${loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[var(--color-primary)] cursor-pointer hover:shadow-md"
+                : "bg-primary cursor-pointer hover:shadow-md"
               }`}
           >
             {loading ? t("Saving...") : t("Save changes")}

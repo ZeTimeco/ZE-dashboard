@@ -14,12 +14,12 @@ function FilterBtn({href , className , onClick}) {
         flex gap-4  
         justify-center items-center
         border h-14 w-37.5 
-        border-[#C69815] rounded-[3px]
+        border-primary rounded-3px
         cursor-pointer
         ${className}
         `}>
         <img src="/images/icons/FlterIcon.svg" alt=""  className='w-6 h-6'/>
-        <span className='text-[#C69815] text-base font-medium'>{t('filter')} </span>
+        <span className='text-primary text-base font-medium'>{t('filter')} </span>
       </button>
     {/* </Link> */}
 

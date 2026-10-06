@@ -21,14 +21,14 @@ function Header({ activeView, setActiveView }) {
         {activeView === 'rating_setting' ? (
           <button 
             onClick={() => setActiveView('review')} 
-            className="bg-[var(--color-primary)] rounded-3px w-10 h-10 flex justify-center items-center cursor-pointer"
+            className="bg-primary rounded-3px w-10 h-10 flex justify-center items-center cursor-pointer"
           >
             <img src="/images/icons/arrow-right-go.svg" className="w-5 h-5" alt="back" />
           </button>
         ) : (
           <button 
             onClick={() => setActiveView('rating_setting')} 
-            className='w-[20%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-3px cursor-pointer text-base font-medium'
+            className='w-[20%] h-14 border border-primary text-primary rounded-3px cursor-pointer text-base font-medium'
           >
             {t('Rating settings')}
           </button>

@@ -170,7 +170,7 @@ function DisabledSidebar({ isSidebarOpen, setIsSidebarOpen }) {
           </li>
 
           {/* Technical Support - ENABLED ✅ */}
-          <li className={`cursor-pointer rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-[#C69815] text-[#fff]" : ""}`}>
+          <li className={`cursor-pointer rounded ${pathname.startsWith("/Pages/technicalSupport") ? "bg-primary text-white" : ""}`}>
             <Link href="/Pages/technicalSupport" onClick={() => setIsSidebarOpen(false)}>
               {open ? (
                 <div className='flex gap-4 items-center py-4 px-2'>
@@ -179,7 +179,7 @@ function DisabledSidebar({ isSidebarOpen, setIsSidebarOpen }) {
                     alt="" 
                     className={pathname.startsWith("/Pages/technicalSupport") ? "invert" : ""} 
                   />
-                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/technicalSupport") ? "text-[#fff]" : "text-[#364152]"}`}>
+                  <p className={`text-base font-normal ${pathname.startsWith("/Pages/technicalSupport") ? "text-white" : "text-[#364152]"}`}>
                     {t('technical support')}
                   </p>
                 </div>

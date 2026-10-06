@@ -71,7 +71,7 @@ function DoNotDisturb({formData , setFormData}) {
   
   return (
     <>
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
 
       <p className='flex flex-col gap-1'>
         <span className='text-[#364152] text-base font-medium'>{t('Do not disturb')}</span>
@@ -79,10 +79,10 @@ function DoNotDisturb({formData , setFormData}) {
       </p>
 
       {/* Activate Do Not Disturb  */}
-      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-3px mt-4 p-4'>
         <div className='flex gap-2'>
           <div className='flex items-center'>
-            <p className='bg-[#EFF6FF] w-8 h-8 flex justify-center items-center rounded-[3px]' >
+            <p className='bg-[#EFF6FF] w-8 h-8 flex justify-center items-center rounded-3px' >
               <img src="/images/icons/Moon-babyBlue.svg" className="w-5 h-5" />
             </p>
           </div>
@@ -190,7 +190,7 @@ function DoNotDisturb({formData , setFormData}) {
 
 
       {/* note */}
-      <div className='border border-[#FEC84B] bg-[#FFFAEB] rounded-[3px] p-2 mt-4'>
+      <div className='border border-[#FEC84B] bg-[#FFFAEB] rounded-3px p-2 mt-4'>
         <p className='text-[#F79009] text-base font-normal'>
           {t('Critical (new) orders will still reach you even in Do Not Disturb mode')}
         </p>

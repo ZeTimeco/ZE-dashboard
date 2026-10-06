@@ -22,7 +22,7 @@ function Location({formData , setFormData}) {
             readOnly
             value={formData?.address || ""}
             placeholder={t("Restaurant address")}
-            className="w-full h-15 pl-10 pr-4 py-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-[3px] outline-none cursor-pointer"
+            className="w-full h-15 pl-10 pr-4 py-3 border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] text-sm text-[#364152] rounded-3px3px outline-none cursor-pointer"
           />
 
           
@@ -31,7 +31,7 @@ function Location({formData , setFormData}) {
         <button
           type="button"
           onClick={() => setOpenMap(true)}
-          className="mt-3 flex justify-center items-center gap-2 w-full h-12 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-[3px] cursor-pointer"
+          className="mt-3 flex justify-center items-center gap-2 w-full h-12 text-primary border border-primary rounded-3px cursor-pointer"
         >
           <img
             src="/images/icons/location.svg"

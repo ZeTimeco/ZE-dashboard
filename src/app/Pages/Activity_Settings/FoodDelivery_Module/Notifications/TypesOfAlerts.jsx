@@ -65,7 +65,7 @@ function TypesOfAlerts({formData , setFormData}) {
 
   return (
     <>
-    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-[3px]'>
+    <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px'>
 
       <p className='flex flex-col gap-1'>
         <span className='text-[#364152] text-base font-medium'>{t('Types of alerts')}</span>
@@ -73,10 +73,10 @@ function TypesOfAlerts({formData , setFormData}) {
       </p>
 
       {/* New orders  */}
-      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-3px mt-4 p-4'>
         <div className='flex gap-2'>
           <div className='flex items-center'>
-            <p className='bg-[#FEE4E2] w-8 h-8 flex justify-center items-center rounded-[3px]' >
+            <p className='bg-[#FEE4E2] w-8 h-8 flex justify-center items-center rounded-3px' >
               <img src="/images/icons/notification_red.svg" className="w-5 h-5" />
             </p>
           </div>
@@ -104,16 +104,16 @@ function TypesOfAlerts({formData , setFormData}) {
       </div>
 
       {/* note */}
-      <div className='border border-[#FDA29B] bg-[#FEF3F2] rounded-[3px] flex justify-center gap-2 my-4 p-3'>
+      <div className='border border-[#FDA29B] bg-[#FEF3F2] rounded-3px flex justify-center gap-2 my-4 p-3'>
         <img src="/images/icons/alert-red.svg" alt="" />
         <p className='text-[#F04438] text-base font-normal'>{t('Make sure to enable new order alerts to avoid missing any orders.')}</p>
       </div>
 
       {/* Order status updates  */}
-      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-3px mt-4 p-4'>
         <div className='flex gap-2'>
           <div className='flex items-center'>
-            <p className='bg-[#EDE7FD] w-8 h-8 flex justify-center items-center rounded-[3px]' >
+            <p className='bg-[#EDE7FD] w-8 h-8 flex justify-center items-center rounded-3px' >
               <img src="/images/icons/square-blue.svg" className="w-5 h-5" />
             </p>
           </div>
@@ -140,10 +140,10 @@ function TypesOfAlerts({formData , setFormData}) {
       </div>
 
       {/* Delivery problems */}
-      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-3px mt-4 p-4'>
         <div className='flex gap-2'>
           <div className='flex items-center'>
-            <p className='bg-[#FEF0C7] w-8 h-8 flex justify-center items-center rounded-[3px]' >
+            <p className='bg-[#FEF0C7] w-8 h-8 flex justify-center items-center rounded-3px' >
               <img src="/images/icons/delivery-truck-yellow.svg" className="w-5 h-5" />
             </p>
           </div>
@@ -171,10 +171,10 @@ function TypesOfAlerts({formData , setFormData}) {
       </div>
 
       {/* Customer messages  */}
-      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-[3px] mt-4 p-4'>
+      <div className='flex justify-between border border-[#CDD5DF] bg-[white] rounded-3px mt-4 p-4'>
         <div className='flex gap-2'>
           <div className='flex items-center'>
-            <p className='bg-[#DCFAE6] w-8 h-8 flex justify-center items-center rounded-[3px]' >
+            <p className='bg-[#DCFAE6] w-8 h-8 flex justify-center items-center rounded-3px' >
               <img src="/images/icons/comment-green.svg" className="w-5 h-5" />
             </p>
           </div>

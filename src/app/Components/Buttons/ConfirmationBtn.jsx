@@ -13,7 +13,7 @@ function ConfirmationBtn({ onClick, path, className, loading = false, disabled =
       disabled={disabled || loading}
       className={`
         h-15 px-4 py-2.5 
-        bg-primary text-[#fff] 
+        bg-primary text-white
         text-base font-medium
         rounded-3px
         flex items-center justify-center gap-2
