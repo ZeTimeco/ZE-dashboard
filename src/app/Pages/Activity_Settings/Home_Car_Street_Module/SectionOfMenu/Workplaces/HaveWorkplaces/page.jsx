@@ -54,7 +54,7 @@ function HaveWorkplacesPage({Workplaces}) {
           whileHover={{ scale: 1.02, filter: 'brightness(1.05)' }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setOpenMap(true)}
-          className='flex items-center justify-center gap-2 w-full sm:w-[50%] lg1:w-[30%] h-14 bg-[var(--color-primary)] text-white rounded-[4px] cursor-pointer my-6 font-semibold shadow-xs transition-all'
+          className='flex items-center justify-center gap-2 w-full sm:w-[50%] lg1:w-[30%] h-14 bg-primary text-white rounded-3px cursor-pointer my-6 font-semibold shadow-xs transition-all'
         >
           <span>{t('Add a place')}</span>
           <img src="/images/icons/AddIcon.svg" alt="" className='w-5 h-5'/>

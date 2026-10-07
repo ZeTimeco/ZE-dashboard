@@ -250,7 +250,7 @@ function DayAndTime() {
         whileTap={!isSaving ? { scale: 0.98 } : {}}
         onClick={handleSave}
         disabled={isSaving}
-        className={`bg-[var(--color-primary)] text-white w-full sm:w-[30%] h-14 rounded-[4px] font-medium shadow-xs transition-all mt-4 flex items-center justify-center gap-2 ${
+        className={`bg-primary text-white w-full sm:w-[30%] h-14 rounded-3px font-medium shadow-xs transition-all mt-4 flex items-center justify-center gap-2 ${
           isSaving ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
         }`}
       >

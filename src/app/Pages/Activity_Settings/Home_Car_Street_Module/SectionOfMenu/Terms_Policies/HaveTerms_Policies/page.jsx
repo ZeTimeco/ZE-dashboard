@@ -54,7 +54,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies = [] ,loading
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.06 }}
               whileHover={{ y: -3, boxShadow: "0 4px 16px rgba(0,0,0,0.12)" }}
-              className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] bg-white rounded-[3px] transition-all duration-200 flex flex-col justify-between'
+              className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] bg-white rounded-3px transition-all duration-200 flex flex-col justify-between'
             >
               <div className='p-4 flex flex-col h-full justify-between'>
                 <div>
@@ -73,7 +73,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies = [] ,loading
                     whileHover={{ scale: 1.02, filter: 'brightness(1.05)' }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => onEditClick(policy)} 
-                    className='bg-[var(--color-primary)] text-white w-full h-12 lg1:h-14 rounded-[3px] cursor-pointer font-medium shadow-xs transition-all'
+                    className='bg-primary text-white w-full h-12 lg1:h-14 rounded-3px cursor-pointer font-medium shadow-xs transition-all'
                   >
                     {t('modification')}
                   </motion.button>
@@ -84,7 +84,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies = [] ,loading
                       setSelectedPolicyId(policy?.id)
                       setOpenDelete(true)
                     }}
-                    className='border border-[#DA5305] text-[#DA5305] w-full h-12 lg1:h-14 rounded-[3px] cursor-pointer font-medium transition-all'
+                    className='border border-[#DA5305] text-[#DA5305] w-full h-12 lg1:h-14 rounded-3px cursor-pointer font-medium transition-all'
                   >
                     {t('delete')}
                   </motion.button>
@@ -98,7 +98,7 @@ function HaveTerms_PoliciesPage({onAddClick, onEditClick ,policies = [] ,loading
           whileHover={{ scale: 1.02, filter: 'brightness(1.05)' }}
           whileTap={{ scale: 0.98 }}
           onClick={onAddClick}
-          className='mt-10 bg-[var(--color-primary)] rounded-[3px] cursor-pointer text-white flex items-center justify-center gap-2 lg1:w-[35%] w-[50%] h-14 font-semibold shadow-xs transition-all'
+          className='mt-10 bg-primary rounded-3px cursor-pointer text-white flex items-center justify-center gap-2 lg1:w-[35%] w-[50%] h-14 font-semibold shadow-xs transition-all'
         >
           <span className='text-base font-semibold'>{t('Add policy')}</span>
           <img src="/images/icons/AddIcon.svg" alt="" className="w-5 h-5" />

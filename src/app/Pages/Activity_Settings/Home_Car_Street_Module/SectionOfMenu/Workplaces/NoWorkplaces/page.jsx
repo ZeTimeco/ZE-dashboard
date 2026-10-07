@@ -15,7 +15,7 @@ function NoWorkplacesPage() {
         <p className='text-[#0F022E] text-xl font-medium'>{t('She hasnot added any space yet.')}</p>
         <button 
           onClick={() => setOpenMap(true)}
-          className='flex items-center justify-center gap-2 w-[30%] h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer my-6'
+          className='flex items-center justify-center gap-2 w-[30%] h-14 bg-primary text-white rounded-3px cursor-pointer my-6'
         >
           <span>{t('Add a place')}</span>
           <img src="/images/icons/AddIcon.svg" alt="" className='w-6 h-6'/>

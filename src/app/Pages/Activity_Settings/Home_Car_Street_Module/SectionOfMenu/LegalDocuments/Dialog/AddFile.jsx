@@ -61,7 +61,7 @@ function AddFile({open , setOpen, docKey}) {
       </section>
 
       <section className="mt-1 px-6 flex flex-col items-center gap-2 mb-8">
-        <p className="text-[var(--color-primary)] text-2xl font-medium ">{t("Add a new document")}</p>
+        <p className="text-primary text-2xl font-medium ">{t("Add a new document")}</p>
         <p className="text-[#4B5565] text-base font-normal ">
           {t("Please upload the required document and specify its expiry date.")}
         </p>
@@ -78,17 +78,17 @@ function AddFile({open , setOpen, docKey}) {
         />
 
         {!selectedFile ? (
-          <div className='p-3 flex flex-col items-center gap-3 border-2 border-dashed border-[#CDD5DF] rounded-[3px]'>
+          <div className='p-3 flex flex-col items-center gap-3 border-2 border-dashed border-[#CDD5DF] rounded-3px'>
             <img src="/images/uploadd.svg" alt="" />
             <p className='text-[#1F055C] text-base font-normal'>{t('Click to upload the file')}</p>
             <button 
               onClick={handleButtonClick}
-              className='w-[30%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] px-4 cursor-pointer'>
+              className='w-[30%] h-14 border border-primary text-primary rounded-3px px-4 cursor-pointer'>
               {t('Upload file')}
             </button>
           </div>
         ) : (
-          <div className='p-3 border border-[#CDD5DF] rounded-[3px] flex items-center justify-between bg-white'>
+          <div className='p-3 border border-[#CDD5DF] rounded-3px flex items-center justify-between bg-white'>
             <div className='flex items-center gap-3'>
                 <div className="relative w-12 h-12 flex items-center justify-center">
                   <img src="/images/filephoto.svg" className="w-12 h-12" />
@@ -147,10 +147,10 @@ function AddFile({open , setOpen, docKey}) {
 
       <section className='w-full flex gap-3 px-6 py-4'>
         <button   onClick={handleUpload}
-        className={`${selectedFile && expiryDate ? 'bg-[var(--color-primary)] text-white' : 'bg-[#E3E8EF] text-[#9AA4B2]'} w-full h-14 rounded-[3px] cursor-pointer`}>{t('save')}</button>
+        className={`${selectedFile && expiryDate ? 'bg-primary text-white' : 'bg-[#E3E8EF] text-[#9AA4B2]'} w-full h-14 rounded-3px cursor-pointer`}>{t('save')}</button>
         <button
           onClick={()=>setOpen(false)}
-          className='border border-[var(--color-primary)] text-[var(--color-primary)] w-full h-14 rounded-[3px] cursor-pointer '>{t('cancel')}</button>
+          className='border border-primary text-primary w-full h-14 rounded-3px cursor-pointer '>{t('cancel')}</button>
       </section>
 
   </Dialog>

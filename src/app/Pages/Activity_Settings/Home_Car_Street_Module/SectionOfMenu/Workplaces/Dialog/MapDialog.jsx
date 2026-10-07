@@ -125,10 +125,10 @@ export default function MapDialog({ open, handleClose }) {
         )}
 
         <div className="flex justify-end mt-4 gap-2">
-          <button onClick={handleClose} disabled={loading} className="px-4 py-2 bg-gray-300 rounded-[3px] cursor-pointer disabled:opacity-50">
+          <button onClick={handleClose} disabled={loading} className="px-4 py-2 bg-gray-300 rounded-3px cursor-pointer disabled:opacity-50">
             إلغاء
           </button>
-          <button onClick={handleConfirm} disabled={loading} className="px-4 py-2 bg-blue-600 text-white rounded-[3px] cursor-pointer disabled:opacity-50">
+          <button onClick={handleConfirm} disabled={loading} className="px-4 py-2 bg-blue-600 text-white rounded-3px cursor-pointer disabled:opacity-50">
             {loading ? "جاري الحفظ..." : "تأكيد الموقع"}
           </button>
         </div>

@@ -128,7 +128,7 @@ function Files({documents}) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: index * 0.05 }}
               whileHover={{ y: -2, boxShadow: "0 4px 12px rgba(0,0,0,0.04)" }}
-              className='flex justify-between items-center border border-[#CDD5DF] rounded-[3px] p-4 w-full bg-white transition-all duration-200'
+              className='flex justify-between items-center border border-[#CDD5DF] rounded-3px p-4 w-full bg-white transition-all duration-200'
             >
               <div className='flex items-center gap-3.5 w-[50%]'>
                 <div className="shrink-0">

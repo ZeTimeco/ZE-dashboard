@@ -47,8 +47,8 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
             key={item.id}
             className={`relative flex w-full items-center justify-center gap-2 px-1 lg1:px-4 py-3 cursor-pointer whitespace-nowrap text-sm font-medium transition-colors ${
               isSelected
-                ? 'text-[var(--color-primary)] font-semibold'
-                : 'text-[#364152] hover:text-[var(--color-primary)]'
+                ? 'text-primary font-semibold'
+                : 'text-[#364152] hover:text-primary'
             }`}
             onClick={() => setSelectedMenu(item.id)}
             onMouseEnter={() => setHoveredItem(item.id)}
@@ -65,7 +65,7 @@ function SidebarMenuPage({ selectedMenu, setSelectedMenu }) {
             {isSelected && (
               <motion.div
                 layoutId="activitySettingsMenuUnderline"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--color-primary)]"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}

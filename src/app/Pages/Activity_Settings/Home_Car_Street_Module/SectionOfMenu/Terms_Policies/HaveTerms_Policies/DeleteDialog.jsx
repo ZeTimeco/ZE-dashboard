@@ -60,7 +60,7 @@ function DeleteDialog({open,setOpen, policyId }) {
         <button 
           onClick={handleDelete}
           disabled={loading}
-          className='w-full  bg-[#D92D20] text-[#fff]  h-13.5  rounded-[3px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+          className='w-full  bg-[#D92D20] text-white  h-13.5  rounded-3px cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <span className='text-base font-medium'>
             {loading ? t('deleting...') : t('delete')}
@@ -70,7 +70,7 @@ function DeleteDialog({open,setOpen, policyId }) {
         <button 
           onClick={()=>setOpen(false)} 
           disabled={loading}
-          className='w-full border border-[#697586] text-[#4B5565]  h-13.5  rounded-[3px]  cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+          className='w-full border border-[#697586] text-[#4B5565]  h-13.5  rounded-3px cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
         >
           <span className='text-base font-normal'>{t('cancel')}</span>
         </button>
