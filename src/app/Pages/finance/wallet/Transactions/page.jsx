@@ -5,7 +5,7 @@ import TableOfTransactionsPage from './TableOfTransactions/page'
 function TransactionsPage({WalletTransactionsData ,loading ,error, currentPage, totalPages, handlePageChange, activeTab, setActiveTab }) {
     return (
     <>
-      <div className='border border-[#E3E8EF] p-6 rounded-[3px] my-12'>
+      <div className='border border-[#E3E8EF] p-6 rounded-3px my-12'>
         <TableOfTransactionsPage 
           WalletTransactionsData={WalletTransactionsData} 
           loading={loading} 

@@ -31,7 +31,7 @@ function Header() {
         whileTap={{ scale: 0.98 }}
         transition={{ duration: 0.2 }}
         onClick={() => router.push('/Pages/Delivery/FoodDelivery_Module/Map')}
-        className='w-[20%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] text-base font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-1'
+        className='w-[20%] h-14 border border-primary text-primary rounded-3px text-base font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1'
       >
         {t('Open the map')}
       </motion.button>

@@ -98,7 +98,7 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
 
       <section className="pt-6  flex justify-center flex-col gap-4 items-center">
         <p className="text-[#364152] font-normal text-2xl">{t('Simple steps to complete your account')}</p>
-        <p className="text-[var(--color-primary)] font-semibold text-xl">{t('Enter the verification code')}</p>
+        <p className="text-primary font-semibold text-xl">{t('Enter the verification code')}</p>
       </section>
 
       <section className="py-11 px-12.5">
@@ -111,12 +111,12 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
           </div>
 
           <div className='flex flex-col items-center'>
-            <p className='text-[var(--color-primary)] text-xl font-bold'>
+            <p className='text-primary text-xl font-bold'>
               {t('Email verification')}
             </p>
             <p className="text-center text-lg text-[#656565] mt-4 ">
                 {t('Please enter the code we sent you')}
-                <span className="font-semibold text-[var(--color-primary)]">
+                <span className="font-semibold text-primary">
                   {email}
                 </span>
                 {' '}{t('To check the code')}
@@ -138,7 +138,7 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
                   value={otpValues[i]}
                   onChange={(e) => handleChange(e, i)}
                   onKeyDown={(e) => handleKeyDown(e, i)}
-                  className="border border-[#C7C7C7] bg-white w-25 h-20 rounded-[3px] text-center text-lg outline-[var(--color-primary)]"
+                  className="border border-[#C7C7C7] bg-white w-25 h-20 rounded-3px text-center text-lg outline-[var(--color-primary)]"
                 />
               ))}
             </form>
@@ -147,7 +147,7 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
               {!canResend ? (
                 <div className='flex justify-center gap-2'>
                   <span>{t("Resend after")}</span>
-                  <span className="text-[var(--color-primary)] font-bold">
+                  <span className="text-primary font-bold">
                     00:{timeLeft < 10 ? `0${timeLeft}` : timeLeft}
                   </span>
                 </div>
@@ -155,7 +155,7 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
                 <div className='flex justify-center'>
                   <button
                     onClick={handleResend}
-                    className="text-[var(--color-primary)] font-bold"
+                    className="text-primary font-bold"
                   >
                     {t("Resend")}
                   </button>
@@ -167,14 +167,14 @@ function OtpEmailPage({open , setOpen ,setOpenPrevious}) {
           <div className='flex gap-6 justify-center mb-12'>
             <button 
               onClick={handlePrevious}
-              className="px-4 py-2 w-64 h-13.5 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
+              className="px-4 py-2 w-64 h-13.5 border border-primary text-primary rounded-3px cursor-pointer"
             >
               {t('the previous')}
             </button>
 
             <button
               onClick={handleNext}
-              className="px-4 py-2 w-64 h-13.5 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="px-4 py-2 w-64 h-13.5 bg-primary text-white rounded-3px cursor-pointer"
             >
               {t('the next')}
             </button>

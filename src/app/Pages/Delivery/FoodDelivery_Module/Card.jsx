@@ -65,7 +65,7 @@ function Card({ getOrders }) {
                   window.location.href = `tel:${order.driver.phone}`;
                 }
               }}
-              className="w-7 h-7 bg-[var(--color-primary)] rounded-full flex justify-center items-center cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+              className="w-7 h-7 bg-primary rounded-full flex justify-center items-center cursor-pointer shadow-sm hover:shadow-md transition-shadow"
               aria-label="Call captain"
             >   
               <img src="/images/icons/call white.svg" className='w-4 h-4' />
@@ -92,7 +92,7 @@ function Card({ getOrders }) {
                   window.location.href = `tel:${order.customer.phone}`;
                 }
               }}
-              className="w-7 h-7 bg-[var(--color-primary)] rounded-full flex justify-center items-center cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+              className="w-7 h-7 bg-primary rounded-full flex justify-center items-center cursor-pointer shadow-sm hover:shadow-md transition-shadow"
               aria-label="Call customer"
             >           
               <img src="/images/icons/call white.svg" className='w-4 h-4' />
@@ -116,7 +116,7 @@ function Card({ getOrders }) {
                 className='w-4 h-4 transition-transform duration-200 group-hover:scale-110'
               />
             </p>
-            <p className='text-[var(--color-primary)] text-base font-normal underline group-hover:opacity-85 transition-opacity'>
+            <p className='text-primary text-base font-normal underline group-hover:opacity-85 transition-opacity'>
               {order?.delivery_address}
             </p>
           </motion.button>

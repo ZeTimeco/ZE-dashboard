@@ -22,7 +22,7 @@ function Income_analysisPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.15 }}
-        className='border border-[#E3E8EF] rounded-[3px] mb-12 bg-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-shadow duration-200 overflow-hidden w-full'
+        className='border border-[#E3E8EF] rounded-3px mb-12 bg-white hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-shadow duration-200 overflow-hidden w-full'
       >
         <TitleOfIncome_analysisPage selectedFilter={filter} onFilterChange={setFilter}/>
         <hr className='border border-[#E3E8EF] w-full mt-4'></hr>

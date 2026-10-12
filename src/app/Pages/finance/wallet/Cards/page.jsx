@@ -74,7 +74,7 @@ function CardsPage({TaxesData}) {
             whileHover={{ scale: 1.02, filter: "brightness(1.05)" }}
             whileTap={{ scale: 0.98 }}
             onClick={() => setOpen(true)} 
-            className='w-full h-14 bg-[var(--color-primary)] text-white rounded-xl text-base font-semibold cursor-pointer my-6 shadow-sm hover:shadow-md transition-all'
+            className='w-full h-14 bg-primary text-white rounded-xl text-base font-semibold cursor-pointer my-6 shadow-sm hover:shadow-md transition-all'
           >
             {t('to withdraw')}
           </motion.button>

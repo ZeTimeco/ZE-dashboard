@@ -53,7 +53,7 @@ function Addpage({onSuccess}) {
             type="text"
             value={policyName}
             onChange={(e)=>setPolicyName(e.target.value)}
-            className='w-full h-14 border border-[#E3E8EF] mt-1.5 rounded-[3px] outline-none px-4'  
+            className='w-full h-14 border border-[#E3E8EF] mt-1.5 rounded-3px outline-none px-4'  
           />
         </div>
         {/*  */}
@@ -66,7 +66,7 @@ function Addpage({onSuccess}) {
           <button 
             onClick={handleSubmit} 
             disabled={loading}
-            className='bg-[var(--color-primary)] text-white px-6 h-14 w-62.5 rounded-[3px] cursor-pointer font-medium '
+            className='bg-primary text-white px-6 h-14 w-62.5 rounded-3px cursor-pointer font-medium '
           >
             {loading ? t('Saving...') : t('save')}
           </button>

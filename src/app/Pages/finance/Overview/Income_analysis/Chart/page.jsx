@@ -86,7 +86,7 @@ function ChartPage({dispatch , revenueChartData}) {
         {yearOfChart?.years_count > 1 ? (
           <div className="relative">
             <button
-              className="border border-[#C69815] rounded-[3px] font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] transition-colors hover:bg-[rgba(198,152,21,0.04)]"
+              className="border border-primary rounded-3px font-medium text-base flex items-center justify-between min-w-[120px] h-10 py-2.5 px-4 cursor-pointer text-[#C69815] transition-colors hover:bg-[rgba(198,152,21,0.04)]"
               onClick={() => setOpen(!open)}
             >
               {selected}

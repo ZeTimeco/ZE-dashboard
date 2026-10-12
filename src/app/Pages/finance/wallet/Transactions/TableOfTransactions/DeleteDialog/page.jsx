@@ -50,11 +50,11 @@ function DeleteDialogPage({open , setOpen, transactionId, onDelete}) {
       <div className='flex gap-3 my-4 px-6 font-medium text-base'>
         <button 
           onClick={handleDelete}
-          className='bg-[#D92D20] text-white w-full py-2.5 px-4 rounded-[3px] h-14 cursor-pointer '
+          className='bg-[#D92D20] text-white w-full py-2.5 px-4 rounded-3px h-14 cursor-pointer '
         >
           {t('delete')}
         </button>
-        <button className=' border border-[#697586] text-[#4B5565] w-full py-2.5 px-4 rounded-[3px] h-14 cursor-pointer'
+        <button className=' border border-[#697586] text-[#4B5565] w-full py-2.5 px-4 rounded-3px h-14 cursor-pointer'
           onClick={()=>{setOpen(false)}}>{t('cancel')}</button>
       </div>
     </Dialog>

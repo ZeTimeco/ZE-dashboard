@@ -91,7 +91,7 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
       {/* title and filter */}
       <div className='flex justify-between items-center flex-wrap gap-4'>
         <div className='flex items-center gap-3'>
-          <p className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] rounded-[3px] shrink-0'>
+          <p className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] rounded-3px shrink-0'>
             <img src="/images/icons/Transactions.svg" alt="" className='w-6 h-6' />
           </p>
           <div>
@@ -100,11 +100,11 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
           </div>
         </div>
 
-        <div className="flex bg-[#EEF2F6] rounded-[3px] p-1.5 w-[361px]">
+        <div className="flex bg-[#EEF2F6] rounded-3px p-1.5 w-[361px]">
           {/* مكتملة */}
           <button
             onClick={() => setActive("completed")}
-            className={`relative px-2 py-2.5 rounded-[3px] text-sm font-medium transition-colors w-full cursor-pointer z-10
+            className={`relative px-2 py-2.5 rounded-3px text-sm font-medium transition-colors w-full cursor-pointer z-10
               ${
                 active === "completed"
                   ? "text-white"
@@ -114,7 +114,7 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
             {active === "completed" && (
               <motion.div
                 layoutId="walletActiveTabPill"
-                className="absolute inset-0 bg-[#D1AD44] rounded-[3px] shadow-xs -z-10"
+                className="absolute inset-0 bg-[#D1AD44] rounded-3px shadow-xs -z-10"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
@@ -124,7 +124,7 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
           {/* قيد المراجعة */}
           <button
             onClick={() => setActive("review")}
-            className={`relative px-2 py-2.5 rounded-[3px] text-sm font-medium transition-colors w-full cursor-pointer z-10
+            className={`relative px-2 py-2.5 rounded-3px text-sm font-medium transition-colors w-full cursor-pointer z-10
               ${
                 active === "review"
                   ? "text-white"
@@ -134,7 +134,7 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
             {active === "review" && (
               <motion.div
                 layoutId="walletActiveTabPill"
-                className="absolute inset-0 bg-[#D1AD44] rounded-[3px] shadow-xs -z-10"
+                className="absolute inset-0 bg-[#D1AD44] rounded-3px shadow-xs -z-10"
                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
               />
             )}
@@ -144,7 +144,7 @@ function TableOfTransactionsPage({WalletTransactionsData ,loading ,error, curren
       </div>
 
       {/* table */}
-      <div className="mt-8 mb-5 rounded-[3px] border border-[#E3E8EF] overflow-x-auto shadow-xs">
+      <div className="mt-8 mb-5 rounded-3px border border-[#E3E8EF] overflow-x-auto shadow-xs">
         <table className="min-w-[1000px] lg1:w-full border border-[#E3E8EF] text-sm text-right ">
           {/* Table Head */}
           <thead className="bg-[#F8FAFC] border-b border-[#E3E8EF] text-[#364152] sticky top-0 z-10">

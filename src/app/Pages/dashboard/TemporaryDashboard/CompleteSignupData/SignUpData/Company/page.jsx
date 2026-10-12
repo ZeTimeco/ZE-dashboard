@@ -8,7 +8,7 @@ function CompanyPage({ open, setOpen }) {
   const {t} = useTranslation();
   return (
   <>
-  <Personal_DataPage  open={open} setOpen={setOpen}/>
+    <Personal_DataPage  open={open} setOpen={setOpen}/>
   </>
   )
 }

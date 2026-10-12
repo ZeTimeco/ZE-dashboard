@@ -180,7 +180,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
 
                 <div className="relative w-full" ref={dropdownRef1}>
                   <div
-                    className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                    className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
                     onClick={() => setOpen1(!open1)}
                   >
                     <input
@@ -205,7 +205,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
                   </div>
 
                   {open1 && (
-                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionPaymentStatus
                         .filter((opt) =>
                           opt.label.toLowerCase().includes(searchValue1.toLowerCase())
@@ -237,7 +237,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
 
                 <div className="relative w-full" ref={dropdownRef2}>
                   <div
-                    className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                    className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
                     onClick={() => setOpen2(!open2)}
                   >
                     <input
@@ -262,7 +262,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
                   </div>
 
                   {open2 && (
-                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionPaymentMethod
                         .filter((opt) =>
                           opt.label.toLowerCase().includes(searchValue2.toLowerCase())
@@ -294,7 +294,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
 
                 <div className="relative w-full" ref={dropdownRef3}>
                   <div
-                    className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                    className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
                     onClick={handleOpenWorkerDropdown}
                   >
                     <input
@@ -319,7 +319,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
                   </div>
 
                   {open3 && (
-                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionWorker
                         ?.filter((opt) =>
                           `${opt?.firstname} ${opt?.lastname}`.toLowerCase().includes(searchValue3.toLowerCase())
@@ -351,7 +351,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
 
                 <div className="relative w-full" ref={dropdownRef4}>
                   <div
-                    className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                    className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
                     onClick={handleOpenServiceDropdown}
                   >
                     <input
@@ -378,7 +378,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
                   </div>
 
                   {open4 && (
-                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                    <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                       {optionService
                         .filter((opt) => getServiceTitle(opt))
                         .filter((opt) =>
@@ -412,7 +412,7 @@ function FilterPage({open , setOpen, onFilterApply}) {
     
               <div className="relative w-full">
                 <div
-                  className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+                  className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
                   onClick={() => setOpen5(true)}
                 >
                   <input
@@ -486,13 +486,13 @@ function FilterPage({open , setOpen, onFilterApply}) {
                 <section className="p-6 flex gap-4 ">
                   <button 
                   onClick={() => setOpen5(false)}
-                  className="w-23 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium">
+                  className="w-23 h-13.5 bg-primary cursor-pointer  text-white rounded-3px text-base font-medium">
                     {t('apply')}
                   </button>
     
                   <button 
                   onClick={() => setOpen5(false)}
-                  className="w-15 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium">
+                  className="w-15 h-13.5 border border-primary cursor-pointer  text-primary rounded-3px text-base font-medium">
                     {t('cancel')}
                   </button>
                 </section>
@@ -508,14 +508,14 @@ function FilterPage({open , setOpen, onFilterApply}) {
           <section className="p-6 flex gap-4 ">
             <button 
               onClick={handleResults}
-              className="w-42.5 h-13.5 bg-[var(--color-primary)] cursor-pointer  text-[#fff] rounded-[3px] text-base font-medium"
+              className="w-42.5 h-13.5 bg-primary cursor-pointer  text-white rounded-3px text-base font-medium"
             >
               {t('Show results')}
             </button>
 
             <button 
               onClick={handleReset}
-              className="w-35 h-13.5 border border-[var(--color-primary)] cursor-pointer  text-[var(--color-primary)] rounded-[3px] text-base font-medium"
+              className="w-35 h-13.5 border border-primary cursor-pointer  text-primary rounded-3px text-base font-medium"
             >
               {t('Reset')}
             </button>

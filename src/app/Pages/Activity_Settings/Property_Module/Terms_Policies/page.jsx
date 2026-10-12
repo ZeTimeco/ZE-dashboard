@@ -46,7 +46,7 @@ function TermsPoliciesContent() {
   }
 
   return (
-    <div className="border border-[#E3E8EF] bg-white rounded-[3px] shadow-xs mb-8">
+    <div className="border border-[#E3E8EF] bg-white rounded-3px shadow-xs mb-8">
       <Header/>
       
       {showEditForm ? (

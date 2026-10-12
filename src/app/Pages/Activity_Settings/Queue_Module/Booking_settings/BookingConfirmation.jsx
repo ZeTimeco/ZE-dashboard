@@ -77,7 +77,7 @@ function BookingConfirmation({formData , setFormData}) {
         
         <div>
           {/*  */}
-          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+          <div className='flex justify-between items-center mt-4 rounded-3px transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
             <p className='text-[#364152] text-sm font-normal'>{t('Automatic booking confirmation')}</p>
             <p>
               <GreenSwitch
@@ -99,7 +99,7 @@ function BookingConfirmation({formData , setFormData}) {
           <div className='border border-[#E3E8EF] my-3'></div>
 
           {/*  */}
-          <div className='flex justify-between items-center mt-4 rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+          <div className='flex justify-between items-center mt-4 rounded-3px transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
             <p className='text-[#364152] text-sm font-normal'>{t('Manual approval is required')}</p>
             <p>
               <GreenSwitch

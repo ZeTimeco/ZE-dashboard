@@ -113,11 +113,11 @@ function Module_key({ onClose }) {
               key={service.id}
               onClick={() => handleServiceClick(service.id)}
               className={`
-                py-6 px-4 flex flex-col  items-center transition-all duration-200 cursor-pointer rounded-[3px]
+                py-6 px-4 flex flex-col  items-center transition-all duration-200 cursor-pointer rounded-3px
                 border-1
                 ${selectedService === service.id 
-                  ? 'border-[var(--color-primary)]' 
-                  : 'border-[#E3E8EF] hover:border-[var(--color-primary)]'
+                  ? 'border-primary' 
+                  : 'border-[#E3E8EF] hover:border-primary'
                 }
               `}
             >

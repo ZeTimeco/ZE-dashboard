@@ -9,12 +9,12 @@ function Header() {
     <>
 
     <div className='py-4 px-6 flex gap-2 '>
-        <p className='w-10 h-10 bg-[#EDE7FD] flex justify-center items-center rounded-[3px]'>
-          <img src="/images/icons/Terms and Policies_blue.svg" alt=""  className='w-5 h-5 '/>
-        </p>
-        <p className='flex items-center text-[#364152] text-base font-normal'>{t('Terms and Policies')}</p>
-      </div>
-      <hr className='border-0.5 border-[#E4E6EF]'/>
+      <p className='w-10 h-10 bg-[#EDE7FD] flex justify-center items-center rounded-3px'>
+        <img src="/images/icons/Terms and Policies_blue.svg" alt=""  className='w-5 h-5 '/>
+      </p>
+      <p className='flex items-center text-[#364152] text-base font-normal'>{t('Terms and Policies')}</p>
+    </div>
+    <hr className='border-0.5 border-[#E4E6EF]'/>
 
     </>
   )

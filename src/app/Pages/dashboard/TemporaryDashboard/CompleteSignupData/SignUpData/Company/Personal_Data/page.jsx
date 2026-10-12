@@ -27,16 +27,16 @@ function Personal_DataPage({ open, setOpen }) {
   };
 
   const [openOtpEmail, setOpenOtpEmail] = useState(false);
-const handleNext = async () => {
-    if (!signupData.email) return; // Add validation toast here if needed
-    try {
-        await dispatch(sendEmailThunk({ email: signupData.email })).unwrap();
-        setOpen(false);
-        setOpenOtpEmail(true);
-    } catch(error) {
-        console.error("Failed to send OTP:", error);
+  const handleNext = async () => {
+      if (!signupData.email) return; // Add validation toast here if needed
+      try {
+          await dispatch(sendEmailThunk({ email: signupData.email })).unwrap();
+          setOpen(false);
+          setOpenOtpEmail(true);
+      } catch(error) {
+          console.error("Failed to send OTP:", error);
+      }
     }
-  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,7 +62,7 @@ const handleNext = async () => {
       </section>
       <section className="pt-6  flex justify-center flex-col gap-4 items-center">
         <p className="text-[#364152] font-normal text-2xl">{t('Simple steps to complete your account')}</p>
-        <p className="text-[var(--color-primary)] font-semibold text-xl">{t('Enter your personal details')}</p>
+        <p className="text-primary font-semibold text-xl">{t('Enter your personal details')}</p>
       </section>
       <section className="py-11 px-12.5">
         <div className=' border border-[#CDD5DF] p-10'>
@@ -76,7 +76,7 @@ const handleNext = async () => {
               value={signupData.companyName}
               onChange={handleChange}
               placeholder={t('Enter company name')}
-              className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
+              className='border border-[#C8C8C8] p-3 rounded-3px outline-none'
             />
           </div>
 
@@ -89,7 +89,7 @@ const handleNext = async () => {
               value={signupData.email}
               onChange={handleChange}
               placeholder={t('Enter your email address')}
-              className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
+              className='border border-[#C8C8C8] p-3 rounded-3px outline-none'
             />
           </div>
 
@@ -102,7 +102,7 @@ const handleNext = async () => {
               value={signupData.workers_count}
               onChange={handleChange}
               placeholder={t('Enter the number of employees')}
-              className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
+              className='border border-[#C8C8C8] p-3 rounded-3px outline-none'
             />
           </div>
 
@@ -115,7 +115,7 @@ const handleNext = async () => {
               value={signupData.yearsofexperience}
               onChange={handleChange}
               placeholder={t('Enter the number of years of experience')}
-              className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
+              className='border border-[#C8C8C8] p-3 rounded-3px outline-none'
             />
           </div>
 
@@ -135,7 +135,7 @@ const handleNext = async () => {
                 readOnly
                 value={signupData.address || ''}
                 // placeholder={t("Click to select location on map")}
-                className="border border-[#C8C8C8] min-h-14  rounded-[3px] outline-none w-full px-3 py-1 "
+                className="border border-[#C8C8C8] min-h-14  rounded-3px outline-none w-full px-3 py-1 "
               />
             </div>
           </div>
@@ -144,7 +144,7 @@ const handleNext = async () => {
           <div className=' mt-10'>
             <button 
               onClick={handleNext}
-              className='bg-[var(--color-primary)] text-white w-full h-14 cursor-pointer rounded-[3px] '
+              className='bg-primary text-white w-full h-14 cursor-pointer rounded-3px '
             >
               {t('the next')}
             </button>

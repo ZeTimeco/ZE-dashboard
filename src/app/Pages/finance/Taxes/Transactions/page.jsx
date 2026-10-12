@@ -5,7 +5,7 @@ import Pagination from './TableOfTransactions/Pagination'
 function TransactionsPage({ TaxesTransactionsData, loading, pagination, onPageChange}) {
   return (
     <>
-      <div className='border border-[#E3E8EF] p-6 rounded-[3px] my-12'>
+      <div className='border border-[#E3E8EF] p-6 rounded-3px my-12'>
         <TableOfTransactionsPage TaxesTransactionsData={TaxesTransactionsData} loading={loading}/>
 
         <Pagination pagination={pagination} onPageChange={onPageChange}/>

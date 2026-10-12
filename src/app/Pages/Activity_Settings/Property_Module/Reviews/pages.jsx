@@ -11,7 +11,7 @@ function ReviewsPages() {
 
   return (
     <>
-      <div className='border border-[#E3E8EF] bg-white rounded-[3px] shadow-xs'>
+      <div className='border border-[#E3E8EF] bg-white rounded-3px shadow-xs'>
         <Header/>
         <div className='px-6 py-6'>
           {data?.length > 0 ? (

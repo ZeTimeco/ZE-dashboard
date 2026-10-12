@@ -58,7 +58,7 @@ function ConfirmationDonePage({open, setOpen}) {
 
       <div className='my-12 p-6 w-full flex justify-center'>
         <button  onClick={handleLogout}
-          className='w-[60%] h-15 bg-[var(--color-primary)] text-white text-base font-medium rounded-[3px] cursor-pointer '>
+          className='w-[60%] h-15 bg-primary text-white text-base font-medium rounded-3px cursor-pointer '>
             {t('Log in')}
         </button>
       </div>   

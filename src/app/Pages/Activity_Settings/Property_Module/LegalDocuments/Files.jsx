@@ -90,7 +90,7 @@ function Files({ documents }) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: index * 0.04 }}
-              className='flex justify-between items-center border border-[#CDD5DF] hover:border-slate-400 bg-white rounded-[3px] p-4 w-full transition-all duration-200 hover:shadow-2xs'
+              className='flex justify-between items-center border border-[#CDD5DF] hover:border-slate-400 bg-white rounded-3px p-4 w-full transition-all duration-200 hover:shadow-2xs'
             >
               <div className='flex items-center gap-3.5'>
                 <div>

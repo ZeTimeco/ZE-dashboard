@@ -129,8 +129,8 @@ function Content({ formData, setFormData }) {
           {/* Collect the full amount */}
           <div 
             onClick={() => setFormData(prev => ({ ...prev, no_show_collection_policy: 'collect_all' }))}
-            className={`flex justify-between items-center border py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData?.no_show_collection_policy === "collect_all" ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+            className={`flex justify-between items-center border py-4 px-4 rounded-3px cursor-pointer transition-all duration-200 ${
+              formData?.no_show_collection_policy === "collect_all" ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <p>
@@ -153,8 +153,8 @@ function Content({ formData, setFormData }) {
           {/* Charge only for the first night */}
           <div 
             onClick={() => setFormData(prev => ({ ...prev, no_show_collection_policy: 'collect_one_night' }))}
-            className={`flex justify-between items-center border py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData?.no_show_collection_policy === "collect_one_night" ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+            className={`flex justify-between items-center border py-4 px-4 rounded-3px cursor-pointer transition-all duration-200 ${
+              formData?.no_show_collection_policy === "collect_one_night" ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <p>
@@ -177,8 +177,8 @@ function Content({ formData, setFormData }) {
           {/* Without collection */}
           <div 
             onClick={() => setFormData(prev => ({ ...prev, no_show_collection_policy: 'collect_nothing' }))}
-            className={`flex justify-between items-center border py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData?.no_show_collection_policy === "collect_nothing" ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+            className={`flex justify-between items-center border py-4 px-4 rounded-3px cursor-pointer transition-all duration-200 ${
+              formData?.no_show_collection_policy === "collect_nothing" ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <p>

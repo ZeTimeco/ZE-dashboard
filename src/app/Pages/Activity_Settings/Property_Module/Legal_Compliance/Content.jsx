@@ -92,7 +92,7 @@ function Content({ formData, setFormData }) {
           <div 
             onClick={() => setFormData(prev => ({ ...prev, enable_phone: !prev.enable_phone }))}
             className={`flex justify-between items-center border py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData?.enable_phone ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+              formData?.enable_phone ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <p className='flex items-center gap-2'>
@@ -115,7 +115,7 @@ function Content({ formData, setFormData }) {
           <div 
             onClick={() => setFormData(prev => ({ ...prev, enable_whatsapp: !prev.enable_whatsapp }))}
             className={`flex justify-between items-center border py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData?.enable_whatsapp ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+              formData?.enable_whatsapp ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <p className='flex items-center gap-2'>
@@ -137,8 +137,8 @@ function Content({ formData, setFormData }) {
           {/* App Messages */}
           <div 
             onClick={() => setFormData(prev => ({ ...prev, enable_app_message: !prev.enable_app_message }))}
-            className={`flex justify-between items-center border py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData?.enable_app_message ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+            className={`flex justify-between items-center border py-4 px-4 rounded-3px cursor-pointer transition-all duration-200 ${
+              formData?.enable_app_message ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <p className='flex items-center gap-2'>

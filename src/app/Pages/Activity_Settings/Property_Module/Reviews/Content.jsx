@@ -48,7 +48,7 @@ function Content() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.25, delay: index * 0.04 }}
-              className="border-b border-[#CDD5DF] pb-4 transition-colors duration-150 hover:bg-slate-50/60 p-3 rounded-[3px]"
+              className="border-b border-[#CDD5DF] pb-4 transition-colors duration-150 hover:bg-slate-50/60 p-3 rounded-3px"
             >
               <div className="flex justify-between items-start">
                 <div className="flex mb-3 gap-3 items-center">
@@ -82,7 +82,7 @@ function Content() {
                     </span>
                   </p>
 
-                  <div className="flex items-center gap-1 bg-[#FFFAEB] border border-[#FEC84B] px-2 py-0.5 rounded-[3px]">
+                  <div className="flex items-center gap-1 bg-[#FFFAEB] border border-[#FEC84B] px-2 py-0.5 rounded-3px">
                     <img
                       src="/images/icons/star.svg"
                       className="w-3.5 h-3.5"

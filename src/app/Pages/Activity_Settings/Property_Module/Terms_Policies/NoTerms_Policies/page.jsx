@@ -12,7 +12,7 @@ function NoTerms_PoliciesPage({ onAddClick }) {
 
         <button 
           onClick={onAddClick}
-          className='bg-[var(--color-primary)] rounded-[3px] cursor-pointer text-white flex items-center justify-center gap-2 w-[35%] h-14 '
+          className='bg-primary rounded-3px cursor-pointer text-white flex items-center justify-center gap-2 w-[35%] h-14 '
         >
           <span className='text-base font-semibold'>{t('Add policy')}</span>
           <img src="/images/icons/AddIcon.svg" alt="" />

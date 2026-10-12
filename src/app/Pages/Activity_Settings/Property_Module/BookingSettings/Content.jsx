@@ -97,8 +97,8 @@ function Content({ formData, setFormData }) {
         {/* Approval type – auto */}
         <div 
           onClick={() => set('approval_type', 'auto')}
-          className={`border py-4 px-4 flex justify-between items-center rounded-[3px] cursor-pointer transition-all duration-200 ${
-            formData.approval_type === 'auto' ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+          className={`border py-4 px-4 flex justify-between items-center rounded-3px cursor-pointer transition-all duration-200 ${
+            formData.approval_type === 'auto' ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
           }`}
         >
           <p className='text-[#364152] text-sm font-medium'>{t('Automatic booking approval')}</p>
@@ -114,8 +114,8 @@ function Content({ formData, setFormData }) {
         {/* Approval type – Manual */}
         <div 
           onClick={() => set('approval_type', 'manual')}
-          className={`border py-4 px-4 flex justify-between items-center rounded-[3px] cursor-pointer transition-all duration-200 ${
-            formData.approval_type === 'manual' ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+          className={`border py-4 px-4 flex justify-between items-center rounded-3px cursor-pointer transition-all duration-200 ${
+            formData.approval_type === 'manual' ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
           }`}
         >
           <p className='text-[#364152] text-sm font-medium'>{t('Manual approval is required')}</p>
@@ -138,11 +138,11 @@ function Content({ formData, setFormData }) {
             whileTap={{ scale: 0.95 }}
             type='button'
             onClick={() => set('min_nights', Math.max(0, (Number(formData.min_nights) || 0) - 1))}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
           >
             -
           </motion.button>
-          <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-[3px] shadow-2xs'>
+          <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-3px shadow-2xs'>
             {formData.min_nights || 0} {t('nights')}
           </span>
           <motion.button
@@ -150,7 +150,7 @@ function Content({ formData, setFormData }) {
             whileTap={{ scale: 0.95 }}
             type='button'
             onClick={() => set('min_nights', (Number(formData.min_nights) || 0) + 1)}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
           >
             +
           </motion.button>
@@ -166,11 +166,11 @@ function Content({ formData, setFormData }) {
             whileTap={{ scale: 0.95 }}
             type='button'
             onClick={() => set('max_nights', Math.max(0, (Number(formData.max_nights) || 0) - 1))}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
           >
             -
           </motion.button>
-          <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-[3px] shadow-2xs'>
+          <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-3px shadow-2xs'>
             {formData.max_nights || 0} {t('nights')}
           </span>
           <motion.button
@@ -178,7 +178,7 @@ function Content({ formData, setFormData }) {
             whileTap={{ scale: 0.95 }}
             type='button'
             onClick={() => set('max_nights', (Number(formData.max_nights) || 0) + 1)}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
           >
             +
           </motion.button>
@@ -202,7 +202,7 @@ function Content({ formData, setFormData }) {
                   setSearchValue1(e.target.value);
                   setOpen1(true);
                 }}
-                className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-[3px] outline-none transition-colors focus:border-[var(--color-primary)]'
+                className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-3px outline-none transition-colors focus:border-[var(--color-primary)]'
               />
               <span className="absolute left-3 cursor-pointer">
                 {open1 ? (
@@ -214,7 +214,7 @@ function Content({ formData, setFormData }) {
             </div>
 
             {open1 && (
-              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto mt-1">
+              <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto mt-1">
                 {optionBookingTime
                   .filter((opt) =>
                     opt?.name?.toLowerCase().includes((searchValue1 || '').toLowerCase())
@@ -292,8 +292,8 @@ function Content({ formData, setFormData }) {
           {/* On-demand cleaning */}
           <div 
             onClick={() => setFormData(prev => ({ ...prev, provide_ondemand_cleaning: true }))}
-            className={`border flex items-center gap-3 py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData.provide_ondemand_cleaning === true ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+            className={`border flex items-center gap-3 py-4 px-4 rounded-3px cursor-pointer transition-all duration-200 ${
+              formData.provide_ondemand_cleaning === true ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <input
@@ -313,8 +313,8 @@ function Content({ formData, setFormData }) {
           {/* Periodic cleaning */}
           <div 
             onClick={() => setFormData(prev => ({ ...prev, provide_ondemand_cleaning: false }))}
-            className={`border flex items-center gap-3 py-4 px-4 rounded-[3px] cursor-pointer transition-all duration-200 ${
-              formData.provide_ondemand_cleaning === false ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
+            className={`border flex items-center gap-3 py-4 px-4 rounded-3px cursor-pointer transition-all duration-200 ${
+              formData.provide_ondemand_cleaning === false ? 'border-primary bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
             }`}
           >
             <input
@@ -342,11 +342,11 @@ function Content({ formData, setFormData }) {
             whileTap={{ scale: 0.95 }}
             type='button'
             onClick={() => set('days_between_cleaning', Math.max(0, (Number(formData.days_between_cleaning) || 0) - 1))}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
           >
             -
           </motion.button>
-          <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-[3px] shadow-2xs'>
+          <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-3px shadow-2xs'>
             {formData.days_between_cleaning || 0} {t('day')}
           </span>
           <motion.button
@@ -354,7 +354,7 @@ function Content({ formData, setFormData }) {
             whileTap={{ scale: 0.95 }}
             type='button'
             onClick={() => set('days_between_cleaning', (Number(formData.days_between_cleaning) || 0) + 1)}
-            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+            className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
           >
             +
           </motion.button>

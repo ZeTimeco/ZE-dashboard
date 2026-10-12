@@ -7,7 +7,7 @@ function TransactionsPage({TransactionsData ,loading, pagination, onPageChange, 
 
   return (
     <>
-      <div className='border border-[#E3E8EF] py-4 px-6 rounded-[3px] mb-12'>
+      <div className='border border-[#E3E8EF] py-4 px-6 rounded-3px mb-12'>
 
         <TitleOfTransactionsPage onFilterApply={onFilterApply}/>
 

@@ -21,7 +21,7 @@ function TitleOfIncome_analysisPage({ selectedFilter, onFilterChange }) {
     <>
   <div className='flex justify-between py-4 px-6   '>
     <div className='flex items-center gap-2 '>
-      <p className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] rounded-[3px]'>
+      <p className='w-12 h-12 flex justify-center items-center bg-[#EDE7FD] rounded-3px'>
         <img src="/images/icons/Income analysis.svg" alt="" className='w-6 h-6' />
       </p>
       <p className='text-[#364152] text-xl font-medium'>{t('Income analysis')}</p>
@@ -30,7 +30,7 @@ function TitleOfIncome_analysisPage({ selectedFilter, onFilterChange }) {
     <div className="relative inline-block text-right">
       <button
         onClick={() => setOpen(!open)}
-        className="h-13.5 w-36 px-2 border border-[#CDD5DF] rounded-[3px]  flex justify-between items-center"
+        className="h-13.5 w-36 px-2 border border-[#CDD5DF] rounded-3px  flex justify-between items-center"
       >
         <span className='text-[#364152] text-sm font-normal'>{currentLabel}</span>
         <img

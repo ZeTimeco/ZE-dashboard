@@ -48,10 +48,10 @@ const Pagination = ({ totalPages = 10, currentPage = 1, onPageChange }) => {
         disabled={isDisabledPrev}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`px-4 py-2 flex items-center gap-2 rounded-[3px] transition ${
+        className={`px-4 py-2 flex items-center gap-2 rounded-3px transition ${
           isDisabledPrev
             ? "text-[#364152] border border-[#697586] cursor-not-allowed bg-transparent"
-            : "cursor-pointer bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152]"
+            : "cursor-pointer bg-primary text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152]"
         }`}
       >
         <img
@@ -76,7 +76,7 @@ const Pagination = ({ totalPages = 10, currentPage = 1, onPageChange }) => {
             disabled={page === "..."}
             className={`px-3 py-1 text-sm font-medium rounded-md w-10 h-10 transition ${
               page === currentPage
-                ? "text-white bg-[var(--color-primary)]"
+                ? "text-white bg-primary"
                 : page === "..."
                 ? "text-gray-500 cursor-default"
                 : "border border-[#CDD5DF] text-[#697586] hover:bg-gray-100"
@@ -93,10 +93,10 @@ const Pagination = ({ totalPages = 10, currentPage = 1, onPageChange }) => {
         disabled={isDisabledNext}
         onMouseEnter={() => setIsHoveredNext(true)}
         onMouseLeave={() => setIsHoveredNext(false)}
-        className={`px-4 py-2 flex items-center gap-2 rounded-[3px] transition ${
+        className={`px-4 py-2 flex items-center gap-2 rounded-3px transition ${
           isDisabledNext
             ? "text-[#364152] border border-[#697586] cursor-not-allowed bg-transparent"
-            : "cursor-pointer bg-[var(--color-primary)] text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152]"
+            : "cursor-pointer bg-primary text-white hover:bg-[#E3E8EF] hover:border hover:border-[#697586] hover:text-[#364152]"
         }`}
       >
         <span>{t("the next")}</span>

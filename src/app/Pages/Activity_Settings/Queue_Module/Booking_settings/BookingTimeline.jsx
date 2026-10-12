@@ -44,7 +44,7 @@ function BookingTimeline({formData , setFormData}) {
             <p className='text-[#364152] text-sm font-normal w-[85%]'>{t('Duration of the time period')}</p>
             <div className="relative w-[15%]" ref={dropdownRef1}>
               <div
-                className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer hover:border-[#9AA4B2] transition-colors duration-150"
+                className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-3px cursor-pointer hover:border-[#9AA4B2] transition-colors duration-150"
                 onClick={() => setOpen1(!open1)}
               >
                 <input
@@ -76,7 +76,7 @@ function BookingTimeline({formData , setFormData}) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto"
+                    className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto"
                   >
                     {option1
                       ?.filter((opt) =>

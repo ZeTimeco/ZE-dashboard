@@ -66,7 +66,7 @@ export default function TableOfTransactionsPage({TransactionsData ,loading}) {
     switch (method) {
       case "cash": // نقدي  
         return (
-          <div className='bg-[#F9F5E8] border border-[var(--color-primary)] text-[var(--color-primary)] w-fit h-9.5 rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
+          <div className='bg-[#F9F5E8] border border-primary text-primary w-fit h-9.5 rounded-3xl transition-transform duration-150 hover:scale-[1.02]'>
             <div className='py-1.5 px-3 flex items-center gap-1'>
               <img src="/images/icons/cash_yellow.svg" alt="" className='mt-0.5' />
               <span>{t('cash_')}</span>
@@ -88,7 +88,7 @@ export default function TableOfTransactionsPage({TransactionsData ,loading}) {
   };
 
   return (
-    <div className="mt-8 mb-5 rounded-[3px] border border-[#E3E8EF] overflow-x-auto shadow-xs">
+    <div className="mt-8 mb-5 rounded-3px border border-[#E3E8EF] overflow-x-auto shadow-xs">
       <table className="min-w-[1000px] lg1:w-full border border-[#E3E8EF] text-sm text-right ">
         {/* Table Head */}
         <thead className="bg-[#F8FAFC] border-b border-[#E3E8EF] text-[#364152] sticky top-0 z-10">

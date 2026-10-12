@@ -57,12 +57,12 @@ function Content({onEdit , onAdd}) {
             <div className=' text-base font-normal w-full flex gap-4'>
               <button 
                 onClick={() => onEdit && onEdit(1)}
-                className='bg-[var(--color-primary)] text-white w-full h-14 rounded-[3px] cursor-pointer'>
+                className='bg-primary text-white w-full h-14 rounded-3px cursor-pointer'>
                 {t('modification')}
               </button>
               <button
                 onClick={()=>setOpen(true)}
-                className='border border-[#DA5305] text-[#DA5305] w-full h-14 rounded-[3px] cursor-pointer'>
+                className='border border-[#DA5305] text-[#DA5305] w-full h-14 rounded-3px cursor-pointer'>
                 {t('delete')}
               </button>
             </div>
@@ -76,7 +76,7 @@ function Content({onEdit , onAdd}) {
       </div>
       <button 
         onClick={onAdd}
-        className='bg-[var(--color-primary)] rounded-[3px] mt-12 mb-4 cursor-pointer text-white flex items-center justify-center gap-2 w-[25%] h-14 '
+        className='bg-primary rounded-3px mt-12 mb-4 cursor-pointer text-white flex items-center justify-center gap-2 w-[25%] h-14 '
       >
         <span className='text-base font-semibold'>{t('Add policy')}</span>
         <img src="/images/icons/AddIcon.svg" alt="" />

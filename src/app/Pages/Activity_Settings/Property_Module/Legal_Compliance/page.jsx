@@ -43,7 +43,7 @@ function Legal_CompliancePage() {
 
   return (
     <>
-      <div className='border border-[#E3E8EF] bg-white rounded-[3px] shadow-xs'>
+      <div className='border border-[#E3E8EF] bg-white rounded-3px shadow-xs'>
         <Header/>
         <div className='px-6 py-6'>
           <Content 
@@ -56,7 +56,7 @@ function Legal_CompliancePage() {
             whileTap={{ scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
             onClick={handleSubmit}
-            className='h-14 min-w-[180px] w-full sm:w-[25%] mt-10 bg-[var(--color-primary)] hover:bg-[#b08713] text-white font-medium rounded-[3px] cursor-pointer transition-colors duration-200'
+            className='h-14 min-w-[180px] w-full sm:w-[25%] mt-10 bg-primary hover:bg-[#b08713] text-white font-medium rounded-3px cursor-pointer transition-colors duration-200'
           >
             {t('Save changes')}
           </motion.button>

@@ -61,7 +61,7 @@ function Content({ formData, setFormData }) {
         {/* Checkbox 1 */}
         <div 
           onClick={() => setFormData(prev => ({ ...prev, availability_mode: 'auto' }))}
-          className={`border py-4 px-4 flex justify-between items-center rounded-[3px] cursor-pointer transition-all duration-200 ${
+          className={`border py-4 px-4 flex justify-between items-center rounded-3px cursor-pointer transition-all duration-200 ${
             formData.availability_mode === 'auto' ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
           }`}
         >
@@ -82,7 +82,7 @@ function Content({ formData, setFormData }) {
         {/* Checkbox 2 */}
         <div 
           onClick={() => setFormData(prev => ({ ...prev, availability_mode: 'manual' }))}
-          className={`border py-4 px-4 flex justify-between items-center rounded-[3px] cursor-pointer transition-all duration-200 ${
+          className={`border py-4 px-4 flex justify-between items-center rounded-3px cursor-pointer transition-all duration-200 ${
             formData.availability_mode === 'manual' ? 'border-[var(--color-primary)] bg-[#FFFDF5]' : 'border-[#CDD5DF] hover:border-slate-400'
           }`}
         >
@@ -115,12 +115,12 @@ function Content({ formData, setFormData }) {
               whileTap={{ scale: 0.95 }}
               type='button'
               onClick={() => set('buffer_between_bookings_hours', Math.max(0, (Number(formData.buffer_between_bookings_hours) || 0) - 1))}
-              className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+              className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
             >
               -
             </motion.button>
 
-            <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-[3px] shadow-2xs'>
+            <span className='w-full h-11 text-[#4B5565] flex items-center justify-center font-medium text-center bg-[#F8FAFC] border border-[#E3E8EF] rounded-3px shadow-2xs'>
               {formData.buffer_between_bookings_hours || 0} {t('dayss')}
             </span>
 
@@ -129,7 +129,7 @@ function Content({ formData, setFormData }) {
               whileTap={{ scale: 0.95 }}
               type='button'
               onClick={() => set('buffer_between_bookings_hours', Math.max(0, (Number(formData.buffer_between_bookings_hours) || 0) + 1))}
-              className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-[3px] transition cursor-pointer hover:bg-slate-200/60'
+              className='w-12.5 h-11 flex items-center justify-center text-[#4B5565] bg-[#F8FAFC] border border-[#E3E8EF] text-base font-semibold rounded-3px transition cursor-pointer hover:bg-slate-200/60'
             >
               +
             </motion.button>

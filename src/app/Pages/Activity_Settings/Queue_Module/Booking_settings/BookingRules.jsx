@@ -63,7 +63,7 @@ function BookingRules({formData , setFormData}) {
           <p className='text-[#364152] text-sm font-normal w-[85%]'>{t('earliest time allowed for booking')}</p>
           <div className="relative w-[15%]" ref={dropdownRef1}>
             <div
-              className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-[3px] cursor-pointer hover:border-[#9AA4B2] transition-colors duration-150"
+              className="relative h-8 flex items-center border border-[#CDD5DF] shadow-[0_1px_2px_0_rgba(16,24,40,0.05)] rounded-3px cursor-pointer hover:border-[#9AA4B2] transition-colors duration-150"
               onClick={() => setOpen1(!open1)}
             >
               <input
@@ -95,7 +95,7 @@ function BookingRules({formData , setFormData}) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto"
+                  className="absolute left-0 right-0 border border-[#CDD5DF] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto"
                 >
                   {option1
                     ?.filter((opt) =>
@@ -127,14 +127,14 @@ function BookingRules({formData , setFormData}) {
         <div className='border border-[#E3E8EF] my-3'></div>
 
         {/* Minimum number of guests */}
-        <div className='flex justify-between items-center rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+        <div className='flex justify-between items-center rounded-3px transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
           <p className='text-[#364152] text-sm font-normal'>{t('Minimum number of guests')}</p>
 
-          <div className="h-14 px-3 flex items-center justify-between rounded-[3px] ">
+          <div className="h-14 px-3 flex items-center justify-between rounded-3px ">
             <button
               type="button"
               onClick={increaseMinGuests}
-              className="flex h-7.5 w-7.5 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
+              className="flex h-7.5 w-7.5 items-center justify-center rounded-3px bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
             >
               +
             </button>
@@ -148,7 +148,7 @@ function BookingRules({formData , setFormData}) {
             <button
               type="button"
               onClick={decreaseMinGuests}
-              className="flex h-7.5 w-7.5 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
+              className="flex h-7.5 w-7.5 items-center justify-center rounded-3px bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
             >
               −
             </button>
@@ -158,14 +158,14 @@ function BookingRules({formData , setFormData}) {
         <div className='border border-[#E3E8EF] '></div>
 
         {/* Maximum number of guests */}
-        <div className='flex justify-between items-center rounded-[3px] transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
+        <div className='flex justify-between items-center rounded-3px transition-colors duration-150 hover:bg-gray-50/60 -mx-1 px-1'>
           <p className='text-[#364152] text-sm font-normal'>{t('Maximum number of guests')}</p>
           
-          <div className="h-14 px-3 flex items-center justify-between rounded-[3px] ">
+          <div className="h-14 px-3 flex items-center justify-between rounded-3px ">
             <button
               type="button"
               onClick={increaseMaxGuests}
-              className="flex h-7.5 w-7.5 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
+              className="flex h-7.5 w-7.5 items-center justify-center rounded-3px bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
             >
               +
             </button>
@@ -179,7 +179,7 @@ function BookingRules({formData , setFormData}) {
             <button
               type="button"
               onClick={decreaseMaxGuests}
-              className="flex h-7.5 w-7.5 items-center justify-center rounded-[3px] bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
+              className="flex h-7.5 w-7.5 items-center justify-center rounded-3px bg-[#EEF2F6] text-lg text-[#0F022E] cursor-pointer hover:bg-[#E2E9F2] active:scale-95 transition-all duration-150"
             >
               −
             </button>

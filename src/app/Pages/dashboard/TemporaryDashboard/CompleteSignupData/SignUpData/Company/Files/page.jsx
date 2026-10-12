@@ -9,57 +9,57 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
   const {t}= useTranslation();
   const { signupData, updateSignupData } = useSignupData();
 
-    //Commercial registration
-    const file = signupData.commercial_register;
-    const [progress, setProgress] = useState(0);
-  
-    const handleFileChange = (e) => {
-      const selectedFile = e.target.files[0];
-      if (selectedFile && selectedFile.type === "application/pdf") {
-        updateSignupData({ commercial_register: selectedFile });
-  
-        let uploaded = 0;
-        const interval = setInterval(() => {
-          uploaded += 20;
-          if (uploaded >= 100) {
-            uploaded = 100;
-            clearInterval(interval);
-          }
-          setProgress(uploaded);
-        }, 500);
-      }
-    };
-  
-    const handleRemove = () => {
-      updateSignupData({ commercial_register: null });
-      setProgress(0);
-    };
+  //Commercial registration
+  const file = signupData.commercial_register;
+  const [progress, setProgress] = useState(0);
 
-    //tax card
-    const taxFile = signupData.tax_card;
-    const[taxProgress , setTaxProgress]= useState(0);
-    
-    const handleTaxesFileChange = (e)=>{
-      const selectTaxFile = e.target.files[0];
-      if(selectTaxFile && selectTaxFile.type === "application/pdf" ){
-        updateSignupData({ tax_card: selectTaxFile });
-        let uploaded=0;
-        const interval = setInterval(() => {
-          uploaded += 20;
-          if (uploaded >= 100) {
-            uploaded = 100;
-            clearInterval(interval);
-          }
-          setTaxProgress(uploaded);
-        }, 500);
-      }
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.type === "application/pdf") {
+      updateSignupData({ commercial_register: selectedFile });
+
+      let uploaded = 0;
+      const interval = setInterval(() => {
+        uploaded += 20;
+        if (uploaded >= 100) {
+          uploaded = 100;
+          clearInterval(interval);
+        }
+        setProgress(uploaded);
+      }, 500);
     }
-    const handleTaxRemove = () => {
-      updateSignupData({ tax_card: null });
-      setTaxProgress(0);
-    };
+  };
+
+  const handleRemove = () => {
+    updateSignupData({ commercial_register: null });
+    setProgress(0);
+  };
+
+  //tax card
+  const taxFile = signupData.tax_card;
+  const[taxProgress , setTaxProgress]= useState(0);
   
-    const [openSecondFile , setOpenSecondFile]= useState(false);
+  const handleTaxesFileChange = (e)=>{
+    const selectTaxFile = e.target.files[0];
+    if(selectTaxFile && selectTaxFile.type === "application/pdf" ){
+      updateSignupData({ tax_card: selectTaxFile });
+      let uploaded=0;
+      const interval = setInterval(() => {
+        uploaded += 20;
+        if (uploaded >= 100) {
+          uploaded = 100;
+          clearInterval(interval);
+        }
+        setTaxProgress(uploaded);
+      }, 500);
+    }
+  }
+  const handleTaxRemove = () => {
+    updateSignupData({ tax_card: null });
+    setTaxProgress(0);
+  };
+
+  const [openSecondFile , setOpenSecondFile]= useState(false);
   const handlePrevious = () => {
     setOpen(false);
     setOpenPrevious(true);
@@ -69,6 +69,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
     setOpen(false);
     setOpenSecondFile(true);
   }
+  
   return (
     <>
       <Dialog
@@ -89,13 +90,13 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
 
         <section className="pt-6  flex justify-center flex-col gap-4 items-center">
           <p className="text-[#364152] font-normal text-2xl">{t('Simple steps to complete your account')}</p>
-          <p className="text-[var(--color-primary)] font-semibold text-xl">{t('Upload legal documents')}</p>
+          <p className="text-primary font-semibold text-xl">{t('Upload legal documents')}</p>
         </section>
 
         <section className="py-11 px-12.5">
           <div className=' border border-[#CDD5DF] p-10'>
             {/* note */}
-            <ul className=" bg-[#EEF2F6] text-[#775B0D] text-base font-normal py-3 px-4 rounded-[3px] list-disc list-inside">
+            <ul className=" bg-[#EEF2F6] text-[#775B0D] text-base font-normal py-3 px-4 rounded-3px list-disc list-inside">
               <li className="mb-2 ">
                 {t('The size of a single file must not exceed 10 MB.')}
               </li>
@@ -110,7 +111,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
 
               {!file ? (
                 // === Initial state (placeholder upload box) ===
-                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-3px text-[#9A9A9A] cursor-pointer">
                   <img
                     src="/images/icons/upload.svg"
                     alt="upload"
@@ -128,7 +129,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                 </label>
               ) : progress < 100? (
                 // === Upload in progress UI ===
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+                <div className="border border-[#C8C8C8] rounded-3px p-3">
                   <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                       <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -136,7 +137,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                         {file.name}
                       </span>
                     </div>
-                    <button onClick={handleRemove} className="text-[var(--color-primary)]">
+                    <button onClick={handleRemove} className="text-primary">
                       <img src="/images/icons/cancel-circle.svg" alt="" />
                     </button>
                   
@@ -153,7 +154,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
 
                   <div className="w-full bg-gray-200 h-1 mt-1 rounded">
                     <div
-                      className="bg-[var(--color-primary)] h-1 rounded"
+                      className="bg-primary h-1 rounded"
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
@@ -162,7 +163,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
               ) : (
 
                 // Final UI after upload complete
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3 h-15 flex items-center justify-between">
+                <div className="border border-[#C8C8C8] rounded-3px p-3 h-15 flex items-center justify-between">
                     {/* file name + icon */}
                   <div className="flex items-center gap-2">
                     <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -170,7 +171,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                   </div>
                   {/* delete button */}
                   <button onClick={handleRemove}>
-                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[var(--color-primary)] cursor-pointer" />
+                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-primary cursor-pointer" />
                   </button>
 
                 
@@ -183,7 +184,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
 
               {!taxFile ? (
                 // === Initial state (placeholder upload box) ===
-                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-3px text-[#9A9A9A] cursor-pointer">
                   <img
                     src="/images/icons/upload.svg"
                     alt="upload"
@@ -201,7 +202,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                 </label>
               ) : taxProgress < 100? (
                 // === Upload in progress UI ===
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+                <div className="border border-[#C8C8C8] rounded-3px p-3">
                   <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                       <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -209,7 +210,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                         {taxFile.name}
                       </span>
                     </div>
-                    <button onClick={handleTaxRemove} className="text-[var(--color-primary)]">
+                    <button onClick={handleTaxRemove} className="text-primary">
                       <img src="/images/icons/cancel-circle.svg" alt="" />
                     </button>
                   
@@ -226,7 +227,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
 
                   <div className="w-full bg-gray-200 h-1 mt-1 rounded">
                     <div
-                      className="bg-[var(--color-primary)] h-1 rounded"
+                      className="bg-primary h-1 rounded"
                       style={{ width: `${taxProgress}%` }}
                     ></div>
                   </div>
@@ -235,7 +236,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
               ) : (
 
                 // Final UI after upload complete
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3 h-15 flex items-center justify-between">
+                <div className="border border-[#C8C8C8] rounded-3px p-3 h-15 flex items-center justify-between">
                     {/* file name + icon */}
                   <div className="flex items-center gap-2">
                     <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -243,7 +244,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
                   </div>
                   {/* delete button */}
                   <button onClick={handleTaxRemove}>
-                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[var(--color-primary)] cursor-pointer" />
+                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-primary cursor-pointer" />
                   </button>
 
                 
@@ -253,7 +254,7 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
 
             <div className='flex flex-col gap-3 my-6'>
               <label>{t('Tax number')} </label>
-              <input type="text" className='h-15 p-3 border border-[#C8C8C8] rounded-[3px] outline-none'
+              <input type="text" className='h-15 p-3 border border-[#C8C8C8] rounded-3px outline-none'
                 value={signupData.tax_number}
                 onChange={(e) => updateSignupData({ tax_number: e.target.value })}
                 placeholder={t('Enter the tax number')}/>
@@ -262,14 +263,14 @@ function FilesPage({open , setOpen ,setOpenPrevious}) {
             <div className='flex gap-6 justify-between w-full'>
               <button 
                 onClick={handlePrevious}
-                className="px-4 py-2 w-full h-13.5 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
+                className="px-4 py-2 w-full h-13.5 border border-primary text-primary rounded-3px cursor-pointer"
               >
                 {t('the previous')}
               </button>
 
               <button
                 onClick={handleNext}
-                className="px-4 py-2 w-full h-13.5 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+                className="px-4 py-2 w-full h-13.5 bg-primary text-white rounded-3px cursor-pointer"
               >
                 {t('the next')}
               </button>

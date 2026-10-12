@@ -54,7 +54,7 @@ function Personal_DataPage({ open, setOpen }) {
       </section>
       <section className="pt-6  flex justify-center flex-col gap-4 items-center">
         <p className="text-[#364152] font-normal text-2xl">{t('Simple steps to complete your account')}</p>
-        <p className="text-[var(--color-primary)] font-semibold text-xl">{t('Enter your personal details')}</p>
+        <p className="text-primary font-semibold text-xl">{t('Enter your personal details')}</p>
       </section>
 
       <section className="py-11 px-12.5">
@@ -70,7 +70,7 @@ function Personal_DataPage({ open, setOpen }) {
               value={signupData.email}
               onChange={(e) => updateSignupData({ email: e.target.value })}
               placeholder={t('Enter your email address')}
-              className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
+              className='border border-[#C8C8C8] p-3 rounded-3px outline-none'
             />
           </div>
 
@@ -83,7 +83,7 @@ function Personal_DataPage({ open, setOpen }) {
               value={signupData.yearsofexperience}
               onChange={(e) => updateSignupData({ yearsofexperience: e.target.value })}
               placeholder={t('Enter the number of years of experience')}
-              className='border border-[#C8C8C8] p-3 rounded-[3px] outline-none'
+              className='border border-[#C8C8C8] p-3 rounded-3px outline-none'
             />
           </div>
 
@@ -104,7 +104,7 @@ function Personal_DataPage({ open, setOpen }) {
                 readOnly
                 value={signupData.address || ''}
                 // placeholder={t("Click to select location on map")}
-                className="border border-[#C8C8C8] min-h-14  rounded-[3px] outline-none w-full px-3 py-1 "
+                className="border border-[#C8C8C8] min-h-14  rounded-3px outline-none w-full px-3 py-1 "
               />
             </div>
           </div>
@@ -115,7 +115,7 @@ function Personal_DataPage({ open, setOpen }) {
           <div className=' mt-10'>
             <button 
               onClick={handleNext}
-              className='bg-[var(--color-primary)] text-white w-full h-14 cursor-pointer rounded-[3px] '
+              className='bg-primary text-white w-full h-14 cursor-pointer rounded-3px '
             >
               {t('the next')}
             </button>

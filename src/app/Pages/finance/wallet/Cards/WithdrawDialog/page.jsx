@@ -32,7 +32,7 @@ function WithdrawDialogPage({open , setOpen}) {
           </div>
 
           {/* title */}
-          <p className='text-[var(--color-primary)] text-xl font-bold'>{t('withdrawal request')}</p>
+          <p className='text-primary text-xl font-bold'>{t('withdrawal request')}</p>
 
         </section>
 
@@ -43,7 +43,7 @@ function WithdrawDialogPage({open , setOpen}) {
               <input 
                 type="text" 
                 placeholder={t('Enter the amount')}
-                className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
+                className="h-15 p-3 rounded-3px border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal" />
             </div>
 
             {/* note */}
@@ -55,7 +55,7 @@ function WithdrawDialogPage({open , setOpen}) {
             </div>
 
             <div className='my-6 '>
-              <button className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center '>
+              <button className='w-full h-15 bg-primary text-white cursor-pointer rounded-3px flex justify-center items-center '>
                 {t('confirmation')}
               </button>
             </div>

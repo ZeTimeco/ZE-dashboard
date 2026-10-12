@@ -33,13 +33,13 @@ function CompleteSignupDataPage() {
           {/* // */}
           <button 
             onClick={handleOpenSignupData}
-            className='bg-[var(--color-primary)] rounded-[50px] flex gap-4 py-4 px-6 cursor-pointer'
+            className='bg-primary rounded-[50px] flex gap-4 py-4 px-6 cursor-pointer'
           >
             <div className=' flex items-center'>
               <img src="/images/stars.svg" alt="" className='w-12 h-12 ' />
             </div>
 
-            <div className='flex flex-col items-start text-[#fff]'>
+            <div className='flex flex-col items-start text-white'>
               <span className=' font-bold text-xl'>{t('Complete your profile')}</span>
               <span className='font-normal text-base'>{t('To add your service, please complete your profile first.')}</span>
             </div>

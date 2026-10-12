@@ -113,7 +113,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
 
         <section className="pt-6  flex justify-center flex-col gap-4 items-center">
           <p className="text-[#364152] font-normal text-2xl">{t('Simple steps to complete your account')}</p>
-          <p className="text-[var(--color-primary)] font-semibold text-xl">{t('Upload legal documents')}</p>
+          <p className="text-primary font-semibold text-xl">{t('Upload legal documents')}</p>
         </section>
 
 
@@ -121,7 +121,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
       <section className="py-11 px-12.5">
           <div className=' border border-[#CDD5DF] p-10'>
             {/* note */}
-            <ul className=" bg-[#EEF2F6] text-[#775B0D] text-base font-normal py-3 px-4 rounded-[3px] list-disc list-inside">
+            <ul className=" bg-[#EEF2F6] text-[#775B0D] text-base font-normal py-3 px-4 rounded-3px list-disc list-inside">
               <li className="mb-2 ">
                 {t('The size of a single file must not exceed 10 MB.')}
               </li>
@@ -137,7 +137,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
 
               {!file ? (
                 // === Initial state (placeholder upload box) ===
-                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-3px text-[#9A9A9A] cursor-pointer">
                   <img
                     src="/images/icons/upload.svg"
                     alt="upload"
@@ -155,7 +155,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
                 </label>
               ) : progress < 100? (
                 // === Upload in progress UI ===
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+                <div className="border border-[#C8C8C8] rounded-3px p-3">
                   <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                       <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -163,7 +163,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
                         {file.name}
                       </span>
                     </div>
-                    <button onClick={handleRemove} className="text-[var(--color-primary)]">
+                    <button onClick={handleRemove} className="text-primary">
                       <img src="/images/icons/cancel-circle.svg" alt="" />
                     </button>
                   
@@ -180,7 +180,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
 
                   <div className="w-full bg-gray-200 h-1 mt-1 rounded">
                     <div
-                      className="bg-[var(--color-primary)] h-1 rounded"
+                      className="bg-primary h-1 rounded"
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
@@ -189,7 +189,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
               ) : (
 
                 // Final UI after upload complete
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3 h-15 flex items-center justify-between">
+                <div className="border border-[#C8C8C8] rounded-3px p-3 h-15 flex items-center justify-between">
                     {/* file name + icon */}
                   <div className="flex items-center gap-2">
                     <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -197,7 +197,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
                   </div>
                   {/* delete button */}
                   <button onClick={handleRemove}>
-                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[var(--color-primary)] cursor-pointer" />
+                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-primary cursor-pointer" />
                   </button>
 
                 
@@ -211,7 +211,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
 
               {!BackFile ? (
                 // === Initial state (placeholder upload box) ===
-                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-[3px] text-[#9A9A9A] cursor-pointer">
+                <label className="flex items-center relative gap-2 h-15 p-3 border border-[#C8C8C8] rounded-3px text-[#9A9A9A] cursor-pointer">
                   <img
                     src="/images/icons/upload.svg"
                     alt="upload"
@@ -229,7 +229,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
                 </label>
               ) : BackProgress < 100? (
                 // === Upload in progress UI ===
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3">
+                <div className="border border-[#C8C8C8] rounded-3px p-3">
                   <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                       <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -237,7 +237,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
                         {BackFile.name}
                       </span>
                     </div>
-                    <button onClick={handleBackRemove} className="text-[var(--color-primary)]">
+                    <button onClick={handleBackRemove} className="text-primary">
                       <img src="/images/icons/cancel-circle.svg" alt="" />
                     </button>
                   
@@ -254,7 +254,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
 
                   <div className="w-full bg-gray-200 h-1 mt-1 rounded">
                     <div
-                      className="bg-[var(--color-primary)] h-1 rounded"
+                      className="bg-primary h-1 rounded"
                       style={{ width: `${BackProgress}%` }}
                     ></div>
                   </div>
@@ -263,7 +263,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
               ) : (
 
                 // Final UI after upload complete
-                <div className="border border-[#C8C8C8] rounded-[3px] p-3 h-15 flex items-center justify-between">
+                <div className="border border-[#C8C8C8] rounded-3px p-3 h-15 flex items-center justify-between">
                     {/* file name + icon */}
                   <div className="flex items-center gap-2">
                     <img src="/images/icons/imageicon.svg" alt="pdf" className="w-5 h-5" />
@@ -271,7 +271,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
                   </div>
                   {/* delete button */}
                   <button onClick={handleBackRemove}>
-                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-[var(--color-primary)] cursor-pointer" />
+                    <img src="/images/icons/delete.svg" alt="delete" className="w-5 h-5 text-primary cursor-pointer" />
                   </button>
 
                 
@@ -282,7 +282,7 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
             {/* National ID number */}
             <div className='flex flex-col gap-3 my-6'>
               <label>{t('National ID number')} </label>
-              <input type="text" className='h-15 p-3 border border-[#C8C8C8] rounded-[3px] outline-none'
+              <input type="text" className='h-15 p-3 border border-[#C8C8C8] rounded-3px outline-none'
                 value={signupData.national_id}
                 onChange={(e) => updateSignupData({ national_id: e.target.value })}
                 placeholder={t('Enter your national ID number')}/>
@@ -291,14 +291,14 @@ function SecondFilePage({open , setOpen ,setOpenPrevious}) {
           <div className='flex gap-6 justify-between w-full'>
             <button 
               onClick={handlePrevious}
-              className="px-4 py-2 w-full h-13.5 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
+              className="px-4 py-2 w-full h-13.5 border border-primary text-primary rounded-3px cursor-pointer"
             >
               {t('the previous')}
             </button>
 
             <button
               onClick={handleNext}
-              className="px-4 py-2 w-full h-13.5 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="px-4 py-2 w-full h-13.5 bg-primary text-white rounded-3px cursor-pointer"
             >
               {t('confirmation')}
             </button>

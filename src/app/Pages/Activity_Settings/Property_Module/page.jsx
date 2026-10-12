@@ -37,7 +37,7 @@ function Property_ModulePage() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`relative cursor-pointer text-sm py-5 px-3 font-medium flex items-center justify-center transition-colors duration-200 ${
-                  isActive ? "text-[var(--color-primary)]" : "text-[#364152] hover:text-[var(--color-primary)]"
+                  isActive ? "text-primary" : "text-[#364152] hover:text-primary"
                 }`}
               >
                 <div className='flex items-center gap-2'>
@@ -48,7 +48,7 @@ function Property_ModulePage() {
                 {isActive && (
                   <motion.div
                     layoutId="propertyTabIndicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--color-primary)]"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}

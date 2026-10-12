@@ -13,7 +13,7 @@ function EditContent({ onCancel }) {
           <p className='text-[#4B5565] text-sm font-normal'>{t('the address')}</p>
           <input 
             type="text"
-            className='w-full h-14 border border-[#E3E8EF] mt-1.5 rounded-[3px] outline-none px-4'  
+            className='w-full h-14 border border-[#E3E8EF] mt-1.5 rounded-3px outline-none px-4'  
           />
         </div>
         {/*  */}
@@ -24,13 +24,13 @@ function EditContent({ onCancel }) {
         
         <div className='mt-8 flex justify-start gap-4'>
           <button 
-            className='bg-[var(--color-primary)] text-white px-6 h-14 w-62.5 rounded-[3px] cursor-pointer font-medium '
+            className='bg-primary text-white px-6 h-14 w-62.5 rounded-3px cursor-pointer font-medium '
           >
             {t('Save changes')}
           </button>
           <button 
             onClick={onCancel}
-            className='border border-[var(--color-primary)] text-[var(--color-primary)] px-6 h-14 w-50 rounded-[3px] cursor-pointer font-medium '
+            className='border border-primary text-primary px-6 h-14 w-50 rounded-3px cursor-pointer font-medium '
           >
             {t('cancel')}
           </button>
