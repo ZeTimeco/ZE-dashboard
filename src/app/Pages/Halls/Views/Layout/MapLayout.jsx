@@ -133,18 +133,18 @@ function MapLayout({
   const rightView = rightViewItem ? { name: rightViewItem.view.name, hex_code: rightViewItem.view?.hex_code } : null;
 
   return (
-    <div className="flex flex-col gap-5 border border-[#E3E8EF] bg-white rounded-[8px] p-6 shadow-sm">
+    <div className="flex flex-col gap-5 border border-[#E3E8EF] bg-white rounded-lg p-6 shadow-sm">
 
       {/* Layout Grid Board - Solid background color as Figma design */}
       <div
         ref={boardRef}
-        className="relative w-full h-[500px] border border-[#E3E8EF] rounded-[6px] bg-[#EEF2F6] overflow-hidden shadow-inner"
+        className="relative w-full h-[500px] border border-[#E3E8EF] rounded-md bg-[#EEF2F6] overflow-hidden shadow-inner"
       >
         {/* Top Side View Badge */}
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10">
           {topView ? (
             <div 
-              className="flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+              className="flex gap-1.5 h-[45px] items-center justify-center px-6 py-0.5 rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               style={{ backgroundColor: topView.hex_code || '#F04438' }}
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
@@ -152,7 +152,7 @@ function MapLayout({
             </div>
           ) : (
             <div 
-              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
+              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-1.5 h-[45px] items-center justify-center px-6 py-0.5 rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
               + {translate('Assign Top View')}
@@ -164,7 +164,7 @@ function MapLayout({
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
           {bottomView ? (
             <div 
-              className="flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+              className="flex gap-1.5 h-[45px] items-center justify-center px-6 py-0.5 rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               style={{ backgroundColor: bottomView.hex_code || '#1485FF' }}
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
@@ -172,7 +172,7 @@ function MapLayout({
             </div>
           ) : (
             <div 
-              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[24px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
+              className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-1.5 h-[45px] items-center justify-center px-6 py-0.5 rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
               onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
             >
               + {translate('Assign Bottom View')}
@@ -185,7 +185,7 @@ function MapLayout({
           <div className="-rotate-90 flex-none">
             {leftView ? (
               <div 
-                className="flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                className="flex gap-1.5 h-[45px] items-center justify-center px-3 py-0.5 rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 style={{ backgroundColor: leftView.hex_code || '#E9A72F' }}
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
@@ -193,7 +193,7 @@ function MapLayout({
               </div>
             ) : (
               <div 
-                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
+                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-1.5 h-[45px] items-center justify-center px-3 py-0.5 rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
                 + {translate('Assign Left View')}
@@ -207,7 +207,7 @@ function MapLayout({
           <div className="-rotate-90 flex-none">
             {rightView ? (
               <div 
-                className="flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                className="flex gap-1.5 h-[45px] items-center justify-center px-3 py-0.5 rounded-[10px] w-[216px] text-white font-medium select-none shadow-sm cursor-pointer hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                 style={{ backgroundColor: rightView.hex_code || '#30B952' }}
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
@@ -215,7 +215,7 @@ function MapLayout({
               </div>
             ) : (
               <div 
-                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-[6px] h-[45px] items-center justify-center px-[12px] py-[2px] rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
+                className="border border-dashed border-slate-400 text-slate-500 bg-white/80 flex gap-1.5 h-[45px] items-center justify-center px-3 py-0.5 rounded-[10px] w-[216px] text-xs font-normal select-none cursor-pointer hover:bg-white hover:border-slate-500 hover:shadow-xs active:scale-[0.98] transition-all duration-200"
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)}
               >
                 + {translate('Assign Right View')}

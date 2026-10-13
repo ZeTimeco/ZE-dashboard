@@ -45,7 +45,7 @@ function HallContent() {
         </div>
 
         {/* cards */}
-        <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px] transition-shadow duration-300'>
+        <div className='border border-[#E3E8EF] py-8 px-6 rounded-3px transition-shadow duration-300'>
           <CardOfHall halls={halls}/>
         </div>
         

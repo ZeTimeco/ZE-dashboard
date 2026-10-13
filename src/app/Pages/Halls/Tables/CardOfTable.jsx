@@ -137,19 +137,19 @@ function CardOfTable({getTables ,HallId}) {
           <div className='grid grid-cols-3 gap-4 col-span-4 w-full'>
             <button 
               onClick={()=>router.push(`/Pages/Halls/Tables/Edit?id=${table?.id}&hall_id=${HallId}`)} 
-              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
+              className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
             >
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
             </button>
 
             {table?.is_active ? (
-              <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'>
+              <button className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'>
                 <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
                 <p className='text-[#364152] text-sm font-normal'>{t('closing')}</p>
               </button>
             ) : (
-              <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'>
+              <button className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'>
                 <img src="/images/icons/checkmark-circle-true.svg" className='w-5 h-5' alt="" />
                 <p className='text-[#364152] text-sm font-normal'>{t('reactivation')}</p>
               </button>
@@ -157,7 +157,7 @@ function CardOfTable({getTables ,HallId}) {
 
             <button 
               onClick={() => handleDelete(table?.id)} 
-              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#F97066] hover:bg-[#FEF3F2] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
+              className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#F97066] hover:bg-[#FEF3F2] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
             >
               <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('delete')}</p>

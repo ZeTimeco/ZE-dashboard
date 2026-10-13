@@ -59,7 +59,7 @@ function ViewsContent() {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={()=>setOpenAdd(true)}
-            className='lg1:w-[20%] w-[30%] h-14 flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md transition-all duration-200 text-white cursor-pointer rounded-[3px]'
+            className='lg1:w-[20%] w-[30%] h-14 flex items-center justify-center gap-2 bg-primary hover:opacity-95 hover:shadow-md transition-all duration-200 text-white cursor-pointer rounded-3px'
           >
             <span>
               <img src="/images/icons/AddIcon.svg" alt="" />
@@ -69,7 +69,7 @@ function ViewsContent() {
         </div>
 
         {/* cards */}
-        <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px] transition-shadow duration-300'>
+        <div className='border border-[#E3E8EF] py-8 px-6 rounded-3px transition-shadow duration-300'>
           <CardOfViews getViews={getViews} handleDelete={handleDelete} handleToggle={handleToggle} refreshViews={() => dispatch(getViewsThunk(id))}/>
         </div>
       </motion.div>

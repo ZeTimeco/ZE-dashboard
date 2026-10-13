@@ -149,12 +149,12 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
           <div className="flex justify-between">
             <div className='flex gap-4'>
               <p
-                className="w-15 h-14 flex items-center justify-center rounded-[3px] group-hover:scale-105 transition-transform duration-200"
+                className="w-15 h-14 flex items-center justify-center rounded-3px group-hover:scale-105 transition-transform duration-200"
                 style={{ background: view?.hex_code }}
               >
                 <img src={`${IMAGE_BASE_URL}${view?.icon}`} alt="" />
               </p>
-              <p className='text-[#364152] text-xl font-normal flex items-center group-hover:text-[var(--color-primary)] transition-colors duration-200'>{view?.name}</p>
+              <p className='text-[#364152] text-xl font-normal flex items-center group-hover:text-primary transition-colors duration-200'>{view?.name}</p>
             </div>
 
             <div className="flex items-center">
@@ -179,7 +179,7 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
                 setSelectedViewId(view?.id);
                 setOpenEdit(true);
               }} 
-              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
+              className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
             >
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
@@ -187,7 +187,7 @@ function CardOfViews({getViews , handleDelete ,handleToggle, refreshViews}) {
 
             <button 
               onClick={() => setDeleteId(view?.id)} 
-              className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#F97066] hover:bg-[#FEF3F2] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
+              className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#F97066] hover:bg-[#FEF3F2] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
             >
               <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
               <p className='text-[#364152] text-sm font-normal'>{t('delete')}</p>

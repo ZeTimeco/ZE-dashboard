@@ -76,11 +76,11 @@ function Cards({ table, hallId, onRefresh, setSelectedTableId }) {
           </button>
         </div>
 
-        <div className='relative bg-white rounded-[8px] px-2'>
+        <div className='relative bg-white rounded-lg px-2'>
           <div className='flex justify-between'>
             <div className='flex gap-6 w-full'>
               {/* image/shape icon */}
-              <div className='border border-blue-600/20 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] flex justify-center items-center rounded-[8px] text-[#FCFCFD] w-35 h-25 shadow-xs'>
+              <div className='border border-blue-600/20 bg-[linear-gradient(180deg,_#1183FF_50.96%,_#0064D2_100%)] flex justify-center items-center rounded-lg text-[#FCFCFD] w-35 h-25 shadow-xs'>
                 <p className='text-2xl font-bold'>{table?.code}</p>
               </div>
 
@@ -105,7 +105,7 @@ function Cards({ table, hallId, onRefresh, setSelectedTableId }) {
           <div className='grid grid-cols-3 gap-4 pt-4 w-full'>
             <button 
               onClick={() => router.push(`/Pages/Halls/Tables/Edit?id=${table?.id}&hall_id=${hallId}`)}  
-              className='flex items-center justify-center gap-2 rounded-[4px] border border-[#CDD5DF] bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
+              className='flex items-center justify-center gap-2 rounded-sm border border-[#CDD5DF] bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
             >
               <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
               <span>{t('modification')}</span>
@@ -113,7 +113,7 @@ function Cards({ table, hallId, onRefresh, setSelectedTableId }) {
 
             <button 
               onClick={handleToggleActive}
-              className='flex items-center justify-center gap-2 rounded-[4px] border border-[#CDD5DF] bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
+              className='flex items-center justify-center gap-2 rounded-sm border border-[#CDD5DF] bg-white hover:bg-slate-50 hover:border-slate-400 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-slate-700 text-sm'
             >
               <img src={table?.is_active ? "/images/icons/shut-down.svg" : "/images/icons/checkmark-circle-true.svg"} className='w-5 h-5' alt="" />
               <span>{table?.is_active ? t('closing') : t('reactivation')}</span>
@@ -121,7 +121,7 @@ function Cards({ table, hallId, onRefresh, setSelectedTableId }) {
 
             <button 
               onClick={handleDelete} 
-              className='flex items-center justify-center gap-2 rounded-[4px] border border-red-200 bg-red-50 hover:bg-red-100 hover:border-red-300 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-red-700 text-sm'
+              className='flex items-center justify-center gap-2 rounded-sm border border-red-200 bg-red-50 hover:bg-red-100 hover:border-red-300 active:scale-[0.98] transition-all duration-150 px-2 h-11 w-full cursor-pointer font-medium text-red-700 text-sm'
             >
               <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
               <span>{t('delete')}</span>

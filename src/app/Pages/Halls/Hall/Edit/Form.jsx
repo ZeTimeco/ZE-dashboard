@@ -102,7 +102,7 @@ function Form({getHallType , formData, setFormData}) {
         type="text"
         name='title'
         placeholder={t('Write the name of the hall')}
-        className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200`}
+        className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
         value={formData?.name || ''}
         onChange={(e)=>setFormData({...formData , name:e.target.value})}
       />
@@ -117,7 +117,7 @@ function Form({getHallType , formData, setFormData}) {
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
+            className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px cursor-pointer transition-all duration-200"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -150,7 +150,7 @@ function Form({getHallType , formData, setFormData}) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.99 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-20 max-h-48 overflow-y-auto"
               >
                 {optionHallType
                   .filter((opt) =>
@@ -196,7 +196,7 @@ function Form({getHallType , formData, setFormData}) {
                   floor_number: e.target.checked ? 0 : "",
                 });
               }}
-              className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs transition-all duration-150 group-hover:border-[var(--color-primary)]"
+              className="w-5 h-5 appearance-none border rounded-3px border-gray-300 bg-white checked:bg-primary checked:border-primary relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs transition-all duration-150 group-hover:border-[var(--color-primary)]"
             />
 
             <p className="text-[#4B5565] text-sm font-normal select-none transition-colors duration-150 group-hover:text-[#1E293B]">
@@ -215,7 +215,7 @@ function Form({getHallType , formData, setFormData}) {
             })
           }
           placeholder={t("Floor number")}
-          className="w-full px-3 py-2 h-14 border text-sm text-[#364152] rounded-[3px] outline-none border-[#CDD5DF] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 transition-all duration-200"
+          className="w-full px-3 py-2 h-14 border text-sm text-[#364152] rounded-3px outline-none border-[#CDD5DF] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all duration-200"
         />
       </div>
 
@@ -226,7 +226,7 @@ function Form({getHallType , formData, setFormData}) {
           <span className=' text-[#F04438]'>*</span>
         </p>
         <div
-          className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
+          className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px cursor-pointer transition-all duration-200"
           onClick={() => setOpen2(!open2)}
         >
           <input
@@ -253,7 +253,7 @@ function Form({getHallType , formData, setFormData}) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -6, scale: 0.99 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+              className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-20 max-h-48 overflow-y-auto"
             >
               {optionDefaultBookingDuration
                 .filter((opt) =>
@@ -289,7 +289,7 @@ function Form({getHallType , formData, setFormData}) {
         </p>
 
         <div
-          className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
+          className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px cursor-pointer transition-all duration-200"
           onClick={() => setOpen3(!open3)}
         >
           <input
@@ -316,7 +316,7 @@ function Form({getHallType , formData, setFormData}) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -6, scale: 0.99 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+              className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-20 max-h-48 overflow-y-auto"
             >
               {optionBufferTimeBetweenBookings
                 .filter((opt) =>
@@ -344,7 +344,7 @@ function Form({getHallType , formData, setFormData}) {
       </div>
 
       {/* ========== Hall condition =================== */}
-      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] hover:border-[#E2E8F0] transition-colors duration-200 rounded-[3px] py-3 px-4'>
+      <div className='flex justify-between bg-[#F8FAFC] border border-[#EEF2F6] hover:border-[#E2E8F0] transition-colors duration-200 rounded-3px py-3 px-4'>
         <div>
           <p className='text-[#364152] text-lg font-medium'>
             {t('Hall condition')}

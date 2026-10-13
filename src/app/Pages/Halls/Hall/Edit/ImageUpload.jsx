@@ -78,7 +78,7 @@ function ImageUpload({formData, setFormData}) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => fileInputRef.current?.click()}
-            className="w-full p-8 border border-dashed border-[#9AA4B2] hover:border-[var(--color-primary)] hover:bg-[#F8FAFC]/80 transition-all duration-200 cursor-pointer rounded-md flex flex-col items-center justify-center gap-4 bg-[#F8FAFC] group"
+            className="w-full p-8 border border-dashed border-[#9AA4B2] hover:border-primary hover:bg-[#F8FAFC]/80 transition-all duration-200 cursor-pointer rounded-md flex flex-col items-center justify-center gap-4 bg-[#F8FAFC] group"
           >
             <input
               type="file"

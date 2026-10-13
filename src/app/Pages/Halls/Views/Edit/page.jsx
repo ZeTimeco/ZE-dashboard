@@ -97,7 +97,7 @@ console.log('getViewsById',getViewsById);
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSubmit} 
-          className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md text-white w-full text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer transition-all duration-200'
+          className='bg-primary hover:opacity-95 hover:shadow-md text-white w-full text-base font-medium py-3 px-6 rounded-3px my-6 cursor-pointer transition-all duration-200'
         >
           {t('Save changes')}
         </motion.button>

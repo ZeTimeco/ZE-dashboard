@@ -114,7 +114,7 @@ function EditContent() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => router.push(`/Pages/Halls/Tables?hall_id=${hall_id}`)} 
-            className='flex justify-center items-center bg-[var(--color-primary)] hover:opacity-95 transition-all duration-200 w-8 h-8 rounded-[3px] cursor-pointer'
+            className='flex justify-center items-center bg-primary hover:opacity-95 transition-all duration-200 w-8 h-8 rounded-[3px] cursor-pointer'
           >
             <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
           </motion.button>
@@ -132,7 +132,7 @@ function EditContent() {
           whileTap={!loading ? { scale: 0.98 } : {}}
           onClick={handleSubmit}
           disabled={loading}
-          className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md transition-all duration-200 text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer disabled:opacity-50'
+          className='bg-primary hover:opacity-95 hover:shadow-md transition-all duration-200 text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer disabled:opacity-50'
         >
           {loading ? t('saving...') : t('Save changes')}
         </motion.button>

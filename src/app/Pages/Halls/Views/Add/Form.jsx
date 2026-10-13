@@ -42,7 +42,7 @@ function Form({getHallView, formData ,setFormData}) {
           value={formData?.name}
           onChange={(e)=>setFormData({...formData , name:e.target.value})}
           placeholder={t('Write the name of the view')}
-          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200`}
+          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
         />
       </div>
 
@@ -58,12 +58,12 @@ function Form({getHallView, formData ,setFormData}) {
               whileTap={{ scale: 0.98 }}
               key={items?.id} 
               onClick={()=>setFormData((prev)=>({...prev , view_id :items?.id}))}
-              className={`border py-3 px-2 flex flex-col gap-2 justify-center items-center rounded-[8px] cursor-pointer transition-all duration-200
-                ${formData?.view_id === items?.id ? 'border-[var(--color-primary)] ring-1 ring-[var(--color-primary)]/30 shadow-xs' : 'border-[#E3E8EF] hover:border-[#CBD5E1] hover:bg-[#F8FAFC]/50'}    
+              className={`border py-3 px-2 flex flex-col gap-2 justify-center items-center rounded-3px cursor-pointer transition-all duration-200
+                ${formData?.view_id === items?.id ? 'border-primary ring-1 ring-primary/30 shadow-xs' : 'border-[#E3E8EF] hover:border-[#CBD5E1] hover:bg-[#F8FAFC]/50'}    
               `}
             >
               <p 
-                className='w-12.5 h-12 flex items-center justify-center rounded-[3px] transition-transform duration-200'
+                className='w-12.5 h-12 flex items-center justify-center rounded-3px transition-transform duration-200'
                 style={{backgroundColor:items?.hex_code}}
               >
                 <img src={`${IMAGE_BASE_URL}${items?.icon}`} alt="" />
@@ -83,7 +83,7 @@ function Form({getHallView, formData ,setFormData}) {
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
+            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px cursor-pointer transition-all duration-200"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -109,7 +109,7 @@ function Form({getHallView, formData ,setFormData}) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.99 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-20 max-h-48 overflow-y-auto"
               >
                 {option1
                   ?.filter((opt) =>
@@ -150,7 +150,7 @@ function Form({getHallView, formData ,setFormData}) {
             onChange={(e)=>setFormData((prev)=>({...prev , description : e.target.value}))}
             maxLength={100}
             placeholder={t('Write a brief description')}
-            className="w-full h-40 rounded-[3px] border border-[#CDD5DF] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 p-3 text-[#364152] outline-none resize-none transition-all duration-200"
+            className="w-full h-40 rounded-3px border border-[#CDD5DF] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 p-3 text-[#364152] outline-none resize-none transition-all duration-200"
           />
 
           <span className="absolute bottom-2 left-3 text-sm text-gray-400">

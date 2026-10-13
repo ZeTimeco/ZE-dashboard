@@ -104,7 +104,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
           value={formData?.code || ''}
           onChange={(e) => setFormData({ ...formData, code: e.target.value })}
           placeholder={t('Write the table/number')}
-          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]/20 text-sm text-[#364152] rounded-[3px] outline-none transition-all duration-200`}
+          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
         />
       </div>
       
@@ -117,7 +117,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
 
         <div className="relative w-full" ref={dropdownRef1}>
           <div
-            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
+            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px cursor-pointer transition-all duration-200"
             onClick={() => setOpen1(!open1)}
           >
             <input
@@ -143,7 +143,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.99 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-20 max-h-48 overflow-y-auto"
               >
                 {option1
                   ?.filter((opt) =>
@@ -177,7 +177,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
 
         <div className="relative w-full" ref={dropdownRef2}>
           <div
-            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-[var(--color-primary)] focus-within:ring-1 focus-within:ring-[var(--color-primary)]/20 rounded-[3px] cursor-pointer transition-all duration-200"
+            className="relative h-14 flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px cursor-pointer transition-all duration-200"
             onClick={() => setOpen2(!open2)}
           >
             <input
@@ -203,7 +203,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -6, scale: 0.99 }}
                 transition={{ duration: 0.15, ease: "easeOut" }}
-                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-[3px] shadow-lg z-20 max-h-48 overflow-y-auto"
+                className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-20 max-h-48 overflow-y-auto"
               >
                 {option2
                   ?.filter((opt) =>
@@ -232,22 +232,22 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
       <div className="w-full flex flex-col gap-1.5">
         <p className='text-sm font-medium text-[#364152]'>{t('Number of guests')}</p>
 
-        <div className="h-14 px-3 flex items-center justify-between rounded-[3px] border border-[#EEF2F6] bg-[#F8FAFC]">
+        <div className="h-14 px-3 flex items-center justify-between rounded-3px border border-[#EEF2F6] bg-[#F8FAFC]">
           <button
             onClick={() => setFormData(prev => ({ ...prev, capacity: (prev?.capacity || 1) + 1 }))}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-95 transition-all duration-150 bg-white text-lg text-[#0F022E]"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-95 transition-all duration-150 bg-white text-lg text-[#0F022E]"
           >
             +
           </button>
 
           <div className="text-center select-none">
-            <p className="text-xl font-medium text-[var(--color-primary)]">{formData?.capacity || 1}</p>
+            <p className="text-xl font-medium text-primary">{formData?.capacity || 1}</p>
             <p className="text-sm text-[#364152]">{t('Guests')}</p>
           </div>
 
           <button
             onClick={() => setFormData(prev => ({ ...prev, capacity: Math.max(1, (prev?.capacity || 1) - 1) }))}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-95 transition-all duration-150 bg-white text-lg text-[#0F022E]"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-95 transition-all duration-150 bg-white text-lg text-[#0F022E]"
           >
             -
           </button>
@@ -281,7 +281,7 @@ function Form({getHallsView, formData, setFormData , availableTags }) {
                   text-sm font-normal rounded-full border hover:scale-[1.02] active:scale-[0.98] transition-all duration-150
                   ${
                     isSelected
-                      ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)] shadow-xs"
+                      ? "bg-primary text-white border-primary shadow-xs"
                       : "bg-[#EDE7FD] text-[#364152] border-[#E2E2E2] hover:border-[#CDD5DF] cursor-pointer"
                   }
                 `}

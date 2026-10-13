@@ -46,7 +46,7 @@ function TablesContent() {
         </div>
 
         {/* cards */}
-        <div className='border border-[#E3E8EF] py-8 px-6 rounded-[3px] transition-shadow duration-300'>
+        <div className='border border-[#E3E8EF] py-8 px-6 rounded-3px transition-shadow duration-300'>
           <CardOfTable getTables={getTables} HallId={hall_id}/>
         </div>
       </motion.div>

@@ -27,7 +27,7 @@ function No_Tables_Add() {
       <motion.button 
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className='flex justify-center items-center gap-2 bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md transition-all duration-200 text-white px-4 py-2.5 h-14 w-[25%] rounded-[3px] my-6 cursor-pointer'
+        className='flex justify-center items-center gap-2 bg-primary hover:opacity-95 hover:shadow-md transition-all duration-200 text-white px-4 py-2.5 h-14 w-[25%] rounded-[3px] my-6 cursor-pointer'
         onClick={() => router.push('/Pages/Halls/Tables/Add')}
       >
         <p className='text-base flex items-center'>{t("Add table")} </p>

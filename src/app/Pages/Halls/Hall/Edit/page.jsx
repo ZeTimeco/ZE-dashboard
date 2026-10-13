@@ -105,13 +105,13 @@ function EditContent() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => router.push('/Pages/Halls/Hall')} 
-            className='flex justify-center items-center bg-[var(--color-primary)] hover:opacity-95 transition-all duration-200 w-8 h-8 rounded-[3px] cursor-pointer'
+            className='flex justify-center items-center bg-primary hover:opacity-95 transition-all duration-200 w-8 h-8 rounded-3px cursor-pointer'
           >
             <img src="/images/icons/arrow-right-go.svg" className='w-5 h-5' alt="" />
           </motion.button>
         </div>
 
-        <div className="flex flex-col gap-6 border border-[#CDD5DF] rounded-[3px] py-8 px-6 transition-all duration-200">
+        <div className="flex flex-col gap-6 border border-[#CDD5DF] rounded-3px py-8 px-6 transition-all duration-200">
           <ImageUpload formData={formData} setFormData={setFormData}/>
           <Form getHallType={getHallType} formData={formData} setFormData={setFormData} />
         </div>
@@ -120,7 +120,7 @@ function EditContent() {
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSubmit} 
-          className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer transition-all duration-200'
+          className='bg-primary hover:opacity-95 hover:shadow-md text-white w-[20%] text-base font-medium py-3 px-6 rounded-[3px] my-6 cursor-pointer transition-all duration-200'
         >
           {t('Save changes')}
         </motion.button>

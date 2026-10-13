@@ -94,7 +94,7 @@ function LayoutContent() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => router.push(`/Pages/Halls/Views?id=${hallId}`)} 
-                className='flex justify-center items-center bg-[var(--color-primary)] hover:opacity-95 transition-all duration-200 w-10 h-10 rounded-[3px] cursor-pointer'
+                className='flex justify-center items-center bg-primary hover:opacity-95 transition-all duration-200 w-10 h-10 rounded-[3px] cursor-pointer'
               >
                 <img src="/images/icons/arrow-right-go.svg" className='w-6 h-6' alt="" />
               </motion.button>
@@ -128,7 +128,7 @@ function LayoutContent() {
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleSaveLayout}
-            className='bg-[var(--color-primary)] hover:opacity-95 hover:shadow-md text-white text-base font-medium py-3 px-8 rounded-[3px] cursor-pointer transition-all duration-200 flex items-center justify-center w-[30%] lg1:w-[20%] h-14'
+            className='bg-primary hover:opacity-95 hover:shadow-md text-white text-base font-medium py-3 px-8 rounded-3px cursor-pointer transition-all duration-200 flex items-center justify-center w-[30%] lg1:w-[20%] h-14'
           >
             {t('Save changes')}
           </motion.button>

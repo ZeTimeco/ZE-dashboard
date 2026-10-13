@@ -49,7 +49,7 @@ function CardOfHall({ halls }) {
     switch (status) {
       case 1: //نشط 
         return (
-          <div className=' bg-[#fff] border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center shadow-xs transition-colors duration-200'>
+          <div className=' bg-white border border-[#17B26A] text-[#067647] w-fit h-7.5 rounded-full flex justify-center items-center shadow-xs transition-colors duration-200'>
             <div className='lg1:py-1.5 lg1:px-3 py-1 px-2 flex items-center gap-1'>
               <img src="/images/icons/true_green.svg" alt="" className='w-3.5 h-3.5' />
               <span className='text-xs lg1:text-sm'>{t('active')}</span>
@@ -108,12 +108,12 @@ function CardOfHall({ halls }) {
             variants={cardVariants}
             whileHover={{ y: -3 }}
             key={hall?.id}
-            className={`group relative cursor-pointer rounded-[3px] p-3 grid grid-cols-4 gap-4 transition-all duration-300 hover:shadow-[0_0_8px_var(--color-primary)] 
+            className={`group relative cursor-pointer rounded-3px p-3 grid grid-cols-4 gap-4 transition-all duration-300 hover:shadow-[0_0_8px_var(--color-primary)] 
                         ${selectedHall === hall?.id ? ' shadow-[0_0_8px_var(--color-primary)] ' : 'shadow-[0_0_4px_0_rgba(0,0,0,0.20)]'}
                     `}
           >
             {/* image */}
-            <div className='overflow-hidden rounded-[2px]'>
+            <div className='overflow-hidden rounded-xs'>
               <img 
                 src={`${IMAGE_BASE_URL}${hall?.image}`} 
                 className='w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105' 
@@ -129,7 +129,7 @@ function CardOfHall({ halls }) {
                     router.push(`/Pages/Halls/Tables?hall_id=${hall?.id}`);
                     setSelectedHall(hall?.id);
                   }}
-                  className='text-[#364152] text-xl font-medium hover:text-[var(--color-primary)] transition-colors duration-200'
+                  className='text-[#364152] text-xl font-medium hover:text-primary transition-colors duration-200'
                 >
                   {hall?.name}
                 </p>
@@ -153,11 +153,11 @@ function CardOfHall({ halls }) {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: -6 }}
                     transition={{ duration: 0.15, ease: "easeOut" }}
-                    className='absolute top-9 left-4 p-3 w-47 shadow-[0_4px_16px_0_rgba(0,0,0,0.15)] rounded-[3px] bg-white z-20 border border-[#E3E8EF]'
+                    className='absolute top-9 left-4 p-3 w-47 shadow-[0_4px_16px_0_rgba(0,0,0,0.15)] rounded-3px bg-white z-20 border border-[#E3E8EF]'
                   >
                     <button
                       onClick={() => router.push(`/Pages/Halls/Views?id=${hall?.id}`)} 
-                      className='w-full flex gap-2 p-1.5 rounded-[2px] cursor-pointer hover:bg-[#F1F5F9] transition-colors duration-150 items-center'
+                      className='w-full flex gap-2 p-1.5 rounded-xs cursor-pointer hover:bg-[#F1F5F9] transition-colors duration-150 items-center'
                     >
                       <img src="/images/icons/eye_black.svg" className='w-5 h-5' alt="" />
                       <p className='text-[#364152] text-base font-normal'>{t('views')}</p>
@@ -165,7 +165,7 @@ function CardOfHall({ halls }) {
 
                     <button
                       onClick={() => router.push(`/Pages/Halls/Views/Layout?id=${hall?.id}`)} 
-                      className='w-full flex gap-2 p-1.5 rounded-[2px] cursor-pointer hover:bg-[#F1F5F9] transition-colors duration-150 items-center'
+                      className='w-full flex gap-2 p-1.5 rounded-xs cursor-pointer hover:bg-[#F1F5F9] transition-colors duration-150 items-center'
                     >
                       <img src="/images/icons/restaurant-black.svg" className='w-5 h-5' alt="" />
                       <p className='text-[#364152] text-base font-normal'>{t('Hall organization')}</p>
@@ -186,7 +186,7 @@ function CardOfHall({ halls }) {
               <div className='flex gap-2'>
                 <button
                   onClick={() => handleDuplicate(hall?.id)}
-                  className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'
+                  className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'
                 >
                   <img src="/images/icons/copy_yellow.svg" className='w-5 h-5' alt="" />
                   <p className='text-[#364152] text-sm font-normal'>{t('copies')}</p>
@@ -194,19 +194,19 @@ function CardOfHall({ halls }) {
 
                 <button 
                   onClick={() => router.push(`/Pages/Halls/Hall/Edit?id=${hall?.id}`)} 
-                  className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'
+                  className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'
                 >
                   <img src="/images/icons/EditYellow.svg" className='w-5 h-5' alt="" />
                   <p className='text-[#364152] text-sm font-normal'>{t('modification')}</p>
                 </button>
 
                 {hall?.status ? (
-                  <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'>
+                  <button className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'>
                     <img src="/images/icons/shut-down.svg" className='w-5 h-5' alt="" />
                     <p className='text-[#364152] text-sm font-normal'>{t('closing')}</p>
                   </button>
                 ) : (
-                  <button className='flex items-center justify-center gap-1 rounded-[3px] border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'>
+                  <button className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#CDD5DF] hover:bg-[#F8FAFC] active:scale-[0.98] transition-all duration-200 px-2 h-14 w-full cursor-pointer'>
                     <img src="/images/icons/checkmark-circle-true.svg" className='w-5 h-5' alt="" />
                     <p className='text-[#364152] text-sm font-normal'>{t('reactivation')}</p>
                   </button>
