@@ -7,6 +7,7 @@ import RatePage from './Rate/page'
 import AbbreviationsPage from './Abbreviations/page'
 import TileOfSevicesPage from './TileOfSevices/page'
 import CardsPage from './Cards/page'
+import { useRouter } from 'next/navigation'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,6 +31,7 @@ const sectionVariants = {
 
 function ServicesPage() {
   const [current_module_key, setCurrentModuleKey] = useState(null)
+  const router = useRouter()
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem('user'))
@@ -44,6 +46,10 @@ function ServicesPage() {
         animate="visible"
         className="space-y-6 pb-8"
       >
+        <button onClick={() => router.push('/Pages/Verification/Module_Of_Verification')} className="bg-primary text-white px-4 py-2 rounded-3px">
+          Module_Of_VerificationPage
+        </button>
+
         <motion.div variants={sectionVariants}>
           <TileOfSevicesPage current_module_key={current_module_key} />
         </motion.div>
@@ -68,4 +74,4 @@ function ServicesPage() {
   )
 }
 
-export default ServicesPage
+export default ServicesPage

@@ -1821,6 +1821,10 @@
   "Unread": "غير مقروء",
   "Read": "مقروء",
   "Write your message here...":"اكتب رسالتك هنا...",
+  "Your account has been successfully created":"تم إنشاء حسابك بنجاح",
+  "Please verify your account and complete your information.":"يرجي توثيق حسابك واستكمال بياناتك",
+  "Please specify the service you require first, so we can help you complete your information and verify your account.":"يرجى تحديد الخدمة المطلوبة أولاً، لنساعدك في استكمال بيانات وتوثيق حسابك",
+  
   
 
 
