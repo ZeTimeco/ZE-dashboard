@@ -1824,7 +1824,12 @@
   "Your account has been successfully created":"تم إنشاء حسابك بنجاح",
   "Please verify your account and complete your information.":"يرجي توثيق حسابك واستكمال بياناتك",
   "Please specify the service you require first, so we can help you complete your information and verify your account.":"يرجى تحديد الخدمة المطلوبة أولاً، لنساعدك في استكمال بيانات وتوثيق حسابك",
-  
+  "Choose your business":"اختر نشاطك التجاري",
+  "This option verifies your business type to properly activate your account.":"يوثق هذا الخيار نوع النشاط التجاري الخاص بك لتفعيل حسابك بشكل صحيح.",
+  "Account verification":"توثيق الحساب",
+  "Activity data":"بيانات النشاط",
+  "Files and documents":"الملفات والمستندات",
+  "Review and send":"مراجعة وإرسال",
   
 
 

@@ -1,10 +1,12 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 function Module_Of_VerificationPage() {
   const {t} = useTranslation('')
+  const router = useRouter()
   return (
     <MainLayout>
       
@@ -31,7 +33,7 @@ function Module_Of_VerificationPage() {
           <h1 className='text-2xl font-semibold text-[#171202]'>{t('Service selection')}</h1>
           <p className='text-[#575757] text-xl font-normal'>{t('Please specify the service you require first, so we can help you complete your information and verify your account.')}</p>
 
-          <button className='bg-primary text-white font-base text-medium rounded-3px mt-4 w-[40%] h-14 cursor-pointer'>
+          <button onClick={()=>router.push(`/Pages/Verification/Module_Of_Verification/Modules`)} className='bg-primary text-white font-base text-medium rounded-3px mt-4 w-[40%] h-14 cursor-pointer'>
             {t('Service selection')}
           </button>
         </div>
