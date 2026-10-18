@@ -28,6 +28,13 @@ function Account_VerificationPage() {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
+  const goToFirstStage = () => {
+    setCurrentStep(1);
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <MainLayout>
       <h1 className="text-[#171717] text-2xl font-semibold mb-10 ">{t('Account verification')}</h1>
@@ -81,39 +88,47 @@ function Account_VerificationPage() {
         <div className="rounded-xl bg-white ">
           {currentStep === 1 && <ActivityData />}
           {currentStep === 2 && <FilesAndDocuments />}
-          {currentStep === 3 && <ReviewAndSend />}
+          {currentStep === 3 && <ReviewAndSend onGoToFirstStage={goToFirstStage} />}
 
           {/* Navigation */}
-          <div className="mt-8 flex gap-4 pt-6">
-            
+          <div className="mt-8 flex gap-4 py-6">
             {currentStep < steps.length ? (
-              <button
-                type="button"
-                onClick={nextStep}
-                className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F]"
-              >
-                التالي
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
+                >
+                  {t('the next')}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={previousStep}
+                  disabled={currentStep === 1}
+                  className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
+                >
+                  {t('Return')}
+                </button>
+              </>
             ) : (
-              <button
-                type="button"
-                onClick={() => {
-                }}
-                className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F]"
-              >
-                إرسال الطلب
-              </button>
+              <>
+                <button
+                  type="button"
+                  className="rounded-3px min-w-[20%] px-7 h-14 bg-primary text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer whitespace-nowrap"
+                >
+                  {t('Submit the request for review')}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={goToFirstStage}
+                  className="rounded-3px min-w-[20%] px-6 h-14 border border-primary text-sm text-primary transition hover:bg-yellow-50 cursor-pointer whitespace-nowrap"
+                >
+                  {t('Edit previous data')}
+                </button>
+              </>
             )}
-
-            <button
-              type="button"
-              onClick={previousStep}
-              disabled={currentStep === 1}
-              className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              الرجوع
-            </button>
-
           </div>
         </div>
       </div>

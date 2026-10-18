@@ -1830,10 +1830,24 @@
   "Activity data":"بيانات النشاط",
   "Files and documents":"الملفات والمستندات",
   "Review and send":"مراجعة وإرسال",
-  
-
-
-
+  "Please upload the required documents and enter the data correctly to review your account and activate the service":"يرجي رفع المستندات المطلوبة وإدخال البيانات بشكل صحيح لمراجعة حسابك وتفعيل الخدمة",
+  "Enter activity data":"أدخل بيانات النشاط",
+  "Commercial Registration Number":"رقم السجل التجاري",
+  "Enter the commercial registration number":"أدخل رقم السجل التجاري",
+  "Store/Business Name":"اسم المتجر / النشاط التجاري",
+  "Enter the name of the store or business":"أدخل اسم المتجر أو النشاط التجاري",
+  "Detailed title of the activity":"العنوان التفصيلي للنشاط ",
+  "Enter the detailed address (city, neighborhood, building number)":"أدخل العنوان التفصيلي (المدينة، الحي، رقم المبنى)",
+  "Data review and submission":"مراجعة البيانات والارسال",
+  "Please review all entered data before submitting the application for review and final approval.":"يرجي مراجعة كاملة البيانات المدخلة قبل إرسال الطلب للمراجعة والاعتماد النهائي",
+  "Business establishment data":"بيانات المنشأة التجارية",
+  "Store/Activity Name":"اسم المتجر / النشاط",
+  "Detailed address":"العنوان التفصيلي",
+  "I acknowledge the accuracy of all data and documents entered and I bear full legal responsibility for this.":"أقر بصحة جميع البيانات والمستندات المدخلة وأتحمل المسؤولية القانونية الكاملة حيال ذلك.",
+  "The application is reviewed and approved by the relevant authority.":"يتم مراجعة واعتماد الطلب من قبل الجهة المختصة",
+  "Your order will be processed after payment is completed.":"سيتم رفع طلبك بعد استكمال عملية الدفع",
+  "Submit the request for review": "إرسال الطلب للمراجعة",
+  "Edit previous data": "تعديل البيانات السابقة",
 
   "":""
 }
