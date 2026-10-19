@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import MainLayout from "@/app/Components/MainLayout/MainLayout";
-
 import ActivityData from "./ActivityData/page";
 import FilesAndDocuments from "./FilesAndDocuments/page";
 import ReviewAndSend from "./ReviewAndSend/page";
 import { useTranslation } from "react-i18next";
+import HiddenItemsLayout from "@/app/Components/MainLayout/HiddenItemsLayout";
 
 
 
@@ -36,7 +35,7 @@ function Account_VerificationPage() {
   };
 
   return (
-    <MainLayout>
+    <HiddenItemsLayout>
       <h1 className="text-[#171717] text-2xl font-semibold mb-10 ">{t('Account verification')}</h1>
       <div  className="mx-auto w-full ">
         {/* Stepper */}
@@ -132,7 +131,7 @@ function Account_VerificationPage() {
           </div>
         </div>
       </div>
-    </MainLayout>
+    </HiddenItemsLayout>
   );
 }
 

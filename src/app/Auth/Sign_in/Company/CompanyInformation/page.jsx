@@ -1,6 +1,6 @@
 "use client"
 import Have_an_account from '@/app/Components/login/Have_an_account'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
@@ -30,6 +30,8 @@ function CompanyInformationPage() {
     lastname: registrationData?.lastname || '',
     phone: registrationData?.phone || '',
     country_code: registrationData?.country_code || '',
+    email: registrationData?.email || '',
+    gender: registrationData?.gender || '',
   });
 
   const handleChange = (e) => {
@@ -62,6 +64,24 @@ function CompanyInformationPage() {
       console.error("Failed to send OTP:", error);
     }
   };
+
+  // =========================
+  const [open1, setOpen1] = useState(false);
+  const [searchValue1, setSearchValue1] = useState("");
+  const dropdownRef1 = useRef(null);
+  const optiongenderType = [
+    {id:'female' , name:t('Female')},
+    {id:'male' , name:t('Male')},
+  ]
+  
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
 
   return (
     <>
@@ -121,6 +141,67 @@ function CompanyInformationPage() {
           />
         </div>
 
+        {/* gender */}
+        <div className="flex flex-col mt-4">
+          <p className='text-sm font-medium mb-1.5'>
+            <span className='text-[#364152] '>{t('Gender')} </span>
+          </p>
+  
+          <div className="relative w-full" ref={dropdownRef1}>
+            <div
+              className="relative flex items-center border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px cursor-pointer transition-all duration-200"
+              onClick={() => setOpen1(!open1)}
+            >
+              <input
+                type="text"
+                placeholder={t("Gender")}
+                value={
+                  open1
+                    ? searchValue1
+                    : optiongenderType?.find(
+                        (opt) => opt?.id === formData.gender
+                      )?.name || ''
+                }
+                onChange={(e) => {
+                  setSearchValue1(e.target.value);
+                  setOpen1(true);
+                }}
+                className="h-14 p-3 w-full text-[#364152] focus:outline-none bg-transparent"
+              />
+  
+              <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open1 ? 'rotate-180' : ''}`}>
+                <img src="/images/icons/ArrowDown.svg" alt="toggle" />
+              </span>
+            </div>
+  
+            <>
+              {open1 && (
+                <ul 
+                  className="absolute left-0 right-0 top-full mt-1 border border-[#C8C8C8] bg-white rounded-3px shadow-lg z-20 max-h-48 overflow-y-auto"
+                >
+                  {optiongenderType
+                    ?.filter((opt) =>
+                      opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                    )
+                    .map((opt) => (
+                      <li
+                        key={opt?.id}
+                        onClick={() => {
+                          setFormData({...formData, gender: opt?.id});
+                          setSearchValue1("");
+                          setOpen1(false);
+                        }}
+                        className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-150 text-[#364152] text-sm"
+                      >
+                        {opt?.name}
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </>
+          </div>
+        </div>
+
         {/* phone number */}
         <div className="mt-4">
           <label className="text-[#364152] text-base font-normal">{t("Mobile number")}</label>
@@ -138,6 +219,21 @@ function CompanyInformationPage() {
             />
           </div>
         </div>
+
+        {/* email */}
+        <div className="flex flex-col mt-4">
+          <label className="text-[#364152] text-base font-normal mb-3">{t("Email")}</label>
+          <input
+            type="text"
+            name="email"
+            value={formData?.email}
+            onChange={handleChange}
+            disabled={isProcessing}
+            className="h-15 p-3 w-full border border-[#C8C8C8] rounded-3px placeholder-[#9A9A9A] placeholder:text-sm outline-none transition focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed"
+            placeholder={t("Email")}
+          />
+        </div>
+
 
         {/* Error */}
         {error && !isProcessing && (

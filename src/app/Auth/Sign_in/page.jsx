@@ -18,12 +18,14 @@ function Sign_inPage() {
   const { updateRegistrationData } = useRegistration();
   const [selectedRole, setSelectedRole] = useState(null);
 
+  // click to select role or company
   const handleRole = (role) => {
-    if (selectedRole) return; // prevent double click
+    if (selectedRole) return; 
     setSelectedRole(role);
     updateRegistrationData({ role });
     router.push('/Auth/Sign_in/Company');
   }
+
 
   return (
     <>
@@ -96,7 +98,7 @@ function Sign_inPage() {
                   <span className="flex justify-center mb-5">
                     <img src="/images/Freelance.svg" alt="" />
                   </span>
-                  <span className="flex justify-center text-[#000] text-2xl font-medium">{t('Freelance')}</span>
+                  <span className="flex justify-center text-black text-2xl font-medium">{t('Freelance')}</span>
                 </>
               )}
             </div>

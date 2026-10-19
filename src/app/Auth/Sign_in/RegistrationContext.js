@@ -12,6 +12,8 @@ export const RegistrationProvider = ({ children }) => {
     role: '',
     password: '',
     password_confirmation: '',
+    email:'',
+    gender:''
   });
 
   // Load from localStorage on mount

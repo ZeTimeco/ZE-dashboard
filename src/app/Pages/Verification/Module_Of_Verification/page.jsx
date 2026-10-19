@@ -1,5 +1,5 @@
 'use client'
-import MainLayout from '@/app/Components/MainLayout/MainLayout'
+import HiddenItemsLayout from '@/app/Components/MainLayout/HiddenItemsLayout'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +8,7 @@ function Module_Of_VerificationPage() {
   const {t} = useTranslation('')
   const router = useRouter()
   return (
-    <MainLayout>
+    <HiddenItemsLayout>
       
       <div className='flex flex-col justify-center items-center '>
         {/* note */}
@@ -39,7 +39,7 @@ function Module_Of_VerificationPage() {
         </div>
       </div>
 
-    </MainLayout>
+    </HiddenItemsLayout>
   )
 }
 

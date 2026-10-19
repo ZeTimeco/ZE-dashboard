@@ -64,7 +64,7 @@ function LoginPage() {
         
         // Check conditions and route accordingly
         if ((has_subscription === false && current_module_key === null) || has_subscription === false) {
-          router.push("/Pages/dashboard/Main");
+          router.push("/Pages/Verification/Module_Of_Verification");
         } else {
           if (national_id === null) {
             router.push("/Pages/dashboard/TemporaryDashboard/CompleteSignupData");

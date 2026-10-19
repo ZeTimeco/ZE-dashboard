@@ -101,7 +101,7 @@ export const VerifyEmailOtp = async(payload)=>{
 /* ==========  NEW SIGNUP APIs ========== */
 
 export const FirstRegistration = async(formData)=>{
-  const response = await API.post('/register/basic', formData , {
+  const response = await API.post('/provider/register/basic', formData , {
     headers: {
       'Content-Type': 'application/json',
     }
