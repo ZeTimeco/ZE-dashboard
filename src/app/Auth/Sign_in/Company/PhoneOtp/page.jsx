@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { VerifyPhoneOtpThunk, checkEnterPhoneThunk } from '@/redux/slice/Auth/AuthSlice'
+import { VerifyPhoneOtpThunk, checkEnterPhoneThunk, sendEmailThunk } from '@/redux/slice/Auth/AuthSlice'
 import { useRegistration } from '../../RegistrationContext'
 
 const Spinner = ({ size = "h-5 w-5", color = "text-white" }) => (
@@ -105,8 +105,18 @@ function PhoneOtpPage() {
         phone: `${registrationData.country_code}${registrationData.phone}`,
         otp: otpCode
       })).unwrap();
+
+      const emailToSend = registrationData?.email || (typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('registrationData') || '{}')?.email : '');
+      if (emailToSend) {
+        try {
+          await dispatch(sendEmailThunk({ email: emailToSend })).unwrap();
+        } catch (emailErr) {
+          console.error("Failed to send initial email OTP:", emailErr);
+        }
+      }
+
       setIsRedirecting(true);
-      router.push('/Auth/Sign_in/Company/SetPassword');
+      router.push('/Auth/Sign_in/Company/EmailOtp');
     } catch (err) {
       console.error("OTP verification failed:", err);
       setShowError(true);

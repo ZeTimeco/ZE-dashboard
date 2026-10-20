@@ -61,7 +61,8 @@ function SetPasswordPage() {
   const handleConfirm = async () => {
     if (isProcessing || error || !rules.length || !rules.uppercase || !rules.number || !rules.symbol) return;
 
-    const fullData = { ...registrationData, password, password_confirmation };
+    const savedData = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('registrationData') || '{}') : {};
+    const fullData = { ...savedData, ...registrationData, password, password_confirmation };
     const result = await dispatch(FirstRegistrationThunk(fullData));
     if (result.meta.requestStatus === 'fulfilled') {
       setIsRedirecting(true);
@@ -170,9 +171,9 @@ function SetPasswordPage() {
           <div className="flex flex-col gap-2 mb-12 mt-10">
             <div className="flex gap-6 justify-center">
               <button
-                onClick={() => router.push('/Auth/Sign_in/Company/PhoneOtp')}
+                onClick={() => router.push('/Auth/Sign_in/Company/EmailOtp')}
                 disabled={isProcessing}
-                className="px-4 py-2 w-48 sm:w-64 flex justify-center items-center border border-primary text-primary rounded-3px transition hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 w-48 sm:w-64 flex justify-center items-center border border-primary text-primary rounded-3px transition hover:bg-primary/5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {t('the previous')}
               </button>

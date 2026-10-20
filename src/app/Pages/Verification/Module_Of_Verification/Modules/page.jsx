@@ -2,11 +2,24 @@
 
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useTranslation } from 'react-i18next'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux'
+import { getBussinessModuleThunk, getBusinessModuleRequirementsThunk } from '@/redux/slice/Auth/AuthSlice'
+import HiddenItemsLayout from '@/app/Components/MainLayout/HiddenItemsLayout'
 
 function ModulesPage() {
   const { t } = useTranslation('')
+  //api
+  const dispatch = useDispatch()
+  const {getBussinessModule} = useSelector((state)=>state.auth)
+  useEffect(()=>{
+    dispatch(getBussinessModuleThunk())
+  },[dispatch])
+
+  // console.log('getBussinessModule' , getBussinessModule);
+
+
   const [selectedModule, setSelectedModule] = useState(null)
   const router = useRouter()
 
@@ -57,12 +70,31 @@ function ModulesPage() {
     },
   ]
 
-  const handleModuleChange = (id) => {
-    setSelectedModule((prev) => (prev === id ? null : id))
-  }
+  const handleModuleChange = (item) => {
+    const isCurrentlySelected = selectedModule === item.id;
+    const newSelected = isCurrentlySelected ? null : item.id;
+    setSelectedModule(newSelected);
+
+    if (!isCurrentlySelected && item?.module_key) {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('selected_module_key', item.module_key);
+      }
+      dispatch(getBusinessModuleRequirementsThunk(item.module_key));
+    }
+  };
+
+  const handleNext = () => {
+    const selectedItem = getBussinessModule?.find((item) => item.id === selectedModule);
+    const key = selectedItem?.module_key || (typeof window !== 'undefined' ? localStorage.getItem('selected_module_key') : null);
+    if (key) {
+      router.push(`/Pages/Verification/Account_Verification?module_key=${key}`);
+    } else {
+      router.push('/Pages/Verification/Account_Verification');
+    }
+  };
 
   return (
-    <MainLayout>
+    <HiddenItemsLayout>
       <div className="flex flex-col gap-1">
         <h1 className="text-[#171717] text-2xl font-semibold">
           {t('Choose your business')}
@@ -76,14 +108,21 @@ function ModulesPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 mt-15">
-        {moduleStyle.map((module) => {
-          const isChecked = selectedModule === module.id
+        {getBussinessModule?.map((item) => {
+          const module = moduleStyle.find(
+            (module) => module.id === item.id
+          );
+
+          if (!module) return null;
+
+          const isChecked = selectedModule === item.id;
 
           return (
             <div
-              key={module.id}
-              className={`border rounded-3px p-3.5 flex justify-between transition-colors duration-200 ${
-                isChecked ? 'border-primary' : 'border-[#E5E5E5]'
+              key={item.id}
+              onClick={() => handleModuleChange(item)}
+              className={`border rounded-3px p-3.5 flex justify-between transition-colors duration-200 cursor-pointer ${
+                isChecked ? "border-primary" : "border-[#E5E5E5]"
               }`}
             >
               <div className="flex gap-4">
@@ -97,11 +136,11 @@ function ModulesPage() {
 
                 <div className="flex flex-col">
                   <h1 className="text-[#171717] text-lg font-normal">
-                    {module.name}
+                    {item.name}
                   </h1>
 
                   <p className="text-[#737373] text-base font-medium">
-                    {t('amount')} : {module.price}$
+                    {t("amount")} : {module.price}$
                   </p>
                 </div>
               </div>
@@ -110,12 +149,13 @@ function ModulesPage() {
                 <input
                   type="checkbox"
                   checked={isChecked}
-                  onChange={() => handleModuleChange(module.id)}
+                  onChange={() => handleModuleChange(item)}
+                  onClick={(e) => e.stopPropagation()}
                   className={inputClassName}
                 />
               </div>
             </div>
-          )
+          );
         })}
       </div>
 
@@ -123,7 +163,7 @@ function ModulesPage() {
       <div className="mt-8 flex gap-4  pt-6">
         <button
           type="button"
-          onClick={() => router.push('/Pages/Verification/Account_Verification')}
+          onClick={handleNext}
           className="rounded-3px  w-[20%] h-14  bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
         >
           التالي
@@ -135,10 +175,8 @@ function ModulesPage() {
         >
           الرجوع
         </button>
-
-        
       </div>
-    </MainLayout>
+    </HiddenItemsLayout>
   )
 }
 

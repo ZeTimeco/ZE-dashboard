@@ -1,17 +1,28 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import ActivityData from "./ActivityData/page";
 import FilesAndDocuments from "./FilesAndDocuments/page";
 import ReviewAndSend from "./ReviewAndSend/page";
 import { useTranslation } from "react-i18next";
 import HiddenItemsLayout from "@/app/Components/MainLayout/HiddenItemsLayout";
+import { useSearchParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { getBusinessModuleRequirementsThunk } from "@/redux/slice/Auth/AuthSlice";
 
-
-
-function Account_VerificationPage() {
+function Account_VerificationContent() {
   const {t} = useTranslation('')
   const [currentStep, setCurrentStep] = useState(1);
+  const dispatch = useDispatch();
+  const searchParams = useSearchParams();
+  const module_key = searchParams.get('module_key') || (typeof window !== "undefined" ? localStorage.getItem('selected_module_key') : null);
+  const { getBusinessModuleRequirements, loading } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (module_key) {
+      dispatch(getBusinessModuleRequirementsThunk(module_key));
+    }
+  }, [dispatch, module_key]);
 
   const steps = [
   { id: 1, title: t('Activity data') },
@@ -34,6 +45,8 @@ function Account_VerificationPage() {
     }
   };
 
+  console.log('module_key:', module_key);
+  console.log('getBusinessModuleRequirements:', getBusinessModuleRequirements);
   return (
     <HiddenItemsLayout>
       <h1 className="text-[#171717] text-2xl font-semibold mb-10 ">{t('Account verification')}</h1>
@@ -85,9 +98,9 @@ function Account_VerificationPage() {
 
         {/* Current Component */}
         <div className="rounded-xl bg-white ">
-          {currentStep === 1 && <ActivityData />}
-          {currentStep === 2 && <FilesAndDocuments />}
-          {currentStep === 3 && <ReviewAndSend onGoToFirstStage={goToFirstStage} />}
+          {currentStep === 1 && <ActivityData requirements={getBusinessModuleRequirements} moduleKey={module_key} />}
+          {currentStep === 2 && <FilesAndDocuments requirements={getBusinessModuleRequirements} moduleKey={module_key} />}
+          {currentStep === 3 && <ReviewAndSend onGoToFirstStage={goToFirstStage} requirements={getBusinessModuleRequirements} moduleKey={module_key} />}
 
           {/* Navigation */}
           <div className="mt-8 flex gap-4 py-6">
@@ -135,4 +148,12 @@ function Account_VerificationPage() {
   );
 }
 
-export default Account_VerificationPage;
+function Account_VerificationPage() {
+  return (
+    <Suspense fallback={null}>
+      <Account_VerificationContent />
+    </Suspense>
+  );
+}
+
+export default Account_VerificationPage;

@@ -68,11 +68,12 @@ export const signup = async (formData) => {
   return response.data;
 };
 
-//❌ check email if exists
-export const checkEmail = async(email)=>{
-  const response = await  API.post('/provider/check-email',{email})
-  return response.data
-}
+// check email if exists
+export const checkEmail = async(data)=>{
+  const email = typeof data === 'object' && data !== null ? data.email : data;
+  const response = await API.post('/provider/check-email', { email });
+  return response.data;
+};
 
 //✔️Enter phone to send otp type: new
 export const checkEnterPhone = async({phone})=>{
@@ -86,9 +87,11 @@ export const VerifyPhoneOtp = async(payload)=>{
   return response.data;
 }
 
-//✔️Enter email to send otp type: forgot
-export const sendEmail = async({email})=>{
-  const response = await API.post('/provider/send-email-otp',{email,'type':'new'});
+//✔️Enter email to send otp type: new
+export const sendEmail = async(data)=>{
+  const email = typeof data === 'object' && data !== null ? data.email : data;
+  const type = (typeof data === 'object' && data !== null && data.type) ? data.type : 'new';
+  const response = await API.post('/provider/send-email-otp', { email, type });
   return response.data;
 };
 
@@ -136,3 +139,18 @@ export const UpdateInSignup = async (FormData) => {
 
 
 
+/**===================verification ================================ */
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
+//--------------------------------------------------------------------
+
+export const getBussinessModule = async()=>{
+  const response = await API.get('/provider/business-modules')
+  return response.data
+}
+
+export const getBusinessModuleRequirements = async (module_key) => {
+  const key = typeof module_key === 'object' && module_key !== null ? module_key.module_key : module_key
+  const response = await API.get(`/provider/business-modules/${key}/requirements`)
+  return response.data
+}

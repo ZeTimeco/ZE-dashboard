@@ -9,6 +9,12 @@ function ConfirmationPage() {
   const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('registrationData');
+    }
+  }, []);
+
   const handleLogin = (e) => {
     e.preventDefault();
     if (isNavigating) return;

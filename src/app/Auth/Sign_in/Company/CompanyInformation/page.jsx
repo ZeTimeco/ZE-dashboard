@@ -246,12 +246,12 @@ function CompanyInformationPage() {
         <div className="flex flex-col gap-2 mt-8 mb-10">
           <button
             onClick={handleNext}
-            disabled={isProcessing || !formData.phone || !formData.firstname}
+            disabled={isProcessing || !formData.phone || !formData.firstname || !formData.email}
             className={`
               w-full h-15 bg-primary text-white text-base font-medium rounded-3px
               flex items-center justify-center gap-3
               transition-all duration-200 shadow-sm
-              ${isProcessing || !formData.phone || !formData.firstname
+              ${isProcessing || !formData.phone || !formData.firstname || !formData.email
                 ? 'opacity-65 cursor-not-allowed'
                 : 'cursor-pointer hover:opacity-95 active:scale-[0.99]'}
             `}
