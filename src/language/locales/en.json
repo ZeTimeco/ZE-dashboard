@@ -1846,6 +1846,13 @@
   "Your order will be processed after payment is completed.":"Your order will be processed after payment is completed.",
   "Submit the request for review": "Submit the request for review",
   "Edit previous data": "Edit previous data",
+  "commercial register":"commercial register",
+  "Upload a copy of the commercial registration.":"Upload a copy of the commercial registration.",
+  "Or drag the file here":"Or drag the file here",
+  "Maximum size 5 MB":"Maximum size 5 MB",
+  "Please attach the required official documents and paperwork to verify the establishment's identity and activate your account.":"Please attach the required official documents and paperwork to verify the establishment's identity and activate your account.",
+  "Attached documents":"Attached documents",
+  
 
   "":""
 }
