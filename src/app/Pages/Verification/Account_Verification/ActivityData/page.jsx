@@ -4,7 +4,14 @@ import { useTranslation } from 'react-i18next'
 import Upload_CommercialRegister from './Upload_CommercialRegister'
 import Form from './Form'
 
-function ActivityDataPage() {
+function ActivityDataPage({
+  commercialRegisterFile,
+  onCommercialRegisterFileChange,
+  commercialRegisterDeadline,
+  onCommercialRegisterDeadlineChange,
+  formData,
+  onFormDataChange,
+}) {
   const { t } = useTranslation()
   return (
     < div className='flex flex-col gap-6'>
@@ -15,10 +22,15 @@ function ActivityDataPage() {
     </header>
   
     {/* commercial register */}
-    <Upload_CommercialRegister/>
+    <Upload_CommercialRegister
+      file={commercialRegisterFile}
+      onFileChange={onCommercialRegisterFileChange}
+      deadlineDate={commercialRegisterDeadline}
+      onDeadlineChange={onCommercialRegisterDeadlineChange}
+    />
 
     {/* form */}
-    <Form/>
+    <Form formData={formData} onFormDataChange={onFormDataChange} />
       
     </div>
   )

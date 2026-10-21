@@ -2,7 +2,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Data({ onGoToFirstStage }) {
+function Data({ onGoToFirstStage, formData }) {
   const { t } = useTranslation()
   return (
     <div className='border border-[#E7E5E4E5] rounded-3px p-3'>
@@ -25,17 +25,17 @@ function Data({ onGoToFirstStage }) {
       <div className='flex flex-col gap-3'>
         <div className='flex justify-between '>
           <h3 className='text-[#A8A29E] text-sm font-medium'>{t('Store/Activity Name')} :</h3>
-          <p className='text-[#292524] text-sm font-medium'>أسواق النور المركزية</p>
+          <p className='text-[#292524] text-sm font-medium'>{formData?.storeBusinessName || '—'}</p>
         </div>
 
         <div className='flex justify-between '>
           <h3 className='text-[#A8A29E] text-sm font-medium'>{t('Commercial Registration Number')} :</h3>
-          <p className='text-[#292524] text-sm font-medium'>123456789</p>
+          <p className='text-[#292524] text-sm font-medium'>{formData?.commercialRegistrationNumber || '—'}</p>
         </div>
 
         <div className='flex justify-between '>
           <h3 className='text-[#A8A29E] text-sm font-medium'>{t('Detailed address')} :</h3>
-          <p className='text-[#292524] text-sm font-medium'>أسواق النور المركزية</p>
+          <p className='text-[#292524] text-sm font-medium'>{formData?.detailedTitle || '—'}</p>
         </div>
 
       </div>

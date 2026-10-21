@@ -3,8 +3,15 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Upload_Document from './Upload_Document'
 
-function FilesAndDocumentsPage() {
+function FilesAndDocumentsPage({
+  getBusinessModuleRequirements,
+  documentFiles,
+  documentDeadlines,
+  onDocumentFileChange,
+  onDocumentDeadlineChange,
+}) {
   const { t } = useTranslation()
+  console.log('getBusinessModuleRequirements?.requirements' ,getBusinessModuleRequirements?.requirements );
   return (
     <div className='flex flex-col gap-6'>
       {/*  */}
@@ -13,14 +20,21 @@ function FilesAndDocumentsPage() {
         <p className="text-base text-[#737373] font-medium">{t("Please attach the required official documents and paperwork to verify the establishment's identity and activate your account.")}</p>
       </header>
 
-      {/* National ID - Front */}
-      <Upload_Document title='National ID (Front)' showDatePicker={true} />
+      {getBusinessModuleRequirements?.requirements?.map((requirement , index)=>(
+        <Upload_Document
+          requirement={requirement}
+          key={requirement?.field_key || index}
+          title={requirement?.field_key}
+          showDatePicker={requirement?.has_expiry_date}
+          file={documentFiles?.[requirement?.field_key] || undefined}
+          onFileChange={(file) => onDocumentFileChange?.(requirement?.field_key, file)}
+          deadlineDate={documentDeadlines?.[requirement?.field_key] || undefined}
+          onDeadlineChange={(date) => onDocumentDeadlineChange?.(requirement?.field_key, date)}
+        />
+      ))}
+      
+    
 
-      {/* National ID - Back */}
-      <Upload_Document title='National ID (Back)' showDatePicker={true} />
-
-      {/* Bank Certificate (IBAN) */}
-      <Upload_Document title='Bank Certificate (IBAN)' showDatePicker={false} />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getBusinessModuleRequirements, getBussinessModule, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { BusinessModuleApplications, checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getBusinessModuleRequirements, getBussinessModule, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
 import Cookies from "js-cookie";
@@ -279,6 +279,19 @@ export const getBusinessModuleRequirementsThunk = createAsyncThunk(
     try {
       const key = typeof module_key === 'object' && module_key !== null ? module_key.module_key : module_key;
       const response = await getBusinessModuleRequirements(key);
+      return response.data || response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || { message: error.message });
+    }
+  }
+);
+
+export const BusinessModuleApplicationsThunk = createAsyncThunk(
+  'auth/BusinessModuleApplications',
+  async (module_key, { rejectWithValue }) => {
+    try {
+      const key = typeof module_key === 'object' && module_key !== null ? module_key.module_key : module_key;
+      const response = await BusinessModuleApplications(key);
       return response.data || response;
     } catch (error) {
       return rejectWithValue(error.response?.data || { message: error.message });
@@ -602,6 +615,18 @@ const authSlice = createSlice({
       state.getBusinessModuleRequirements = action.payload;
     })
     .addCase(getBusinessModuleRequirementsThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    //BusinessModuleApplicationsThunk
+    .addCase(BusinessModuleApplicationsThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(BusinessModuleApplicationsThunk.fulfilled, (state, action) => {
+      state.loading = false;
+    })
+    .addCase(BusinessModuleApplicationsThunk.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     })

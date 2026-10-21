@@ -154,3 +154,9 @@ export const getBusinessModuleRequirements = async (module_key) => {
   const response = await API.get(`/provider/business-modules/${key}/requirements`)
   return response.data
 }
+
+export const BusinessModuleApplications = async (module_key) => {
+  const key = typeof module_key === 'object' && module_key !== null ? module_key.module_key : module_key
+  const response = await API.post(`/provider/business-modules/${key}/applications`)
+  return response.data
+}

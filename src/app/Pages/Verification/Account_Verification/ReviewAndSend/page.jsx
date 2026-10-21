@@ -4,7 +4,15 @@ import { useTranslation } from 'react-i18next'
 import Data from './Data'
 import Documents from './Documents'
 
-function ReviewAndSendPage({ onGoToFirstStage }) {
+function ReviewAndSendPage({
+  onGoToFirstStage,
+  formData,
+  commercialRegisterFile,
+  commercialRegisterDeadline,
+  documentFiles,
+  documentDeadlines,
+  getBusinessModuleRequirements,
+}) {
   const { t } = useTranslation()
 
 
@@ -21,10 +29,16 @@ function ReviewAndSendPage({ onGoToFirstStage }) {
       </header>
 
       {/* Data */}
-      <Data onGoToFirstStage={onGoToFirstStage} />
+      <Data onGoToFirstStage={onGoToFirstStage} formData={formData} />
 
       {/* Documents */}
-      <Documents />
+      <Documents
+        commercialRegisterFile={commercialRegisterFile}
+        commercialRegisterDeadline={commercialRegisterDeadline}
+        documentFiles={documentFiles}
+        documentDeadlines={documentDeadlines}
+        getBusinessModuleRequirements={getBusinessModuleRequirements}
+      />
 
 
       {/* check */}

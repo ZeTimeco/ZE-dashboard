@@ -12,7 +12,8 @@ function Upload_Document({
   onFileChange,
   deadlineDate: propDeadline,
   onDeadlineChange,
-  showDatePicker = true,
+  showDatePicker,
+  requirement
 }) {
   const { t } = useTranslation()
   const fileInputRef = useRef(null)
@@ -20,6 +21,40 @@ function Upload_Document({
   const [internalDeadline, setInternalDeadline] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const [previewUrl, setPreviewUrl] = useState(null)
+  const [fileError, setFileError] = useState(null)
+
+  // Build dynamic accept string from requirement mimes (e.g. ["pdf","jpg"] → ".pdf,.jpg")
+  const allowedMimes = requirement?.validation?.mimes
+  const acceptString = allowedMimes?.length
+    ? allowedMimes.map((ext) => `.${ext.toLowerCase()}`).join(',')
+    : '.pdf,.jpg,.jpeg,.png'
+
+  const validateFile = (file) => {
+    if (!file) return false
+
+    // Validate file extension against allowed mimes
+    if (allowedMimes?.length) {
+      const fileExt = file.name?.split('.').pop()?.toLowerCase()
+      if (!fileExt || !allowedMimes.map((m) => m.toLowerCase()).includes(fileExt)) {
+        setFileError(
+          t('Unsupported file type. Allowed types:') + ' ' + allowedMimes.join(', ')
+        )
+        return false
+      }
+    }
+
+    // Validate file size against max_size_kb
+    const maxSizeKb = requirement?.validation?.max_size_kb
+    if (maxSizeKb && file.size > maxSizeKb * 1024) {
+      setFileError(
+        t('File size exceeds the maximum allowed size of') + ' ' + maxSizeKb + ' KB'
+      )
+      return false
+    }
+
+    setFileError(null)
+    return true
+  }
 
   const selectedFile = propFile !== undefined ? propFile : internalFile
   const deadline = propDeadline !== undefined ? propDeadline : internalDeadline
@@ -59,6 +94,11 @@ function Upload_Document({
   const handleFileChange = (e) => {
     const file = e.target.files?.[0]
     if (file) {
+      if (!validateFile(file)) {
+        // Reset the input so the same file can be re-selected after fixing
+        if (fileInputRef.current) fileInputRef.current.value = ''
+        return
+      }
       updateFile(file)
     }
   }
@@ -78,6 +118,7 @@ function Upload_Document({
     setIsDragging(false)
     const file = e.dataTransfer.files?.[0]
     if (file) {
+      if (!validateFile(file)) return
       updateFile(file)
     }
   }
@@ -85,6 +126,7 @@ function Upload_Document({
   const handleDelete = (e) => {
     e.stopPropagation()
     updateFile(null)
+    setFileError(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
@@ -102,9 +144,14 @@ function Upload_Document({
   return (
     <>
       <div className='w-full'>
-        <p className='text-sm font-medium mb-1.5'>
-          <span className='text-[#364152] '>{t(title)} </span>
-          <span className=' text-[#F04438]'>*</span>
+        <p className='text-sm font-medium mb-1.5 flex gap-2'>
+          <span className='text-[#364152] '>{requirement?.field_key}</span>
+          {requirement?.is_required ? (
+            <span className=' text-[#F04438]'>*</span>
+          ):(
+            <span className=' bg-[#F5F5F5] text-[#A3A3A3] font-medium text-2.5 w-fit px-3 py-1 rounded-full '>{t('optional')}</span>
+          )}
+        
         </p>
 
         {/* Hidden file input */}
@@ -112,9 +159,19 @@ function Upload_Document({
           type='file'
           ref={fileInputRef}
           onChange={handleFileChange}
-          accept='.pdf,.jpg,.jpeg,.png'
+          accept={acceptString}
           className='hidden'
         />
+
+        {/* Validation error message */}
+        {fileError && (
+          <p className='text-[#F04438] text-xs font-medium mb-2 flex items-center gap-1.5'>
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            {fileError}
+          </p>
+        )}
 
         <div className={`grid ${showDatePicker ? 'grid-cols-3' : 'grid-cols-1'} gap-6 items-stretch`}>
           {/* Upload Box */}
@@ -129,12 +186,14 @@ function Upload_Document({
               } flex flex-col items-center gap-1 justify-center ${showDatePicker ? 'col-span-2' : 'col-span-1'} py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
             >
               <p><img src="/images/icons/upload_gray.svg" alt="" /></p>
-              <p className='text-[#1F2937] text-sm font-normal'>{t('Upload a copy of the document.')}</p>
+              <p className='text-[#1F2937] text-sm font-normal'>{requirement?.label}</p>
               <p className='text-[#9CA3AF] text-xs font-normal'>{t('Or drag the file here')}</p>
               <p className='bg-[#F0F2F5] p-3 w-fit rounded-3px text-[#6B7280] text-xs font-medium flex items-center gap-2'>
-                <span>{t('Maximum size 5 MB')}</span>
-                <span className='w-[1px] h-3 bg-[#CBD5E1] inline-block'></span>
-                <span>PDF, JPG</span>
+                <span>{t('maximum')} {requirement?.validation?.max_size_kb} {t('megabytes')}</span>
+                <span className='w-px h-3 bg-[#CBD5E1] inline-block'></span>
+                <span className="flex gap-2">
+                  {requirement?.validation?.mimes?.join(", ")}
+                </span>
               </p>
             </div>
           ) : (
@@ -179,6 +238,8 @@ function Upload_Document({
             </div>
           )}
 
+
+
           {/* Calendar Deadline Time (col-span-1) */}
           {showDatePicker && (
             <div
@@ -199,6 +260,7 @@ function Upload_Document({
                   value={deadline}
                   onChange={updateDeadline}
                   format="DD/MM/YYYY"
+                  maxDate={requirement?.minimum_validity_days ? dayjs().add(requirement.minimum_validity_days, 'day') : undefined}
                   slotProps={{
                     textField: {
                       placeholder: "DD / MM / YYYY",
