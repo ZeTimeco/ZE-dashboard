@@ -2,8 +2,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-function Form({ formData, onFormDataChange }) {
+function Form({ formData, onFormDataChange, showErrors }) {
   const { t } = useTranslation()
+
+  const isCommRegError = Boolean(showErrors && !formData?.commercialRegistrationNumber?.trim())
+  const isStoreNameError = Boolean(showErrors && !formData?.storeBusinessName?.trim())
+  const isDetailedTitleError = Boolean(showErrors && !formData?.detailedTitle?.trim())
+
   return (
     <>
     <div className='grid grid-cols-2 gap-4'>
@@ -19,7 +24,11 @@ function Form({ formData, onFormDataChange }) {
           value={formData?.commercialRegistrationNumber || ''}
           onChange={(e) => onFormDataChange?.('commercialRegistrationNumber', e.target.value)}
           placeholder={t('Enter the commercial registration number')}
-          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
+          className={`w-full h-14 p-3 border ${
+            isCommRegError
+              ? 'border-[#F04438] focus:border-[#F04438] focus:ring-1 focus:ring-[#F04438]/20'
+              : 'border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20'
+          } text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
         />
       </div>
       
@@ -35,7 +44,11 @@ function Form({ formData, onFormDataChange }) {
           value={formData?.storeBusinessName || ''}
           onChange={(e) => onFormDataChange?.('storeBusinessName', e.target.value)}
           placeholder={t('Enter the name of the store or business')}
-          className={`w-full h-14 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
+          className={`w-full h-14 p-3 border ${
+            isStoreNameError
+              ? 'border-[#F04438] focus:border-[#F04438] focus:ring-1 focus:ring-[#F04438]/20'
+              : 'border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20'
+          } text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
         />
       </div>
 
@@ -51,7 +64,11 @@ function Form({ formData, onFormDataChange }) {
           value={formData?.detailedTitle || ''}
           onChange={(e) => onFormDataChange?.('detailedTitle', e.target.value)}
           placeholder={t('Enter the detailed address (city, neighborhood, building number)')}
-          className={`w-full h-25 p-3 border border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
+          className={`w-full h-25 p-3 border ${
+            isDetailedTitleError
+              ? 'border-[#F04438] focus:border-[#F04438] focus:ring-1 focus:ring-[#F04438]/20'
+              : 'border-[#C8C8C8] hover:border-[#9AA4B2] focus:border-primary focus:ring-1 focus:ring-primary/20'
+          } text-sm text-[#364152] rounded-3px outline-none transition-all duration-200`}
         />
       </div>
     </div>

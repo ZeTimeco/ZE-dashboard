@@ -9,6 +9,7 @@ function FilesAndDocumentsPage({
   documentDeadlines,
   onDocumentFileChange,
   onDocumentDeadlineChange,
+  showErrors,
 }) {
   const { t } = useTranslation()
   console.log('getBusinessModuleRequirements?.requirements' ,getBusinessModuleRequirements?.requirements );
@@ -30,6 +31,7 @@ function FilesAndDocumentsPage({
           onFileChange={(file) => onDocumentFileChange?.(requirement?.field_key, file)}
           deadlineDate={documentDeadlines?.[requirement?.field_key] || undefined}
           onDeadlineChange={(date) => onDocumentDeadlineChange?.(requirement?.field_key, date)}
+          showErrors={showErrors}
         />
       ))}
       

@@ -11,6 +11,7 @@ function ActivityDataPage({
   onCommercialRegisterDeadlineChange,
   formData,
   onFormDataChange,
+  showErrors,
 }) {
   const { t } = useTranslation()
   return (
@@ -27,10 +28,11 @@ function ActivityDataPage({
       onFileChange={onCommercialRegisterFileChange}
       deadlineDate={commercialRegisterDeadline}
       onDeadlineChange={onCommercialRegisterDeadlineChange}
+      showErrors={showErrors}
     />
 
     {/* form */}
-    <Form formData={formData} onFormDataChange={onFormDataChange} />
+    <Form formData={formData} onFormDataChange={onFormDataChange} showErrors={showErrors} />
       
     </div>
   )

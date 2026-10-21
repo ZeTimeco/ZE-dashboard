@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useState, useEffect, Suspense, useCallback } from "react";
+import React, { useState, useEffect, Suspense, useCallback, useMemo } from "react";
 import ActivityData from "./ActivityData/page";
 import FilesAndDocuments from "./FilesAndDocuments/page";
 import ReviewAndSend from "./ReviewAndSend/page";
 import { useTranslation } from "react-i18next";
 import HiddenItemsLayout from "@/app/Components/MainLayout/HiddenItemsLayout";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getBusinessModuleRequirementsThunk } from "@/redux/slice/Auth/AuthSlice";
 
 
 function Account_VerificationContent() {
   const {t} = useTranslation('')
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [stepError, setStepError] = useState(null);
   const dispatch = useDispatch();
@@ -45,6 +46,34 @@ function Account_VerificationContent() {
     { id: 3, title: t('Review and send') },
   ];
 
+  const [showErrors, setShowErrors] = useState(true);
+  const isErrorShown = showErrors || Boolean(stepError);
+
+  const isStep1Valid = Boolean(
+    commercialRegisterFile &&
+    commercialRegisterDeadline &&
+    formData?.commercialRegistrationNumber?.trim() &&
+    formData?.storeBusinessName?.trim() &&
+    formData?.detailedTitle?.trim()
+  );
+
+  const isStep2Valid = useMemo(() => {
+    const requirements = getBusinessModuleRequirements?.requirements || [];
+    for (const req of requirements) {
+      if (req?.is_required) {
+        if (!documentFiles[req.field_key]) {
+          return false;
+        }
+        if (req?.has_expiry_date && !documentDeadlines[req.field_key]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }, [getBusinessModuleRequirements, documentFiles, documentDeadlines]);
+
+  const isNextDisabled = currentStep === 1 ? !isStep1Valid : currentStep === 2 ? !isStep2Valid : false;
+
   // Step 1 validation
   const validateStep1 = useCallback(() => {
     if (!commercialRegisterFile) {
@@ -53,13 +82,13 @@ function Account_VerificationContent() {
     if (!commercialRegisterDeadline) {
       return t('Please specify the commercial register expiry date');
     }
-    if (!formData.commercialRegistrationNumber.trim()) {
+    if (!formData?.commercialRegistrationNumber?.trim()) {
       return t('Please enter the commercial registration number');
     }
-    if (!formData.storeBusinessName.trim()) {
+    if (!formData?.storeBusinessName?.trim()) {
       return t('Please enter the store/business name');
     }
-    if (!formData.detailedTitle.trim()) {
+    if (!formData?.detailedTitle?.trim()) {
       return t('Please enter the detailed title of the activity');
     }
     return null;
@@ -71,10 +100,10 @@ function Account_VerificationContent() {
     for (const req of requirements) {
       if (req?.is_required) {
         if (!documentFiles[req.field_key]) {
-          return t('Please upload the required document:') + ' ' + req.field_key;
+          return t('Please upload the required document:') + ' ' + (req.label || req.field_key);
         }
         if (req?.has_expiry_date && !documentDeadlines[req.field_key]) {
-          return t('Please specify the expiry date for:') + ' ' + req.field_key;
+          return t('Please specify the expiry date for:') + ' ' + (req.label || req.field_key);
         }
       }
     }
@@ -91,20 +120,24 @@ function Account_VerificationContent() {
 
     if (error) {
       setStepError(error);
+      setShowErrors(true);
       return;
     }
 
     setStepError(null);
+    setShowErrors(false);
     setCurrentStep((prev) => Math.min(prev + 1, steps.length));
   };
 
   const previousStep = () => {
     setStepError(null);
+    setShowErrors(false);
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
   const goToFirstStage = () => {
     setStepError(null);
+    setShowErrors(false);
     setCurrentStep(1);
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -130,19 +163,26 @@ function Account_VerificationContent() {
       <div  className="mx-auto w-full ">
         {/* Stepper */}
         <div className="relative mb-10">
-          <div className="absolute left-[16.66%] right-[16.66%] top-6 h-px bg-gray-200" />
-
           <div className="relative grid grid-cols-3">
           
-            {steps.map((step) => {
+            {steps.map((step, index) => {
               const isActive = currentStep === step.id;
               const isCompleted = currentStep > step.id;
 
               return (
                 <div
                   key={step.id}
-                  className="flex flex-col items-center gap-3"
+                  className="relative flex flex-col items-center gap-3"
                 >
+                  {/* Connector line to next step */}
+                  {index < steps.length - 1 && (
+                    <div
+                      className={`absolute top-6 start-1/2 ltr:left-1/2 rtl:right-1/2 w-full h-[2px] -translate-y-1/2 z-0 ${
+                        index === 0 ? 'bg-primary' : (currentStep > 2 ? 'bg-primary' : 'bg-gray-200')
+                      }`}
+                    />
+                  )}
+
                   <div
                     className={`z-10 flex h-12 w-12 items-center justify-center rounded-full border text-sm font-semibold transition-all duration-300 ${
                       isCompleted
@@ -184,6 +224,7 @@ function Account_VerificationContent() {
               commercialRegisterDeadline={commercialRegisterDeadline}
               onCommercialRegisterDeadlineChange={setCommercialRegisterDeadline}
               formData={formData}
+              showErrors={isErrorShown}
               onFormDataChange={(field, value) => {
                 setFormData((prev) => ({ ...prev, [field]: value }));
                 setStepError(null);
@@ -196,6 +237,7 @@ function Account_VerificationContent() {
               moduleKey={module_key}
               documentFiles={documentFiles}
               documentDeadlines={documentDeadlines}
+              showErrors={isErrorShown}
               onDocumentFileChange={handleDocumentFileChange}
               onDocumentDeadlineChange={handleDocumentDeadlineChange}
             />
@@ -214,15 +256,7 @@ function Account_VerificationContent() {
           )}
 
 
-          {/* Validation Error */}
-          {stepError && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-3px flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#F04438] shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-              <p className="text-[#F04438] text-sm font-medium">{stepError}</p>
-            </div>
-          )}
+
 
           {/* Navigation */}
           <div className="mt-8 flex gap-4 py-6">
@@ -231,24 +265,30 @@ function Account_VerificationContent() {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer"
+                  disabled={isNextDisabled}
+                  className="rounded-3px w-[20%] h-14 bg-primary px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary"
                 >
                   {t('the next')}
                 </button>
 
-                <button
-                  type="button"
-                  onClick={previousStep}
-                  disabled={currentStep === 1}
-                  className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 cursor-pointer"
-                >
-                  {t('Return')}
-                </button>
+                {currentStep > 1 && (
+                  <button
+                    type="button"
+                    onClick={previousStep}
+                    className="rounded-3px w-[20%] h-14 border border-gray-300 px-6 py-3 text-sm text-gray-700 transition hover:bg-gray-50 cursor-pointer"
+                  >
+                    {t('Return')}
+                  </button>
+                )}
               </>
             ) : (
               <>
                 <button
                   type="button"
+                  onClick={() => {
+                    const query = module_key ? `?module_key=${encodeURIComponent(module_key)}` : '';
+                    router.push(`/Pages/Verification/Account_Verification/Confirmation/Waiting${query}`);
+                  }}
                   className="rounded-3px min-w-[20%] px-7 h-14 bg-primary text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer whitespace-nowrap"
                 >
                   {t('Submit the request for review')}

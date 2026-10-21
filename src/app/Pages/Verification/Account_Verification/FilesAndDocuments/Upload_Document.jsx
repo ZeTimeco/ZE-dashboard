@@ -13,7 +13,8 @@ function Upload_Document({
   deadlineDate: propDeadline,
   onDeadlineChange,
   showDatePicker,
-  requirement
+  requirement,
+  showErrors,
 }) {
   const { t } = useTranslation()
   const fileInputRef = useRef(null)
@@ -140,6 +141,11 @@ function Upload_Document({
   }
 
   const fileExtension = selectedFile?.name?.split('.').pop()?.toUpperCase() || 'FILE'
+  const isFileRequired = Boolean(requirement?.is_required)
+  const isFileMissing = isFileRequired && !selectedFile
+  const isFileError = Boolean((showErrors && isFileMissing) || fileError)
+  const isDeadlineMissing = isFileRequired && showDatePicker && !deadline
+  const isDeadlineError = Boolean(showErrors && isDeadlineMissing)
 
   return (
     <>
@@ -182,7 +188,11 @@ function Upload_Document({
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
               className={`border min-h-[135px] ${
-                isDragging ? 'border-primary bg-primary/5' : 'border-[#CBD5E1] bg-[#FAFAFA]'
+                isDragging
+                  ? 'border-primary bg-primary/5'
+                  : isFileError
+                    ? 'border-[#F04438] bg-red-50/10'
+                    : 'border-[#CBD5E1] bg-[#FAFAFA]'
               } flex flex-col items-center gap-1 justify-center ${showDatePicker ? 'col-span-2' : 'col-span-1'} py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
             >
               <p><img src="/images/icons/upload_gray.svg" alt="" /></p>
@@ -243,9 +253,13 @@ function Upload_Document({
           {/* Calendar Deadline Time (col-span-1) */}
           {showDatePicker && (
             <div
-              className={`col-span-1 border  ${
-                deadline ? 'border-primary bg-white' : 'border-[#CBD5E1] bg-[#FAFAFA]'
-              } py-4 px-5 rounded-3px flex flex-col  gap-2.5 transition-colors`}
+              className={`col-span-1 border ${
+                isDeadlineError
+                  ? 'border-[#F04438] bg-red-50/10'
+                  : deadline
+                    ? 'border-primary bg-white'
+                    : 'border-[#CBD5E1] bg-[#FAFAFA]'
+              } py-4 px-5 rounded-3px flex flex-col gap-2.5 transition-colors`}
             >
               <div className='flex items-center gap-2'>
                 <img src="/images/icons/calendar_yellow.svg" alt="calendar" className="w-4 h-4" />
@@ -273,11 +287,14 @@ function Upload_Document({
                           borderRadius: '3px',
                           fontSize: '13px',
                           color: deadline ? 'var(--color-primary, #C69815)' : '#364152',
+                          '& .MuiOutlinedInput-notchedOutline': {
+                            borderColor: isDeadlineError ? '#F04438 !important' : undefined,
+                          },
                           '&:hover .MuiOutlinedInput-notchedOutline': {
-                            borderColor: 'var(--color-primary, #C69815)',
+                            borderColor: isDeadlineError ? '#F04438 !important' : 'var(--color-primary, #C69815)',
                           },
                           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: 'var(--color-primary, #C69815)',
+                            borderColor: isDeadlineError ? '#F04438 !important' : 'var(--color-primary, #C69815)',
                           },
                         },
                         '& .MuiInputBase-input': {
@@ -285,7 +302,7 @@ function Upload_Document({
                           textAlign: 'center',
                         },
                         '& .MuiSvgIcon-root': {
-                          color: 'var(--color-primary, #C69815)',
+                          color: isDeadlineError ? '#F04438' : 'var(--color-primary, #C69815)',
                         },
                       },
                     },
