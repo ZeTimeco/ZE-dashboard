@@ -8,7 +8,9 @@ import { useTranslation } from "react-i18next";
 import HiddenItemsLayout from "@/app/Components/MainLayout/HiddenItemsLayout";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { getBusinessModuleRequirementsThunk } from "@/redux/slice/Auth/AuthSlice";
+import { getBusinessModuleRequirementsThunk, BusinessModuleApplicationsThunk } from "@/redux/slice/Auth/AuthSlice";
+import { toast } from "react-toastify";
+import dayjs from "dayjs";
 
 
 function Account_VerificationContent() {
@@ -19,9 +21,13 @@ function Account_VerificationContent() {
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const module_key = searchParams.get('module_key') || (typeof window !== "undefined" ? localStorage.getItem('selected_module_key') : null);
-  const { getBusinessModuleRequirements, loading } = useSelector((state) => state.auth);
+  const { getBusinessModuleRequirements, loading, user } = useSelector((state) => state.auth);
 
   // Step 1 state: Activity Data
+  const [nationalIdFrontFile, setNationalIdFrontFile] = useState(null);
+  const [nationalIdFrontDeadline, setNationalIdFrontDeadline] = useState(null);
+  const [nationalIdBackFile, setNationalIdBackFile] = useState(null);
+  const [nationalIdBackDeadline, setNationalIdBackDeadline] = useState(null);
   const [commercialRegisterFile, setCommercialRegisterFile] = useState(null);
   const [commercialRegisterDeadline, setCommercialRegisterDeadline] = useState(null);
   const [formData, setFormData] = useState({
@@ -33,6 +39,10 @@ function Account_VerificationContent() {
   // Step 2 state: Files and Documents
   const [documentFiles, setDocumentFiles] = useState({});
   const [documentDeadlines, setDocumentDeadlines] = useState({});
+
+  // Step 3 state: Review & Submit
+  const [isAcknowledged, setIsAcknowledged] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (module_key) {
@@ -50,6 +60,9 @@ function Account_VerificationContent() {
   const isErrorShown = showErrors || Boolean(stepError);
 
   const isStep1Valid = Boolean(
+    nationalIdFrontFile &&
+    nationalIdBackFile &&
+    (nationalIdFrontDeadline || nationalIdBackDeadline) &&
     commercialRegisterFile &&
     commercialRegisterDeadline &&
     formData?.commercialRegistrationNumber?.trim() &&
@@ -76,6 +89,15 @@ function Account_VerificationContent() {
 
   // Step 1 validation
   const validateStep1 = useCallback(() => {
+    if (!nationalIdFrontFile) {
+      return t('Please upload the front national ID card');
+    }
+    if (!nationalIdFrontDeadline && !nationalIdBackDeadline) {
+      return t('Please specify the national ID expiry date');
+    }
+    if (!nationalIdBackFile) {
+      return t('Please upload the back national ID card');
+    }
     if (!commercialRegisterFile) {
       return t('Please upload the commercial register file');
     }
@@ -92,7 +114,16 @@ function Account_VerificationContent() {
       return t('Please enter the detailed title of the activity');
     }
     return null;
-  }, [commercialRegisterFile, commercialRegisterDeadline, formData, t]);
+  }, [
+    nationalIdFrontFile,
+    nationalIdFrontDeadline,
+    nationalIdBackFile,
+    nationalIdBackDeadline,
+    commercialRegisterFile,
+    commercialRegisterDeadline,
+    formData,
+    t,
+  ]);
 
   // Step 2 validation: only required documents
   const validateStep2 = useCallback(() => {
@@ -155,8 +186,144 @@ function Account_VerificationContent() {
     setStepError(null);
   }, []);
 
-  console.log('module_key:', module_key);
-  console.log('getBusinessModuleRequirements:', getBusinessModuleRequirements);
+  // Submit application
+  const handleSubmitApplication = async () => {
+    if (!isAcknowledged) {
+      toast.error(t('Please acknowledge the accuracy of all entered data and documents.'));
+      return;
+    }
+
+    if (!module_key) {
+      toast.error(t('Module key is missing'));
+      return;
+    }
+
+    const step1Err = validateStep1();
+    if (step1Err) {
+      toast.error(step1Err);
+      setCurrentStep(1);
+      setShowErrors(true);
+      return;
+    }
+
+    const step2Err = validateStep2();
+    if (step2Err) {
+      toast.error(step2Err);
+      setCurrentStep(2);
+      setShowErrors(true);
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const submissionData = new FormData();
+
+      // Form text fields
+      if (formData.storeBusinessName) {
+        submissionData.append('business_name', formData.storeBusinessName.trim());
+      }
+      if (formData.detailedTitle) {
+        submissionData.append('business_address', formData.detailedTitle.trim());
+      }
+      if (formData.commercialRegistrationNumber) {
+        submissionData.append('commercial_registration_number', formData.commercialRegistrationNumber.trim());
+      }
+      const identityNumber = formData.identityNumber || user?.national_id || formData.commercialRegistrationNumber;
+      if (identityNumber) {
+        submissionData.append('identity_number', identityNumber.toString().trim());
+      }
+
+      // Commercial Register
+      if (commercialRegisterFile) {
+        submissionData.append('commercial_registration', commercialRegisterFile);
+        submissionData.append('documents[commercial_register]', commercialRegisterFile);
+      }
+      if (commercialRegisterDeadline) {
+        const commExpiry = dayjs(commercialRegisterDeadline).isValid()
+          ? dayjs(commercialRegisterDeadline).format('YYYY-MM-DD')
+          : String(commercialRegisterDeadline);
+        submissionData.append('expiry_dates[commercial_register]', commExpiry);
+      }
+
+      // National ID
+      if (nationalIdFrontFile) {
+        submissionData.append('identity_front_image', nationalIdFrontFile);
+        submissionData.append('documents[national_id]', nationalIdFrontFile);
+      }
+      if (nationalIdBackFile) {
+        submissionData.append('identity_back_image', nationalIdBackFile);
+      }
+      const idExpiryDate = nationalIdFrontDeadline || nationalIdBackDeadline;
+      if (idExpiryDate) {
+        const formattedIdExpiry = dayjs(idExpiryDate).isValid()
+          ? dayjs(idExpiryDate).format('YYYY-MM-DD')
+          : String(idExpiryDate);
+        submissionData.append('identity_expiry_date', formattedIdExpiry);
+        submissionData.append('expiry_dates[national_id]', formattedIdExpiry);
+      }
+
+      // Dynamic documents (Step 2)
+      if (documentFiles) {
+        Object.entries(documentFiles).forEach(([key, file]) => {
+          if (file) {
+            submissionData.append(`documents[${key}]`, file);
+          }
+        });
+      }
+
+      // Dynamic expiry dates (Step 2)
+      if (documentDeadlines) {
+        Object.entries(documentDeadlines).forEach(([key, date]) => {
+          if (date) {
+            const formatted = dayjs(date).isValid()
+              ? dayjs(date).format('YYYY-MM-DD')
+              : String(date);
+            submissionData.append(`expiry_dates[${key}]`, formatted);
+          }
+        });
+      }
+
+      const queryParams = {};
+      if (formData.commercialRegistrationNumber) {
+        queryParams.commercial_registration_number = formData.commercialRegistrationNumber.trim();
+      }
+
+      const resultAction = await dispatch(
+        BusinessModuleApplicationsThunk({
+          module_key,
+          formData: submissionData,
+          params: queryParams,
+        })
+      );
+
+      if (BusinessModuleApplicationsThunk.fulfilled.match(resultAction)) {
+        toast.success(t('Application submitted successfully') || 'Application submitted successfully');
+        const responseData = resultAction.payload;
+        const applicationId = responseData?.data?.id || responseData?.id || '';
+        const orderQuery = applicationId ? `&order_id=${encodeURIComponent(applicationId)}` : '';
+        router.push(
+          `/Pages/Verification/Account_Verification/Confirmation/Waiting?module_key=${encodeURIComponent(module_key)}${orderQuery}`
+        );
+      } else {
+        const payload = resultAction.payload;
+        let errorMessage = t('Failed to submit application');
+        if (payload?.message) {
+          errorMessage = payload.message;
+        } else if (payload?.error) {
+          errorMessage = payload.error;
+        } else if (payload?.errors) {
+          const firstErr = Object.values(payload.errors).flat()[0];
+          if (firstErr) errorMessage = firstErr;
+        }
+        toast.error(errorMessage);
+      }
+    } catch (err) {
+      toast.error(err?.message || t('Something went wrong'));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <HiddenItemsLayout>
       <h1 className="text-[#171717] text-2xl font-semibold mb-10 ">{t('Account verification')}</h1>
@@ -223,6 +390,14 @@ function Account_VerificationContent() {
               onCommercialRegisterFileChange={setCommercialRegisterFile}
               commercialRegisterDeadline={commercialRegisterDeadline}
               onCommercialRegisterDeadlineChange={setCommercialRegisterDeadline}
+              nationalIdFrontFile={nationalIdFrontFile}
+              onNationalIdFrontFileChange={setNationalIdFrontFile}
+              nationalIdFrontDeadline={nationalIdFrontDeadline}
+              onNationalIdFrontDeadlineChange={setNationalIdFrontDeadline}
+              nationalIdBackFile={nationalIdBackFile}
+              onNationalIdBackFileChange={setNationalIdBackFile}
+              nationalIdBackDeadline={nationalIdBackDeadline}
+              onNationalIdBackDeadlineChange={setNationalIdBackDeadline}
               formData={formData}
               showErrors={isErrorShown}
               onFormDataChange={(field, value) => {
@@ -250,8 +425,14 @@ function Account_VerificationContent() {
               formData={formData}
               commercialRegisterFile={commercialRegisterFile}
               commercialRegisterDeadline={commercialRegisterDeadline}
+              nationalIdFrontFile={nationalIdFrontFile}
+              nationalIdFrontDeadline={nationalIdFrontDeadline}
+              nationalIdBackFile={nationalIdBackFile}
+              nationalIdBackDeadline={nationalIdBackDeadline}
               documentFiles={documentFiles}
               documentDeadlines={documentDeadlines}
+              isAcknowledged={isAcknowledged}
+              onAcknowledgeChange={setIsAcknowledged}
             />
           )}
 
@@ -285,19 +466,28 @@ function Account_VerificationContent() {
               <>
                 <button
                   type="button"
-                  onClick={() => {
-                    const query = module_key ? `?module_key=${encodeURIComponent(module_key)}` : '';
-                    router.push(`/Pages/Verification/Account_Verification/Confirmation/Waiting${query}`);
-                  }}
-                  className="rounded-3px min-w-[20%] px-7 h-14 bg-primary text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer whitespace-nowrap"
+                  onClick={handleSubmitApplication}
+                  disabled={isSubmitting || !isAcknowledged}
+                  className="rounded-3px min-w-[20%] px-7 h-14 bg-primary text-sm font-semibold text-white transition hover:bg-[#AD850F] cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {t('Submit the request for review')}
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                      </svg>
+                      <span>{t('Submitting...')}</span>
+                    </>
+                  ) : (
+                    t('Submit the request for review')
+                  )}
                 </button>
 
                 <button
                   type="button"
                   onClick={goToFirstStage}
-                  className="rounded-3px min-w-[20%] px-6 h-14 border border-primary text-sm text-primary transition hover:bg-yellow-50 cursor-pointer whitespace-nowrap"
+                  disabled={isSubmitting}
+                  className="rounded-3px min-w-[20%] px-6 h-14 border border-primary text-sm text-primary transition hover:bg-yellow-50 cursor-pointer whitespace-nowrap disabled:opacity-50"
                 >
                   {t('Edit previous data')}
                 </button>
@@ -309,6 +499,7 @@ function Account_VerificationContent() {
     </HiddenItemsLayout>
   );
 }
+
 
 function Account_VerificationPage() {
   return (

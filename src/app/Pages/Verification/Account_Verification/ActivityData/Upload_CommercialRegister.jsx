@@ -97,12 +97,10 @@ function Upload_CommercialRegister({
   }
 
   const fileExtension = selectedFile?.name?.split('.').pop()?.toUpperCase() || 'FILE'
-  const isFileError = Boolean(showErrors && !selectedFile)
-  const isDeadlineError = Boolean(showErrors && !deadline)
 
   return (
     <>
-      <div className='w-full'>
+      <div className='w-full border border-[#EEEEEE] p-4'>
         <p className='text-sm font-medium mb-1.5'>
           <span className='text-[#364152] '>{t('commercial register')} </span>
           <span className=' text-[#F04438]'>*</span>
@@ -117,33 +115,37 @@ function Upload_CommercialRegister({
           className='hidden'
         />
 
-        <div className='grid grid-cols-3 gap-6 items-stretch'>
-          {/* Upload Box (col-span-2) */}
+        <div className='flex flex-col gap-6 '>
+          {/* Upload Box */}
           {!selectedFile ? (
             <div
               onClick={handleBoxClick}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`border min-h-[135px] ${
+              className={`border border-dashed ${
                 isDragging
-                  ? 'border-primary bg-primary/5'
-                  : isFileError
-                    ? 'border-[#F04438] bg-red-50/10'
-                    : 'border-[#CBD5E1] bg-[#FAFAFA]'
-              } flex flex-col items-center gap-1 justify-center col-span-2 py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
+                  ? 'border-primary '
+                  : 'border-[#CBD5E1] '
+              } flex justify-between py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
             >
-              <p><img src="/images/icons/upload_gray.svg" alt="" /></p>
-              <p className='text-[#1F2937] text-sm font-normal'>{t('Upload a copy of the commercial registration.')}</p>
-              <p className='text-[#9CA3AF] text-xs font-normal'>{t('Or drag the file here')}</p>
-              <p className='bg-[#F0F2F5] p-3 w-fit rounded-3px text-[#6B7280] text-xs font-medium flex items-center gap-2'>
-                <span>{t('Maximum size 5 MB')}</span>
-                <span className='w-[1px] h-3 bg-[#CBD5E1] inline-block'></span>
-                <span>PDF, JPG</span>
-              </p>
+              <div className='flex flex-col gap-1'>
+                <p className='text-[#1F2937] text-sm font-normal'>{t('Upload a copy of the commercial registration.')}</p>
+                <p className='text-[#9CA3AF] text-xs font-normal'>{t('Or drag the file here')}</p>
+                <p className='bg-[#F0F2F5] p-3 w-fit rounded-3px text-[#6B7280] text-xs font-medium flex items-center gap-2'>
+                  <span>{t('Maximum size 5 MB')}</span>
+                  <span className='w-[1px] h-3 bg-[#CBD5E1] inline-block'></span>
+                  <span>PDF, JPG</span>
+                </p>
+              </div>
+              <div className='flex items-center'>
+                <p>
+                  <img src="/images/icons/upload_yellow.svg" alt="" />
+                </p>
+              </div>
             </div>
           ) : (
-            <div className='border border-primary bg-white min-h-[135px] flex items-center justify-between col-span-2 py-4 px-6 rounded-3px transition-colors'>
+            <div className='border border-primary bg-white flex items-center justify-between py-4 px-6 rounded-3px transition-colors'>
               <div className='flex items-center gap-3.5 overflow-hidden'>
                 {previewUrl ? (
                   <img
@@ -184,23 +186,23 @@ function Upload_CommercialRegister({
             </div>
           )}
 
-          {/* Calendar Deadline Time (col-span-1) */}
+          {/* Calendar Deadline Time */}
           <div
-            className={`col-span-1 border ${
-              isDeadlineError
-                ? 'border-[#F04438] bg-red-50/10'
-                : deadline
-                  ? 'border-primary bg-white'
-                  : 'border-[#CBD5E1] bg-[#FAFAFA]'
+            className={`border border-dashed ${
+              deadline
+                ? 'border-primary bg-white'
+                : 'border-[#CBD5E1] '
             } py-4 px-5 rounded-3px flex flex-col gap-2.5 transition-colors`}
           >
-            <div className='flex items-center gap-2'>
-              <img src="/images/icons/calendar_yellow.svg" alt="calendar" className="w-4 h-4" />
-              <p className='text-sm font-medium text-[#1F2937] truncate'>
-                <span>{t('Expiry date')}</span>
+            <div className='flex justify-between'>
+              <p className='flex items-center gap-2'>
+                <img src="/images/icons/calendar_yellow.svg" alt="calendar" className="w-4 h-4" />
+                <span className='text-sm font-medium text-[#1F2937] truncate'>
+                  <span>{t('Expiry date')}</span>
+                </span>
               </p>
+              <p className='text-[#9CA3AF] text-xs font-normal'>{t('Specify the expiry date')}</p>
             </div>
-              <p className='text-[#9CA3AF] text-xs font-normal mb-4 mt-2'>{t('Specify the expiry date')}</p>
 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
@@ -219,14 +221,11 @@ function Upload_CommercialRegister({
                         borderRadius: '3px',
                         fontSize: '13px',
                         color: deadline ? 'var(--color-primary, #C69815)' : '#364152',
-                        '& .MuiOutlinedInput-notchedOutline': {
-                          borderColor: isDeadlineError ? '#F04438 !important' : undefined,
-                        },
                         '&:hover .MuiOutlinedInput-notchedOutline': {
-                          borderColor: isDeadlineError ? '#F04438 !important' : 'var(--color-primary, #C69815)',
+                          borderColor: 'var(--color-primary, #C69815)',
                         },
                         '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                          borderColor: isDeadlineError ? '#F04438 !important' : 'var(--color-primary, #C69815)',
+                          borderColor: 'var(--color-primary, #C69815)',
                         },
                       },
                       '& .MuiInputBase-input': {
@@ -234,7 +233,7 @@ function Upload_CommercialRegister({
                         textAlign: 'center',
                       },
                       '& .MuiSvgIcon-root': {
-                        color: isDeadlineError ? '#F04438' : 'var(--color-primary, #C69815)',
+                        color: 'var(--color-primary, #C69815)',
                       },
                     },
                   },
@@ -242,10 +241,8 @@ function Upload_CommercialRegister({
               />
             </LocalizationProvider>
           </div>
-          
         </div>
       </div>
-      
     </>
   )
 }

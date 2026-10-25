@@ -288,10 +288,9 @@ export const getBusinessModuleRequirementsThunk = createAsyncThunk(
 
 export const BusinessModuleApplicationsThunk = createAsyncThunk(
   'auth/BusinessModuleApplications',
-  async (module_key, { rejectWithValue }) => {
+  async (args, { rejectWithValue }) => {
     try {
-      const key = typeof module_key === 'object' && module_key !== null ? module_key.module_key : module_key;
-      const response = await BusinessModuleApplications(key);
+      const response = await BusinessModuleApplications(args);
       return response.data || response;
     } catch (error) {
       return rejectWithValue(error.response?.data || { message: error.message });
@@ -324,6 +323,7 @@ const initialState = {
   //verification
   getBussinessModule:null,
   getBusinessModuleRequirements:null,
+  businessModuleApplication:null,
 
 
 
@@ -625,6 +625,7 @@ const authSlice = createSlice({
     })
     .addCase(BusinessModuleApplicationsThunk.fulfilled, (state, action) => {
       state.loading = false;
+      state.businessModuleApplication = action.payload;
     })
     .addCase(BusinessModuleApplicationsThunk.rejected, (state, action) => {
       state.loading = false;

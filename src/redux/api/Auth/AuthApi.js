@@ -155,8 +155,29 @@ export const getBusinessModuleRequirements = async (module_key) => {
   return response.data
 }
 
-export const BusinessModuleApplications = async (module_key) => {
-  const key = typeof module_key === 'object' && module_key !== null ? module_key.module_key : module_key
-  const response = await API.post(`/provider/business-modules/${key}/applications`)
+export const BusinessModuleApplications = async (arg1, arg2) => {
+  let key
+  let data
+  let params
+
+  if (typeof arg1 === 'object' && arg1 !== null && !(arg1 instanceof FormData)) {
+    key = arg1.module_key
+    data = arg1.formData || arg1.data
+    params = arg1.params
+  } else {
+    key = arg1
+    data = arg2
+  }
+
+  const response = await API.post(
+    `/provider/business-modules/${key}/applications`,
+    data,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      params: params || {},
+    }
+  )
   return response.data
 }

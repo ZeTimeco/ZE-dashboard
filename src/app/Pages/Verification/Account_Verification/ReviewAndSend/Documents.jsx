@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next'
 function Documents({
   commercialRegisterFile,
   commercialRegisterDeadline,
+  nationalIdFrontFile,
+  nationalIdFrontDeadline,
+  nationalIdBackFile,
+  nationalIdBackDeadline,
   documentFiles,
   documentDeadlines,
   getBusinessModuleRequirements,
@@ -36,10 +40,30 @@ function Documents({
   const documents = useMemo(() => {
     const docs = []
 
-    // Commercial register (always first)
+    // National ID Front
+    if (nationalIdFrontFile) {
+      docs.push({
+        label: t('Front national ID card photo'),
+        fileName: nationalIdFrontFile.name,
+        fileSize: formatFileSize(nationalIdFrontFile.size),
+        expiryDate: formatDate(nationalIdFrontDeadline),
+      })
+    }
+
+    // National ID Back
+    if (nationalIdBackFile) {
+      docs.push({
+        label: t('Back national ID card photo'),
+        fileName: nationalIdBackFile.name,
+        fileSize: formatFileSize(nationalIdBackFile.size),
+        expiryDate: formatDate(nationalIdBackDeadline),
+      })
+    }
+
+    // Commercial register
     if (commercialRegisterFile) {
       docs.push({
-        label: 'commercial register',
+        label: t('commercial register'),
         fileName: commercialRegisterFile.name,
         fileSize: formatFileSize(commercialRegisterFile.size),
         expiryDate: formatDate(commercialRegisterDeadline),
@@ -52,7 +76,7 @@ function Documents({
       const file = documentFiles?.[req.field_key]
       if (file) {
         docs.push({
-          label: req.field_key,
+          label: req.label || req.field_key,
           fileName: file.name,
           fileSize: formatFileSize(file.size),
           expiryDate: formatDate(documentDeadlines?.[req.field_key]),
@@ -61,7 +85,18 @@ function Documents({
     }
 
     return docs
-  }, [commercialRegisterFile, commercialRegisterDeadline, documentFiles, documentDeadlines, getBusinessModuleRequirements])
+  }, [
+    nationalIdFrontFile,
+    nationalIdFrontDeadline,
+    nationalIdBackFile,
+    nationalIdBackDeadline,
+    commercialRegisterFile,
+    commercialRegisterDeadline,
+    documentFiles,
+    documentDeadlines,
+    getBusinessModuleRequirements,
+    t,
+  ])
 
   return (
     <div className='border border-[#E7E5E4E5] rounded-3px p-3'>
