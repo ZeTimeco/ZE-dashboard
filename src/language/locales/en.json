@@ -1853,7 +1853,15 @@
   "Please attach the required official documents and paperwork to verify the establishment's identity and activate your account.":"Please attach the required official documents and paperwork to verify the establishment's identity and activate your account.",
   "Attached documents":"Attached documents",
   "megabytes":"megabytes",
+  "Account verification request":"Account verification request",
+  "Your request has been successfully received and is currently being reviewed by our team. We will notify you as soon as the review is complete.":"Your request has been successfully received and is currently being reviewed by our team. We will notify you as soon as the review is complete.",
+  "Copy":"Copy",
+  "Sent in":"Sent in",
+  "We regret that the authentication request could not be accepted due to comments on the documents.":"We regret that the authentication request could not be accepted due to comments on the documents.",
+  "Please review the reason for rejection and update the data for re-examination.":"Please review the reason for rejection and update the data for re-examination.",
+  "Date of observation":"Date of observation",
   
+
 
   "":""
 }

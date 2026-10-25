@@ -1855,7 +1855,15 @@
   "Please attach the required official documents and paperwork to verify the establishment's identity and activate your account.":"يرجي إرفاق المستندات والوثائق الرسمية المطلوبة للتحقق من هوية المنشأة وتفعيل حسابك",
   "Attached documents":"المستندات المرفقة",
   "megabytes":"ميجابايت" , 
+  "Account verification request":"طلب توثيق الحساب",
+  "Your request has been successfully received and is currently being reviewed by our team. We will notify you as soon as the review is complete.":"تم استلام طلبك بنجاح، وجاري مراجعته من قبل فريقنا. سنقوم بإشعارك فور الانتهاء من المراجعة.",
+  "Copy":"تم النسخ",
+  "Sent in":"تم الإرسال في ",
+  "We regret that the authentication request could not be accepted due to comments on the documents.":"نأسف، تعذر قبول طلب التوثيق لوجود ملاحظات على المستندات.",
+  "Please review the reason for rejection and update the data for re-examination.":"يرجى مراجعة سبب الرفض وتحديث البيانات لإعادة المراجعة.",
+  "Date of observation":"تاريخ الملاحظة",
   
+
 
 
 
