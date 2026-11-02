@@ -252,7 +252,7 @@ function CreateNewPasswordpage() {
                       </span>
                     </>
                   ) : (
-                    t("Confirm")
+                    t("confirmation")
                   )}
                 </button>
               </div>

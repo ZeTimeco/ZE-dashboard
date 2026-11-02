@@ -134,7 +134,7 @@ function ServiceToggle({ openServiceToggle, setOpenServiceToggle }) {
 
         // Check conditions and route accordingly
         if (national_id === null) {
-          router.push("/Pages/dashboard/TemporaryDashboard/CompleteSignupData");
+          router.push("/Pages/Verification/Module_Of_Verification");
         } else if (status === "pending") {
           router.push("/Pages/dashboard/TemporaryDashboard/StatusOfProvider/waitingApproval");
         } else if (status === "rejected") {

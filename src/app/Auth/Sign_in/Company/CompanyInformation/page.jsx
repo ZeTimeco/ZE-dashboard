@@ -2,8 +2,6 @@
 import Have_an_account from '@/app/Components/login/Have_an_account'
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
 import { useRouter } from "next/navigation";
 import { useRegistration } from '../../RegistrationContext'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,9 +13,10 @@ const Spinner = ({ size = "h-5 w-5", color = "text-white" }) => (
     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
   </svg>
 )
+import { countryCodes } from '@/data/countryCodes'
 
 function CompanyInformationPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const router = useRouter();
   const { registrationData, updateRegistrationData } = useRegistration();
   const { loading, error } = useSelector((state) => state.auth);
@@ -41,13 +40,6 @@ function CompanyInformationPage() {
     updateRegistrationData(updated);
   };
 
-  const handlePhoneChange = (value, country) => {
-    const dialCode = `+${country.dialCode}`;
-    const phoneNumber = value.replace(country.dialCode, '');
-    const updated = { ...formData, country_code: dialCode, phone: phoneNumber };
-    setFormData(updated);
-    updateRegistrationData(updated);
-  };
 
   const dispatch = useDispatch();
 
@@ -73,10 +65,28 @@ function CompanyInformationPage() {
     {id:'female' , name:t('Female')},
     {id:'male' , name:t('Male')},
   ]
+
+  // Country Code Dropdown
+  const [openCountry, setOpenCountry] = useState(false);
+  const [searchCountry, setSearchCountry] = useState("");
+  const dropdownRefCountry = useRef(null);
+
+  const selectedCountry = countryCodes.find((c) => c.code === formData.country_code);
+
+  const filteredCountries = countryCodes.filter((c) => {
+    const q = searchCountry.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      c.code.includes(q) ||
+      c.nameAr.includes(q) ||
+      c.nameEn.toLowerCase().includes(q)
+    );
+  });
   
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef1.current && !dropdownRef1.current.contains(event.target)) setOpen1(false);
+      if (dropdownRefCountry.current && !dropdownRefCountry.current.contains(event.target)) setOpenCountry(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -203,20 +213,107 @@ function CompanyInformationPage() {
         </div>
 
         {/* phone number */}
-        <div className="mt-4">
-          <label className="text-[#364152] text-base font-normal">{t("Mobile number")}</label>
-          <div className="mt-3">
-            <PhoneInput
-              country={'sa'}
-              value={`${formData.country_code}${formData.phone}`}
-              onChange={handlePhoneChange}
-              placeholder="000000000"
-              disabled={isProcessing}
-              containerClass="!w-full"
-              inputClass="!w-full !h-[60px] !border !border-[#C8C8C8] !rounded-[3px] !pl-24 !text-left !text-[#364152] placeholder-[#9A9A9A] focus:border-[#C69815] outline-none"
-              buttonClass="!absolute !left-0 !top-0 !h-full !px-3 !flex !items-center !gap-2 !bg-transparent !border-r-0"
-              dropdownClass="!absolute !left-0 !top-full !mt-1 !z-50 !bg-white !border !border-[#C8C8C8] !rounded-md !shadow-lg"
-            />
+        <div className="flex flex-col mt-4">
+          <label className="text-[#364152] text-base font-normal mb-3">{t("Mobile number")}</label>
+          <div className="flex  items-start w-full">
+            
+
+            {/* Phone Number Input */}
+            <div className="flex-1">
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '');
+                  const updated = { ...formData, phone: val };
+                  setFormData(updated);
+                  updateRegistrationData(updated);
+                }}
+                disabled={isProcessing}
+                placeholder="000000000"
+                className="h-15 p-3 w-full border border-l-0 border-[#C8C8C8] rounded-3px rounded-l-none placeholder-[#9A9A9A] placeholder:text-sm outline-none transition focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed text-[#364152]"
+              />
+            </div>
+
+            {/* Country code dropdown */}
+            <div className="relative w-[130px] sm:w-[150px] shrink-0" ref={dropdownRefCountry}>
+              <div
+                onClick={() => setOpenCountry(!openCountry)}
+                className="h-15 px-3 flex items-center justify-between border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px rounded-r-none  cursor-pointer bg-white transition-all duration-200 select-none"
+              >
+                <span className="truncate">
+                  {selectedCountry ? (
+                    <span className="flex items-center gap-2 text-[#364152]">
+                      <img
+                        src={`https://flagcdn.com/w40/${selectedCountry.id}.png`}
+                        alt={selectedCountry.nameEn}
+                        className="w-5 h-3.5 object-cover rounded-xs border border-gray-200 shrink-0"
+                        loading="lazy"
+                      />
+                      <span dir="ltr">{selectedCountry.code}</span>
+                    </span>
+                  ) : (
+                    <span className="text-[#9A9A9A]">{t("Select") || "اختار"}</span>
+                  )}
+                </span>
+                <span className={`cursor-pointer transition-transform duration-200 shrink-0 ${openCountry ? 'rotate-180' : ''}`}>
+                  <img src="/images/icons/ArrowDown.svg" alt="toggle" />
+                </span>
+              </div>
+
+              {openCountry && (
+                <div className="absolute left-0 right-auto sm:left-0 top-full mt-1 w-[260px] max-w-[90vw] border border-[#C8C8C8] bg-white rounded-3px shadow-xl z-50 overflow-hidden">
+                  {/* Search box */}
+                  <div className="p-2 border-b border-gray-100 bg-[#FAFAFA]">
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder={t("Search") || "بحث..."}
+                      value={searchCountry}
+                      onChange={(e) => setSearchCountry(e.target.value)}
+                      className="w-full h-9 px-3 text-xs sm:text-sm bg-white border border-[#C8C8C8] rounded-3px outline-none focus:border-primary text-[#364152] placeholder-[#9A9A9A]"
+                    />
+                  </div>
+
+                  {/* Countries list */}
+                  <ul className="max-h-52 overflow-y-auto">
+                    {filteredCountries.length > 0 ? (
+                      filteredCountries.map((c) => (
+                        <li
+                          key={c.id}
+                          onClick={() => {
+                            const updated = { ...formData, country_code: c.code };
+                            setFormData(updated);
+                            updateRegistrationData(updated);
+                            setSearchCountry("");
+                            setOpenCountry(false);
+                          }}
+                          className={`px-3 py-2.5 hover:bg-[#F5F5F5] cursor-pointer flex items-center justify-between transition-colors text-sm ${
+                            formData.country_code === c.code ? 'bg-primary/10 text-primary font-medium' : 'text-[#364152]'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 truncate">
+                            <img
+                              src={`https://flagcdn.com/w40/${c.id}.png`}
+                              alt={c.nameEn}
+                              className="w-5 h-3.5 object-cover rounded-xs border border-gray-200 shrink-0"
+                              loading="lazy"
+                            />
+                            <span className="truncate">{i18n?.language === 'en' ? c.nameEn : c.nameAr}</span>
+                          </div>
+                          <span className="text-xs font-semibold text-gray-500 shrink-0 ml-2" dir="ltr">{c.code}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-4 text-center text-xs text-gray-400">
+                        {t("No entries to show") || "لا توجد نتائج"}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -246,12 +343,12 @@ function CompanyInformationPage() {
         <div className="flex flex-col gap-2 mt-8 mb-10">
           <button
             onClick={handleNext}
-            disabled={isProcessing || !formData.phone || !formData.firstname || !formData.email}
+            disabled={isProcessing || !formData.country_code || !formData.phone || !formData.firstname || !formData.email}
             className={`
               w-full h-15 bg-primary text-white text-base font-medium rounded-3px
               flex items-center justify-center gap-3
               transition-all duration-200 shadow-sm
-              ${isProcessing || !formData.phone || !formData.firstname || !formData.email
+              ${isProcessing || !formData.country_code || !formData.phone || !formData.firstname || !formData.email
                 ? 'opacity-65 cursor-not-allowed'
                 : 'cursor-pointer hover:opacity-95 active:scale-[0.99]'}
             `}

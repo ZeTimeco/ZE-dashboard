@@ -55,14 +55,13 @@ function ForgetPasswordpage() {
       <div className="p-8 lg1:flex justify-between gap-8">
         {/* first section */}
         <section className="w-full">
+          {/* title */}
           <div className="lg1:mt-40.5 mt-25 flex flex-col items-center">
             <p className="mb-6 text-primary text-2xl font-semibold">
               {t("Forgot your password?")}
             </p>
             <p className="text-[#656565] text-lg font-normal max-w-[500px] text-center">
-              {t(
-                "Enter the phone number or email address of the account for which you want to change the password."
-              )}
+              {t("Enter the phone number or email address of the account for which you want to change the password."  )}
             </p>
             <div className="my-17.5 transition-transform duration-300 hover:scale-105">
               <img src="/images/lockLogIcon.svg" alt="" />
@@ -97,6 +96,7 @@ function ForgetPasswordpage() {
               </div>
             )}
 
+            {/* btn */}
             <div className="flex flex-col gap-2 mt-4 mb-8">
               <button
                 type="submit"

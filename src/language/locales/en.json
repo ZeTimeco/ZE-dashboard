@@ -1860,7 +1860,11 @@
   "We regret that the authentication request could not be accepted due to comments on the documents.":"We regret that the authentication request could not be accepted due to comments on the documents.",
   "Please review the reason for rejection and update the data for re-examination.":"Please review the reason for rejection and update the data for re-examination.",
   "Date of observation":"Date of observation",
+  "Failed to send code":"Failed to send code",
+  "Submitting your application...":"Submitting your application...",
+  "Please wait while we upload your documents":"Please wait while we upload your documents",
   
+
 
 
   "":""

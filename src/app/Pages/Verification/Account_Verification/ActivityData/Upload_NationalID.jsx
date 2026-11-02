@@ -27,6 +27,9 @@ function NationalIDUploadSection({
   const selectedFile = file !== undefined ? file : internalFile
   const deadline = deadlineDate !== undefined ? deadlineDate : internalDeadline
 
+  const minDate = dayjs().add(90, 'day')
+  const isDateValid = Boolean(deadline && dayjs(deadline).isValid() && !dayjs(deadline).isBefore(minDate, 'day'))
+
   const updateFile = (newFile) => {
     if (file === undefined) {
       setInternalFile(newFile)
@@ -199,9 +202,9 @@ function NationalIDUploadSection({
         {/* Calendar Deadline Time */}
         <div
           className={`border border-dashed ${
-            deadline
+            isDateValid
               ? 'border-primary bg-white'
-              : 'border-[#CBD5E1] '
+              : 'border-[#CBD5E1]'
           } py-4 px-5 rounded-3px flex flex-col gap-2.5 transition-colors`}
         >
           <div className='flex justify-between'>
@@ -212,7 +215,6 @@ function NationalIDUploadSection({
               </span>
             </p>
             
-          
             <p className='text-[#9CA3AF] text-xs font-normal'>{t('Specify the expiry date')}</p>
           </div>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -220,6 +222,7 @@ function NationalIDUploadSection({
               value={deadline}
               onChange={updateDeadline}
               format="DD/MM/YYYY"
+              minDate={minDate}
               slotProps={{
                 textField: {
                   placeholder: "DD / MM / YYYY",
@@ -231,7 +234,7 @@ function NationalIDUploadSection({
                       height: '45px',
                       borderRadius: '3px',
                       fontSize: '13px',
-                      color: deadline ? 'var(--color-primary, #C69815)' : '#364152',
+                      color: isDateValid ? 'var(--color-primary, #C69815)' : '#364152',
                       '&:hover .MuiOutlinedInput-notchedOutline': {
                         borderColor: 'var(--color-primary, #C69815)',
                       },
@@ -251,6 +254,11 @@ function NationalIDUploadSection({
               }}
             />
           </LocalizationProvider>
+          {deadline && !isDateValid && (
+            <p className='text-[#F04438] text-xs font-medium'>
+              {t('The expiry date must be at least 90 days from today.')}
+            </p>
+          )}
         </div>
       </div>
     </div>
