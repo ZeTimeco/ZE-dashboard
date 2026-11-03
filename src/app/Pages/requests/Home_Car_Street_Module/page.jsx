@@ -45,6 +45,20 @@ function RequestsPage() {
     setCurrentPage(1)
   }
 
+  const rawBookings = bookings?.bookings?.data
+  const isLoaded = Array.isArray(rawBookings)
+
+  const filteredBookings = isLoaded
+    ? rawBookings.filter((row) => {
+        if (!searchTerm?.trim()) return true;
+        const term = searchTerm.trim().toLowerCase();
+        const idMatch = String(row?.id).toLowerCase().includes(term);
+        const customerName = `${row?.user?.name || ''} ${row?.user?.lastname || ''}`.toLowerCase();
+        const customerMatch = customerName.includes(term);
+        return idMatch || customerMatch;
+      })
+    : []
+
   const containerVariants = {
     hidden: { opacity: 0, y: 8 },
     visible: {
@@ -66,16 +80,18 @@ function RequestsPage() {
         animate="visible"
         className="w-full"
       >
-        {bookings?.bookings?.data?.length === 0 ?(
-          <No_Requests/>
-        ):(
-          <>
-            <NavRequest 
-              onApplyFilters={handleApplyFilters} 
-              onResetFilters={handleResetFilters} 
-              onSearch={setSearchTerm}
-            />
+        <NavRequest 
+          onApplyFilters={handleApplyFilters} 
+          onResetFilters={handleResetFilters} 
+          onSearch={setSearchTerm}
+        />
 
+        {loading && !isLoaded ? (
+          <Loader />
+        ) : isLoaded && filteredBookings.length === 0 ? (
+          <No_Requests />
+        ) : (
+          <>
             <Suspense fallback={<Loader />}>
               <TableRequest bookings={bookings} bookingDetails={bookingDetails} searchTerm={searchTerm}/>
             </Suspense>

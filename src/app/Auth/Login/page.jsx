@@ -202,12 +202,11 @@ function LoginPage() {
             </div>
 
             {/* Error Message */}
-            {error && !isProcessing && (
-              <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-3px text-sm text-center font-medium">
-                {typeof error === "string" ? t('Incorrect password') : t("Login failed. Please check your credentials.")}
-              </div>
-            )}
-
+          {error && !isProcessing && (
+            <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-3px text-sm text-center font-medium">
+              {t("Incorrect email or password.")}
+            </div>
+          )}
             {/* Submit button */}
             <div className="flex flex-col gap-2 mt-4 mb-8">
               <button  

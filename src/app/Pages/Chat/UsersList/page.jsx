@@ -26,7 +26,14 @@ const fallbackUsers = [
   },
 ];
 
-export default function UsersListPage({ selectedUser, setSelectedUser }) {
+export default function UsersListPage({
+  selectedUser,
+  setSelectedUser,
+  targetUserId,
+  targetConvId,
+  targetName,
+  targetAvatar,
+}) {
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,21 +46,150 @@ export default function UsersListPage({ selectedUser, setSelectedUser }) {
     { id: "read", label: t("Read") || "مقروءة" },
   ];
 
+  // Helper to find conversation matching the query parameters
+  const findTargetMatch = useCallback(
+    (list) => {
+      if (!targetUserId && !targetConvId && !targetName) return null;
+      return list.find((c) => {
+        if (
+          targetConvId &&
+          (String(c.conversation_id) === String(targetConvId) ||
+            String(c.id) === String(targetConvId))
+        ) {
+          return true;
+        }
+        if (targetUserId) {
+          const cUserId = c.userId || c.user_id || c.other_party?.id || c.user?.id;
+          if (
+            String(cUserId) === String(targetUserId) ||
+            String(c.id) === String(targetUserId)
+          ) {
+            return true;
+          }
+        }
+        if (
+          targetName &&
+          c.name?.toLowerCase().trim() === targetName.toLowerCase().trim()
+        ) {
+          return true;
+        }
+        return false;
+      });
+    },
+    [targetUserId, targetConvId, targetName]
+  );
+
   // Load conversations from backend
-  const loadConversations = useCallback(async (search = "") => {
-    try {
-      const data = await fetchConversations(search);
-      if (Array.isArray(data) && data.length > 0) {
-        setConversations(data);
+  const loadConversations = useCallback(
+    async (search = "") => {
+      try {
+        const data = await fetchConversations(search);
+        const list = Array.isArray(data) && data.length > 0 ? data : fallbackUsers;
+
+        if (targetUserId || targetConvId || targetName) {
+          const existing = findTargetMatch(list);
+          if (existing) {
+            setConversations(list);
+            if (!selectedUser || selectedUser.id !== existing.id) {
+              setSelectedUser(existing);
+            }
+            return;
+          }
+
+          // If target user not found in fetched list, prepend a temporary conversation object
+          const newTargetConv = {
+            id: targetConvId
+              ? Number(targetConvId)
+              : targetUserId
+              ? Number(targetUserId)
+              : Date.now(),
+            conversation_id: targetConvId
+              ? Number(targetConvId)
+              : targetUserId
+              ? Number(targetUserId)
+              : null,
+            userId: targetUserId ? Number(targetUserId) : null,
+            name: targetName || "عميل",
+            avatar: targetAvatar || null,
+            isOnline: true,
+            lastMessage: "",
+            time: "",
+            unread: false,
+            other_party: {
+              id: targetUserId ? Number(targetUserId) : null,
+              name: targetName || "عميل",
+              image: targetAvatar || null,
+            },
+          };
+
+          const updatedList = [
+            newTargetConv,
+            ...list.filter((c) => c.id !== newTargetConv.id),
+          ];
+          setConversations(updatedList);
+          if (!selectedUser || selectedUser.id !== newTargetConv.id) {
+            setSelectedUser(newTargetConv);
+          }
+          return;
+        }
+
+        setConversations(list);
         // Auto-select first conversation if none selected yet
-        if (!selectedUser && data[0]) {
-          setSelectedUser(data[0]);
+        if (!selectedUser && list[0]) {
+          setSelectedUser(list[0]);
+        }
+      } catch (err) {
+        console.warn(
+          "Could not fetch conversations from API, using fallback:",
+          err.message
+        );
+
+        if (targetUserId || targetConvId || targetName) {
+          const existing = findTargetMatch(fallbackUsers);
+          if (existing) {
+            setConversations(fallbackUsers);
+            setSelectedUser(existing);
+          } else {
+            const newTargetConv = {
+              id: targetConvId
+                ? Number(targetConvId)
+                : targetUserId
+                ? Number(targetUserId)
+                : Date.now(),
+              conversation_id: targetConvId
+                ? Number(targetConvId)
+                : targetUserId
+                ? Number(targetUserId)
+                : null,
+              userId: targetUserId ? Number(targetUserId) : null,
+              name: targetName || "عميل",
+              avatar: targetAvatar || null,
+              isOnline: true,
+              lastMessage: "",
+              time: "",
+              unread: false,
+              other_party: {
+                id: targetUserId ? Number(targetUserId) : null,
+                name: targetName || "عميل",
+                image: targetAvatar || null,
+              },
+            };
+            setConversations([newTargetConv, ...fallbackUsers]);
+            setSelectedUser(newTargetConv);
+          }
         }
       }
-    } catch (err) {
-      console.warn("Could not fetch conversations from API, using fallback:", err.message);
-    }
-  }, [selectedUser, setSelectedUser]);
+    },
+    [
+      selectedUser,
+      setSelectedUser,
+      targetUserId,
+      targetConvId,
+      targetName,
+      targetAvatar,
+      findTargetMatch,
+    ]
+  );
 
   useEffect(() => {
     loadConversations(searchQuery);
@@ -151,7 +287,11 @@ export default function UsersListPage({ selectedUser, setSelectedUser }) {
                   <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white text-base overflow-hidden shrink-0">
                     {user.avatar ? (
                       <img
-                        src={`${IMAGE_BASE_URL}${user.avatar}`}
+                        src={
+                          user.avatar.startsWith("http")
+                            ? user.avatar
+                            : `${IMAGE_BASE_URL}${user.avatar}`
+                        }
                         alt=""
                         className="size-full object-cover"
                       />

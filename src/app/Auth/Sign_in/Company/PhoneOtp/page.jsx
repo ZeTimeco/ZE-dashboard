@@ -79,9 +79,12 @@ function PhoneOtpPage() {
     if (!canResend || isProcessing) return;
     setIsResending(true);
     try {
-      await dispatch(checkEnterPhoneThunk({
-        phone: `${registrationData.country_code}${registrationData.phone}`
-      })).unwrap();
+      const fullPhone = `${registrationData.country_code}${registrationData.phone}`;
+      await dispatch(checkEnterPhoneThunk({ phone: fullPhone })).unwrap();
+      // Keep cache in sync after explicit resend
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('otpSentPhone', fullPhone);
+      }
       setTimeLeft(30);
       setCanResend(false);
       setOtpValues(["", "", "", ""]);
@@ -106,13 +109,28 @@ function PhoneOtpPage() {
         otp: otpCode
       })).unwrap();
 
-      const emailToSend = registrationData?.email || (typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('registrationData') || '{}')?.email : '');
+      // ── Send email OTP (with cache check) ────────────────────────────
+      const emailToSend = registrationData?.email ||
+        (typeof window !== 'undefined'
+          ? JSON.parse(localStorage.getItem('registrationData') || '{}')?.email
+          : '');
+
       if (emailToSend) {
-        try {
-          await dispatch(sendEmailThunk({ email: emailToSend })).unwrap();
-        } catch (emailErr) {
-          console.error("Failed to send initial email OTP:", emailErr);
+        const savedSentEmail =
+          typeof window !== 'undefined' ? localStorage.getItem('otpSentEmail') : null;
+
+        if (!savedSentEmail || savedSentEmail !== emailToSend) {
+          // Email OTP not yet sent for this address — send it now
+          try {
+            await dispatch(sendEmailThunk({ email: emailToSend })).unwrap();
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('otpSentEmail', emailToSend);
+            }
+          } catch (emailErr) {
+            console.error("Failed to send initial email OTP:", emailErr);
+          }
         }
+        // else: already sent for this email — skip API call
       }
 
       setIsRedirecting(true);

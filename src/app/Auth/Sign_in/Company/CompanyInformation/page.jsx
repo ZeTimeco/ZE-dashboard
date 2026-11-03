@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useRouter } from "next/navigation";
 import { useRegistration } from '../../RegistrationContext'
 import { useDispatch, useSelector } from 'react-redux'
-import { checkEnterPhoneThunk } from '@/redux/slice/Auth/AuthSlice'
+import { checkEnterPhoneThunk, checkEmailThunk, checkPhoneThunk } from '@/redux/slice/Auth/AuthSlice'
 
 const Spinner = ({ size = "h-5 w-5", color = "text-white" }) => (
   <svg className={`animate-spin ${size} ${color}`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -33,11 +33,18 @@ function CompanyInformationPage() {
     gender: registrationData?.gender || '',
   });
 
+  // Field-level validation errors (email / phone already registered)
+  const [fieldErrors, setFieldErrors] = useState({ email: '', phone: '' });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updated = { ...formData, [name]: value };
     setFormData(updated);
     updateRegistrationData(updated);
+    // Clear related field error on change
+    if (name === 'email' || name === 'phone') {
+      setFieldErrors((prev) => ({ ...prev, [name]: '' }));
+    }
   };
 
 
@@ -46,14 +53,71 @@ function CompanyInformationPage() {
   const handleNext = async () => {
     if (isProcessing) return;
     updateRegistrationData(formData);
+
+    setFieldErrors({ email: '', phone: '' });
+
+    // ── 1. Check if email is already registered ──────────────────────────
     try {
-      await dispatch(checkEnterPhoneThunk({
-        phone: `${formData.country_code}${formData.phone}`
+      const emailResult = await dispatch(checkEmailThunk({ email: formData.email })).unwrap();
+      // API returns 200 with { status: true, exists: true } when email is taken
+      if (emailResult?.status === true && emailResult?.exists === true) {
+        setFieldErrors((prev) => ({
+          ...prev,
+          email: emailResult?.message || t('This email is already registered.'),
+        }));
+        return;
+      }
+    } catch (err) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        email: typeof err === 'string' ? err : (err?.message || t('This email is already registered.')),
+      }));
+      return;
+    }
+
+    // ── 2. Check if phone is already registered ──────────────────────────
+    try {
+      const phoneResult = await dispatch(checkPhoneThunk({
+        phone: formData.phone,
+        country_code: formData.country_code,
       })).unwrap();
+      // API returns 200 with { status: true, exists: true } when phone is taken
+      if (phoneResult?.status === true && phoneResult?.exists === true) {
+        setFieldErrors((prev) => ({
+          ...prev,
+          phone: phoneResult?.message || t('This phone number is already registered.'),
+        }));
+        return;
+      }
+    } catch (err) {
+      setFieldErrors((prev) => ({
+        ...prev,
+        phone: typeof err === 'string' ? err : (err?.message || t('This phone number is already registered.')),
+      }));
+      return;
+    }
+
+    // ── 3. Both are free → send phone OTP (with localStorage cache) ──────
+    const fullPhone = `${formData.country_code}${formData.phone}`;
+    const savedSentPhone =
+      typeof window !== 'undefined' ? localStorage.getItem('otpSentPhone') : null;
+
+    if (savedSentPhone && savedSentPhone === fullPhone) {
+      // OTP already sent for this exact phone — skip API call
       setIsRedirecting(true);
       router.push("/Auth/Sign_in/Company/PhoneOtp");
-    } catch (error) {
-      console.error("Failed to send OTP:", error);
+      return;
+    }
+
+    try {
+      await dispatch(checkEnterPhoneThunk({ phone: fullPhone })).unwrap();
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('otpSentPhone', fullPhone);
+      }
+      setIsRedirecting(true);
+      router.push("/Auth/Sign_in/Company/PhoneOtp");
+    } catch (err) {
+      console.error("Failed to send OTP:", err);
     }
   };
 
@@ -229,10 +293,13 @@ function CompanyInformationPage() {
                   const updated = { ...formData, phone: val };
                   setFormData(updated);
                   updateRegistrationData(updated);
+                  setFieldErrors((prev) => ({ ...prev, phone: '' }));
                 }}
                 disabled={isProcessing}
                 placeholder="000000000"
-                className="h-15 p-3 w-full border border-l-0 border-[#C8C8C8] rounded-3px rounded-l-none placeholder-[#9A9A9A] placeholder:text-sm outline-none transition focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed text-[#364152]"
+                className={`h-15 p-3 w-full border border-l-0 rounded-3px rounded-l-none placeholder-[#9A9A9A] placeholder:text-sm outline-none transition focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed text-[#364152] ${
+                  fieldErrors.phone ? 'border-red-400' : 'border-[#C8C8C8]'
+                }`}
               />
             </div>
 
@@ -315,6 +382,10 @@ function CompanyInformationPage() {
               )}
             </div>
           </div>
+          {/* Phone field error */}
+          {fieldErrors.phone && (
+            <p className="text-red-500 text-xs mt-1.5">{fieldErrors.phone}</p>
+          )}
         </div>
 
         {/* email */}
@@ -326,14 +397,20 @@ function CompanyInformationPage() {
             value={formData?.email}
             onChange={handleChange}
             disabled={isProcessing}
-            className="h-15 p-3 w-full border border-[#C8C8C8] rounded-3px placeholder-[#9A9A9A] placeholder:text-sm outline-none transition focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed"
+            className={`h-15 p-3 w-full border rounded-3px placeholder-[#9A9A9A] placeholder:text-sm outline-none transition focus:border-primary disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              fieldErrors.email ? 'border-red-400' : 'border-[#C8C8C8]'
+            }`}
             placeholder={t("Email")}
           />
+          {/* Email field error */}
+          {fieldErrors.email && (
+            <p className="text-red-500 text-xs mt-1.5">{fieldErrors.email}</p>
+          )}
         </div>
 
 
-        {/* Error */}
-        {error && !isProcessing && (
+        {/* General Redux error */}
+        {error && !isProcessing && !fieldErrors.email && !fieldErrors.phone && (
           <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-3px text-sm text-center font-medium mt-3">
             {typeof error === 'string' ? error : (error.message || t("An error occurred"))}
           </div>
@@ -356,7 +433,7 @@ function CompanyInformationPage() {
             {isProcessing ? (
               <>
                 <Spinner />
-                <span>{isRedirecting ? t("Redirecting...") : t("Sending...")}</span>
+                <span>{isRedirecting ? t("Redirecting...") : t("Checking...")}</span>
               </>
             ) : (
               t('the next')
@@ -369,7 +446,7 @@ function CompanyInformationPage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
               </span>
-              <span>{isRedirecting ? t("Redirecting...") : t("Sending verification code...")}</span>
+              <span>{isRedirecting ? t("Redirecting...") : t("Checking your information...")}</span>
             </div>
           )}
         </div>

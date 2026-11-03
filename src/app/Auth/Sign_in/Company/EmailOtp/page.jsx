@@ -98,6 +98,10 @@ function EmailOtpPage() {
     setShowError(false);
     try {
       await dispatch(sendEmailThunk({ email: targetEmail })).unwrap();
+      // Keep the cache in sync after explicit resend
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('otpSentEmail', targetEmail);
+      }
       setTimeLeft(30);
       setCanResend(false);
       setOtpValues(["", "", "", ""]);

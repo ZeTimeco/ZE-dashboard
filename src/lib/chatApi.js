@@ -209,10 +209,16 @@ export async function deleteChat(conversationId) {
 export function normalizeConversation(item) {
   if (!item) return {};
   const otherParty = item.other_party || item.user || {};
+  const fullName = otherParty.name
+    ? `${otherParty.name} ${otherParty.lastname || ""}`.trim()
+    : item.name || "مستخدم";
+
   return {
+    ...item,
     id: item.id || item.conversation_id,
     conversation_id: item.id || item.conversation_id,
-    name: otherParty.name || item.name || "مستخدم",
+    userId: otherParty.id || item.user_id || item.user?.id,
+    name: fullName,
     avatar: otherParty.image || item.image || item.avatar || null,
     isOnline: otherParty.is_online ?? true,
     lastMessage:

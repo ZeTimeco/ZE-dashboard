@@ -1,12 +1,15 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React from 'react'
+import React, { Suspense } from 'react'
 import ChatLayout from './ChatLayout'
+import Loader from '@/app/Components/Loader/Loader'
 
 function Chatpage() {
   return (
     <MainLayout>
-      <ChatLayout/>
+      <Suspense fallback={<Loader />}>
+        <ChatLayout/>
+      </Suspense>
     </MainLayout>
   )
 }

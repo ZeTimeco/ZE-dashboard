@@ -161,7 +161,7 @@ function ForgetPasswordpage() {
               <span className="text-[#697586] text-lg font-normal">
                 {t("Dont have an account?")}
               </span>
-              <Link href="/Auth/Signup" className="text-primary text-lg font-medium hover:underline">
+              <Link href="/Auth/Sign_in" className="text-primary text-lg font-medium hover:underline">
                 {t("Create an account")}
               </Link>
             </p>

@@ -7,6 +7,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { getBookingByIDThunk } from "@/redux/slice/Requests/RequestsSlice";
 import ViewHome_Car_Street_ModulePage from "./Views/Home_Car_Street_Module/View/page";
 import { IMAGE_BASE_URL } from "../../../../../config/imageUrl";
+import No_Requests from "./No_Requests";
 
 export default function TableRequest({bookings ,bookingDetails, searchTerm}) {
   const { t } = useTranslation();
@@ -116,10 +117,18 @@ export default function TableRequest({bookings ,bookingDetails, searchTerm}) {
 
   const filteredData = Array.isArray(bookings?.bookings?.data)
     ? bookings.bookings.data.filter((row) => {
-        if (!searchTerm) return true;
-        return String(row?.id).includes(searchTerm);
+        if (!searchTerm?.trim()) return true;
+        const term = searchTerm.trim().toLowerCase();
+        const idMatch = String(row?.id).toLowerCase().includes(term);
+        const customerName = `${row?.user?.name || ''} ${row?.user?.lastname || ''}`.toLowerCase();
+        const customerMatch = customerName.includes(term);
+        return idMatch || customerMatch;
       })
     : [];
+
+  if (filteredData.length === 0) {
+    return <No_Requests />;
+  }
 
   return (
     <motion.div 
@@ -204,4 +213,3 @@ export default function TableRequest({bookings ,bookingDetails, searchTerm}) {
     </motion.div>
   );
 }
-

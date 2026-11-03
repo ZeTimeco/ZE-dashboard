@@ -68,7 +68,7 @@ export const signup = async (formData) => {
   return response.data;
 };
 
-// check email if exists
+// check email if exists → POST /provider/check-email  { email }
 export const checkEmail = async(data)=>{
   const email = typeof data === 'object' && data !== null ? data.email : data;
   const response = await API.post('/provider/check-email', { email });
@@ -137,6 +137,17 @@ export const UpdateInSignup = async (FormData) => {
 };
 
 
+
+// check phone if exists → POST /provider/check-phone  multipart/form-data { phone, country_code }
+export const checkPhone = async({ phone, country_code })=>{
+  const fd = new FormData();
+  fd.append('phone', phone);
+  fd.append('country_code', country_code);
+  const response = await API.post('/provider/check-phone', fd, {
+    headers: { 'Accept': 'application/json' },
+  });
+  return response.data;
+};
 
 
 /**===================verification ================================ */

@@ -1,4 +1,4 @@
-import { BusinessModuleApplications, checkEmail, checkEnterPhone, checkPassEnterPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getBusinessModuleRequirements, getBussinessModule, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
+import { BusinessModuleApplications, checkEmail, checkEnterPhone, checkPassEnterPhone, checkPhone, FirstRegistration, forgetPassEnterEmail, forgetPassEnterPhone, forgetPassVerifyEmailOtp, forgetPassVerifyPhoneOtp, getBusinessModuleRequirements, getBussinessModule, getCurrentLogin, login, register, resetPassword, SecondRegistration, sendEmail, signup, UpdateInSignup, VerifyEmailOtp, VerifyPhoneOtp } from "@/redux/api/Auth/AuthApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../../../config/api";
 import Cookies from "js-cookie";
@@ -236,7 +236,19 @@ export const SecondRegistrationThunk = createAsyncThunk('auth/SecondRegistration
   }
 )
 
-
+/**new check phone  */
+export const checkPhoneThunk= createAsyncThunk('auth/checkPhoneThunk',
+  async(formData , thunkAPI)=>{
+    try{
+      const data = await checkPhone(formData)
+      return data
+    }catch(error){
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Request failed'
+      )
+    }
+  }
+)
 
 
 
@@ -631,8 +643,19 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     })
-
-
+    //checkPhoneThunk
+    .addCase(checkPhoneThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(checkPhoneThunk.fulfilled, (state, action) => {
+      state.loading = false;
+      state.checkPhone = action.payload;
+    })
+    .addCase(checkPhoneThunk.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
 
     
@@ -644,3 +667,4 @@ const authSlice = createSlice({
 export const {logout, setRole } = authSlice.actions;
 
 export default authSlice.reducer;
+
