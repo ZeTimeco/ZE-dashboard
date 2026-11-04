@@ -2,9 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import PhoneInput from "react-phone-input-2";
-import 'react-phone-input-2/lib/style.css';
 import { toast } from "react-toastify";
+import { countryCodes } from "@/data/countryCodes";
 
 function PersonalDataPage({
   handleNext,
@@ -15,7 +14,44 @@ function PersonalDataPage({
   errors = {},
   setErrors = () => {}
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  // Country Code Dropdown
+  const [openCountry, setOpenCountry] = useState(false);
+  const [searchCountry, setSearchCountry] = useState("");
+  const dropdownRefCountry = useRef(null);
+
+  const selectedCountry = countryCodes.find((c) => 
+    c.code === formData?.country_code || 
+    c.id === formData?.country_code || 
+    c.code.replace('+', '') === formData?.country_code?.toString().replace('+', '')
+  ) || countryCodes.find((c) => c.id === 'sa') || countryCodes[0];
+
+  const filteredCountries = countryCodes.filter((c) => {
+    const q = searchCountry.toLowerCase().trim();
+    if (!q) return true;
+    return (
+      c.code.includes(q) ||
+      c.nameAr.includes(q) ||
+      c.nameEn.toLowerCase().includes(q)
+    );
+  });
+
+  useEffect(() => {
+    if (!formData?.country_code && selectedCountry?.code) {
+      setFormData((prev) => ({ ...prev, country_code: selectedCountry.code }));
+    }
+  }, [formData?.country_code, selectedCountry?.code, setFormData]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRefCountry.current && !dropdownRefCountry.current.contains(event.target)) {
+        setOpenCountry(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // images
   const fileInputRef = useRef(null);
@@ -128,75 +164,61 @@ function PersonalDataPage({
                 <div className={`w-38 h-38 border rounded-[138px] flex justify-center items-center bg-white shadow-xs transition-colors ${
                   errors?.image ? "border-red-500" : "border-[#CDD5DF]"
                 }`}>
-                  <span
-                    className="cursor-pointer transition-transform duration-200 hover:scale-105"
-                    onClick={handleFileSelect}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") handleFileSelect();
-                    }}
-                  >
-                    <img src="/images/Avatar Image.svg" alt="" />
-                  </span>
+                  <div className="w-32 h-32 bg-[#F8FAFC] border border-[#EAECF0] rounded-[100px] flex justify-center items-center">
+                    <img src="/images/icons/AddUser.svg" alt="Add User" />
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <motion.button
-                  whileHover={{ scale: 1.02, filter: "brightness(1.02)" }}
-                  whileTap={{ scale: 0.98 }}
+              <div className="flex gap-4 justify-center">
+                <button
                   type="button"
-                  className={`w-full flex justify-center items-center gap-2 border font-medium py-2.5 px-4 rounded-[3px] cursor-pointer shadow-xs transition-all ${
-                    errors?.image 
-                      ? "border-red-500 text-red-500" 
-                      : "border-[var(--color-primary)] text-[var(--color-primary)]"
-                  }`}
                   onClick={handleFileSelect}
+                  className="w-38 h-10 border border-[#C69815] bg-[#C69815] text-white flex justify-center items-center py-2 px-3 rounded-[3px] text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
                 >
-                  <span>{t("Image selection")}</span>  
-                  <span><img src="/images/upload.svg" alt="" /></span>
-                </motion.button>
+                  {t('Upload an image')}
+                </button>
               </div>
             </>
           ) : (
-            <div className="flex flex-col items-center">
-              <img
-                src={imagePreview}
-                alt="Company Logo"
-                className="w-[112px] h-[112px] object-cover border border-[#EEF2F6] p-1 rounded-full shadow-sm"
-              />
-
-              <div className="mt-3 flex gap-2 w-full justify-center">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  type="button"
-                  className="w-[140px] h-10 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] font-medium hover:bg-yellow-50 transition-colors cursor-pointer"
-                  onClick={handleFileSelect}
-                >
-                  {t("replace")}
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  type="button"
-                  className="w-[140px] h-10 border border-[#F04438] text-[#F04438] rounded-[3px] font-medium hover:bg-red-50 transition-colors cursor-pointer"
-                  onClick={handleDeleteFile}
-                >
-                  {t("delete")}
-                </motion.button>
+            <>
+              <div className="w-full flex justify-center mb-6">
+                <div className="w-38 h-38 border border-[#CDD5DF] rounded-[138px] flex justify-center items-center bg-white shadow-xs overflow-hidden">
+                  <img
+                    src={imagePreview}
+                    alt="Uploaded preview"
+                    className="w-38 h-38 rounded-[138px] object-cover"
+                  />
+                </div>
               </div>
-            </div>
+
+              <div className="flex gap-4 justify-center">
+                <button
+                  type="button"
+                  onClick={handleFileSelect}
+                  className="w-38 h-10 border border-[#C69815] bg-[#C69815] text-white flex justify-center items-center py-2 px-3 rounded-[3px] text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+                >
+                  {t('change image')}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDeleteFile}
+                  className="w-38 h-10 border border-[#D92D20] text-[#D92D20] flex justify-center items-center py-2 px-3 rounded-[3px] text-sm font-medium hover:bg-red-50 transition-colors cursor-pointer"
+                >
+                  {t('delete image')}
+                </button>
+              </div>
+            </>
           )}
+
           {errors?.image && (
-            <p className="text-red-500 text-xs sm:text-sm mt-2 text-center font-normal">{errors.image}</p>
+            <p className="text-red-500 text-xs sm:text-sm text-center mt-2 font-normal">{errors.image}</p>
           )}
+
           <input
-            ref={fileInputRef}
-            name="image"
             type="file"
-            accept=".webp,.png,.svg,.jpg,.jpeg,image/webp,image/png,image/svg+xml"
+            ref={fileInputRef}
+            accept=".webp,.png,.svg,.jpg,.jpeg"
             onChange={handleFileChange}
             className="hidden"
           />
@@ -290,30 +312,103 @@ function PersonalDataPage({
             {t("Mobile number")}
           </label>
 
-          <div className="relative">
-            <PhoneInput
-              country={"sa"}
-              value={formData?.phone || ''}  
-              onChange={(value, country) => {
-                setFormData({
-                  ...formData,
-                  phone: value,               
-                  country_code: country.dialCode  
-                });
-                if (errors?.phone) {
-                  setErrors((prev) => ({ ...prev, phone: '' }));
-                }
-              }}
-              placeholder="000000000"
-              containerClass="!w-full"
-              inputClass={`!w-full !h-[60px] !border !rounded-[3px] !pl-24 !text-left !shadow-sm !text-[#364152] placeholder-[#9A9A9A] outline-none transition-colors ${
-                errors?.phone
-                  ? "!border-red-500 focus:!border-red-500"
-                  : "!border-[#C8C8C8] focus:!border-[#C69815]"
-              }`}
-              buttonClass="!absolute !left-0 !top-0 !h-full !px-3 !flex !items-center !gap-2 !bg-transparent !border-r-0"
-              dropdownClass="!absolute !left-0 !top-full !mt-1 !z-50 !border !border-[#C8C8C8] !rounded-md !shadow-sm"
-            />
+          <div className="flex items-start w-full">
+            {/* Phone Number Input */}
+            <div className="flex-1">
+              <input
+                type="tel"
+                name="phone"
+                value={formData?.phone || ''}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '');
+                  setFormData((prev) => ({ ...prev, phone: val }));
+                  if (errors?.phone) {
+                    setErrors((prev) => ({ ...prev, phone: '' }));
+                  }
+                }}
+                placeholder="000000000"
+                className={`h-15 p-3 w-full border border-l-0 rounded-3px rounded-l-none placeholder-[#9A9A9A] placeholder:text-sm outline-none transition focus:border-primary text-[#364152] ${
+                  errors?.phone ? 'border-red-500' : 'border-[#C8C8C8]'
+                }`}
+              />
+            </div>
+
+            {/* Country code dropdown */}
+            <div className="relative w-[130px] sm:w-[150px] shrink-0" ref={dropdownRefCountry}>
+              <div
+                onClick={() => setOpenCountry(!openCountry)}
+                className="h-15 px-3 flex items-center justify-between border border-[#C8C8C8] hover:border-[#9AA4B2] focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20 rounded-3px rounded-r-none cursor-pointer bg-white transition-all duration-200 select-none"
+              >
+                <span className="truncate">
+                  {selectedCountry ? (
+                    <span className="flex items-center gap-2 text-[#364152]">
+                      <img
+                        src={`https://flagcdn.com/w40/${selectedCountry.id}.png`}
+                        alt={selectedCountry.nameEn}
+                        className="w-5 h-3.5 object-cover rounded-xs border border-gray-200 shrink-0"
+                        loading="lazy"
+                      />
+                      <span dir="ltr">{selectedCountry.code}</span>
+                    </span>
+                  ) : (
+                    <span className="text-[#9A9A9A]">{t("Select") || "اختار"}</span>
+                  )}
+                </span>
+                <span className={`cursor-pointer transition-transform duration-200 shrink-0 ${openCountry ? 'rotate-180' : ''}`}>
+                  <img src="/images/icons/ArrowDown.svg" alt="toggle" />
+                </span>
+              </div>
+
+              {openCountry && (
+                <div className="absolute left-0 right-auto sm:left-0 top-full mt-1 w-[260px] max-w-[90vw] border border-[#C8C8C8] bg-white rounded-3px shadow-xl z-50 overflow-hidden">
+                  {/* Search box */}
+                  <div className="p-2 border-b border-gray-100 bg-[#FAFAFA]">
+                    <input
+                      type="text"
+                      autoFocus
+                      placeholder={t("Search") || "بحث..."}
+                      value={searchCountry}
+                      onChange={(e) => setSearchCountry(e.target.value)}
+                      className="w-full h-9 px-3 text-xs sm:text-sm bg-white border border-[#C8C8C8] rounded-3px outline-none focus:border-primary text-[#364152] placeholder-[#9A9A9A]"
+                    />
+                  </div>
+
+                  {/* Countries list */}
+                  <ul className="max-h-52 overflow-y-auto">
+                    {filteredCountries.length > 0 ? (
+                      filteredCountries.map((c) => (
+                        <li
+                          key={c.id}
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, country_code: c.code }));
+                            setSearchCountry("");
+                            setOpenCountry(false);
+                          }}
+                          className={`px-3 py-2.5 hover:bg-[#F5F5F5] cursor-pointer flex items-center justify-between transition-colors text-sm ${
+                            (formData?.country_code === c.code || selectedCountry?.id === c.id) ? 'bg-primary/10 text-primary font-medium' : 'text-[#364152]'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 truncate">
+                            <img
+                              src={`https://flagcdn.com/w40/${c.id}.png`}
+                              alt={c.nameEn}
+                              className="w-5 h-3.5 object-cover rounded-xs border border-gray-200 shrink-0"
+                              loading="lazy"
+                            />
+                            <span className="truncate">{i18n?.language === 'en' ? c.nameEn : c.nameAr}</span>
+                          </div>
+                          <span className="text-xs font-semibold text-gray-500 shrink-0 ml-2" dir="ltr">{c.code}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-4 text-center text-xs text-gray-400">
+                        {t("No entries to show") || "لا توجد نتائج"}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
           {errors?.phone && (
             <p className="text-red-500 text-xs sm:text-sm mt-1.5 font-normal">{errors.phone}</p>

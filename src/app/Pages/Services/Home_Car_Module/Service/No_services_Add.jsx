@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import No_subscription from '../../../../Components/No_subscription/No_subscription';
 import Complete_Data from '@/app/Components/Complete_Data/Complete_Data';
+import { useRouter } from 'next/navigation';
 
 function No_services_Add() {
   const { t } = useTranslation();
+  const router = useRouter();
   const [hasSubscription, setHasSubscription] = useState(true);
   const [nationalId, setNationalId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ function No_services_Add() {
       <img src="/images/No_services_Add.svg" alt="" />
       <p className='text-[#4B5565] text-2xl font-semibold mt-6 mb-4'>{t("No services yet...")}</p>
       <p className='text-[#697586] text-xl font-normal '>{t('Add your services to showcase them to clients and increase your profits.')}</p>
-      <button className='flex justify-center gap-2 bg-[var(--color-primary)] text-white px-4 py-2.5 h-14 w-[25%] rounded-[3px] my-6 cursor-pointer'>
+      <button onClick={() => router.push('/Pages/Services/Home_Car_Module/Service/Add')} className='flex justify-center gap-2 bg-[var(--color-primary)] text-white px-4 py-2.5 h-14 w-[25%] rounded-[3px] my-6 cursor-pointer'>
         <p className='text-base flex items-center'>{t("Add a sub-service")} </p>
         <img src="/images/icons/AddIcon.svg" alt="" />
         

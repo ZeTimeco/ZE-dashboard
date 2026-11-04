@@ -164,7 +164,7 @@ function ServicePage() {
         <section>
           {/* 📱 Mobile / Tablet Header */}
           <div className="lg1:hidden flex justify-between mb-8 items-center">
-            <p className="text-[#000] text-2xl font-medium flex items-center tracking-tight">
+            <p className="text-black text-2xl font-medium flex items-center tracking-tight">
               {t("Services")}
             </p>
             <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">

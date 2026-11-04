@@ -37,7 +37,7 @@ function NavWorker({handleClickOpen, onSearch}) {
       >
         <div className="flex-1">
           <SearchForm 
-            placeholderKey="Search by name" 
+            placeholderKey={t('Search by name of worker')} 
             onChange={(e) => onSearch(e.target.value)}
           />
         </div>

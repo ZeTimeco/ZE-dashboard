@@ -48,7 +48,7 @@ function EditPageContent() {
           <div className="flex items-center">
             <Link 
               href='/Pages/workers' 
-              className="w-48 h-14 flex items-center justify-center border border-[var(--color-primary)] rounded-[3px] text-[var(--color-primary)] text-base font-medium cursor-pointer transition-transform duration-150 hover:scale-[1.02] active:scale-[0.98] hover:bg-[rgba(198,152,21,0.04)]"
+              className="w-48 h-14 flex items-center justify-center border border-primary rounded-3px text-primary text-base font-medium cursor-pointer transition-transform duration-150 hover:scale-[1.02] active:scale-[0.98] hover:bg-[rgba(198,152,21,0.04)]"
             >
               {t('Return to the workers page')}
             </Link>
