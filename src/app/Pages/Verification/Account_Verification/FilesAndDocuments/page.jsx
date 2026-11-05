@@ -20,20 +20,22 @@ function FilesAndDocumentsPage({
         <h2 className="text-xl font-medium text-[#171717]">{t('Files and documents')}</h2>
         <p className="text-base text-[#737373] font-medium">{t("Please attach the required official documents and paperwork to verify the establishment's identity and activate your account.")}</p>
       </header>
-
-      {getBusinessModuleRequirements?.requirements?.map((requirement , index)=>(
-        <Upload_Document
-          requirement={requirement}
-          key={requirement?.field_key || index}
-          title={requirement?.field_key}
-          showDatePicker={requirement?.has_expiry_date}
-          file={documentFiles?.[requirement?.field_key] || undefined}
-          onFileChange={(file) => onDocumentFileChange?.(requirement?.field_key, file)}
-          deadlineDate={documentDeadlines?.[requirement?.field_key] || undefined}
-          onDeadlineChange={(date) => onDocumentDeadlineChange?.(requirement?.field_key, date)}
-          showErrors={showErrors}
-        />
-      ))}
+      <div className='grid grid-cols-2 gap-6'>
+        {getBusinessModuleRequirements?.requirements?.map((requirement , index)=>(
+          <Upload_Document
+            requirement={requirement}
+            key={requirement?.field_key || index}
+            title={requirement?.field_key}
+            showDatePicker={requirement?.has_expiry_date}
+            file={documentFiles?.[requirement?.field_key] || undefined}
+            onFileChange={(file) => onDocumentFileChange?.(requirement?.field_key, file)}
+            deadlineDate={documentDeadlines?.[requirement?.field_key] || undefined}
+            onDeadlineChange={(date) => onDocumentDeadlineChange?.(requirement?.field_key, date)}
+            showErrors={showErrors}
+          />
+        ))}
+      </div>
+      
       
     
 

@@ -150,10 +150,10 @@ function Upload_Document({
   return (
     <>
       <div className='w-full border border-[#EEEEEE] p-4'>
-        <p className='text-sm font-medium mb-1.5 flex gap-2'>
+        <p className='text-sm font-medium mb-1.5 flex justify-between gap-2'>
           <span className='text-[#364152]'>{requirement?.field_key}</span>
           {requirement?.is_required ? (
-            <span className='text-[#F04438]'>*</span>
+            <span className='bg-[#FFF1F2] text-[#E11D48] font-medium text-2.5 w-fit px-3 py-1 rounded-full'>{t('required')}</span>
           ) : (
             <span className='bg-[#F5F5F5] text-[#A3A3A3] font-medium text-2.5 w-fit px-3 py-1 rounded-full'>{t('optional')}</span>
           )}
@@ -186,31 +186,33 @@ function Upload_Document({
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`border border-dashed ${
+              className={`border border-dashed  ${
                 isDragging
                   ? 'border-primary'
                   : 'border-[#CBD5E1]'
-              } flex justify-between py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
+              } flex flex-col items-center justify-between py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
             >
-              <div className='flex flex-col gap-1'>
-                <p className='text-[#1F2937] text-sm font-normal'>{requirement?.label}</p>
-                <p className='text-[#9CA3AF] text-xs font-normal'>{t('Or drag the file here')}</p>
-                <p className='bg-[#F0F2F5] p-3 w-fit rounded-3px text-[#6B7280] text-xs font-medium flex items-center gap-2'>
-                  <span>{t('maximum')} {requirement?.validation?.max_size_kb ? Math.round(requirement.validation.max_size_kb / 1024) : 5} {t('megabytes')}</span>
-                  <span className='w-[1px] h-3 bg-[#CBD5E1] inline-block'></span>
-                  <span className="flex gap-2">
-                    {requirement?.validation?.mimes?.map(m => m.toUpperCase()).join(", ") || 'PDF, JPG'}
-                  </span>
-                </p>
-              </div>
               <div className='flex items-center'>
                 <p>
                   <img src="/images/icons/upload_yellow.svg" alt="" />
                 </p>
               </div>
+
+              <div className='flex flex-col items-center gap-1'>
+                <p className='text-[#1F2937] text-sm font-normal'>{requirement?.label}</p>
+                <p className='text-[#9CA3AF] text-xs font-normal'>{t('Or drag the file here')}</p>
+                {/* <p className='bg-[#F0F2F5] p-3 w-fit rounded-3px text-[#6B7280] text-xs font-medium flex items-center gap-2'>
+                  <span>{t('maximum')} {requirement?.validation?.max_size_kb ? Math.round(requirement.validation.max_size_kb / 1024) : 5} {t('megabytes')}</span>
+                  <span className='w-[1px] h-3 bg-[#CBD5E1] inline-block'></span>
+                  <span className="flex gap-2">
+                    {requirement?.validation?.mimes?.map(m => m.toUpperCase()).join(", ") || 'PDF, JPG'}
+                  </span>
+                </p> */}
+              </div>
+            
             </div>
           ) : (
-            <div className='border border-primary bg-white  flex items-center justify-between py-4 px-6 rounded-3px transition-colors'>
+            <div className='border border-primary bg-yellow-50  flex items-center justify-between py-4 px-6 rounded-3px transition-colors'>
               <div className='flex items-center gap-3.5 overflow-hidden'>
                 {previewUrl ? (
                   <img

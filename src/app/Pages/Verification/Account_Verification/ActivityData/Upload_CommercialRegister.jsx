@@ -11,6 +11,8 @@ function Upload_CommercialRegister({
   onFileChange,
   deadlineDate: propDeadline,
   onDeadlineChange,
+  formData,
+  onFormDataChange,
   showErrors,
 }) {
   const { t } = useTranslation()
@@ -100,7 +102,7 @@ function Upload_CommercialRegister({
 
   return (
     <>
-      <div className='w-full border border-[#EEEEEE] p-4'>
+      <div className='w-full border border-[#EEEEEE] rounded-3px p-4'>
         <p className='text-sm font-medium mb-1.5'>
           <span className='text-[#364152] '>{t('commercial register')} </span>
           <span className=' text-[#F04438]'>*</span>
@@ -126,26 +128,27 @@ function Upload_CommercialRegister({
               className={`border border-dashed ${
                 isDragging
                   ? 'border-primary '
-                  : 'border-[#CBD5E1] '
-              } flex justify-between py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
+                  : 'border-[#CBD5E1] bg-[#F8FAFC80] '
+              } flex flex-col justify-center items-center gap-2 py-4 px-6 rounded-3px cursor-pointer hover:border-primary/60 transition-colors`}
             >
-              <div className='flex flex-col gap-1'>
-                <p className='text-[#1F2937] text-sm font-normal'>{t('Upload a copy of the commercial registration.')}</p>
-                <p className='text-[#9CA3AF] text-xs font-normal'>{t('Or drag the file here')}</p>
-                <p className='bg-[#F0F2F5] p-3 w-fit rounded-3px text-[#6B7280] text-xs font-medium flex items-center gap-2'>
-                  <span>{t('Maximum size 5 MB')}</span>
-                  <span className='w-[1px] h-3 bg-[#CBD5E1] inline-block'></span>
-                  <span>PDF, JPG</span>
-                </p>
-              </div>
               <div className='flex items-center'>
                 <p>
                   <img src="/images/icons/upload_yellow.svg" alt="" />
                 </p>
               </div>
+              <div className='flex flex-col items-center gap-1'>
+                <p className='text-[#1F2937] text-sm font-normal'>{t('Upload a copy of the commercial registration.')}</p>
+                <p className='text-[#9CA3AF] text-xs font-normal'>{t('Or drag the file here')}</p>
+                {/* <p className='bg-[#F0F2F5] p-3 w-fit rounded-3px text-[#6B7280] text-xs font-medium flex items-center gap-2'>
+                  <span>{t('Maximum size 5 MB')}</span>
+                  <span className='w-[1px] h-3 bg-[#CBD5E1] inline-block'></span>
+                  <span>PDF, JPG</span>
+                </p> */}
+              </div>
+              
             </div>
           ) : (
-            <div className='border border-primary bg-white flex items-center justify-between py-4 px-6 rounded-3px transition-colors'>
+            <div className='border border-primary bg-yellow-50 flex items-center justify-between py-4 px-6 rounded-3px transition-colors'>
               <div className='flex items-center gap-3.5 overflow-hidden'>
                 {previewUrl ? (
                   <img
@@ -188,11 +191,11 @@ function Upload_CommercialRegister({
 
           {/* Calendar Deadline Time */}
           <div
-            className={`border border-dashed ${
+            className={` ${
               deadline
                 ? 'border-primary bg-white'
                 : 'border-[#CBD5E1] '
-            } py-4 px-5 rounded-3px flex flex-col gap-2.5 transition-colors`}
+            } py-4 rounded-3px flex flex-col gap-2.5 transition-colors`}
           >
             <div className='flex justify-between'>
               <p className='flex items-center gap-2'>
@@ -240,6 +243,41 @@ function Upload_CommercialRegister({
                 }}
               />
             </LocalizationProvider>
+          </div>
+
+          {/* Commercial Registration Number & Store/Business Name */}
+          <div className='grid grid-cols-2 gap-4'>
+            {/* comercial registration number */}
+            <div className='w-full'>
+              <p className='text-sm font-medium mb-1.5'>
+                <span className='text-[#364152] '>{t('Commercial Registration Number')} </span>
+                <span className=' text-[#F04438]'>*</span>
+              </p>
+              <input 
+                type="text"
+                name='commercialRegistrationNumber'
+                value={formData?.commercialRegistrationNumber || ''}
+                onChange={(e) => onFormDataChange?.('commercialRegistrationNumber', e.target.value)}
+                placeholder={t('Enter the commercial registration number')}
+                className="w-full h-14 p-3 border border-[#C8C8C8] hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200"
+              />
+            </div>
+            
+            {/* Store/Business Name */}
+            <div className='w-full'>
+              <p className='text-sm font-medium mb-1.5'>
+                <span className='text-[#364152] '>{t('Store/Business Name')} </span>
+                <span className=' text-[#F04438]'>*</span>
+              </p>
+              <input 
+                type="text"
+                name='storeBusinessName'
+                value={formData?.storeBusinessName || ''}
+                onChange={(e) => onFormDataChange?.('storeBusinessName', e.target.value)}
+                placeholder={t('Enter the name of the store or business')}
+                className="w-full h-14 p-3 border border-[#C8C8C8] hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary/20 text-sm text-[#364152] rounded-3px outline-none transition-all duration-200"
+              />
+            </div>
           </div>
         </div>
       </div>

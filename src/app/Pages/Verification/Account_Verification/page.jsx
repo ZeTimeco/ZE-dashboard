@@ -34,6 +34,7 @@ function Account_VerificationContent() {
     commercialRegistrationNumber: '',
     storeBusinessName: '',
     detailedTitle: '',
+    identityNumber: '',
   });
 
   // Step 2 state: Files and Documents
@@ -56,13 +57,14 @@ function Account_VerificationContent() {
     { id: 3, title: t('Review and send') },
   ];
 
-  const [showErrors, setShowErrors] = useState(true);
+  const [showErrors, setShowErrors] = useState(false);
   const isErrorShown = showErrors || Boolean(stepError);
 
   const isStep1Valid = Boolean(
     nationalIdFrontFile &&
     nationalIdBackFile &&
     (nationalIdFrontDeadline || nationalIdBackDeadline) &&
+    formData?.identityNumber?.trim() &&
     commercialRegisterFile &&
     commercialRegisterDeadline &&
     formData?.commercialRegistrationNumber?.trim() &&
@@ -97,6 +99,9 @@ function Account_VerificationContent() {
     }
     if (!nationalIdBackFile) {
       return t('Please upload the back national ID card');
+    }
+    if (!formData?.identityNumber?.trim()) {
+      return t('Please enter the national ID or residence number') || 'يرجى إدخال رقم الهوية الوطنية أو الإقامة';
     }
     if (!commercialRegisterFile) {
       return t('Please upload the commercial register file');
@@ -231,6 +236,7 @@ function Account_VerificationContent() {
       const identityNumber = formData.identityNumber || user?.national_id || formData.commercialRegistrationNumber;
       if (identityNumber) {
         submissionData.append('identity_number', identityNumber.toString().trim());
+        submissionData.append('national_id', identityNumber.toString().trim());
       }
 
       // Commercial Register

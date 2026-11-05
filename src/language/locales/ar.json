@@ -1868,7 +1868,11 @@
   "Incorrect email or password.":"بريد إلكتروني أو كلمة مرور غير صحيحة.",
   "Search by name of worker":"البحث باسم العامل",
   "deleting...":"جارٍ الحذف...",
-
+  "National ID / Iqama number":"رقم الهوية الوطنية / الإقامة",
+  "Enter the national ID or Iqama number":"أدخل رقم الهوية الوطنية أو الإقامة",
+  "ID number must not exceed 16 digits":"يجب ألا يتجاوز رقم الهوية 16 رقمًا",
+  "National ID/Residence Permit Copy":"صورة الهوية الوطنية / الإقامة للمفوض",
+  "required":"مطلوب",
 
 
 

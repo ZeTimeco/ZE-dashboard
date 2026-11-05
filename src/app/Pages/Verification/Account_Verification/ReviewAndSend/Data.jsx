@@ -29,6 +29,11 @@ function Data({ onGoToFirstStage, formData }) {
         </div>
 
         <div className='flex justify-between '>
+          <h3 className='text-[#A8A29E] text-sm font-medium'>{t('National ID / Iqama number') || 'رقم الهوية الوطنية / الإقامة'} :</h3>
+          <p className='text-[#292524] text-sm font-medium'>{formData?.identityNumber || '—'}</p>
+        </div>
+
+        <div className='flex justify-between '>
           <h3 className='text-[#A8A29E] text-sm font-medium'>{t('Commercial Registration Number')} :</h3>
           <p className='text-[#292524] text-sm font-medium'>{formData?.commercialRegistrationNumber || '—'}</p>
         </div>

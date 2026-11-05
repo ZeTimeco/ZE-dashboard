@@ -20,7 +20,7 @@ function QuickProceduresPage({getcounters}) {
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.2 }}
-          onClick={()=>router.push(`/Pages/Menus`)} 
+          onClick={()=>router.push(`/Pages/Menus/Queue_Module`)} 
           className='group flex flex-col gap-2 border border-[#E4E7EC] hover:border-primary hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)] rounded-3px p-4 items-center transition-all duration-200 active:border-[var(--color-primary)] cursor-pointer bg-white'
         >
           <img src="/images/icons/menu-square.svg" alt="" className='w-6 h-8 transition-transform duration-200 group-hover:scale-110' />

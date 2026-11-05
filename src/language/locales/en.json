@@ -1866,6 +1866,11 @@
   "Incorrect email or password.":"Incorrect email or password.",
   "Search by name of worker":"Search by name of worker",
   "deleting...":"deleting...",
+  "National ID / Iqama number":"National ID / Iqama number",
+  "Enter the national ID or Iqama number":"Enter the national ID or Iqama number",
+  "ID number must not exceed 16 digits":"ID number must not exceed 16 digits",
+  "National ID/Residence Permit Copy":"National ID/Residence Permit Copy",
+  "required":"required",
   
   
 
