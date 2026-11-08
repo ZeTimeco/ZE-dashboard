@@ -1873,8 +1873,13 @@
   "ID number must not exceed 16 digits":"يجب ألا يتجاوز رقم الهوية 16 رقمًا",
   "National ID/Residence Permit Copy":"صورة الهوية الوطنية / الإقامة للمفوض",
   "required":"مطلوب",
-
-
+  "Hour":"ساعة",
+  "Minute":"دقيقة",
+  "Processing...":"جارٍ المعالجة...",
+  "Failed to reject booking":"فشل رفض الحجز",
+  "Failed to accept booking":"فشل قبول الحجز",
+  "Booking accepted successfully":"تم قبول الحجز بنجاح",
+  "Booking rejected successfully":"تم رفض الطلب بنجاح",
 
 
   "":""

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -43,8 +43,13 @@ function ServicePage() {
   };
 
   const handleReset = () => {
-    setFilterParams({});
+    setFilterParams((prev) => {
+      const newParams = {};
+      if (prev.search) newParams.search = prev.search;
+      return newParams;
+    });
     setCurrentPage(1);
+    handleClose();
   };
 
   const handleSearch = (term) => {
@@ -55,6 +60,18 @@ function ServicePage() {
     });
     setCurrentPage(1);
   };
+
+  // Compute active filters count (excluding text search)
+  const activeFiltersCount = useMemo(() => {
+    return Object.entries(filterParams).reduce((acc, [key, value]) => {
+      if (key === 'search') return acc;
+      if (Array.isArray(value)) return acc + value.length;
+      if (value) return acc + 1;
+      return acc;
+    }, 0);
+  }, [filterParams]);
+
+  const isFilterActive = activeFiltersCount > 0;
 
   // Link API data to cards
   const dispatch = useDispatch();
@@ -184,7 +201,11 @@ function ServicePage() {
             </div>
             <div className="lg1:flex lg1:gap-4 gap-6 items-center">
               <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
-                <FilterBtn onClick={handleClickOpen} />
+                <FilterBtn 
+                  onClick={handleClickOpen} 
+                  isActive={isFilterActive}
+                  count={activeFiltersCount}
+                />
               </div>
               <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
                 <AddBtn

@@ -5,8 +5,14 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 
-function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
+function SchedulePage({ handleNext, handlePrev, formData, handleChange, isScheduleValid: propIsValid }) {
   const { t } = useTranslation();
+
+  const isScheduleValid = propIsValid !== undefined ? propIsValid : Boolean(
+    formData?.days &&
+    formData?.days?.length > 0 &&
+    formData?.days?.some((d) => d.times && d.times.length > 0)
+  );
 
   //************* */ DAYS ************///
   //------------------------------------
@@ -204,6 +210,9 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
                               textAlign: "left",
                               paddingRight: "8px",
                             },
+                            "& .MuiPickersSectionList-root": {
+                              direction: "ltr !important",
+                            },
                             "& .MuiInputAdornment-root": {
                               order: -1,
                               marginLeft: "12px",
@@ -253,6 +262,9 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
                             "& input": {
                               textAlign: "left",
                               paddingRight: "8px",
+                            },
+                            "& .MuiPickersSectionList-root": {
+                              direction: "ltr !important",
                             },
                             "& .MuiInputAdornment-root": {
                               order: -1,
@@ -340,21 +352,24 @@ function SchedulePage({ handleNext, handlePrev, formData, handleChange }) {
         </div>
       </section>
 
-
-
-
-
       {/* Bottom Nav */}
       <div className="my-12 flex gap-3">
         <button
+          type="button"
           onClick={handlePrev}
-          className="border w-48 h-13.5 py-2.5 px-4 rounded-3px border-primary text-primary text-base font-medium cursor-pointer"
+          className="border w-48 h-13.5 py-2.5 px-4 rounded-3px border-primary text-primary text-base font-medium cursor-pointer transition hover:bg-yellow-50"
         >
-          {t("the previous")}
+          {t("Return")}
         </button>
         <button
+          type="button"
           onClick={handleNext}
-          className="border w-58 h-13.5 py-2.5 px-4 rounded-3px bg-primary text-white text-base font-medium cursor-pointer"
+          disabled={!isScheduleValid}
+          className={`border w-58 h-13.5 py-2.5 px-4 rounded-3px text-white text-base font-medium transition ${
+            !isScheduleValid
+              ? "bg-gray-400 border-gray-400 opacity-60 cursor-not-allowed"
+              : "bg-primary border-primary cursor-pointer hover:bg-[#AD850F]"
+          }`}
         >
           {t("the next")}
         </button>

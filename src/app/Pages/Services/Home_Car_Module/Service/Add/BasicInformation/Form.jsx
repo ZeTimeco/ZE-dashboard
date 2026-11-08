@@ -69,6 +69,26 @@ function Form({ formData, handleChange }) {
   // ⭐ ONLY children of selected category
   const optionSubService = selected2?.children || [];
 
+  // Sync selected2 and selected3 from formData if already present
+  useEffect(() => {
+    if (formData?.category_id && getCategories?.length > 0 && !selected2) {
+      for (const cat of getCategories) {
+        if (cat.id === formData.category_id) {
+          setSelected2(cat);
+          break;
+        }
+        if (cat.children?.length > 0) {
+          const matchedChild = cat.children.find((c) => c.id === formData.category_id);
+          if (matchedChild) {
+            setSelected2(cat);
+            setSelected3(matchedChild);
+            break;
+          }
+        }
+      }
+    }
+  }, [formData?.category_id, getCategories, selected2]);
+
   // ServiceActivityLocation 4
   const [open4, setOpen4] = useState(false);
   const dropdownRef4 = useRef(null);
@@ -100,10 +120,16 @@ function Form({ formData, handleChange }) {
 
   const formattedTime = confirmedTime ? dayjs(confirmedTime).format("HH:mm") : "";
 
+  const handleOpenDuration = () => {
+    setTempTime(confirmedTime || dayjs().hour(1).minute(0));
+    setOpen5(true);
+  };
+
   const handleOkClick = () => {
-    setConfirmedTime(tempTime);
+    const timeToSet = tempTime || confirmedTime || dayjs().hour(1).minute(0);
+    setConfirmedTime(timeToSet);
     setOpen5(false);
-    const formatted = dayjs(tempTime).format("HH:mm");
+    const formatted = dayjs(timeToSet).format("HH:mm");
     handleChange("duration", formatted);
   };
 
@@ -171,7 +197,11 @@ function Form({ formData, handleChange }) {
                         setOpen2(false);
                         setSelected3(null);
                         setSearchValue3("");
-                        handleChange("category_id", option.id);
+                        if (option.children && option.children.length > 0) {
+                          handleChange("category_id", "");
+                        } else {
+                          handleChange("category_id", option.id);
+                        }
                       }}
                       className="p-3 hover:bg-[#F5F5F5] cursor-pointer"
                     >
@@ -210,6 +240,7 @@ function Form({ formData, handleChange }) {
                   setSearchValue3(e.target.value);
                   setOpen3(true);
                   setSelected3(null);
+                  handleChange("category_id", "");
                 }}
                 className="h-15 p-3 w-full text-[#364152] focus:outline-none"
               />
@@ -320,7 +351,7 @@ function Form({ formData, handleChange }) {
 
           {/* Clickable box */}
           <div
-            onClick={() => setOpen5(true)}
+            onClick={handleOpenDuration}
             className="h-15 p-3 border border-[#C8C8C8] rounded-3px cursor-pointer flex items-center justify-between"
           >
             <span className={formattedTime ? "text-[#364152]" : "text-[#9A9A9A]"}>
@@ -334,26 +365,63 @@ function Form({ formData, handleChange }) {
           {/* Calendar Popup (Dialog) */}
           <Dialog open={open5} onClose={() => setOpen5(false)}>
             <div className="bg-[#eef2f6] p-4 w-[320px]">
+              {/* Column Headers: Hour on the Left, Minutes on the Right */}
+              <div className="flex border-b border-[#CDD5DF] pb-2 mb-3" dir="ltr">
+                <div className="flex-1 text-center font-medium text-sm text-[#364152]">
+                  {t("Hour") }
+                </div>
+                <div className="flex-1 text-center font-medium text-sm text-[#364152]">
+                  {t("minutes") }
+                </div>
+              </div>
+
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <MultiSectionDigitalClock
-                  value={tempTime}
-                  onChange={(newValue) => setTempTime(newValue)}
-                  ampm={false}
-                  timeSteps={{ minutes: 15 }}
-                  sx={{
-                    width: "100%",
-                    "& .MuiMultiSectionDigitalClock-root": { width: "100%" },
-                    "& .MuiMultiSectionDigitalClockSection-root": { flex: 1 },
-                  }}
-                />
+                <div dir="ltr" className="w-full">
+                  <MultiSectionDigitalClock
+                    value={tempTime}
+                    onChange={(newValue) => setTempTime(newValue)}
+                    ampm={false}
+                    timeSteps={{ minutes: 15 }}
+                    sx={{
+                      width: "100%",
+                      direction: "ltr",
+                      backgroundColor: "white",
+                      borderRadius: "6px",
+                      border: "1px solid #CDD5DF",
+                      "& .MuiMultiSectionDigitalClock-root": { 
+                        width: "100%",
+                        direction: "ltr",
+                      },
+                      "& .MuiMultiSectionDigitalClockSection-root": { 
+                        flex: 1,
+                        textAlign: "center",
+                        "& .MuiMenuItem-root": {
+                          justifyContent: "center",
+                        },
+                      },
+                      "& .Mui-selected": {
+                        backgroundColor: "var(--color-primary, #C69815) !important",
+                        color: "white !important",
+                      },
+                    }}
+                  />
+                </div>
               </LocalizationProvider>
 
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end gap-2 mt-4">
                 <button
-                  onClick={handleOkClick}
-                  className="bg-primary text-white px-4 py-1 rounded-3px cursor-pointer"
+                  type="button"
+                  onClick={() => setOpen5(false)}
+                  className="px-4 py-1 text-sm border border-gray-300 rounded-3px text-gray-700 bg-white hover:bg-gray-50 cursor-pointer"
                 >
-                  {t("Add")}
+                  {t("cancel") || "إلغاء"}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleOkClick}
+                  className="bg-primary hover:bg-[#AD850F] text-white text-sm px-4 py-1 rounded-3px cursor-pointer transition"
+                >
+                  {t("Add") || "إضافة"}
                 </button>
               </div>
             </div>

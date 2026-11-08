@@ -1,6 +1,6 @@
 "use client";
 import { useTranslation } from "react-i18next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import BasicInformationPage from "./BasicInformation/page";
 import SchedulePage from "./Schedule/page";
@@ -13,11 +13,11 @@ function AddPage() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const {loadingDetails}= useSelector((state) => state.services)
+  const { loadingDetails } = useSelector((state) => state.services);
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    provider_id:'',
+    provider_id: '',
     images: [],
     module_id: "",
     category_id: "",
@@ -42,7 +42,6 @@ function AddPage() {
     }
   }, []);
 
-
   const handleChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -50,42 +49,41 @@ function AddPage() {
     }));
   };
 
+  const handleSubmit = async () => {
+    const data = new FormData();
 
-const handleSubmit = async () => {
-  const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      const value = formData[key];
 
-  Object.keys(formData).forEach((key) => {
-    const value = formData[key];
+      if (key === "provider_areas_id" && Array.isArray(value)) {
+        value.forEach((item) => data.append("provider_areas_id[]", item.id));
+      } else if (key === "days" && Array.isArray(value)) {
+        // Serialize days array with nested times for backend
+        value.forEach((day, dayIndex) => {
+          data.append(`days[${dayIndex}][day]`, day.day);
+          if (day.times && Array.isArray(day.times)) {
+            day.times.forEach((time, timeIndex) => {
+              data.append(`days[${dayIndex}][times][${timeIndex}][from]`, time.from);
+              data.append(`days[${dayIndex}][times][${timeIndex}][to]`, time.to);
+            });
+          }
+        });
+      } else if (Array.isArray(value)) {
+        value.forEach((item) => data.append(`${key}[]`, item));
+      } else {
+        data.append(key, value);
+      }
+    });
 
-    if (key === "provider_areas_id" && Array.isArray(value)) {
-      value.forEach((item) => data.append("provider_areas_id[]", item.id));
-    } else if (key === "days" && Array.isArray(value)) {
-      // Serialize days array with nested times for backend
-      value.forEach((day, dayIndex) => {
-        data.append(`days[${dayIndex}][day]`, day.day);
-        if (day.times && Array.isArray(day.times)) {
-          day.times.forEach((time, timeIndex) => {
-            data.append(`days[${dayIndex}][times][${timeIndex}][from]`, time.from);
-            data.append(`days[${dayIndex}][times][${timeIndex}][to]`, time.to);
-          });
-        }
-      });
-    } else if (Array.isArray(value)) {
-      value.forEach((item) => data.append(`${key}[]`, item));
+    const result = await dispatch(AddServiceThunk(data));
+
+    if (AddServiceThunk.fulfilled.match(result)) {
+      console.log("Service added successfully ✅", result.payload);
+      handleGoBack();
     } else {
-      data.append(key, value);
+      console.error("Failed to add service ❌", result.payload);
     }
-  });
-
-  const result = await dispatch(AddServiceThunk(data));
-
-  if (AddServiceThunk.fulfilled.match(result)) {
-    console.log("Service added successfully ✅", result.payload);
-    handleGoBack();
-  } else {
-    console.error("Failed to add service ❌", result.payload);
-  }
-};
+  };
 
   const [openId, setOpenId] = useState("basic");
   const tabs = [
@@ -96,20 +94,68 @@ const handleSubmit = async () => {
 
   const currentIndex = tabs.findIndex((tab) => tab.id === openId);
 
+  // Validation rules for each step
+  const isBasicInfoValid = useMemo(() => {
+    return Boolean(
+      formData?.images?.length > 0 &&
+      formData?.category_id &&
+      formData?.provider_areas_id?.length > 0 &&
+      formData?.duration &&
+      formData?.long_description?.trim()
+    );
+  }, [formData]);
+
+  const isScheduleValid = useMemo(() => {
+    return Boolean(
+      formData?.days &&
+      formData?.days?.length > 0 &&
+      formData?.days?.some((d) => d.times && d.times.length > 0)
+    );
+  }, [formData?.days]);
+
+  const isPricingValid = useMemo(() => {
+    const hasPrice = Boolean(formData?.inspection_price?.toString().trim());
+    if (!hasPrice) return false;
+
+    if (formData?.price_on_inspection) {
+      return true;
+    }
+
+    const hasPricingType = Boolean(formData?.pricing_type);
+    if (!hasPricingType) return false;
+
+    const hasDiscount = Boolean(formData?.discount?.toString().trim());
+    if (hasDiscount && !formData?.discount_type) {
+      return false;
+    }
+
+    return true;
+  }, [formData?.inspection_price, formData?.price_on_inspection, formData?.pricing_type, formData?.discount, formData?.discount_type]);
+
   const handleNext = () => {
-    if (currentIndex < tabs.length - 1) setOpenId(tabs[currentIndex + 1].id);
+    if (currentIndex === 0 && !isBasicInfoValid) return;
+    if (currentIndex === 1 && !isScheduleValid) return;
+
+    if (currentIndex < tabs.length - 1) {
+      setOpenId(tabs[currentIndex + 1].id);
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
   };
 
   const handlePrev = () => {
-    if (currentIndex > 0) setOpenId(tabs[currentIndex - 1].id);
+    if (currentIndex > 0) {
+      setOpenId(tabs[currentIndex - 1].id);
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
   };
 
   const handleGoBack = () => {
     router.back();
   };
-console.log(formData);
-
-
 
   return (
     <MainLayout>
@@ -124,26 +170,30 @@ console.log(formData);
           </p>
         </section>
 
-        {/* Tabs */}
+        {/* Stepper Tabs - Indicator only */}
         <section className="w-full mt-4 flex flex-col flex-1 overflow-hidden">
           <div className="flex justify-around border-b border-gray-300">
-            {tabs.map((tab) => (
-              <div
-                key={tab.id}
-                className={`px-4 py-6 w-full text-center text-base cursor-pointer transition-all duration-200
-                  ${
-                    openId === tab.id
+            {tabs.map((tab, index) => {
+              const isActive = openId === tab.id;
+              const isCompleted = currentIndex > index;
+
+              return (
+                <div
+                  key={tab.id}
+                  className={`px-4 py-6 w-full text-center text-base transition-all duration-200 select-none ${
+                    isActive
                       ? "text-primary border-b-2 border-primary font-medium"
-                      : "text-[#697586] font-normal hover:text-primary"
+                      : isCompleted
+                        ? "text-primary font-medium"
+                        : "text-[#697586] font-normal"
                   }`}
-                onClick={() => setOpenId(tab.id)}
-              >
-                {tab.label}
-              </div>
-            ))}
+                >
+                  {tab.label}
+                </div>
+              );
+            })}
           </div>
 
-        
           <div className="flex-1 overflow-y-auto mt-6 px-2">
             {tabs.map((tab) => (
               <div
@@ -153,7 +203,7 @@ console.log(formData);
                 }}
               >
                 <tab.Component
-                loadingDetails={loadingDetails}
+                  loadingDetails={loadingDetails}
                   formData={formData}
                   setFormData={setFormData}
                   handleChange={handleChange}
@@ -161,6 +211,9 @@ console.log(formData);
                   handleGoBack={handleGoBack}
                   handlePrev={handlePrev}
                   handleNext={handleNext}
+                  isBasicInfoValid={isBasicInfoValid}
+                  isScheduleValid={isScheduleValid}
+                  isPricingValid={isPricingValid}
                 />
               </div>
             ))}
