@@ -1880,6 +1880,9 @@
   "Failed to accept booking":"فشل قبول الحجز",
   "Booking accepted successfully":"تم قبول الحجز بنجاح",
   "Booking rejected successfully":"تم رفض الطلب بنجاح",
+  "Failed to update hall":"فشل في تحديث قاعة",
+  "Hall updated successfully":"تم تحديث القاعة بنجاح",
+  
 
 
   "":""

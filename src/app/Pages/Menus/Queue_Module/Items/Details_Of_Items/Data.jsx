@@ -87,11 +87,11 @@ function Data({ getItemsDetails }) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="flex justify-between items-start"
+        className="flex justify-between items-start "
       >
         {/* name + category */}
-        <div className="flex flex-col gap-1.5">
-          <p className="text-[#364152] text-xl font-medium">{item?.name}</p>
+        <div className="flex flex-col gap-1.5 flex-1 min-w-0 ">
+          <p className="text-[#364152] text-xl font-medium break-words ">{item?.name}</p>
           <p className="text-[#697586] text-sm font-normal">{item?.category_name}</p>
         </div>
         {/* status badge + price */}

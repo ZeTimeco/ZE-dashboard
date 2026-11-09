@@ -53,7 +53,7 @@ function Card({ onViewCategoryItems , getCategories }) {
             boxShadow: '0 8px 24px 0 rgba(0,0,0,0.08)',
             transition: { duration: 0.2 },
           }}
-          className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-[3px] p-4 bg-white border border-transparent hover:border-slate-200 transition-all duration-300'
+          className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-3px p-4 bg-white border border-transparent hover:border-slate-200 transition-all duration-300'
         >
           <div className='flex justify-between items-start'>
             <div>

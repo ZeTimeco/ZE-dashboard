@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addItemThunk, getCategoriesThunk } from '@/redux/slice/Menus/MenusSlice'
 import { motion } from 'framer-motion'
 
-function Add_ItemsPage({open , setOpen}) {
+function Add_ItemsPage({open , setOpen, onSuccess}) {
   const {t} = useTranslation() 
   const dispatch = useDispatch()
   const {getCategories} = useSelector((state)=>state.Menus)
@@ -42,6 +42,7 @@ function Add_ItemsPage({open , setOpen}) {
       const result = await dispatch(addItemThunk(formData)).unwrap();
       console.log(result);
       setOpen(false);
+      if (onSuccess) onSuccess();
     } catch (error) {
       console.log(error);
     } finally {
@@ -105,7 +106,7 @@ function Add_ItemsPage({open , setOpen}) {
             onClick={handleSubmit}  
             className='w-[40%] bg-primary text-white text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50'
           >
-            {loading ? t('loading...') : t('Preserving the item')}
+            {loading ? t('Loading...') : t('Preserving the item')}
           </motion.button>
           <motion.button 
             whileHover={{ scale: 1.02, transition: { duration: 0.18 } }}

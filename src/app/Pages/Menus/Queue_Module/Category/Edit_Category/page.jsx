@@ -119,7 +119,7 @@ function Edit_CategoryPage({open , setOpen , categoryID}) {
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             disabled={loading}
             onClick={handleSubmit}  
-            className='w-[40%] bg-[primary text-white text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50'
+            className='w-[40%] bg-[primary text-white bg-primary text-base font-medium py-3 px-6 rounded-3px cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50'
           >
             {loading ? t('Loading...') : t('Save changes')}
           </motion.button>

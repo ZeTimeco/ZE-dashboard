@@ -7,8 +7,6 @@ import AddBtn from '@/app/Components/Buttons/AddBtn'
 import CardOfHall from './CardOfHall'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHallsThunk } from '@/redux/slice/Halls/HallsSlice'
-
-
 import { motion } from 'framer-motion'
 
 function HallContent() {
@@ -17,7 +15,7 @@ function HallContent() {
   //api
   const dispatch = useDispatch();
   const {halls, loading, error} = useSelector((state) => state.halls);
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getHallsThunk());
   }, [dispatch])
 
@@ -45,9 +43,14 @@ function HallContent() {
         </div>
 
         {/* cards */}
-        <div className='border border-[#E3E8EF] py-8 px-6 rounded-3px transition-shadow duration-300'>
+        <motion.div
+          className='border border-[#E3E8EF] py-8 px-6 rounded-3px transition-shadow duration-300'
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
+        >
           <CardOfHall halls={halls}/>
-        </div>
+        </motion.div>
         
         </motion.div>
       )}

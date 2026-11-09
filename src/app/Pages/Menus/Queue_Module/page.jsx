@@ -8,14 +8,25 @@ import Add_CategoryPage from './Category/Add_Category/page'
 import Item_Of_CategoryPage from './Items/Item_Of_Category/page'
 import Add_ItemsPage from './Items/Add_Items/page'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useDispatch } from 'react-redux'
+import { getItemsThunk, getCategoriesThunk } from '@/redux/slice/Menus/MenusSlice'
 
 function MenusPage() {
   const {t} = useTranslation()
+  const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState('Category')
   const [openAdd , setOpenAdd]= useState(false)
   const [openAddItem , setOpenAddItem]= useState(false)
 
   const [selectedCategory, setSelectedCategory] = useState(null)
+
+  const handleItemAdded = () => {
+    dispatch(getItemsThunk())
+  }
+
+  const handleCategoryAdded = () => {
+    dispatch(getCategoriesThunk())
+  }
 
   return (
     <MainLayout>
@@ -36,7 +47,7 @@ function MenusPage() {
             }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             onClick={() => setOpenAdd(true)}
-            className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[30%] lg1:w-[20%] rounded-[3px] cursor-pointer transition-opacity hover:opacity-90'
+            className='bg-primary flex justify-center items-center gap-2 h-14 w-[30%] lg1:w-[20%] rounded-3px cursor-pointer transition-opacity hover:opacity-90'
           >
             <p><img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
             <p className='text-white text-base font-medium'>{t('Add a new category')}</p>
@@ -50,7 +61,7 @@ function MenusPage() {
             }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             onClick={() => setOpenAddItem(true)}
-            className='bg-[var(--color-primary)] flex justify-center items-center gap-2 h-14 w-[30%] lg1:w-[20%] rounded-[3px] cursor-pointer transition-opacity hover:opacity-90'
+            className='bg-primary flex justify-center items-center gap-2 h-14 w-[30%] lg1:w-[20%] rounded-3px cursor-pointer transition-opacity hover:opacity-90'
           >
             <p><img src="/images/icons/AddIcon.svg" alt="" className="w-6 h-6" /></p>
             <p className='text-white text-base font-medium'>{t('Add a new item')}</p>
@@ -71,8 +82,8 @@ function MenusPage() {
           onClick={() => setActiveTab('Category')}
           className={`flex justify-center items-center gap-1.5 p-4 cursor-pointer transition-all duration-200
             ${(activeTab === 'Category' || activeTab === 'Item_Of_Category')
-              ? 'bg-[var(--color-primary)] text-white rounded-[3px] shadow-sm'
-              : 'hover:bg-gray-100/70 rounded-[3px]'
+              ? 'bg-primary text-white rounded-3px shadow-sm'
+              : 'hover:bg-gray-100/70 rounded-3px'
             }`}
         >
           <span className='flex items-center'>
@@ -92,8 +103,8 @@ function MenusPage() {
           onClick={() => setActiveTab('items')}
           className={`flex justify-center items-center gap-1.5 p-4 cursor-pointer transition-all duration-200
             ${activeTab === 'items'
-              ? 'bg-[var(--color-primary)] text-white rounded-[3px] shadow-sm'
-              : 'hover:bg-gray-100/70 rounded-[3px]'
+              ? 'bg-primary text-white rounded-3px shadow-sm'
+              : 'hover:bg-gray-100/70 rounded-3px'
             }`}
         >
           <span className='flex items-center'>
@@ -166,11 +177,13 @@ function MenusPage() {
       <Add_CategoryPage 
         open={openAdd}
         setOpen={setOpenAdd}
+        onSuccess={handleCategoryAdded}
       />
 
       <Add_ItemsPage 
         open={openAddItem}
         setOpen={setOpenAddItem}
+        onSuccess={handleItemAdded}
       />
     </MainLayout>
   )

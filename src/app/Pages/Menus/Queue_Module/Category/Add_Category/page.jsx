@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import { addCategoryThunk, getCategoriesThunk } from '@/redux/slice/Menus/MenusSlice'
 import { motion } from 'framer-motion'
 
-function Add_CategoryPage({open , setOpen}) {
+function Add_CategoryPage({open , setOpen, onSuccess}) {
   const {t} = useTranslation()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -37,6 +37,7 @@ function Add_CategoryPage({open , setOpen}) {
         status: 1,
         is_visible: 1,
       });
+      if (onSuccess) onSuccess();
     } catch (error) {
       console.log(error);
     } finally {

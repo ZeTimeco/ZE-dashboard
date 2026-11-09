@@ -38,7 +38,7 @@ function Card({ item, selectedCategoryId, index = 0 }) {
         className='group shadow-[0_0_4px_0_rgba(0,0,0,0.20)] rounded-3px pt-4 px-4 pb-3 bg-white border border-transparent hover:border-slate-200 transition-all duration-300'
       >
         <div className='flex justify-between items-center'>
-          <div className='flex gap-3 items-center'>
+          <div className='flex gap-3 items-center flex-1 min-w-0'>
             <div className='pb-1 overflow-hidden rounded-3px'>
               <img 
                 src={item?.image ? `${IMAGE_BASE_URL}${item.image}` : "/images/P.p.svg"} 
@@ -46,8 +46,8 @@ function Card({ item, selectedCategoryId, index = 0 }) {
                 alt={item?.name} 
               />
             </div>
-            <div className='flex flex-col justify-center'>
-              <p className='text-[#364152] text-xl font-normal group-hover:text-slate-900 transition-colors'>{item?.name}</p>
+            <div className='flex flex-col justify-center flex-1 min-w-0'>
+              <p className='text-[#364152] text-xl font-normal group-hover:text-slate-900 transition-colors break-words'>{item?.name}</p>
               <p className='text-primary text-lg font-medium'>{item?.base_price} {t('EGP')}</p>
             </div>
           </div>
