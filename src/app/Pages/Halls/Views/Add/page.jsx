@@ -5,28 +5,33 @@ import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
 import { addHallViewThunk, getHallViewThunk, getViewsThunk } from '@/redux/slice/Halls/HallsSlice'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 function AddContent({open , setOpen , Hallid}) {
   const{t} = useTranslation()
-  console.log('Hallid' , Hallid);
-  
+
   //api
   const dispatch = useDispatch()
-  const {getHallView} = useSelector((state)=>state.halls)
-  useEffect(()=>{
+  const {getHallView} = useSelector((state) => state.halls)
+  useEffect(() => {
     dispatch(getHallViewThunk())
-  },[dispatch])
+  }, [dispatch])
 
   const [formData , setFormData] = useState({
-    view_id:'',
-    name:'',
-    side:'',
-    description:'',
+    view_id: '',
+    name: '',
+    side: '',
+    description: '',
   })
 
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+
   const handleSave = async () => {
+    if (saving) return;
     try {
+      setSaving(true)
       await dispatch(
         addHallViewThunk({
           hallid: Hallid,
@@ -35,13 +40,30 @@ function AddContent({open , setOpen , Hallid}) {
       ).unwrap();
 
       await dispatch(getViewsThunk(Hallid));
-      setOpen(false);
+
+      // Success feedback
+      setSaved(true)
+      toast.success(t('View added successfully') || 'تمت إضافة المنظر بنجاح', {
+        position: 'top-right',
+        autoClose: 2000,
+      })
+
+      setTimeout(() => {
+        setOpen(false);
+        setSaved(false)
+        setSaving(false)
+      }, 900)
+
     } catch (error) {
       console.log(error);
+      toast.error(t('Failed to add view') || 'فشل في إضافة المنظر', {
+        position: 'top-right',
+        autoClose: 3000,
+      })
+      setSaving(false)
     }
   };
-  
-  console.log('getHallView',getHallView);
+
   return (
     <>
     <Dialog
@@ -53,7 +75,7 @@ function AddContent({open , setOpen , Hallid}) {
       {/* header */}
       <section className="flex justify-end px-6 mt-6">
         <button
-          onClick={()=>setOpen(false)}
+          onClick={() => setOpen(false)}
           className="border border-[#CDD5DF] hover:bg-slate-50 active:scale-95 transition-all duration-150 w-12 h-12 rounded-[100px] flex justify-center items-center cursor-pointer"
         >
           <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
@@ -67,18 +89,62 @@ function AddContent({open , setOpen , Hallid}) {
       </section>
       <span className="border-[0.5px] border-[#E3E8EF]" />
 
-      {/*  */}
       <Form getHallView={getHallView} formData={formData} setFormData={setFormData}  />
 
       {/* btn */}
       <div className='px-6'>
-        <motion.button 
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.98 }}
-          onClick={handleSave} 
-          className='bg-primary hover:opacity-95 hover:shadow-md text-white w-full text-base font-medium py-3 px-6 rounded-3px my-6 cursor-pointer transition-all duration-200'
+        <motion.button
+          whileHover={!saving && !saved ? { scale: 1.01, boxShadow: '0 4px 16px -4px rgba(0,0,0,0.15)' } : {}}
+          whileTap={!saving && !saved ? { scale: 0.98 } : {}}
+          onClick={handleSave}
+          disabled={saving}
+          className={`relative overflow-hidden text-white w-full text-base font-medium py-3 px-6 rounded-3px my-6 cursor-pointer transition-all duration-300 ${
+            saved
+              ? 'bg-green-500'
+              : 'bg-primary hover:opacity-95 hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed'
+          }`}
         >
-          {t('save')}
+          <AnimatePresence mode="wait">
+            {saved ? (
+              <motion.span
+                key="saved"
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.7 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center justify-center gap-2"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </motion.span>
+            ) : saving ? (
+              <motion.span
+                key="saving"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="flex items-center justify-center gap-2"
+              >
+                <svg className="animate-spin w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+                {t('Saving...')}
+              </motion.span>
+            ) : (
+              <motion.span
+                key="idle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+              >
+                {t('save')}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </motion.button>
       </div>
     

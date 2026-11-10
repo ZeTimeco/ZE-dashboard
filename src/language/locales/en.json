@@ -1880,7 +1880,10 @@
   "Booking rejected successfully":"Booking rejected successfully",
   "Failed to update hall":"Failed to update hall",
   "Hall updated successfully":"Hall updated successfully",
-  
+  "Failed to update view":"Failed to update view",
+  "View updated successfully":"View updated successfully",
+  "View added successfully":"View added successfully",
+  "Failed to add view":"Failed to add view",
   
   
 

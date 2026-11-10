@@ -6,7 +6,7 @@ import DepositSetup from './DepositSetup'
 import PaymentSettings from './PaymentSettings'
 import NoShowFees from './NoShowFees'
 import { useDispatch, useSelector } from 'react-redux'
-import { editPaymentSettingsThunk, getPaymentSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { editPaymentSettingsThunk, editPaymentTrueSettingsThunk, getPaymentSettingsThunk, getPaymentTrueSettingsThunk } from '@/redux/slice/Setting/SettingSlice'
 import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 
@@ -14,9 +14,9 @@ function PaymentsPage() {
   const {t} = useTranslation()
   //api
   const dispatch = useDispatch()
-  const {getPaymentSettings} = useSelector((state)=>state.setting)
+  const {getPaymentTrueSettings} = useSelector((state)=>state.setting)
   useEffect(()=>{
-    dispatch(getPaymentSettingsThunk())
+    dispatch(getPaymentTrueSettingsThunk())
   },[dispatch])
 
   const [formData , setFormData] = useState({
@@ -28,23 +28,23 @@ function PaymentsPage() {
   })
 
   useEffect(() => {
-    if (getPaymentSettings) {
+    if (getPaymentTrueSettings) {
       setFormData({
-        payment_mode: getPaymentSettings.payment_mode ?? "",
-        deposit_value: getPaymentSettings.deposit_value ?? "",
-        deposit_type: getPaymentSettings.deposit_type ?? "",
-        apply_deposit_to_invoice: getPaymentSettings.apply_deposit_to_invoice ? 1 : 0,
-        no_show_fee_enabled: getPaymentSettings.no_show_fee_enabled ? 1 : 0,
+        payment_mode: getPaymentTrueSettings.payment_mode ?? "",
+        deposit_value: getPaymentTrueSettings.deposit_value ?? "",
+        deposit_type: getPaymentTrueSettings.deposit_type ?? "",
+        apply_deposit_to_invoice: getPaymentTrueSettings.apply_deposit_to_invoice ? 1 : 0,
+        no_show_fee_enabled: getPaymentTrueSettings.no_show_fee_enabled ? 1 : 0,
       });
     }
-  }, [getPaymentSettings]);
+  }, [getPaymentTrueSettings]);
 
   const [loading, setLoading] = useState(false);
   const handleSubmit = async ()=>{
     setLoading(true);
     try{
-      await dispatch(editPaymentSettingsThunk(formData)).unwrap()
-      await dispatch(getPaymentSettingsThunk())
+      await dispatch(editPaymentTrueSettingsThunk(formData)).unwrap()
+      await dispatch(getPaymentTrueSettingsThunk())
       toast.success(t('Restaurant information updated successfully.'));
     }catch(error){
       console.log(error);

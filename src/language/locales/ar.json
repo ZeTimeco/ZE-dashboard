@@ -1882,7 +1882,10 @@
   "Booking rejected successfully":"تم رفض الطلب بنجاح",
   "Failed to update hall":"فشل في تحديث قاعة",
   "Hall updated successfully":"تم تحديث القاعة بنجاح",
-  
+  "Failed to update view":"فشل في تحديث العرض",
+  "View updated successfully":"تم تحديث العرض بنجاح",
+  "View added successfully":"تمت إضافة العرض بنجاح",
+  "Failed to add view":"فشل في إضافة العرض",
 
 
   "":""

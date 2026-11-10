@@ -50,7 +50,7 @@ function ViewsContent() {
         transition={{ duration: 0.35, ease: "easeOut" }}
       >
         {/* header */}
-        <div className="flex justify-between mb-8">
+        <div className="flex justify-between mb-8 ">
           <div>
             <p className='text-[#364152] text-2xl font-medium'>{t("Lounge view")}</p>
             <p className='text-[#697586] text-xl font-normal'>{t("Identifying aspects of the showroom offered to customers")}</p>

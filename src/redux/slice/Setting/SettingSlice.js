@@ -1,4 +1,4 @@
-import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig, getReport, getExportPdfReport, getExportExcelReport, getShowSetting, ParcelSetting, getCoverageAreas, addCoverageAreas, DeleteCoverageAreas, getDriverSetting, getShowDriver, addDriver, editDriver, toggleStatus } from "@/redux/api/Setting/SettingApi";
+import { AddIpn, CardMarketer, changeEmail, changePhone, deleteWithdrawsMarketer, deletePolicy, getPolicies, getProfile, setNewPassword, updateProfileImage, verifyEmailOtp, verifyPhoneOtp, withdrawsMarketer, createPolicies, editPolicies, getReview, getWorkplaces, deleteArea, addArea, getSchedule, updateSchedule, getRequiredDocuments, uploadDocument, BookingSetting, getBookingSetting, getCalendarSetting, CalendarSetting, getRuleSetting, RuleSetting, getAdvancedSetting, AdvancedSetting, getRestaurantTypes, getRestaurantInformation, editRestaurantInformation, getBookingSettings, editBookingSettings, getWaitlistSettings, editWaitlistSettings, getSeatingSettings, editSeatingSettings, getRestaurantViews, getFloorplanSettings, editFloorplanSettings, addTags, deleteTags, getNotificationSettings, editNotificationSettings, getPaymentSettings, editPaymentSettings, getWorkingTimesSettings, editWorkingTimesSettings, getOrderConfig, EditOrderConfig, getMenuConfig, EditMenuConfig, getDeliveryConfig, EditDeliveryConfig, getNotificationConfig, EditNotificationConfig, getRestaurantInformationConfig, editRestaurantInformationConfig, getRestaurantType, getRoleAndPermissionConfig, getPermissionShow, EditPermission, getStaffManageConfig, getStaffDetails, getRoles, addStaff, getShowForEdit, EditStaff, toggleStaffStatus, getResturantStatus, openStatus, busyStatus, closedStatus, getRatingConfig, addReply, getReviewSetting, EditReviewSetting, getWorkingHoursConfig, EditWorkingHoursConfig, getReport, getExportPdfReport, getExportExcelReport, getShowSetting, ParcelSetting, getCoverageAreas, addCoverageAreas, DeleteCoverageAreas, getDriverSetting, getShowDriver, addDriver, editDriver, toggleStatus, getPaymentTrueSettings, editPaymentTrueSettings } from "@/redux/api/Setting/SettingApi";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const changeEmailThunk = createAsyncThunk('setting/changeEmail' , 
@@ -551,7 +551,27 @@ export const editNotificationSettingsThunk = createAsyncThunk('setting/editNotif
     }
   }
 )
+export const getPaymentTrueSettingsThunk = createAsyncThunk('setting/getPaymentTrueSettings',
+  async(_ , {rejectWithValue})=>{
+    try{
+      const response = await getPaymentTrueSettings()
+      return response.data
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 
+export const editPaymentTrueSettingsThunk = createAsyncThunk('setting/editPaymentTrueSettings',
+  async(formData , {rejectWithValue})=>{
+    try{
+      const response = await editPaymentTrueSettings(formData)
+      return response
+    }catch(error){
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+)
 export const getPaymentSettingsThunk = createAsyncThunk('setting/getPaymentSettings',
   async(_ , {rejectWithValue})=>{
     try{
@@ -1127,7 +1147,6 @@ const initialState ={
   areas:null,
   schedule:null,
 
-  documents:[],
   documents:null,
 
   getBookingSetting:null,
@@ -1148,6 +1167,7 @@ const initialState ={
   getRestaurantViews:[],
   getFloorplanSettings:null,
   getNotificationSettings:null,
+  getPaymentTrueSettings:null,
   getPaymentSettings:null,
   getWorkingTimesSettings:null,
 
@@ -1829,6 +1849,31 @@ const settingSlice = createSlice({
         state.loading = false;
       })
       .addCase(editNotificationSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //getPaymentTrueSettingsThunk
+      .addCase(getPaymentTrueSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPaymentTrueSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+        state.getPaymentTrueSettings = action.payload;
+      })
+      .addCase(getPaymentTrueSettingsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //editPaymentTrueSettingsThunk
+      .addCase(editPaymentTrueSettingsThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editPaymentTrueSettingsThunk.fulfilled, (state ,action ) => {
+        state.loading = false;
+      })
+      .addCase(editPaymentTrueSettingsThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
