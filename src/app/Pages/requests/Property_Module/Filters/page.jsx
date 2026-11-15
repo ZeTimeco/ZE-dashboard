@@ -12,7 +12,7 @@ import { useSearchParams } from "next/navigation";
 
 const Dialog = dynamic(() => import("@mui/material/Dialog"), { ssr: false });
 
-function FiltersPageContent({ open, handleClose, onApplyFilters }) {
+function FiltersPageContent({ open, handleClose, onApplyFilters, currentFilters }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { getPropertiesFilter } = useSelector((state) => state.requests);
@@ -33,6 +33,30 @@ function FiltersPageContent({ open, handleClose, onApplyFilters }) {
   const [selectedPayment, setSelectedPayment]   = useState(null);
   const [minPrice, setMinPrice]                 = useState("");
   const [maxPrice, setMaxPrice]                 = useState("");
+
+  // Sync internal state when currentFilters is cleared externally
+  useEffect(() => {
+    if (!open) return;
+    const hasAnyFilter = currentFilters && Object.entries(currentFilters).some(([k, v]) => {
+      if (k === 'search' || k === 'page' || k === 'per_page') return false;
+      if (Array.isArray(v)) return v.length > 0;
+      return v !== '' && v !== undefined && v !== null;
+    });
+
+    if (!hasAnyFilter) {
+      setSelectedStatuses([]);
+      setSelectedDateRange(null);
+      setCheckInFrom(null);
+      setCheckInTo(null);
+      setCheckOutFrom(null);
+      setCheckOutTo(null);
+      setSelectedPropertyId(null);
+      setSelectedPropertyTitle("");
+      setSelectedPayment(null);
+      setMinPrice("");
+      setMaxPrice("");
+    }
+  }, [open, currentFilters]);
 
   // ── Property dropdown ────────────────────────────────────
   const [openProp, setOpenProp] = useState(false);

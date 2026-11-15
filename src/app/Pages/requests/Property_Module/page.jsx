@@ -35,7 +35,15 @@ function Property_ModuleContent() {
   const currentBookingData = Array.isArray(currentBooking) ? currentBooking : currentBooking?.data;
 
   const handleApplyFilters = (newFilters) => {
-    setFilters(newFilters)
+    setFilters(prev => ({ ...(prev.search ? { search: prev.search } : {}), ...newFilters }))
+    setCurrentPage(1)
+    if (serviceid) {
+      router.replace(pathname, { scroll: false })
+    }
+  }
+
+  const handleResetFilters = () => {
+    setFilters(prev => (prev.search ? { search: prev.search } : {}))
     setCurrentPage(1)
     if (serviceid) {
       router.replace(pathname, { scroll: false })
@@ -55,6 +63,15 @@ function Property_ModuleContent() {
     }, 500)
   }
 
+  // Active filter count excluding search / pagination
+  const activeModalFiltersCount = Object.entries(filters).filter(([key, v]) => {
+    if (key === 'search' || key === 'page' || key === 'per_page') return false;
+    if (Array.isArray(v)) return v.length > 0;
+    return v !== '' && v !== undefined && v !== null;
+  }).length;
+
+  const hasActiveModalFilters = activeModalFiltersCount > 0;
+
   const hasActiveFilters = Object.values(filters).some(v =>
     Array.isArray(v) ? v.length > 0 : v !== '' && v !== undefined && v !== null
   )
@@ -68,7 +85,13 @@ function Property_ModuleContent() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        <NavRequest onApplyFilters={handleApplyFilters} onSearch={handleSearch}/>
+        <NavRequest 
+          onApplyFilters={handleApplyFilters} 
+          onSearch={handleSearch}
+          hasActiveFilters={hasActiveModalFilters}
+          filterCount={activeModalFiltersCount}
+          currentFilters={filters}
+        />
 
         <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6 mb-8'>
           <CardOfRequest getBooking={currentBooking} hasActiveFilters={hasActiveFilters}/>

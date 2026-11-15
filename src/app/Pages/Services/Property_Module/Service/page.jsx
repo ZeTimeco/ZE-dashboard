@@ -26,6 +26,14 @@ function ServiceContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilters, setActiveFilters] = useState({});
 
+  const activeFiltersCount = Object.entries(activeFilters).filter(([key, v]) => {
+    if (key === 'search' || key === 'page' || key === 'per_page') return false;
+    if (Array.isArray(v)) return v.length > 0;
+    return v !== '' && v !== undefined && v !== null;
+  }).length;
+
+  const hasActiveFilters = activeFiltersCount > 0;
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       dispatch(getAllPropertiesThunk({ page: 1, search: searchQuery, ...activeFilters }))
@@ -45,7 +53,7 @@ function ServiceContent() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        {(!getProperties || getProperties.length === 0) ? (
+        {(!getProperties || getProperties.length === 0) && !hasActiveFilters && !searchQuery ? (
           <No_services_Add/>
         ) : (
           <div>
@@ -92,13 +100,25 @@ function ServiceContent() {
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 350, damping: 25 }}
               >
-                <FilterBtn onClick={handleClickOpen}/>
+                <FilterBtn 
+                  onClick={handleClickOpen}
+                  isActive={hasActiveFilters}
+                  count={activeFiltersCount}
+                />
               </motion.div>
             </motion.div>
 
             {/* Services list */}
             <div className='grid grid-cols-2 lg1:grid-cols-3 gap-6 mb-8'>
-              <CardOfService getProperties={getProperties}/>
+              {getProperties && getProperties.length === 0 && (hasActiveFilters || searchQuery) ? (
+                <div className='col-span-2 lg1:col-span-3 flex flex-col items-center justify-center py-16 px-4 text-center bg-white rounded-[4px] border border-[#E3E8EF]'>
+                  <img src="/images/icons/FilterGreyicon.svg" alt="" className="w-12 h-12 mb-3 opacity-40" />
+                  <p className='text-[#364152] text-lg font-semibold'>{t('No results found') || 'لا توجد نتائج'}</p>
+                  <p className='text-[#697586] text-sm mt-1'>{t('No properties match the selected filters') || 'لا توجد عقارات تطابق الفلاتر المحددة'}</p>
+                </div>
+              ) : (
+                <CardOfService getProperties={getProperties}/>
+              )}
             </div>
 
             {propertiesMeta && propertiesMeta.total_pages > 1 && (

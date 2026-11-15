@@ -3,24 +3,39 @@ import { useState, useRef, useEffect } from 'react';
 
 
 export default function TimeRangePicker({
-    value = { start: '09:00', end: '17:00' },
+    value = null,
     onChange,
     label = 'Working Hours',
+    placeholder = '',
     language = 'ar',
     hasError = false,
 }) {
+    const isArabic = language === 'ar';
     const [isOpen, setIsOpen] = useState(false);
-    const [startTime, setStartTime] = useState(value.start);
-    const [endTime, setEndTime] = useState(value.end);
-    const [tempStart, setTempStart] = useState(value.start);
-    const [tempEnd, setTempEnd] = useState(value.end);
+    const [startTime, setStartTime] = useState(value?.start || '');
+    const [endTime, setEndTime] = useState(value?.end || '');
+    const [tempStart, setTempStart] = useState(value?.start || '09:00');
+    const [tempEnd, setTempEnd] = useState(value?.end || '17:00');
     const [activeTab, setActiveTab] = useState('start');
     const [selectingMinutes, setSelectingMinutes] = useState(false);
     const containerRef = useRef(null);
 
+    useEffect(() => {
+        if (value?.start && value?.end) {
+            setStartTime(value.start);
+            setEndTime(value.end);
+            setTempStart(value.start);
+            setTempEnd(value.end);
+        } else if (!value || (!value.start && !value.end)) {
+            setStartTime('');
+            setEndTime('');
+            setTempStart('09:00');
+            setTempEnd('17:00');
+        }
+    }, [value]);
 
-    const isArabic = language === 'ar';
     const formatTimeTo12Hour = (time) => {
+        if (!time || typeof time !== 'string' || !time.includes(':')) return '';
         const [hours, minutes] = time.split(':').map(Number);
         const isPM = hours >= 12;
         const display12 = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
@@ -95,6 +110,9 @@ export default function TimeRangePicker({
 
 
     const calculateDuration = (start, end) => {
+        if (!start || !end || typeof start !== 'string' || typeof end !== 'string' || !start.includes(':') || !end.includes(':')) {
+            return '';
+        }
         const [startHour, startMin] = start.split(':').map(Number);
         const [endHour, endMin] = end.split(':').map(Number);
         const startMinutes = startHour * 60 + startMin;
@@ -402,7 +420,13 @@ export default function TimeRangePicker({
 
 
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => {
+                        if (!isOpen) {
+                            setTempStart(startTime || '09:00');
+                            setTempEnd(endTime || '17:00');
+                        }
+                        setIsOpen(!isOpen);
+                    }}
                     style={{
                         ...styles.mainInput,
                         ...(isOpen && styles.mainInputActive),
@@ -410,12 +434,20 @@ export default function TimeRangePicker({
                     }}
                     type="button"
                 >
-                    <span style={styles.timeDisplayText}>
-                        {formatTimeTo12Hour(startTime)} – {formatTimeTo12Hour(endTime)}
-                    </span>
-                    <span style={styles.durationBadge}>
-                        {calculateDuration(startTime, endTime)}
-                    </span>
+                    {startTime && endTime ? (
+                        <>
+                            <span style={styles.timeDisplayText}>
+                                {formatTimeTo12Hour(startTime)} – {formatTimeTo12Hour(endTime)}
+                            </span>
+                            <span style={styles.durationBadge}>
+                                {calculateDuration(startTime, endTime)}
+                            </span>
+                        </>
+                    ) : (
+                        <span style={{ ...styles.timeDisplayText, color: '#9A9A9A', fontWeight: '400' }}>
+                            {placeholder || (isArabic ? 'اختر ساعات العمل' : 'Select working hours')}
+                        </span>
+                    )}
                     <span style={styles.chevron}>▼</span>
                 </button>
 
@@ -479,8 +511,8 @@ export default function TimeRangePicker({
                                 <div style={styles.pickerHeader}>
                                     <button
                                         onClick={() => {
-                                            setTempStart(startTime);
-                                            setTempEnd(endTime);
+                                            setTempStart(startTime || '09:00');
+                                            setTempEnd(endTime || '17:00');
                                             setIsOpen(false);
                                         }}
                                         style={styles.pickerHeaderBtn}
@@ -554,7 +586,8 @@ const styles = {
         cursor: 'pointer',
         transition: 'all 0.2s ease',
         boxSizing: 'border-box',
-        height: '100%',
+        height: '60px',
+        minHeight: '60px',
     },
     mainInputActive: {
         borderColor: PRIMARY,

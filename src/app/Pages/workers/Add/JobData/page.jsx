@@ -178,10 +178,7 @@ function JobDataPage({
   };
 
   // Working hours
-  const [workingHours, setWorkingHours] = useState({
-    start: '09:00',
-    end: '17:00',
-  });
+  const [workingHours, setWorkingHours] = useState(null);
 
   return (
     <>
@@ -381,6 +378,7 @@ function JobDataPage({
         <div className='flex flex-col'>
           <TimeRangePicker
             value={workingHours}
+            placeholder={t('Choose working hours') || 'اختر ساعات العمل'}
             onChange={(timeRange)=>{
               setWorkingHours(timeRange);
 

@@ -1,6 +1,6 @@
 "use client"
-import { Dialog } from '@mui/material'
-import { t } from 'i18next';
+import { Dialog, CircularProgress } from '@mui/material'
+import { useTranslation } from 'react-i18next';
 import React, { useEffect, useState } from 'react'
 import RequestPage from './Request/page';
 import GuestInformationPage from './GuestInformation/page';
@@ -9,11 +9,15 @@ import PaymentDetailsPage from './PaymentDetails/page';
 import ProfitsPage from './profits/page';
 import Activity_LogPage from './Activity_Log/page';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeBookingActionThunk, getBookingByIdPropertyThunk } from '@/redux/slice/Requests/RequestsSlice';
+import { changeBookingActionThunk, getBookingByIdPropertyThunk, getAllBookingPropertyThunk } from '@/redux/slice/Requests/RequestsSlice';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 function ViewsPage({ open, setOpen, id }) {
+  const { t } = useTranslation();
   const [showActivityLog, setShowActivityLog] = useState(false);
+  const [actionLoading, setActionLoading] = useState(null);
+
   //api
   const dispatch = useDispatch()
   const { getBookingDetails } = useSelector((state) => state.requests)
@@ -26,108 +30,220 @@ function ViewsPage({ open, setOpen, id }) {
 
   const status = getBookingDetails?.data?.status
 
-  const handleChangeStatus = (action) => {
-    dispatch(changeBookingActionThunk({ booking_id: id, action }))
-      .unwrap()
-      .then(() => dispatch(getBookingByIdPropertyThunk(id)))
-      .catch((err) => console.error('Action failed:', err));
+  const handleChangeStatus = async (action) => {
+    if (actionLoading) return;
+    setActionLoading(action);
+    try {
+      await dispatch(changeBookingActionThunk({ booking_id: id, action })).unwrap();
+
+      const actionMessages = {
+        confirmed: t('Booking accepted successfully') || 'تم قبول الحجز بنجاح',
+        canceled: t('Booking rejected successfully') || 'تم رفض الحجز بنجاح',
+        checked_in: t('Checked in successfully') || 'تم تسجيل الدخول بنجاح',
+        not_attend: t('Recorded as did not attend') || 'تم تسجيل عدم حضور العميل بنجاح',
+        completed: t('Booking completed successfully') || 'تم تسجيل المغادرة واكتمال الحجز بنجاح',
+      };
+
+      toast.success(actionMessages[action] || t('Status updated successfully') || 'تم تحديث الحالة بنجاح', {
+        position: 'top-right',
+        autoClose: 2500,
+      });
+
+      await Promise.all([
+        dispatch(getBookingByIdPropertyThunk(id)),
+        dispatch(getAllBookingPropertyThunk()),
+      ]);
+    } catch (err) {
+      console.error('Action failed:', err);
+      const errMsg = err?.message || (typeof err === 'string' ? err : null) || t('Failed to update status') || 'فشل تحديث الحالة';
+      toast.error(errMsg, {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   const StatusBtn = (status) => {
     switch (status) {
       case "confirmed":
         return (
-          <div className='flex gap-4 sm:gap-6'>
+          <motion.div 
+            key="confirmed"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className='flex gap-4 sm:gap-6'
+          >
             <motion.button 
-              whileHover={{ scale: 1.02, boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={!actionLoading ? { scale: 1.02, boxShadow: '0 4px 14px rgba(0,0,0,0.12)' } : {}}
+              whileTap={!actionLoading ? { scale: 0.98 } : {}}
+              disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus('checked_in')} 
-              className='bg-[var(--color-primary)] text-white font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className={`bg-[var(--color-primary)] text-white font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+                actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
+              }`}
             >
-              {t('Accessed')}
+              {actionLoading === 'checked_in' ? (
+                <>
+                  <CircularProgress size={20} color="inherit" />
+                  <span>{t('Processing...') || 'جاري المعالجة...'}</span>
+                </>
+              ) : (
+                t('Accessed')
+              )}
             </motion.button>
             <motion.button 
-              whileHover={{ scale: 1.02, backgroundColor: 'rgba(240, 68, 56, 0.05)' }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={!actionLoading ? { scale: 1.02, backgroundColor: 'rgba(240, 68, 56, 0.05)' } : {}}
+              whileTap={!actionLoading ? { scale: 0.98 } : {}}
+              disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus('not_attend')} 
-              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className={`border border-[#F04438] text-[#F04438] font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+                actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
+              }`}
             >
-              {t('The client did not attend')}
+              {actionLoading === 'not_attend' ? (
+                <>
+                  <CircularProgress size={20} color="inherit" />
+                  <span>{t('Processing...') || 'جاري المعالجة...'}</span>
+                </>
+              ) : (
+                t('The client did not attend')
+              )}
             </motion.button>
-          </div>
+          </motion.div>
         );
       case "completed":
         return (
-          <div className='flex gap-4 sm:gap-6'>
+          <motion.div 
+            key="completed"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className='flex gap-4 sm:gap-6'
+          >
             <motion.button 
               whileHover={{ scale: 1.02, boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}
               whileTap={{ scale: 0.98 }}
-              className='bg-[var(--color-primary)] text-white font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className='bg-[var(--color-primary)] text-white font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200 flex items-center justify-center'
             >
               {t('Download the invoice')}
             </motion.button>
             <motion.button 
               whileHover={{ scale: 1.02, backgroundColor: 'rgba(240, 68, 56, 0.05)' }}
               whileTap={{ scale: 0.98 }}
-              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200 flex items-center justify-center'
             >
               {t('Report a problem')}
             </motion.button>
-          </div>
+          </motion.div>
         );
       case "pending":
         return (
-          <div className='flex gap-4 sm:gap-6'>
+          <motion.div 
+            key="pending"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className='flex gap-4 sm:gap-6'
+          >
             <motion.button 
-              whileHover={{ scale: 1.02, boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={!actionLoading ? { scale: 1.02, boxShadow: '0 4px 14px rgba(0,0,0,0.12)' } : {}}
+              whileTap={!actionLoading ? { scale: 0.98 } : {}}
+              disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus("confirmed")} 
-              className='bg-[var(--color-primary)] text-white font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className={`bg-[var(--color-primary)] text-white font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+                actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
+              }`}
             >
-              {t('Accept Booking')}
+              {actionLoading === 'confirmed' ? (
+                <>
+                  <CircularProgress size={20} color="inherit" />
+                  <span>{t('Processing...') || 'جاري المعالجة...'}</span>
+                </>
+              ) : (
+                t('Accept Booking')
+              )}
             </motion.button>
             <motion.button 
-              whileHover={{ scale: 1.02, backgroundColor: 'rgba(240, 68, 56, 0.05)' }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={!actionLoading ? { scale: 1.02, backgroundColor: 'rgba(240, 68, 56, 0.05)' } : {}}
+              whileTap={!actionLoading ? { scale: 0.98 } : {}}
+              disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus("canceled")} 
-              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className={`border border-[#F04438] text-[#F04438] font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+                actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
+              }`}
             >
-              {t('Reservation refused')}
+              {actionLoading === 'canceled' ? (
+                <>
+                  <CircularProgress size={20} color="inherit" />
+                  <span>{t('Processing...') || 'جاري المعالجة...'}</span>
+                </>
+              ) : (
+                t('Reservation refused')
+              )}
             </motion.button>
-          </div>
+          </motion.div>
         );
       case "checked_in":
         return (
-          <div className='flex gap-4 sm:gap-6'>
+          <motion.div 
+            key="checked_in"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            className='flex gap-4 sm:gap-6'
+          >
             <motion.button 
-              whileHover={{ scale: 1.02, boxShadow: '0 4px 14px rgba(147, 51, 234, 0.2)' }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={!actionLoading ? { scale: 1.02, boxShadow: '0 4px 14px rgba(147, 51, 234, 0.2)' } : {}}
+              whileTap={!actionLoading ? { scale: 0.98 } : {}}
+              disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus('completed')} 
-              className='bg-[#9333EA] text-white font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className={`bg-[#9333EA] text-white font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+                actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
+              }`}
             >
-              {t('Departure')}
+              {actionLoading === 'completed' ? (
+                <>
+                  <CircularProgress size={20} color="inherit" />
+                  <span>{t('Processing...') || 'جاري المعالجة...'}</span>
+                </>
+              ) : (
+                t('Departure')
+              )}
             </motion.button>
             <motion.button 
               whileHover={{ scale: 1.02, backgroundColor: 'rgba(240, 68, 56, 0.05)' }}
               whileTap={{ scale: 0.98 }}
-              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200 flex items-center justify-center'
             >
               {t('Report a problem')}
             </motion.button>
-          </div>
+          </motion.div>
         );
       case "not_attend":
       case "canceled":
         return (
-          <div>
+          <motion.div
+            key={status}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+          >
             <motion.button 
               whileHover={{ scale: 1.01, backgroundColor: 'rgba(240, 68, 56, 0.05)' }}
               whileTap={{ scale: 0.98 }}
-              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200'
+              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200 flex items-center justify-center'
             >
               {t('Report a problem')}
             </motion.button>
-          </div>
+          </motion.div>
         );
       default:
         return null;
@@ -212,7 +328,9 @@ function ViewsPage({ open, setOpen, id }) {
 
         {/* btns */}
         <div className='px-6 my-6'>
-          {StatusBtn(status)}
+          <AnimatePresence mode="wait">
+            {StatusBtn(status)}
+          </AnimatePresence>
         </div>
       </Dialog>
     </>

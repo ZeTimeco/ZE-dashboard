@@ -5,9 +5,15 @@ import SearchForm from '@/app/Components/Forms/SearchForm'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import FiltersPage from './Filters/page'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
-function NavRequest({ onApplyFilters, onSearch }) {
+function NavRequest({ 
+  onApplyFilters, 
+  onSearch, 
+  hasActiveFilters = false, 
+  filterCount = 0, 
+  currentFilters = {} 
+}) {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false);
 
@@ -54,7 +60,7 @@ function NavRequest({ onApplyFilters, onSearch }) {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, delay: 0.12, ease: 'easeOut' }}
-        className='flex gap-6 items-center mb-6'
+        className='flex gap-4 sm:gap-6 items-center mb-6'
       >
         <div className='flex-1 transition-transform duration-200 focus-within:scale-[1.005]'>
           <SearchForm 
@@ -68,13 +74,18 @@ function NavRequest({ onApplyFilters, onSearch }) {
           whileTap={{ scale: 0.97 }}
           transition={{ type: 'spring', stiffness: 350, damping: 25 }}
         >
-          <FilterBtn onClick={handleClickOpen}/>
+          <FilterBtn 
+            onClick={handleClickOpen}
+            isActive={hasActiveFilters}
+            count={filterCount}
+          />
         </motion.div>
       </motion.section>
 
       <FiltersPage
         open={open}
         handleClose={handleClose}
+        currentFilters={currentFilters}
         onApplyFilters={(filters) => {
           onApplyFilters(filters);
           handleClose();

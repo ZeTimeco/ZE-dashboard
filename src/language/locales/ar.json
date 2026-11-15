@@ -1886,6 +1886,10 @@
   "View updated successfully":"تم تحديث العرض بنجاح",
   "View added successfully":"تمت إضافة العرض بنجاح",
   "Failed to add view":"فشل في إضافة العرض",
+  "Upload an image":"رفع صورة",
+  "change image":"تغيير الصورة",
+  "delete image": "حذف الصورة",
+  "Choose working hours":"اختر ساعات العمل",
 
 
   "":""

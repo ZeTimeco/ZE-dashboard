@@ -20,13 +20,16 @@ function WorkersPage() {
   const handleClose = () => setOpen(false);
 
   const handleApply = (filters) => {
-    setFilterParams(filters);
+    setFilterParams(prev => ({
+      ...(prev.search ? { search: prev.search } : {}),
+      ...filters
+    }));
     dispatch(setPage(1));
     handleClose();
   };
 
   const handleReset = () => {
-    setFilterParams({});
+    setFilterParams(prev => (prev.search ? { search: prev.search } : {}));
     dispatch(setPage(1));
   };
 
@@ -38,6 +41,15 @@ function WorkersPage() {
     });
     dispatch(setPage(1));
   }
+
+  // Active filter count excluding search / pagination
+  const activeModalFiltersCount = Object.entries(filterParams).filter(([key, v]) => {
+    if (key === 'search' || key === 'page' || key === 'limit') return false;
+    if (Array.isArray(v)) return v.length > 0;
+    return v !== '' && v !== undefined && v !== null;
+  }).length;
+
+  const hasActiveFilters = activeModalFiltersCount > 0;
 
   //api
   const dispatch = useDispatch();
@@ -85,6 +97,8 @@ function WorkersPage() {
           <NavWorker 
             handleClickOpen={handleClickOpen}
             onSearch={handleSearch}
+            hasActiveFilters={hasActiveFilters}
+            filterCount={activeModalFiltersCount}
           />
 
           <TableWorkers 

@@ -165,7 +165,7 @@ function PersonalDataPage({
                   errors?.image ? "border-red-500" : "border-[#CDD5DF]"
                 }`}>
                   <div className="w-32 h-32 bg-[#F8FAFC] border border-[#EAECF0] rounded-[100px] flex justify-center items-center">
-                    <img src="/images/icons/AddUser.svg" alt="Add User" />
+                    <img src="/images/icons/AddYellowIcon.svg" alt="Add User" />
                   </div>
                 </div>
               </div>
@@ -174,7 +174,7 @@ function PersonalDataPage({
                 <button
                   type="button"
                   onClick={handleFileSelect}
-                  className="w-38 h-10 border border-[#C69815] bg-[#C69815] text-white flex justify-center items-center py-2 px-3 rounded-[3px] text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+                  className="w-38 h-10 border border-primary bg-primary text-white flex justify-center items-center py-2 px-3 rounded-[3px] text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
                 >
                   {t('Upload an image')}
                 </button>
@@ -196,7 +196,7 @@ function PersonalDataPage({
                 <button
                   type="button"
                   onClick={handleFileSelect}
-                  className="w-38 h-10 border border-[#C69815] bg-[#C69815] text-white flex justify-center items-center py-2 px-3 rounded-[3px] text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
+                  className="w-38 h-10 border border-primary bg-primary text-white flex justify-center items-center py-2 px-3 rounded-[3px] text-sm font-medium hover:opacity-90 transition-opacity cursor-pointer shadow-xs"
                 >
                   {t('change image')}
                 </button>
@@ -245,10 +245,10 @@ function PersonalDataPage({
               }
             }}
             placeholder={t('Enter first name')}
-            className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+            className={`h-15 p-3 rounded-3px border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
               errors?.firstname
                 ? "border-red-500 focus:border-red-500"
-                : "border-[#C8C8C8] focus:border-[#C69815]"
+                : "border-[#C8C8C8] focus:border-primary"
             }`}
           />
           {errors?.firstname && (
@@ -270,10 +270,10 @@ function PersonalDataPage({
               }
             }}
             placeholder={t('Enter last name/family name')}
-            className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+            className={`h-15 p-3 rounded-3px border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
               errors?.lastname
                 ? "border-red-500 focus:border-red-500"
-                : "border-[#C8C8C8] focus:border-[#C69815]"
+                : "border-[#C8C8C8] focus:border-primary"
             }`}
           />
           {errors?.lastname && (
@@ -295,10 +295,10 @@ function PersonalDataPage({
               }
             }}
             placeholder={t('Enter your email')}
-            className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+            className={`h-15 p-3 rounded-3px border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
               errors?.email
                 ? "border-red-500 focus:border-red-500"
-                : "border-[#C8C8C8] focus:border-[#C69815]"
+                : "border-[#C8C8C8] focus:border-primary"
             }`}
           />
           {errors?.email && (
@@ -439,10 +439,10 @@ function PersonalDataPage({
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               onChange={handlePasswordChange}
-              className={`w-full h-15 p-3 pl-10 rounded-[3px] border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+              className={`w-full h-15 p-3 pl-10 rounded-3px border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
                 errors?.password
                   ? "border-red-500 focus:border-red-500"
-                  : "border-[#C8C8C8] focus:border-[#C69815]"
+                  : "border-[#C8C8C8] focus:border-primary"
               }`}
             />
           </div>
@@ -530,14 +530,14 @@ function PersonalDataPage({
               value={formData?.password_confirmation || ''}
               placeholder={t("Re-enter your password")}
               onChange={handleConfirmPasswordChange}
-              className={`w-full h-15 p-3 pl-10 rounded-[3px] border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+              className={`w-full h-15 p-3 pl-10 rounded-3px border shadow-sm outline-none placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
                 errors?.password_confirmation
                   ? "border-red-500 focus:border-red-500"
                   : formData?.password_confirmation
                   ? formData?.password === formData?.password_confirmation
                     ? "border-green-500"
                     : "border-red-500"
-                  : "border-[#C8C8C8] focus:border-[#C69815]"
+                  : "border-[#C8C8C8] focus:border-primary"
               }`}
             />
           </div>
@@ -577,10 +577,10 @@ function PersonalDataPage({
             }
           }}
           placeholder={t('Enter your national ID number')}
-          className={`h-15 p-3 rounded-[3px] border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
+          className={`h-15 p-3 rounded-3px border shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal transition-colors ${
             errors?.national_id
               ? "border-red-500 focus:border-red-500"
-              : "border-[#C8C8C8] focus:border-[#C69815]"
+              : "border-[#C8C8C8] focus:border-primary"
           }`}
         />
         {errors?.national_id && (
@@ -594,7 +594,7 @@ function PersonalDataPage({
           whileHover={{ scale: 1.02, backgroundColor: "rgba(198, 152, 21, 0.04)" }}
           whileTap={{ scale: 0.98 }}
           onClick={handleGoBack}
-          className="border w-48 h-13.5 py-2.5 px-4 rounded-[3px] border-[#C69815] text-[#C69815] text-base font-medium cursor-pointer transition-colors"
+          className="border w-48 h-13.5 py-2.5 px-4 rounded-3px border-primary text-primary text-base font-medium cursor-pointer transition-colors"
         >
           {t('cancel')}
         </motion.button>
@@ -603,7 +603,7 @@ function PersonalDataPage({
           whileHover={{ scale: 1.02, filter: "brightness(1.05)" }}
           whileTap={{ scale: 0.98 }}
           onClick={handleNext}
-          className="border border-[#C69815] w-58 h-13.5 py-2.5 px-4 rounded-[3px] bg-[#C69815] text-[#fff] text-base font-medium cursor-pointer shadow-xs transition-all"
+          className="border border-primary w-58 h-13.5 py-2.5 px-4 rounded-3px bg-primary text-[#fff] text-base font-medium cursor-pointer shadow-xs transition-all"
         >
           {t('the next')}
         </motion.button>

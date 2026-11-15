@@ -53,7 +53,7 @@ function Email({openEmail , setOpenEmail ,worker}) {
           </div>
 
           {/* title */}
-          <p className='text-[var(--color-primary)] text-xl font-bold'>{t('Change email')}</p>
+          <p className='text-primary text-xl font-bold'>{t('Change email')}</p>
         </div>
         
         <div className='px-6'>
@@ -65,7 +65,7 @@ function Email({openEmail , setOpenEmail ,worker}) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t('Enter your new email address')}
-              className="h-15 p-3 rounded-[3px] border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal focus:border-[#C69815] transition-colors" 
+              className="h-15 p-3 rounded-3px border border-[#C8C8C8] shadow-sm outline-none mt-3 placeholder:text-[#9A9A9A] placeholder:text-sm placeholder:font-normal focus:border-primary transition-colors" 
             />
           </div>
 
@@ -75,15 +75,15 @@ function Email({openEmail , setOpenEmail ,worker}) {
               whileTap={{ scale: 0.98 }}
               onClick={handleSubmit}
               disabled={loading}
-              className='w-full h-15 bg-[var(--color-primary)] text-[#fff] cursor-pointer rounded-[3px] flex justify-center items-center disabled:opacity-50 font-medium shadow-xs transition-all'
+              className='w-full h-15 bg-primary text-white cursor-pointer rounded-3px flex justify-center items-center disabled:opacity-50 font-medium shadow-xs transition-all'
             >
-              {loading ? t('loading...') : t('save')}
+              {loading ? t('Loading...') : t('save')}
             </motion.button>
             <motion.button 
               whileHover={{ scale: 1.02, backgroundColor: "rgba(198, 152, 21, 0.04)" }}
               whileTap={{ scale: 0.98 }}
               onClick={()=>{setOpenEmail(false)}} 
-              className='w-full h-15 border border-[var(--color-primary)] text-[var(--color-primary)] cursor-pointer rounded-[3px] flex justify-center items-center font-medium transition-colors'
+              className='w-full h-15 border border-primary text-primary cursor-pointer rounded-3px flex justify-center items-center font-medium transition-colors'
             >
               {t('cancel')}
             </motion.button>

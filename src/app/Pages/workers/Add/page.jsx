@@ -307,8 +307,8 @@ function AddPage() {
                 className={`relative px-4 py-4 w-full text-center text-base cursor-pointer transition-all duration-200 flex items-center justify-center gap-2
                   ${
                     openId === tab.id
-                      ? "text-[#C69815] font-medium"
-                      : "text-[#697586] font-normal hover:text-[#C69815]"
+                      ? "text-primary font-medium"
+                      : "text-[#697586] font-normal hover:text-primary"
                   }`}
                 onClick={() => setOpenId(tab.id)}
               >
@@ -319,7 +319,7 @@ function AddPage() {
                 {openId === tab.id && (
                   <motion.div
                     layoutId="activeTabUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C69815]"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}

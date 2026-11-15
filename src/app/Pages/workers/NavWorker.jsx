@@ -6,7 +6,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
-function NavWorker({handleClickOpen, onSearch}) {
+function NavWorker({ handleClickOpen, onSearch, hasActiveFilters = false, filterCount = 0 }) {
   const {t} = useTranslation()
   return (
     <>
@@ -42,7 +42,11 @@ function NavWorker({handleClickOpen, onSearch}) {
           />
         </div>
         <div className="transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
-          <FilterBtn onClick={handleClickOpen}/>
+          <FilterBtn 
+            onClick={handleClickOpen}
+            isActive={hasActiveFilters}
+            count={filterCount}
+          />
         </div>
       </motion.section>
     </>

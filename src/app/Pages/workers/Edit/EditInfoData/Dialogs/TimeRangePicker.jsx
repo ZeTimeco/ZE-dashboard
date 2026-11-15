@@ -119,270 +119,270 @@ export default function TimeRangePicker({
 
 
     const ClockPicker = ({ type }) => {
-        const time = type === 'start' ? tempStart : tempEnd;
-        const { display12, minutes, isPM } = parseTime(time);
-        const clockRef = useRef(null);
+      const time = type === 'start' ? tempStart : tempEnd;
+      const { display12, minutes, isPM } = parseTime(time);
+      const clockRef = useRef(null);
 
 
-        const hours = Array.from({ length: 12 }, (_, i) => i + 1);
-        const minuteMarkers = Array.from({ length: 60 }, (_, i) => i);
+      const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+      const minuteMarkers = Array.from({ length: 60 }, (_, i) => i);
 
 
-        const handleClockClick = (e) => {
-            if (!clockRef.current) return;
+      const handleClockClick = (e) => {
+          if (!clockRef.current) return;
 
 
-            const rect = clockRef.current.getBoundingClientRect();
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const radius = Math.min(centerX, centerY) - 15;
+          const rect = clockRef.current.getBoundingClientRect();
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const radius = Math.min(centerX, centerY) - 15;
 
 
-            const x = e.clientX - rect.left - centerX;
-            const y = e.clientY - rect.top - centerY;
+          const x = e.clientX - rect.left - centerX;
+          const y = e.clientY - rect.top - centerY;
 
 
-            let angle = Math.atan2(y, x) * (180 / Math.PI) + 90;
-            if (angle < 0) angle += 360;
+          let angle = Math.atan2(y, x) * (180 / Math.PI) + 90;
+          if (angle < 0) angle += 360;
 
 
-            if (!selectingMinutes) {
-                // Hour selection (1-12)
-                let hour = Math.round(angle / 30);
-                if (hour === 0) hour = 12;
-                const newTime = formatTime(hour, minutes, isPM);
-                if (type === 'start') setTempStart(newTime);
-                else setTempEnd(newTime);
-            } else {
-                // Minute selection (0-59)
-                let minute = Math.round(angle / 6);
-                if (minute === 60) minute = 0;
-                const newTime = formatTime(display12, minute, isPM);
-                if (type === 'start') setTempStart(newTime);
-                else setTempEnd(newTime);
-            }
-        };
+          if (!selectingMinutes) {
+              // Hour selection (1-12)
+              let hour = Math.round(angle / 30);
+              if (hour === 0) hour = 12;
+              const newTime = formatTime(hour, minutes, isPM);
+              if (type === 'start') setTempStart(newTime);
+              else setTempEnd(newTime);
+          } else {
+              // Minute selection (0-59)
+              let minute = Math.round(angle / 6);
+              if (minute === 60) minute = 0;
+              const newTime = formatTime(display12, minute, isPM);
+              if (type === 'start') setTempStart(newTime);
+              else setTempEnd(newTime);
+          }
+      };
 
 
-        const getClockNumber = (index) => {
-            if (!selectingMinutes) {
-                return hours[index];
-            } else {
-                return index * 5;
-            }
-        };
+      const getClockNumber = (index) => {
+          if (!selectingMinutes) {
+              return hours[index];
+          } else {
+              return index * 5;
+          }
+      };
 
 
-        const getAngle = (value) => {
-            if (!selectingMinutes) {
-                // Hour angle
-                return value * 30;
-            } else {
-                // Minute angle
-                return value * 6;
-            }
-        };
+      const getAngle = (value) => {
+          if (!selectingMinutes) {
+              // Hour angle
+              return value * 30;
+          } else {
+              // Minute angle
+              return value * 6;
+          }
+      };
 
 
-        const getCurrentValue = () => {
-            return selectingMinutes ? minutes : display12;
-        };
+      const getCurrentValue = () => {
+          return selectingMinutes ? minutes : display12;
+      };
 
 
-        return (
-            <div style={styles.clockPickerContainer}>
-                {/* Mode Label */}
-                <div style={styles.modeLabel}>
-                    {selectingMinutes ? t.selectMinutes : t.selectHours}
-                </div>
+      return (
+          <div style={styles.clockPickerContainer}>
+              {/* Mode Label */}
+              <div style={styles.modeLabel}>
+                  {selectingMinutes ? t.selectMinutes : t.selectHours}
+              </div>
 
 
-                {/* Clock */}
-                <svg
-                    ref={clockRef}
-                    width="280"
-                    height="280"
-                    style={styles.clock}
-                    onClick={handleClockClick}
-                    viewBox="0 0 280 280"
-                >
-                    {/* Background circle */}
-                    <circle cx="140" cy="140" r="130" fill={GRAY_LIGHT} stroke={GRAY_BORDER} strokeWidth="2" />
+              {/* Clock */}
+              <svg
+                  ref={clockRef}
+                  width="280"
+                  height="280"
+                  style={styles.clock}
+                  onClick={handleClockClick}
+                  viewBox="0 0 280 280"
+              >
+                  {/* Background circle */}
+                  <circle cx="140" cy="140" r="130" fill={GRAY_LIGHT} stroke={GRAY_BORDER} strokeWidth="2" />
 
 
-                    {/* Hour/Minute markers */}
-                    {!selectingMinutes
-                        ? hours.map((hour, index) => {
-                            const angle = (hour * 30 - 90) * (Math.PI / 180);
-                            const x = 140 + 100 * Math.cos(angle);
-                            const y = 140 + 100 * Math.sin(angle);
-                            const isSelected = hour === display12;
+                  {/* Hour/Minute markers */}
+                  {!selectingMinutes
+                      ? hours.map((hour, index) => {
+                          const angle = (hour * 30 - 90) * (Math.PI / 180);
+                          const x = 140 + 100 * Math.cos(angle);
+                          const y = 140 + 100 * Math.sin(angle);
+                          const isSelected = hour === display12;
 
 
-                            return (
-                                <g key={`hour-${hour}`} style={{ cursor: 'pointer' }}>
-                                    <circle
-                                        cx={x}
-                                        cy={y}
-                                        r={isSelected ? 22 : 20}
-                                        fill={isSelected ? PRIMARY : 'white'}
-                                        stroke={isSelected ? PRIMARY : GRAY_BORDER}
-                                        strokeWidth="2"
-                                    />
-                                    <text
-                                        x={x}
-                                        y={y}
-                                        textAnchor="middle"
-                                        dy="0.3em"
-                                        fontSize="16"
-                                        fontWeight="700"
-                                        fill={isSelected ? 'white' : TEXT_DARK}
-                                        style={{ pointerEvents: 'none' }}
-                                    >
-                                        {hour}
-                                    </text>
-                                </g>
-                            );
-                        })
-                        : minuteMarkers.map((minute, index) => {
-                            if (minute % 5 !== 0) return null;
+                          return (
+                              <g key={`hour-${hour}`} style={{ cursor: 'pointer' }}>
+                                  <circle
+                                      cx={x}
+                                      cy={y}
+                                      r={isSelected ? 22 : 20}
+                                      fill={isSelected ? PRIMARY : 'white'}
+                                      stroke={isSelected ? PRIMARY : GRAY_BORDER}
+                                      strokeWidth="2"
+                                  />
+                                  <text
+                                      x={x}
+                                      y={y}
+                                      textAnchor="middle"
+                                      dy="0.3em"
+                                      fontSize="16"
+                                      fontWeight="700"
+                                      fill={isSelected ? 'white' : TEXT_DARK}
+                                      style={{ pointerEvents: 'none' }}
+                                  >
+                                      {hour}
+                                  </text>
+                              </g>
+                          );
+                      })
+                      : minuteMarkers.map((minute, index) => {
+                          if (minute % 5 !== 0) return null;
 
 
-                            const angle = (minute * 6 - 90) * (Math.PI / 180);
-                            const x = 140 + 100 * Math.cos(angle);
-                            const y = 140 + 100 * Math.sin(angle);
-                            const isSelected = minute === minutes;
+                          const angle = (minute * 6 - 90) * (Math.PI / 180);
+                          const x = 140 + 100 * Math.cos(angle);
+                          const y = 140 + 100 * Math.sin(angle);
+                          const isSelected = minute === minutes;
 
 
-                            return (
-                                <g key={`minute-${minute}`} style={{ cursor: 'pointer' }}>
-                                    <circle
-                                        cx={x}
-                                        cy={y}
-                                        r={isSelected ? 22 : 20}
-                                        fill={isSelected ? PRIMARY : 'white'}
-                                        stroke={isSelected ? PRIMARY : GRAY_BORDER}
-                                        strokeWidth="2"
-                                    />
-                                    <text
-                                        x={x}
-                                        y={y}
-                                        textAnchor="middle"
-                                        dy="0.3em"
-                                        fontSize="14"
-                                        fontWeight="700"
-                                        fill={isSelected ? 'white' : TEXT_DARK}
-                                        style={{ pointerEvents: 'none' }}
-                                    >
-                                        {String(minute).padStart(2, '0')}
-                                    </text>
-                                </g>
-                            );
-                        })}
+                          return (
+                              <g key={`minute-${minute}`} style={{ cursor: 'pointer' }}>
+                                  <circle
+                                      cx={x}
+                                      cy={y}
+                                      r={isSelected ? 22 : 20}
+                                      fill={isSelected ? PRIMARY : 'white'}
+                                      stroke={isSelected ? PRIMARY : GRAY_BORDER}
+                                      strokeWidth="2"
+                                  />
+                                  <text
+                                      x={x}
+                                      y={y}
+                                      textAnchor="middle"
+                                      dy="0.3em"
+                                      fontSize="14"
+                                      fontWeight="700"
+                                      fill={isSelected ? 'white' : TEXT_DARK}
+                                      style={{ pointerEvents: 'none' }}
+                                  >
+                                      {String(minute).padStart(2, '0')}
+                                  </text>
+                              </g>
+                          );
+                      })}
 
 
-                    {/* Center dot */}
-                    <circle cx="140" cy="140" r="6" fill={PRIMARY} />
+                  {/* Center dot */}
+                  <circle cx="140" cy="140" r="6" fill={PRIMARY} />
 
 
-                    {/* Hand pointing to selected value */}
-                    {
-                        (() => {
-                            const value = getCurrentValue();
-                            const angle = (!selectingMinutes ? value * 30 : value * 6) - 90;
-                            const radians = angle * (Math.PI / 180);
-                            const handLength = 80;
-                            const x2 = 140 + handLength * Math.cos(radians);
-                            const y2 = 140 + handLength * Math.sin(radians);
+                  {/* Hand pointing to selected value */}
+                  {
+                      (() => {
+                          const value = getCurrentValue();
+                          const angle = (!selectingMinutes ? value * 30 : value * 6) - 90;
+                          const radians = angle * (Math.PI / 180);
+                          const handLength = 80;
+                          const x2 = 140 + handLength * Math.cos(radians);
+                          const y2 = 140 + handLength * Math.sin(radians);
 
 
-                            return (
-                                <line
-                                    x1="140"
-                                    y1="140"
-                                    x2={x2}
-                                    y2={y2}
-                                    stroke={PRIMARY}
-                                    strokeWidth="4"
-                                    strokeLinecap="round"
-                                    opacity="0.6"
-                                />
-                            );
-                        })()
-                    }
-                </svg>
+                          return (
+                              <line
+                                  x1="140"
+                                  y1="140"
+                                  x2={x2}
+                                  y2={y2}
+                                  stroke={PRIMARY}
+                                  strokeWidth="4"
+                                  strokeLinecap="round"
+                                  opacity="0.6"
+                              />
+                          );
+                      })()
+                  }
+              </svg>
 
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '30px' }}>
-                    {/* AM/PM Toggle */}
-                    <div style={styles.ampmContainer}>
-                        <button
-                            onClick={() => {
-                                if (isPM) {
-                                    const newTime = formatTime(display12, minutes, false);
-                                    if (type === 'start') setTempStart(newTime);
-                                    else setTempEnd(newTime);
-                                }
-                            }}
-                            style={{
-                                ...styles.ampmToggle,
-                                ...(isPM ? {} : styles.ampmToggleActive),
-                            }}
-                            type="button"
-                        >
-                            {t.am}
-                        </button>
-                        <button
-                            onClick={() => {
-                                if (!isPM) {
-                                    const newTime = formatTime(display12, minutes, true);
-                                    if (type === 'start') setTempStart(newTime);
-                                    else setTempEnd(newTime);
-                                }
-                            }}
-                            style={{
-                                ...styles.ampmToggle,
-                                ...(isPM ? styles.ampmToggleActive : {}),
-                            }}
-                            type="button"
-                        >
-                            {t.pm}
-                        </button>
-                    </div>
-                    {/* Time Display */}
-                    <div style={styles.clockTimeDisplay}>
-                        {String(display12).padStart(2, '0')}:{String(minutes).padStart(2, '0')} {isPM ? t.pm : t.am}
-                    </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '30px' }}>
+                  {/* AM/PM Toggle */}
+                  <div style={styles.ampmContainer}>
+                      <button
+                          onClick={() => {
+                              if (isPM) {
+                                  const newTime = formatTime(display12, minutes, false);
+                                  if (type === 'start') setTempStart(newTime);
+                                  else setTempEnd(newTime);
+                              }
+                          }}
+                          style={{
+                              ...styles.ampmToggle,
+                              ...(isPM ? {} : styles.ampmToggleActive),
+                          }}
+                          type="button"
+                      >
+                          {t.am}
+                      </button>
+                      <button
+                          onClick={() => {
+                              if (!isPM) {
+                                  const newTime = formatTime(display12, minutes, true);
+                                  if (type === 'start') setTempStart(newTime);
+                                  else setTempEnd(newTime);
+                              }
+                          }}
+                          style={{
+                              ...styles.ampmToggle,
+                              ...(isPM ? styles.ampmToggleActive : {}),
+                          }}
+                          type="button"
+                      >
+                          {t.pm}
+                      </button>
+                  </div>
+                  {/* Time Display */}
+                  <div style={styles.clockTimeDisplay}>
+                      {String(display12).padStart(2, '0')}:{String(minutes).padStart(2, '0')} {isPM ? t.pm : t.am}
+                  </div>
 
 
-                    {/* Mode Toggle */}
-                    <div style={styles.modeToggle}>
-                        <button
-                            onClick={() => setSelectingMinutes(false)}
-                            style={{
-                                ...styles.modeBtn,
-                                ...(selectingMinutes ? {} : styles.modeBtnActive),
-                            }}
-                            type="button"
-                        >
-                            {t.hour}
-                        </button>
-                        <button
-                            onClick={() => setSelectingMinutes(true)}
-                            style={{
-                                ...styles.modeBtn,
-                                ...(selectingMinutes ? styles.modeBtnActive : {}),
-                            }}
-                            type="button"
-                        >
-                            {t.minute}
-                        </button>
-                    </div>
+                  {/* Mode Toggle */}
+                  <div style={styles.modeToggle}>
+                      <button
+                          onClick={() => setSelectingMinutes(false)}
+                          style={{
+                              ...styles.modeBtn,
+                              ...(selectingMinutes ? {} : styles.modeBtnActive),
+                          }}
+                          type="button"
+                      >
+                          {t.hour}
+                      </button>
+                      <button
+                          onClick={() => setSelectingMinutes(true)}
+                          style={{
+                              ...styles.modeBtn,
+                              ...(selectingMinutes ? styles.modeBtnActive : {}),
+                          }}
+                          type="button"
+                      >
+                          {t.minute}
+                      </button>
+                  </div>
 
 
-                </div>
-            </div>
-        );
+              </div>
+          </div>
+      );
     };
 
 
@@ -418,86 +418,86 @@ export default function TimeRangePicker({
 
                 {isOpen && (
                     <>
-                        <div style={styles.backdrop} onClick={() => setIsOpen(false)} />
-                        <div style={styles.dropdown}>
-                            <div style={styles.dropdownContent}>
-                                {/* Tabs */}
-                                <div style={styles.tabs}>
-                                    <button
-                                        onClick={() => {
-                                            setActiveTab('start');
-                                            setSelectingMinutes(false);
-                                        }}
-                                        style={{
-                                            ...styles.tab,
-                                            ...(activeTab === 'start' ? styles.tabActive : styles.tabInactive),
-                                        }}
-                                        type="button"
-                                    >
-                                        {t.startTime}
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            setActiveTab('end');
-                                            setSelectingMinutes(false);
-                                        }}
-                                        style={{
-                                            ...styles.tab,
-                                            ...(activeTab === 'end' ? styles.tabActive : styles.tabInactive),
-                                        }}
-                                        type="button"
-                                    >
-                                        {t.endTime}
-                                    </button>
-                                </div>
+                      <div style={styles.backdrop} onClick={() => setIsOpen(false)} />
+                      <div style={styles.dropdown}>
+                          <div style={styles.dropdownContent}>
+                              {/* Tabs */}
+                              <div style={styles.tabs}>
+                                  <button
+                                      onClick={() => {
+                                          setActiveTab('start');
+                                          setSelectingMinutes(false);
+                                      }}
+                                      style={{
+                                          ...styles.tab,
+                                          ...(activeTab === 'start' ? styles.tabActive : styles.tabInactive),
+                                      }}
+                                      type="button"
+                                  >
+                                      {t.startTime}
+                                  </button>
+                                  <button
+                                      onClick={() => {
+                                          setActiveTab('end');
+                                          setSelectingMinutes(false);
+                                      }}
+                                      style={{
+                                          ...styles.tab,
+                                          ...(activeTab === 'end' ? styles.tabActive : styles.tabInactive),
+                                      }}
+                                      type="button"
+                                  >
+                                      {t.endTime}
+                                  </button>
+                              </div>
 
 
 
 
 
-                                {/* Clock Picker */}
-                                <ClockPicker type={activeTab} key={activeTab} />
+                              {/* Clock Picker */}
+                              <ClockPicker type={activeTab} key={activeTab} />
 
 
-                                {/* Error Message */}
-                                {!isValid && (
-                                    <div style={styles.errorMessage}>
-                                        {t.error}
-                                    </div>
-                                )}
+                              {/* Error Message */}
+                              {!isValid && (
+                                  <div style={styles.errorMessage}>
+                                      {t.error}
+                                  </div>
+                              )}
 
 
-                                {/* Duration Preview */}
-                                <div style={styles.durationPreview}>
-                                    {t.duration} <strong>{calculateDuration(tempStart, tempEnd)}</strong>
-                                </div>
-                                                                {/* Header */}
-                                <div style={styles.pickerHeader}>
-                                    <button
-                                        onClick={() => {
-                                            setTempStart(startTime);
-                                            setTempEnd(endTime);
-                                            setIsOpen(false);
-                                        }}
-                                        style={styles.pickerHeaderBtn}
-                                        type="button"
-                                    >
-                                        {t.cancel}
-                                    </button>
-                                    <button
-                                        onClick={handleApply}
-                                        style={{
-                                            ...styles.pickerHeaderBtn,
-                                            ...(isValid ? {} : styles.pickerHeaderBtnDisabled),
-                                        }}
-                                        disabled={!isValid}
-                                        type="button"
-                                    >
-                                        {t.done}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                              {/* Duration Preview */}
+                              <div style={styles.durationPreview}>
+                                  {t.duration} <strong>{calculateDuration(tempStart, tempEnd)}</strong>
+                              </div>
+                                                              {/* Header */}
+                              <div style={styles.pickerHeader}>
+                                  <button
+                                      onClick={() => {
+                                          setTempStart(startTime);
+                                          setTempEnd(endTime);
+                                          setIsOpen(false);
+                                      }}
+                                      style={styles.pickerHeaderBtn}
+                                      type="button"
+                                  >
+                                      {t.cancel}
+                                  </button>
+                                  <button
+                                      onClick={handleApply}
+                                      style={{
+                                          ...styles.pickerHeaderBtn,
+                                          ...(isValid ? {} : styles.pickerHeaderBtnDisabled),
+                                      }}
+                                      disabled={!isValid}
+                                      type="button"
+                                  >
+                                      {t.done}
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
                     </>
                 )}
             </div>
