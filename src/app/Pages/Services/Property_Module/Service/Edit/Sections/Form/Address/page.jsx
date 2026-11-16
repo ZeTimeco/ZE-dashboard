@@ -34,7 +34,6 @@ function AddressPageContent() {
       is_visible:true
     })
 
-
     useEffect(()=>{
       if(id){
         setFormData((prev) => ({
@@ -152,7 +151,7 @@ function AddressPageContent() {
           if (from === 'Add') {
             router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
           } else {
-            router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+            router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)
           }
         }
         
@@ -165,7 +164,7 @@ function AddressPageContent() {
     <MainLayout>
       <TitleOfHeader/>
       
-      <div className='border border-[#E6E6E6] p-8 rounded-[3px] mb-4'>
+      <div className='border border-[#E6E6E6] p-8 rounded-3px mb-4'>
         <div>
           <p className='text-[#364152] text-xl font-medium mb-3'>
             <span>{t('Step')} 2 :</span>
@@ -194,7 +193,7 @@ function AddressPageContent() {
               }}
               placeholder={t("Write a brief description of the property.")}
               maxLength={500}
-              className="w-full h-20 border border-[#C8C8C8] rounded-[3px] p-3 text-sm text-[#7d8d84]  outline-none "
+              className="w-full h-20 border border-[#C8C8C8] rounded-3px p-3 text-sm text-[#7d8d84]  outline-none "
             />
 
             {/* counter */}
@@ -205,7 +204,7 @@ function AddressPageContent() {
         </div>
 
         {/*  */}
-        <div className='border border-[#CDD5DF] p-3 rounded-[3px] flex justify-between mt-4'>
+        <div className='border border-[#CDD5DF] p-3 rounded-3px flex justify-between mt-4'>
           <p className='text-[#4B5565] text-xs font-normal flex items-center '>{t('Show the user the exact and detailed address before booking')}</p>
           <div>
             <GreenSwitch
@@ -231,7 +230,7 @@ function AddressPageContent() {
           <p className='text-[#364152] text-sm font-medium'>{t('Locate the site on the map')}</p>
 
           <div 
-            className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 w-full  rounded-[3px] flex justify-between mt-4 cursor-pointer hover:bg-[#EEF2F6]'
+            className='bg-[#F8FAFC] border border-[#EEF2F6] p-3 w-full  rounded-3px flex justify-between mt-4 cursor-pointer hover:bg-[#EEF2F6]'
             onClick={() => setOpenMap(true)}
           >
             <div className='flex gap-1 w-full'>
@@ -246,7 +245,7 @@ function AddressPageContent() {
           </div>
         </div>
 
-        <div className='border border-[#FEDF89] bg-[#FFFCF5] rounded-[3px] px-3 py-4 mt-4'>
+        <div className='border border-[#FEDF89] bg-[#FFFCF5] rounded-3px px-3 py-4 mt-4'>
           <div className='flex gap-2'>
             <img src="/images/icons/ii.svg" alt="" />
             <p className='text-[#364152] text-base font-medium'>{t('Site tips')}</p>
@@ -276,14 +275,14 @@ function AddressPageContent() {
           <div className='flex gap-2 justify-start w-full '>
             <button
               onClick={handleBack}
-              className="h-15 w-[30%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-3px cursor-pointer"
             >
               {t('Return')}
             </button>
 
             <button
               onClick={handleSave}
-              className="h-15 w-[30%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] bg-primary text-white rounded-3px cursor-pointer"
             >
               {t('Save changes')}
             </button>

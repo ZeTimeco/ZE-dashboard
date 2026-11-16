@@ -29,7 +29,7 @@ function PricingInfoPage({ formData, setFormData }) {
               ...formData, 
               base_price: e.target.value
             })}
-            className='w-full h-14 mb-1.5 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-[3px] outline-none'
+            className='w-full h-14 mb-1.5 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-3px outline-none'
           />
           <p className='text-[#697586] text-xs font-normal'>{t('This is your base price before any fees or taxes.')}</p>
         </div>
@@ -47,7 +47,7 @@ function PricingInfoPage({ formData, setFormData }) {
               ...formData,
               security_deposit: e.target.value
             })}
-            className='w-full mb-1.5 h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-[3px] outline-none'
+            className='w-full mb-1.5 h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-3px outline-none'
           />
           <p className='text-[#697586] text-xs font-normal'>{t('Refundable if no damage occurs')}</p>
         </div>
@@ -66,7 +66,7 @@ function PricingInfoPage({ formData, setFormData }) {
             ...formData,
             cleaning_fee: e.target.value
           })}
-          className='w-full  h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-[3px] outline-none'
+          className='w-full  h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-3px outline-none'
         />
       </div>
 
@@ -74,7 +74,7 @@ function PricingInfoPage({ formData, setFormData }) {
       <div className='w-full mt-6 grid grid-cols-2 gap-4'>
 
         {/* Taxes */}
-        <div className='border border-[#EEF2F6] bg-[#F8FAFC] rounded-[3px]  flex justify-between py-2 px-4'>
+        <div className='border border-[#EEF2F6] bg-[#F8FAFC] rounded-3px  flex justify-between py-2 px-4'>
           <p className='flex flex-col'>
             <span className='text-[#364152] text-base font-medium'>{t('Taxes')}</span>
             <span className='text-[#4B5565] text-sm font-normal'>استنادا إلى موقع القاهرة، مصر</span>
@@ -82,8 +82,8 @@ function PricingInfoPage({ formData, setFormData }) {
           <p className='text-[#364152] text-base font-medium flex items-center'>%14 ق.م</p>
         </div>
 
-          {/* Service fees */}
-        <div className='border border-[#EEF2F6] bg-[#F8FAFC] rounded-[3px] flex justify-between py-2 px-4'>
+        {/* Service fees */}
+        <div className='border border-[#EEF2F6] bg-[#F8FAFC] rounded-3px flex justify-between py-2 px-4'>
           <p className='flex flex-col'>
             <span className='text-[#364152] text-base font-medium'>{t('Service fees')}</span>
             <span className='text-[#4B5565] text-sm font-normal'>استنادا إلى موقع القاهرة، مصر</span>

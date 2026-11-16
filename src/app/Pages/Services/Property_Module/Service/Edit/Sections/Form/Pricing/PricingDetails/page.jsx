@@ -26,7 +26,7 @@ function PricingDetailsPage({ formData, setFormData }) {
           </p>
           <p className='text-[#364152] text-base font-medium'>
             <span>{basePrice}</span>
-            <span>جنية</span>
+            <span>{t('pound')}</span>
           </p>
         </div>
 
@@ -37,7 +37,7 @@ function PricingDetailsPage({ formData, setFormData }) {
           </p>
           <p className='text-[#364152] text-base font-medium'>
             <span>{cleaningFee}</span>
-            <span>جنية</span>
+            <span>{t('pound')}</span>
           </p>
         </div>
 
@@ -48,7 +48,7 @@ function PricingDetailsPage({ formData, setFormData }) {
           </p>
           <p className='text-[#364152] text-base font-medium'>
             <span>{serviceFee}</span>
-            <span>جنية</span>
+            <span>{t('pound')}</span>
           </p>
         </div>
 
@@ -60,7 +60,7 @@ function PricingDetailsPage({ formData, setFormData }) {
           </p>
           <p className='text-[#364152] text-base font-medium'>
             <span>{taxAmount}</span>
-            <span>جنية</span>
+            <span>{t('pound')}</span>
           </p>
         </div>
 
@@ -74,18 +74,18 @@ function PricingDetailsPage({ formData, setFormData }) {
           </p>
           <p className='text-[#364152] text-base font-medium'>
             <span>{totalAmount}</span>
-            <span>جنية</span>
+            <span>{t('pound')}</span>
           </p>
         </div>
 
         {/* Gain */}
         <div className='flex justify-between mt-4'>
-          <p className='text-[var(--color-primary)] text-base  font-normal'>
+          <p className='text-primary text-base  font-normal'>
             <span>{t('Gain')}</span>
           </p>
           <p className='text-[#364152] text-base font-medium'>
             <span>{subTotal}</span>
-            <span>جنية</span>
+            <span>{t('pound')}</span>
           </p>
         </div>
 

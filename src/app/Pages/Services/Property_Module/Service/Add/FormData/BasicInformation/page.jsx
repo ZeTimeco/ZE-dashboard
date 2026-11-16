@@ -15,7 +15,7 @@ function BasicInformationPage({getDetailsData, propertyId}) {
           <p className='text-[#364152] text-base font-medium '>{t('Basic Information')}</p>
           <button 
             onClick={()=>router.push(`/Pages/Services/Property_Module/Service/Edit/Sections/Form/BasicInformation?id=${propertyId}&from=Add`)}
-            className='flex gap-1'>
+            className='flex gap-1 cursor-pointer'>
             <img src="/images/icons/EditYellow.svg" className="w-5 h-5 mt-1" />
             <span className='text-[var(--color-primary)]'>{t('modification')}</span>
           </button>

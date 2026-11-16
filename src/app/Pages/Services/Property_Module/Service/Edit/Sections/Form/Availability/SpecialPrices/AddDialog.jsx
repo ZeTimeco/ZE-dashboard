@@ -79,7 +79,7 @@ function AddDialog({ open, setOpen, formData, setFormData }) {
           >
             <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
           </button>
-          <p className='text-[var(--color-primary)] text-2xl font-semibold flex justify-center mb-4'>
+          <p className='text-primary text-2xl font-semibold flex justify-center mb-4'>
             {t('Add pricing')}
           </p>
         </section>
@@ -95,7 +95,7 @@ function AddDialog({ open, setOpen, formData, setFormData }) {
               value={periodName}
               onChange={(e) => setPeriodName(e.target.value)}
               placeholder='مثال: اجازة عيد الفطر'
-              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-[3px] outline-none'
+              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-3px outline-none'
             />
           </div>
 
@@ -106,7 +106,7 @@ function AddDialog({ open, setOpen, formData, setFormData }) {
             </label>
 
             <div
-              className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+              className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
               onClick={() => setOpenCalendar(true)}
             >
               <input
@@ -158,13 +158,13 @@ function AddDialog({ open, setOpen, formData, setFormData }) {
               <section className="p-6 flex gap-4">
                 <button
                   onClick={handleApply}
-                  className="px-6 py-3 bg-[var(--color-primary)] text-white rounded-[3px] text-base font-medium"
+                  className="px-6 py-3 bg-primary text-white rounded-3px text-base font-medium"
                 >
                   {t("apply")}
                 </button>
                 <button
                   onClick={() => setOpenCalendar(false)}
-                  className="px-6 py-3 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] text-base font-medium"
+                  className="px-6 py-3 border border-primary text-primary rounded-3px text-base font-medium"
                 >
                   {t("cancel")}
                 </button>
@@ -182,7 +182,7 @@ function AddDialog({ open, setOpen, formData, setFormData }) {
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               placeholder={t('Enter the price')}
-              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-[3px] outline-none'
+              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-3px outline-none'
             />
           </div>
 
@@ -196,13 +196,13 @@ function AddDialog({ open, setOpen, formData, setFormData }) {
         <div className="flex gap-4 p-6">
           <button
             onClick={handleSave}
-            className="p-3 w-full h-14 bg-[var(--color-primary)] text-white font-medium rounded-[3px] cursor-pointer"
+            className="p-3 w-full h-14 bg-primary text-white font-medium rounded-3px cursor-pointer"
           >
             {t("It was completed")}
           </button>
           <button
             onClick={() => setOpen(false)}
-            className="p-3 w-full h-14 border border-[var(--color-primary)] text-[var(--color-primary)] font-medium rounded-[3px] cursor-pointer"
+            className="p-3 w-full h-14 border border-primary text-primary font-medium rounded-3px cursor-pointer"
           >
             {t("cancel")}
           </button>

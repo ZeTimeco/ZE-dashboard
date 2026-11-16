@@ -67,7 +67,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
   
 
   return (
-    <div className='border border-[#CDD5DF] rounded-[3px] p-4 mt-6'>
+    <div className='border border-[#CDD5DF] rounded-3px p-4 mt-6'>
 
       {/* Bathroom type */}
       <div className="flex flex-col w-full mb-6">
@@ -92,7 +92,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
                   selected1: null
                 })
               }
-              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-3px outline-none'
             />
 
             <span className="absolute left-3 cursor-pointer">
@@ -105,7 +105,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
           </div>
 
           {bathroom.open1 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
               {optionBathroomType
                 .filter((opt) =>
                   opt?.name?.toLowerCase().includes((bathroom.searchValue1 || '').toLowerCase())
@@ -141,7 +141,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
 
         <div
           onClick={() => fileInputRef.current.click()}
-          className="w-full p-4 border border-dashed border-[#9AA4B2] rounded-[3px] cursor-pointer"
+          className="w-full p-4 border border-dashed border-[#9AA4B2] rounded-3px cursor-pointer"
         >
           <input
             type="file"
@@ -164,7 +164,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
               {bathroom.previewImages.map((src, idx) => (
                 <div
                   key={idx}
-                  className="relative w-36 h-28 border border-[#E5E7EB] rounded-[3px] overflow-hidden"
+                  className="relative w-36 h-28 border border-[#E5E7EB] rounded-3px overflow-hidden"
                 >
                   <img src={src.startsWith('blob:') ? src : `${IMAGE_BASE_URL}${src}`} className="w-full h-full object-cover" />
 
@@ -221,7 +221,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
                   selected2: null
                 })
               }
-              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-3px outline-none'
             />
 
             <span className="absolute left-3 cursor-pointer">
@@ -234,7 +234,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
           </div>
 
           {bathroom.open2 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
               {optionBathroomLocation
                 .filter((opt) =>
                   opt?.title?.toLowerCase().includes((bathroom.searchValue2 || '').toLowerCase())
@@ -272,7 +272,7 @@ function BathroomCard({ bathroom, onUpdate, onDelete ,getBathRoomTypes }) {
               type="radio"
               checked={bathroom.selectedFeature === item.id}
               onChange={() => onUpdate({ selectedFeature: item.id, access_type: item.value })}
-              className="w-5 h-5 appearance-none border-2 border-gray-300 rounded-full cursor-pointer   checked:border-[var(--color-primary)] checked:bg-[var(--color-primary)]  relative  after:content-[''] after:absolute after:inset-1 after:rounded-full  checked:after:bg-white"
+              className="w-5 h-5 appearance-none border-2 border-gray-300 rounded-full cursor-pointer   checked:border-primary checked:bg-primary  relative  after:content-[''] after:absolute after:inset-1 after:rounded-full  checked:after:bg-white"
             />
             <p className='text-[#4B5565] text-sm font-normal'>
               {item.title}

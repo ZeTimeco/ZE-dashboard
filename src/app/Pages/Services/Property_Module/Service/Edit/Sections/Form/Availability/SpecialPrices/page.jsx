@@ -34,7 +34,7 @@ function SpecialPricesPage({ formData, setFormData, setDeletedSeasonalPrices }) 
 
   return (
     <>
-      <div className='border border-[#E3E8EF] p-3 rounded-[3px] mt-6'>
+      <div className='border border-[#E3E8EF] p-3 rounded-3px mt-6'>
 
         <div className='flex justify-between w-full'>
           <div className='flex gap-2 w-full'>
@@ -47,13 +47,13 @@ function SpecialPricesPage({ formData, setFormData, setDeletedSeasonalPrices }) 
             className='flex gap-0.5 w-full justify-end cursor-pointer'
           >
             <img src="/images/icons/add-circle.svg" className="w-4 h-4 mt-0.5" />
-            <p className='text-[var(--color-primary)] text-sm font-medium'>{t('addition')}</p>
+            <p className='text-primary text-sm font-medium'>{t('addition')}</p>
           </button>
         </div>
 
         <div className='grid grid-cols-2 gap-3 mt-4'>
           {seasonalPricing.map((item, index) => (
-            <div key={item.id || index} className='border border-[#E3E8EF] p-4 flex flex-col gap-1 rounded-[3px]'>
+            <div key={item.id || index} className='border border-[#E3E8EF] p-4 flex flex-col gap-1 rounded-3px'>
               <div className='flex justify-between'>
                 <p className='text-[#364152] text-base font-medium'>{item.title || 'سعر خاص'}</p>
                 <button className='cursor-pointer' onClick={() => handleDelete(index, item.id)}>
@@ -66,7 +66,7 @@ function SpecialPricesPage({ formData, setFormData, setDeletedSeasonalPrices }) 
                 <span>سعر ثابت</span>
               </p>
 
-              <p className='text-[var(--color-primary)] text-base font-semibold'>
+              <p className='text-primary text-base font-semibold'>
                 <span>{t('the price')} : </span>
                 <span>{item.price} جنية</span>
               </p>
@@ -76,7 +76,7 @@ function SpecialPricesPage({ formData, setFormData, setDeletedSeasonalPrices }) 
       </div>
 
       {/* Note */}
-      <div className='bg-[#F8FAFC] border border-[#EEF2F6] rounded-[3px] p-3 mt-4'>
+      <div className='bg-[#F8FAFC] border border-[#EEF2F6] rounded-3px p-3 mt-4'>
         <p className='flex gap-1'>
           <img src="/images/icons/ii_blue.svg" className="w-6 h-6" />
           <span className='text-[#364152] text-base font-medium'>{t('Savings Summary')}</span>

@@ -7,14 +7,15 @@ function CancellationPolicyPage({ formData, setFormData ,getPoliciesApproved }) 
   const [selectedPolicy, setSelectedPolicy] = useState('')
   const [displayCount, setDisplayCount] = useState(4)
   const handleSelectPolicy = (id) => {
-      setSelectedPolicy(id);
+    setSelectedPolicy(id);
 
-      setFormData((prev) => ({
-        ...prev,
-        cancellation_policy_id: id,
-      }));
-    };
+    setFormData((prev) => ({
+      ...prev,
+      cancellation_policy_id: id,
+    }));
+  };
   const inputClassName = "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-[''] checked:after:w-2.5 checked:after:h-2.5 checked:after:bg-[var(--color-primary)] checked:after:rounded-full checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2"
+  
   return (
     <>
       <div className='mt-6'>
@@ -25,9 +26,9 @@ function CancellationPolicyPage({ formData, setFormData ,getPoliciesApproved }) 
             <div
               key={policy?.id}
               checked={formData?.cancellation_policy_id === policy.id}
-              className={`border p-3 cursor-pointer rounded-[3px] ${
+              className={`border p-3 cursor-pointer rounded-3px ${
                 formData?.cancellation_policy_id === policy.id
-                  ? 'border-[var(--color-primary)]'
+                  ? 'border-primary'
                   : 'border-[#E3E8EF]'
               }`}
               onClick={() => handleSelectPolicy(policy.id)}

@@ -77,7 +77,7 @@ function FacilitiesPageContent() {
       if (from === 'Add') {
         router.push(`/Pages/Services/Property_Module/Service/Add/FormData?property_id=${id}`)
       } else {
-        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)
       }
       console.log("Saved successfully");
     } catch (error) {
@@ -89,7 +89,7 @@ function FacilitiesPageContent() {
     <MainLayout>
       <TitleOfHeader/>
       
-      <div className='border border-[#E6E6E6] p-8 rounded-[3px] mb-4'>
+      <div className='border border-[#E6E6E6] p-8 rounded-3px mb-4'>
         <div>
           <p className='text-[#364152] text-xl font-medium mb-3'>
             <span>{t('Step')} 5 :</span>
@@ -120,7 +120,7 @@ function FacilitiesPageContent() {
                       type="checkbox"
                       checked={selectedAmenities.includes(amenity?.id)}
                       onChange={() => handleToggleAmenity(amenity?.id)}
-                      className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
+                      className="w-5 h-5 appearance-none border rounded-3px border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
                     />
                   </div>
                 </div>
@@ -137,14 +137,14 @@ function FacilitiesPageContent() {
           <div className='flex gap-2 justify-start w-full '>
             <button
               onClick={handleBack}
-              className="h-15 w-[30%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%]  border border-[#697586] text-[#697586] rounded-3px cursor-pointer"
             >
               {t('Return')}
             </button>
 
             <button
               onClick={handleSave}
-              className="h-15 w-[30%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] bg-primary text-white rounded-3px cursor-pointer"
             >
               {t('Save changes')}
             </button>

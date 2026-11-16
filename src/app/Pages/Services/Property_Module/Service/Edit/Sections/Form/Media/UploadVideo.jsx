@@ -15,7 +15,7 @@ function UploadVideo({ formData, setFormData }) {
         <div className='grid grid-cols-2 gap-6'>
 
           {/* Virtual tour (vr_path) */}
-          <div className='border border-[#E3E8EF] py-4 px-3 rounded-[3px] flex justify-between'>
+          <div className='border border-[#E3E8EF] py-4 px-3 rounded-3px flex justify-between'>
             <div className='flex gap-2'>
               <p className='flex items-start mt-1'>
                 <img src="/images/icons/Frame-green.svg" alt="" />
@@ -52,7 +52,7 @@ function UploadVideo({ formData, setFormData }) {
             ) : (
               <button
                 onClick={() => tourVideoRef.current.click()}
-                className='text-[var(--color-primary)] text-base font-normal cursor-pointer'
+                className='text-primary text-base font-normal cursor-pointer'
               >
                 {t('Add a tour')}
               </button>
@@ -60,7 +60,7 @@ function UploadVideo({ formData, setFormData }) {
           </div>
 
           {/* Property video */}
-          <div className='border border-[#E3E8EF] py-4 px-3 rounded-[3px] flex justify-between'>
+          <div className='border border-[#E3E8EF] py-4 px-3 rounded-3px flex justify-between'>
             <div className='flex gap-2'>
               <p className='flex items-start mt-1'>
                 <img src="/images/icons/camera_blue.svg" alt="" />
@@ -97,7 +97,7 @@ function UploadVideo({ formData, setFormData }) {
             ) : (
               <button
                 onClick={() => propertyVideoRef.current.click()}
-                className='text-[var(--color-primary)] text-base font-normal cursor-pointer'
+                className='text-primary text-base font-normal cursor-pointer'
               >
                 {t('Add a video')}
               </button>

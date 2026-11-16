@@ -110,7 +110,7 @@ function MediaPageContent() {
   return (
     <MainLayout>
       <TitleOfHeader/>
-      <div className='border border-[#E6E6E6] p-8 rounded-[3px] mb-4'>
+      <div className='border border-[#E6E6E6] p-8 rounded-3px mb-4'>
         <div>
           <p className='text-[#364152] text-xl font-medium mb-3'>
             <span>{t('Step')} 8 :</span>
@@ -129,14 +129,14 @@ function MediaPageContent() {
           <div className='flex gap-2 justify-start w-full'>
             <button
               onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
-              className="h-15 w-[30%] lg1:w-[15%] border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] border border-[#697586] text-[#697586] rounded-3px cursor-pointer"
             >
               {t('Return')}
             </button>
 
             <button
               onClick={handleSave}
-              className="h-15 w-[30%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] bg-primary text-white rounded-3px cursor-pointer"
             >
             {loading ? t('Saving...') : t('save')}
             </button>

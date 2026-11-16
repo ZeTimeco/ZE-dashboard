@@ -13,13 +13,13 @@ function FirstNote() {
   
   return (
     <>
-            <div>
+        <div>
           <p className='text-[#364152] text-lg font-medium'>{t('Property photos')}</p>
           <p>{t('Add at least 5 high-quality photos to showcase your property.')}</p>
         </div>
 
         {/* note */}
-        <div className='bg-[#F8FAFC] border border-[#EEF2F6] rounded-[3px] p-3 my-4'>
+        <div className='bg-[#F8FAFC] border border-[#EEF2F6] rounded-3px p-3 my-4'>
           <p className='flex gap-1'>
             <img src="/images/icons/ii_blue.svg" className="w-6 h-6" />
             <span className='text-[#364152] text-base font-medium'>{t('Recommendations before adding images')}</span>

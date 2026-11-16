@@ -30,9 +30,11 @@ const getStepMessages = (step) => {
     ?.map((item) => item.message);
 };
 
-  useEffect((id)=>{
-    dispatch(getAllDetailsThunk(id))
-  },[dispatch])
+  useEffect(() => {
+    if (id && id !== "undefined") {
+      dispatch(getAllDetailsThunk(id))
+    }
+  }, [dispatch, id])
 
   console.log(getDetailsData);
   

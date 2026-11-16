@@ -18,7 +18,7 @@ function BathroomPage({ bathrooms, updateBathroom, deleteBathroom, addBathroom }
   return (
     <>
       {bathrooms?.map((bathroom, index) => (
-        <div key={bathroom.id} className='border border-[#CDD5DF] rounded-[3px] mt-4'>
+        <div key={bathroom.id} className='border border-[#CDD5DF] rounded-3px mt-4'>
           {/* Card accordion header */}
           <button
             type="button"
@@ -55,7 +55,7 @@ function BathroomPage({ bathrooms, updateBathroom, deleteBathroom, addBathroom }
       <button
         type="button"
         onClick={addBathroom}
-        className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-[3px] cursor-pointer'
+        className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-3px cursor-pointer'
       >
         <p className='text-[#697586] text-base font-medium'>{t('Add bathroom')}</p>
         <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />

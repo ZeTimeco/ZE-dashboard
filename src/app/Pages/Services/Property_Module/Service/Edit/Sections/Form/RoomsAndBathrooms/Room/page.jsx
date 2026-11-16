@@ -20,7 +20,7 @@ function RoomPage({ rooms, updateRoom, deleteRoom, addRoom }) {
   return (
     <>
       {rooms?.map((room, index) => (
-        <div key={room.id} className='border border-[#CDD5DF] rounded-[3px] mt-4'>
+        <div key={room.id} className='border border-[#CDD5DF] rounded-3px mt-4'>
           {/* Card accordion header */}
           <button
             type="button"
@@ -59,7 +59,7 @@ function RoomPage({ rooms, updateRoom, deleteRoom, addRoom }) {
       <button
         type="button"
         onClick={addRoom}
-        className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-[3px] cursor-pointer'
+        className='flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-3px cursor-pointer'
       >
         <p className='text-[#697586] text-base font-medium'>{t('Add a room')}</p>
         <img src="/images/icons/AddGrayIcon.svg" className="w-5 h-5" />

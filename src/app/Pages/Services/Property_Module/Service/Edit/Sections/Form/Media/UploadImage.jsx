@@ -147,7 +147,7 @@ function UploadImage({ formData, setFormData }) {
           {previewImages.length > 1 && (
             <button
               onClick={() => setIsRearranging((prev) => !prev)}
-              className={`cursor-pointer flex gap-1 items-center px-3 py-1 rounded-[3px] transition-all duration-200 ${
+              className={`cursor-pointer flex gap-1 items-center px-3 py-1 rounded-3px transition-all duration-200 ${
                 isRearranging
                   ? ''
                   : 'text-[#697586]'
@@ -166,14 +166,14 @@ function UploadImage({ formData, setFormData }) {
 
         {/* no images */}
         {previewImages.length <= 0 && (
-          <div className='flex gap-3 p-3 border border-[#DC6803] bg-[#FFFAEB] rounded-[3px] mb-3'>
+          <div className='flex gap-3 p-3 border border-[#DC6803] bg-[#FFFAEB] rounded-3px mb-3'>
             <img src="/images/icons/i_orange.svg" alt="" />
             <p className='text-[#DC6803] text-base font-normal'>{t('No images have been added yet.')}</p>
           </div>
         )}
 
         <div className="flex flex-col gap-3">
-          <div className="w-full p-4 border border-dashed border-[#9AA4B2] rounded-[3px]">
+          <div className="w-full p-4 border border-dashed border-[#9AA4B2] rounded-3px">
             <input
               type="file"
               ref={fileInputRef}
@@ -193,7 +193,7 @@ function UploadImage({ formData, setFormData }) {
 
                 <button 
                   onClick={() => fileInputRef.current.click()} 
-                  className="border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer h-14 w-[20%]"
+                  className="border border-primary text-primary rounded-3px cursor-pointer h-14 w-[20%]"
                 >
                   {t('Upload file')}
                 </button>
@@ -208,11 +208,11 @@ function UploadImage({ formData, setFormData }) {
                     onDragEnter={isRearranging ? () => handleDragEnter(idx) : undefined}
                     onDragEnd={isRearranging ? handleDragEnd : undefined}
                     onDragOver={isRearranging ? (e) => e.preventDefault() : undefined}
-                    className={`relative w-36.5 h-35 border rounded-[3px] overflow-hidden transition-all duration-200 ${
+                    className={`relative w-36.5 h-35 border rounded-3px overflow-hidden transition-all duration-200 ${
                       isRearranging
                         ? dragOverIdx === idx
-                          ? 'border-[var(--color-primary)] border-2 scale-105 shadow-lg'
-                          : 'border-[var(--color-primary)] border-dashed cursor-grab'
+                          ? 'border-primary border-2 scale-105 shadow-lg'
+                          : 'border-primary border-dashed cursor-grab'
                         : 'border-[#E5E7EB]'
                     }`}
                   >
@@ -247,7 +247,7 @@ function UploadImage({ formData, setFormData }) {
 
                         <button
                           className={`absolute top-2 left-1 ${
-                            mainIndex === idx ? 'w-[70%] h-6 bg-[var(--color-primary)]' : 'w-6 h-6 bg-[white]'
+                            mainIndex === idx ? 'w-[70%] h-6 bg-primary' : 'w-6 h-6 bg-[white]'
                           } flex justify-center items-center rounded-full cursor-pointer`}
                           onClick={(e) => {
                             e.stopPropagation();
@@ -289,7 +289,7 @@ function UploadImage({ formData, setFormData }) {
             )}
 
             {previewImages.length >= MAX_IMAGES && (
-              <p className="mt-1 text-sm text-[var(--color-primary)]">
+              <p className="mt-1 text-sm text-primary">
                 {t('You reached max images. Delete one to add new.')}
               </p>
             )}
@@ -298,7 +298,7 @@ function UploadImage({ formData, setFormData }) {
       </div>
 
       {/* Note Requirement of images */}
-      <div className='bg-[#F8FAFC] border border-[#EEF2F6] rounded-[3px] p-3 my-4'>
+      <div className='bg-[#F8FAFC] border border-[#EEF2F6] rounded-3px p-3 my-4'>
         <p className='flex gap-1'>
           <img src="/images/icons/ii_blue.svg" className="w-6 h-6" />
           <span className='text-[#364152] text-base font-medium'>{t('Image requirements')}</span>

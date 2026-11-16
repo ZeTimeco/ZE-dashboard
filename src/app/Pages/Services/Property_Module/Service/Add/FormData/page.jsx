@@ -72,7 +72,7 @@ function FormDataPageContent() {
         
         <button 
           onClick={handleSubmitReview}
-          className='bg-[var(--color-primary)] hover:bg-[#b08713] text-white font-medium px-6 h-14 w-fit mt-8 rounded-[3px] cursor-pointer transition-all duration-200 hover:shadow-md active:scale-98'
+          className='bg-primary hover:bg-[#b08713] text-white font-medium px-6 h-14 w-fit mt-8 rounded-[3px] cursor-pointer transition-all duration-200 hover:shadow-md active:scale-98'
         >
           {t('Property submission for review')}
         </button>

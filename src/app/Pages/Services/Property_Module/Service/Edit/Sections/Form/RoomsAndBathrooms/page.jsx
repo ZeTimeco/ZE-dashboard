@@ -237,7 +237,7 @@ function RoomsAndBathroomsPageContent() {
         // Clear pending deletions after successful save
         setPendingDeleteRoomIds([]);
         setPendingDeleteBathroomIds([]);
-        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${formData.property_id}`)
+        router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)
       }
     } catch (error) {
       console.log(error)
@@ -249,7 +249,7 @@ function RoomsAndBathroomsPageContent() {
   return (
     <MainLayout>
       <TitleOfHeader />
-      <div className='border border-[#E6E6E6] p-8 rounded-[3px] mb-4'>
+      <div className='border border-[#E6E6E6] p-8 rounded-3px mb-4'>
 
         {/* Page header */}
         <div>
@@ -261,7 +261,7 @@ function RoomsAndBathroomsPageContent() {
         </div>
 
         {/* Rooms Accordion */}
-        <div className='border border-[#CDD5DF] rounded-[3px] mt-6'>
+        <div className='border border-[#CDD5DF] rounded-3px mt-6'>
           {/* Header - always visible */}
           <div className='w-full flex items-center justify-between px-4 py-3 bg-[#F8FAFC]'>
             <button
@@ -299,7 +299,7 @@ function RoomsAndBathroomsPageContent() {
 
 
         {/* Bathrooms Accordion */}
-        <div className='border border-[#CDD5DF] rounded-[3px] mt-4'>
+        <div className='border border-[#CDD5DF] rounded-3px mt-4'>
           {/* Header - always visible */}
           <div className='w-full flex items-center justify-between px-4 py-3 bg-[#F8FAFC]'>
             <button
@@ -342,14 +342,14 @@ function RoomsAndBathroomsPageContent() {
             <button
               type="button"
               onClick={() => router.push(`/Pages/Services/Property_Module/Service/Edit?id=${id}`)}
-              className="h-15 w-[30%] lg1:w-[15%] border border-[#697586] text-[#697586] rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] border border-[#697586] text-[#697586] rounded-3px cursor-pointer"
             >
               {t('Return')}
             </button>
             <button
               type="button"
               onClick={handleSave}
-              className="h-15 w-[30%] lg1:w-[15%] bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+              className="h-15 w-[30%] lg1:w-[15%] bg-primary text-white rounded-3px cursor-pointer"
             >
               {t('Save changes')}
             </button>

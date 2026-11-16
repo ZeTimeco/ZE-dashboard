@@ -83,7 +83,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
   };
 
   return (
-    <div className='border border-[#CDD5DF] rounded-[3px] p-4 mt-6'>
+    <div className='border border-[#CDD5DF] rounded-3px p-4 mt-6'>
 
       {/* Room type */}
       <div className="flex flex-col w-full mb-6">
@@ -102,7 +102,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
               placeholder={t('Choose room type')}
               value={room.searchValue1 || room.selected1 || ''}
               onChange={(e) => onUpdate({ searchValue1: e.target.value, open1: true, selected1: null })}
-              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+              className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-3px outline-none'
             />
             <span className="absolute left-3 cursor-pointer">
               {room.open1 ? (
@@ -114,7 +114,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
           </div>
 
           {room.open1 && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
               {optionRoomType
                 .filter((opt) => opt?.name?.toLowerCase().includes((room.searchValue1 || '').toLowerCase()))
                 .map((opt) => (
@@ -140,7 +140,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
         <div className="flex flex-col gap-3">
           <div
             onClick={() => fileInputRef.current.click()}
-            className="w-full p-4 border border-dashed border-[#9AA4B2] rounded-[3px] cursor-pointer"
+            className="w-full p-4 border border-dashed border-[#9AA4B2] rounded-3px cursor-pointer"
           >
             <input
               type="file"
@@ -159,7 +159,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
             ) : (
               <div className="flex gap-2 flex-wrap">
                 {room.previewImages.map((src, idx) => (
-                  <div key={idx} className="relative w-36 h-28 border border-[#E5E7EB] rounded-[3px] overflow-hidden">
+                  <div key={idx} className="relative w-36 h-28 border border-[#E5E7EB] rounded-3px overflow-hidden">
                     <img src={src.startsWith('blob:') ? src : `${IMAGE_BASE_URL}${src}`} alt="preview" className="w-full h-full object-cover" />
                     <button
                       onClick={(e) => { e.stopPropagation(); handleDeleteImage(idx); }}
@@ -181,7 +181,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
             )}
 
             {room.previewImages.length >= MAX_IMAGES && (
-              <p className="mt-1 text-sm text-[var(--color-primary)]">
+              <p className="mt-1 text-sm text-primary">
                 {t('You reached max images. Delete one to add new.')}
               </p>
             )}
@@ -212,7 +212,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
                     placeholder={t('Choose bed type')}
                     value={bed.searchValue || bed.selected || ''}
                     onChange={(e) => updateBed(bed.id, { searchValue: e.target.value, open: true, selected: null })}
-                    className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-[3px] outline-none'
+                    className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#7d8d84] rounded-3px outline-none'
                   />
                   <span className="absolute left-3 cursor-pointer">
                     {bed.open ? (
@@ -224,7 +224,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
                 </div>
 
                 {bed.open && (
-                  <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+                  <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
                     {optionBeds
                       .filter((opt) => opt?.name?.toLowerCase().includes((bed.searchValue || '').toLowerCase()))
                       .map((opt) => (
@@ -263,7 +263,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
 
         <button
           onClick={lastBedFilled ? addBed : undefined}
-          className={`flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-[3px] ${
+          className={`flex justify-center items-center gap-1 w-full h-14 py-2.5 px-4 border border-dashed border-[#CDD5DF] mt-4 rounded-3px ${
             lastBedFilled ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
           }`}
         >
@@ -281,7 +281,7 @@ function RoomCard({ room, onUpdate, onDelete ,getRoomTypes , getBedTypes ,getRoo
               type="checkbox"
             checked={(room.features || []).includes(item.id)}
               onChange={() => toggleFeature(item.id)}
-              className="w-5 h-5 appearance-none border rounded-[3px] border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-[white] checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
+              className="w-5 h-5 appearance-none border rounded-3px border-gray-300 bg-white checked:bg-primary checked:border-primary relative cursor-pointer checked:after:content-['✔'] checked:after:text-[white] checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
             />
             <p className='text-[#4B5565] text-sm font-normal'>{item.name}</p>
           </div>

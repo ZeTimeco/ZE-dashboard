@@ -216,7 +216,7 @@ function BookingTypePage({ formData, setFormData }) {
   return (
     <>
       {/* Booking type */}
-      <div className='border border-[#E3E8EF] p-3 rounded-[3px]'>
+      <div className='border border-[#E3E8EF] p-3 rounded-3px'>
         <div className='flex gap-2'>
           <img src="/images/icons/web-validation_blue.svg" alt="" />
           <p className='text-[#364152] text-lg font-medium'>{t('Booking type')}</p>
@@ -225,7 +225,7 @@ function BookingTypePage({ formData, setFormData }) {
         <div className='grid grid-cols-2 gap-4 mt-4'>
           {/* Available on specified dates */}
           <div
-            className={`border flex justify-between p-3 cursor-pointer rounded-[3px] ${selectedPolicy === '1' ? 'border-[var(--color-primary)]' : 'border-[#E3E8EF]'}`}
+            className={`border flex justify-between p-3 cursor-pointer rounded-3px ${selectedPolicy === '1' ? 'border-[var(--color-primary)]' : 'border-[#E3E8EF]'}`}
             onClick={() => setSelectedPolicy('1')}
           >
             <div>
@@ -247,7 +247,7 @@ function BookingTypePage({ formData, setFormData }) {
 
           {/* Always available */}
           <div
-            className={`border flex justify-between p-3 cursor-pointer rounded-[3px] ${selectedPolicy === '2' ? 'border-[var(--color-primary)]' : 'border-[#E3E8EF]'}`}
+            className={`border flex justify-between p-3 cursor-pointer rounded-3px ${selectedPolicy === '2' ? 'border-[var(--color-primary)]' : 'border-[#E3E8EF]'}`}
             onClick={() => setSelectedPolicy('2')}
           >
             <div>
@@ -270,9 +270,9 @@ function BookingTypePage({ formData, setFormData }) {
       </div>
 
       {/* Calendar */}
-      <div className='flex gap-6 w-full border border-[#E3E8EF] mt-4 p-4 rounded-[3px]'>
+      <div className='flex gap-6 w-full border border-[#E3E8EF] mt-4 p-4 rounded-3px'>
         {/* Right section – calendar */}
-        <div className='w-[70%] mt-4 bg-white rounded-[3px]'>
+        <div className='w-[70%] mt-4 bg-white rounded-3px'>
           <div className='flex justify-between mb-4 w-full'>
             <div className='flex items-center gap-2 w-[70%]'>
               <img src="/images/icons/appointment-blue.svg" className="w-6 h-6" />
@@ -309,7 +309,7 @@ function BookingTypePage({ formData, setFormData }) {
                       ${day ? "cursor-pointer hover:bg-gray-100 text-[#364152]" : ""}
                       ${isSelected ? "!bg-[#17B26A] !text-white" : ""}
                       ${isBanned   ? "!bg-[#F04438] !text-white" : ""}
-                      ${isReserved ? "!bg-[var(--color-primary)] !text-white" : ""}`}
+                      ${isReserved ? "!bg-primary !text-white" : ""}`}
                     onClick={() => toggleDateSelection(day)}
                   >
                     {day}
@@ -328,7 +328,7 @@ function BookingTypePage({ formData, setFormData }) {
 
         {/* Left section – quick actions */}
         <div className='w-[30%]'>
-          <div className='border border-[#E3E8EF] p-4 mt-4 bg-white rounded-[3px]'>
+          <div className='border border-[#E3E8EF] p-4 mt-4 bg-white rounded-3px'>
             <div className='flex gap-2'>
               <img src="/images/icons/save-money-dollar_blue.svg" alt="" />
               <p className='text-[#364152] text-base font-medium'>{t('Quick procedures')}</p>
@@ -336,7 +336,7 @@ function BookingTypePage({ formData, setFormData }) {
 
             <button
               onClick={handleSelectAll}
-              className={`border rounded-[3px] ${selectAllActive ? 'border-[#17B26A]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-5 w-full p-4 cursor-pointer`}
+              className={`border rounded-3px ${selectAllActive ? 'border-[#17B26A]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-5 w-full p-4 cursor-pointer`}
             >
               <img src="/images/icons/calendar-add-green.svg" className="w-7 h-7 mb-2" />
               <p className='text-[#364152] text-base font-normal'>{t('Select all')}</p>
@@ -345,7 +345,7 @@ function BookingTypePage({ formData, setFormData }) {
 
             <button
               onClick={handleBanAll}
-              className={`border rounded-[3px] ${banAllActive ? 'border-[#F04438]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-4 w-full p-4 cursor-pointer`}
+              className={`border rounded-3px ${banAllActive ? 'border-[#F04438]' : 'border-[#E3E8EF]'} flex flex-col items-center gap-2 mt-4 w-full p-4 cursor-pointer`}
             >
               <img src="/images/icons/calendar-remove-red.svg" className="w-7 h-7 mb-2" />
               <p className='text-[#364152] text-base font-normal'>{t('Ban all')}</p>
