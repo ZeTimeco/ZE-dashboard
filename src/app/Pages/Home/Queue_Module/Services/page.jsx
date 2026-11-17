@@ -55,9 +55,14 @@ function ServicesPage() {
           <BoxPage getcounters={getcounters}/>
         </motion.div>
 
-        <motion.div variants={sectionVariants} className='grid grid-cols-1 lg1:grid-cols-2 gap-4'>
-          <UpcomingBookingsPage getUpcoming={getUpcoming}/>
-          <WaitingListPage getWaitlist={getWaitlist}/>
+        <motion.div variants={sectionVariants} 
+          className={`grid grid-cols-1 ${
+              getUpcoming?.data?.length > 0 && getWaitlist?.data?.length > 0
+                ? 'lg:grid-cols-2'
+                : 'lg:grid-cols-1'
+            } gap-4`}>
+          {getUpcoming?.data?.length > 0 && <UpcomingBookingsPage getUpcoming={getUpcoming}/>}
+          {getWaitlist?.data?.length > 0 && <WaitingListPage getWaitlist={getWaitlist}/>}
         </motion.div>
 
         <motion.div variants={sectionVariants}>

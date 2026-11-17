@@ -6,6 +6,8 @@ import Header from './Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { AdvancedSettingThunk, getAdvancedSettingThunk } from '@/redux/slice/Setting/SettingSlice'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
+import { CircularProgress } from '@mui/material'
 
 function AdvancedSettingsPages() {
   const { t } = useTranslation()
@@ -36,8 +38,23 @@ function AdvancedSettingsPages() {
     }
   }, [getAdvancedSettingData])
 
-  const handleSubmit = () => {
-    dispatch(AdvancedSettingThunk(formData))
+  const [saving, setSaving] = useState(false)
+
+  const handleSubmit = async () => {
+    if (saving) return
+    setSaving(true)
+    try {
+      await dispatch(AdvancedSettingThunk(formData)).unwrap()
+      toast.success(t('Changes saved successfully') , {
+        position: 'top-right',
+        autoClose: 2500,
+      })
+    } catch (err) {
+      const errMsg = err?.message || (typeof err === 'string' ? err : null) || t('Failed to save changes') || 'فشل في حفظ التغييرات'
+      toast.error(errMsg, { position: 'top-right', autoClose: 3000 })
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -51,13 +68,23 @@ function AdvancedSettingsPages() {
           />
 
           <motion.button 
-            whileHover={{ scale: 1.02, boxShadow: '0 4px 14px rgba(198, 152, 21, 0.2)' }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={!saving ? { scale: 1.02, boxShadow: '0 4px 14px rgba(198, 152, 21, 0.2)' } : {}}
+            whileTap={!saving ? { scale: 0.98 } : {}}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
             onClick={handleSubmit}
-            className='h-14 min-w-[180px] w-full sm:w-[25%] mt-10 bg-primary hover:bg-[#b08713] text-white font-medium rounded-3px cursor-pointer transition-colors duration-200'
+            disabled={saving}
+            className={`h-14 min-w-[180px] w-full sm:w-[25%] mt-10 bg-primary text-white font-medium rounded-3px transition-colors duration-200 flex items-center justify-center gap-2 ${
+              saving ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#b08713] cursor-pointer'
+            }`}
           >
-            {t('Save changes')}
+            {saving ? (
+              <>
+                <CircularProgress size={20} color="inherit" />
+                <span>{t('Saving...') || 'جاري الحفظ...'}</span>
+              </>
+            ) : (
+              t('Save changes')
+            )}
           </motion.button>
         </div>
       </div>

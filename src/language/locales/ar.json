@@ -1890,6 +1890,12 @@
   "change image":"تغيير الصورة",
   "delete image": "حذف الصورة",
   "Choose working hours":"اختر ساعات العمل",
+  "Changes saved successfully":"تم حفظ التغييرات بنجاح",
+  "Policy updated successfully":"تم تحديث السياسة بنجاح",
+  "Policy created successfully":"تم إنشاء السياسة بنجاح",
+  "Policy deleted successfully":"تم حذف السياسة بنجاح",
+  "Failed to delete policy":"فشل في حذف السياسة",
+  "Deleting...":"جارٍ الحذف...",
 
 
   "":""

@@ -1888,8 +1888,15 @@
   "change image":"change image",
   "delete image":"delete image",
   "Choose working hours":"Choose working hours",
-  
-  
+  "Changes saved successfully":"Changes saved successfully",
+  "Policy updated successfully":"Policy updated successfully",
+  "Failed to update policy":"Failed to update policy",
+  "Policy added successfully":"Policy added successfully",
+  "Failed to add policy":"Failed to add policy",
+  "Policy created successfully":"Policy created successfully",
+  "Policy deleted successfully":"Policy deleted successfully",
+  "Failed to delete policy":"Failed to delete policy",
+  "Deleting...":"Deleting...",
 
 
 
