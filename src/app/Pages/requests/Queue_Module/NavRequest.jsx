@@ -19,27 +19,30 @@ function NavRequest() {
   ]
 
   const [activeBtn, setActiveBtn] = useState(1)
+  const [appliedFilters, setAppliedFilters] = useState({})
 
   const dispatch = useDispatch()
   useEffect(() => {
-      dispatch(
-        getReservationsThunk({
-          tab: 'today'
-        })
-      )
-    }, [dispatch])
+    dispatch(getReservationsThunk({ tab: 'today' }))
+  }, [dispatch])
 
   const handleFilter = (item) => {
     setActiveBtn(item.id)
-    dispatch(
-      getReservationsThunk({
-        tab: item.status
-      })
-    )
-    console.log(item.status);
+    dispatch(getReservationsThunk({ tab: item.status, ...appliedFilters }))
   }
 
-  const [openFilter , setOpenFilter] = useState(false)
+  const handleApplyFilter = (filters) => {
+    setAppliedFilters(filters)
+    const currentTab = filterCardStatus.find(f => f.id === activeBtn)?.status || 'today'
+    dispatch(getReservationsThunk({ tab: currentTab, ...filters }))
+  }
+
+  const filterCount = Object.keys(appliedFilters).filter(k => {
+    const v = appliedFilters[k]
+    return v !== undefined && v !== null && v !== '' && !(Array.isArray(v) && v.length === 0)
+  }).length
+
+  const [openFilter, setOpenFilter] = useState(false)
 
   return (
     <>
@@ -50,7 +53,11 @@ function NavRequest() {
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
         <SearchForm placeholderKey="Search by order number" />
-        <FilterBtn onClick={() => setOpenFilter(true)} />
+        <FilterBtn
+          onClick={() => setOpenFilter(true)}
+          isActive={filterCount > 0}
+          count={filterCount}
+        />
       </motion.section>
 
       <motion.section
@@ -91,6 +98,7 @@ function NavRequest() {
       <FilterPage
         open={openFilter}
         setOpen={setOpenFilter}
+        onApply={handleApplyFilter}
       />
     </>
   )
