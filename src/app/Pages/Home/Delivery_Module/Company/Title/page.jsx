@@ -15,7 +15,7 @@ function TitlePage({getCompanyDashboard}) {
 
   return (
     <>
-      <div className='flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10'>
+      <div className='flex flex-col  md:flex-row md:items-center justify-between gap-4 mb-10'>
         <div>
           <div className='flex items-center gap-2 mb-1.5'>
             <h1 className='text-[#364152] text-2xl font-medium '>

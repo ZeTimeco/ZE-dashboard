@@ -20,7 +20,10 @@ function CompanyPage() {
       
       <BoxPage getCompanyDashboard={getCompanyDashboard}/>
 
-      <ActiveConnectionPage getCompanyDashboard={getCompanyDashboard}/>
+    {getCompanyDashboard?.length === 0 ? (
+      <ActiveConnectionPage getCompanyDashboard={getCompanyDashboard}/>) : null
+      }
+      
     </div>
   )
 }
