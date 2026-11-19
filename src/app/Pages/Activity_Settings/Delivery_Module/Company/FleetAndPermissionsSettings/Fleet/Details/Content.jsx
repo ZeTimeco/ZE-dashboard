@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'framer-motion'
 
 function Content({getShowDriver}) {
   const {t} = useTranslation()
@@ -170,86 +171,117 @@ function Content({getShowDriver}) {
   return (
     <>
       <div className="px-6 pt-10">
-        {/*  */}
-        <div className='border border-[#CDD5DF] rounded-3px p-4 flex justify-between'>
-          <div className='flex gap-3'>
-            <p className='bg-black w-12 h-12 rounded-full flex justify-center items-center'>
+        {/* Driver Profile */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
+          className='border border-[#CDD5DF] rounded-3px p-4 flex justify-between items-center bg-white shadow-xs'
+        >
+          <div className='flex gap-3 items-center'>
+            <motion.p 
+              whileHover={{ scale: 1.05 }}
+              className='bg-black w-12 h-12 rounded-full flex justify-center items-center flex-shrink-0'
+            >
               <img src="/images/icons/user-white.svg" alt="" />
-            </p>
+            </motion.p>
             <p className='flex flex-col gap-1'>
-              <span className='text-[#364152] text-lg font-normal'> {getShowDriver?.driver?.name}</span>
-              <span className='text-[#364152] text-sm font-light'>{t('join')} {getShowDriver?.driver?.joined_at}  .  {getShowDriver?.driver?.vehicle?.name}</span>
+              <span className='text-[#364152] text-lg font-medium'> {getShowDriver?.driver?.name}</span>
+              <span className='text-[#697586] text-sm font-light'>
+                {t('join')} {getShowDriver?.driver?.joined_at} {getShowDriver?.driver?.vehicle?.name ? ` . ${getShowDriver?.driver?.vehicle?.name}` : ''}
+              </span>
             </p>
           </div>
-          <>
+          <div>
             {StatusRender(getShowDriver?.driver?.status)}
-          </>
-        </div>
+          </div>
+        </motion.div>
 
-        {/*  */}
+        {/* 3 Metric Cards */}
         <div className='grid grid-cols-3 gap-6 my-4'>
-          <div className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 '>
-            <p className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.completed_deliveries}%</p>
+          <motion.div 
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: 0.05 }}
+            whileHover={{ y: -2, boxShadow: '0 4px 12px 0 rgba(0,0,0,0.06)' }}
+            className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 rounded-3px bg-white transition-shadow'
+          >
+            <p className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.completed_deliveries || 0}%</p>
             <p className='text-[#6C6C6C] text-sm font-normal'>{t('Completion')}</p>
-          </div>
+          </motion.div>
 
-          <div className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 '>
-            <p className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.total_deliveries}</p>
+          <motion.div 
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: 0.1 }}
+            whileHover={{ y: -2, boxShadow: '0 4px 12px 0 rgba(0,0,0,0.06)' }}
+            className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 rounded-3px bg-white transition-shadow'
+          >
+            <p className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.total_deliveries || 0}</p>
             <p className='text-[#6C6C6C] text-sm font-normal'>{t('Delivery')}</p>
-          </div>
+          </motion.div>
 
-          <div className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 '>
-            <p className='flex gap-1'>
-              <span className=''>
+          <motion.div 
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, delay: 0.15 }}
+            whileHover={{ y: -2, boxShadow: '0 4px 12px 0 rgba(0,0,0,0.06)' }}
+            className='border border-[#CDD5DF] p-3 flex flex-col items-center gap-2 rounded-3px bg-white transition-shadow'
+          >
+            <p className='flex gap-1 items-center'>
+              <span>
                 <img src="/images/icons/star.svg" className="w-5 h-5" />
               </span>
-              <span className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.rating}</span>
+              <span className='text-[#0B0E12] text-base font-semibold'>{getShowDriver?.performance?.rating || 0}</span>
             </p>
             <p className='text-[#6C6C6C] text-sm font-normal'>{t('Evaluation')}</p>
-          </div>
+          </motion.div>
         </div>
 
-
-        {/*Current connection  */}
-        {getShowDriver?.current_delivery ===null ? null :(
-          <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] py-4 px-3'>
+        {/* Current connection */}
+        {getShowDriver?.current_delivery === null ? null : (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.18 }}
+            className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] py-4 px-3 rounded-3px bg-white'
+          >
             <p className='text-[#161616] text-lg font-normal'>{t('Current connection')}</p>
 
             <div className='border border-[#E3E8EFAA] h-[0.5px] my-2'></div>
-            <div className='flex justify-between'>
+            <div className='flex justify-between items-center'>
               <p className='flex flex-col gap-1'>
                 <span className='text-[#364152] text-base font-normal'>{getShowDriver?.current_delivery?.booking_number}</span>
                 <span className='text-[#4F4F4F] text-sm font-normal'>{getShowDriver?.current_delivery?.total_amount}</span>
               </p>
-              <>
-              {StatusBookingRender(getShowDriver?.current_delivery?.status)}
-              </>
+              <div>
+                {StatusBookingRender(getShowDriver?.current_delivery?.status)}
+              </div>
             </div>
-
-          </div>
+          </motion.div>
         )}
-
         
-        {/*  */}
-        <div className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] py-4 px-3 my-4'>
-          <div className='flex justify-between'>
+        {/* Weekly profits */}
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.22 }}
+          className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] py-4 px-3 my-4 rounded-3px bg-white'
+        >
+          <div className='flex justify-between items-center'>
             <p className='text-[#161616] text-sm font-normal'>{t("This week's profits")}</p>
-            <p className='text-primary text-sm font-semibold'>{getShowDriver?.weekly_earnings} {t('pound')}</p>
+            <p className='text-primary text-sm font-semibold'>{getShowDriver?.weekly_earnings || 0} {t('pound')}</p>
           </div>
 
           <div className='border border-[#E3E8EFAA] h-[0.5px] my-4'></div>
 
-          <div className='flex justify-between'>
+          <div className='flex justify-between items-center'>
             <p className='text-[#161616] text-sm font-normal'>{t("Driver's powers")}</p>
             <p className='text-[#697586] text-sm font-normal'>استلام تلقائي </p>
           </div>
-
-        </div>
-
+        </motion.div>
 
       </div>
-
-      
     </>
   )
 }

@@ -216,9 +216,9 @@ export const updateItemThunk = createAsyncThunk('Menu/updateItem' ,
 )
 
 export const getCategoriesMenuThunk = createAsyncThunk('Menu/getCategoriesMenu' , 
-  async(_ , {rejectWithValue})=>{
+  async(params = { per_page: 1000, limit: 1000 } , {rejectWithValue})=>{
     try{
-      const response = await getCategoriesMenu()
+      const response = await getCategoriesMenu(params)
       return response
     }catch(error){
       return rejectWithValue(error.response?.data || error.message);

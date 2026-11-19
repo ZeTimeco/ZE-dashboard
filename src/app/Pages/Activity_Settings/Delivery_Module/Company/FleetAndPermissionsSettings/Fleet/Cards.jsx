@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import DetailsPage from './Details/page'
 import { useDispatch, useSelector } from 'react-redux'
+import { motion } from 'framer-motion'
 
 function Cards({  getDriverSetting ,openDetails , setOpenDetails }) {
   const {t} = useTranslation()
@@ -180,48 +181,66 @@ function Cards({  getDriverSetting ,openDetails , setOpenDetails }) {
 
   return (
     <>
-      {getDriverSetting?.drivers?.map((driver , index)=>(
-        <div
-          key={driver?.id}
-          className='shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px flex flex-col gap-3'
+      {(!getDriverSetting?.drivers || getDriverSetting?.drivers?.length === 0) ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="col-span-full py-8 text-center text-[#697586] text-base"
         >
+          {t('No drivers found')}
+        </motion.div>
+      ) : (
+        getDriverSetting?.drivers?.map((driver, index) => (
+          <motion.div
+            key={driver?.id || index}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.28, delay: index * 0.05, ease: 'easeOut' }}
+            whileHover={{ y: -3, boxShadow: '0 8px 24px 0 rgba(0,0,0,0.08)' }}
+            className="shadow-[0_0_4px_0_rgba(0,0,0,0.20)] p-4 rounded-3px flex flex-col gap-3 bg-white transition-shadow duration-200"
+          >
+            {/* Header: Name and Status */}
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center">
+                <motion.p 
+                  whileHover={{ scale: 1.1 }}
+                  className="w-8 h-8 bg-[#EAEAEA] rounded-full flex justify-center items-center flex-shrink-0"
+                >
+                  <img src="/images/icons/user_black.svg" alt="" />
+                </motion.p>
+                <p
+                  className="text-[#364152] text-base font-normal flex items-center cursor-pointer hover:underline hover:text-primary transition-colors duration-150"
+                  onClick={() => {
+                    setSelectedDriverId(driver?.id)
+                    setOpenDetails(true)
+                  }}
+                >
+                  {driver?.name}
+                </p>
+              </div>
+              <div>{StatusRender(driver?.curren_status)}</div>
+            </div>
 
-          {/*  */}
-          <div className='flex justify-between'>
-            <div className='flex gap-2'>
-              <p className='w-8 h-8 bg-[#EAEAEA] rounded-full flex justify-center items-center'>
-                <img src="/images/icons/user_black.svg" alt="" />
-              </p>
-              <p
-                className='text-[#364152] text-base font-normal flex items-center cursor-pointer hover:underline hover:text-primary transition-colors duration-150'
-                onClick={() => {
-                        setSelectedDriverId(driver?.id)
-                        setOpenDetails(true)
-                      }}
-              >
-                {driver?.name}
+            {/* Vehicle & Rating */}
+            <div className="flex gap-4 items-center">
+              <p className="text-[#364152] text-base font-light">{driver?.vehicle}</p>
+              <p className="flex items-center gap-1">
+                <span>
+                  <img src="/images/icons/star.svg" alt="" />
+                </span>
+                <span className="text-[#0B0E12] text-xs font-normal">{driver?.rating}</span>
               </p>
             </div>
-            <>{StatusRender(driver?.curren_status)}</>
-          </div>
-
-          <div className='flex gap-4'>
-            <p className='text-[#364152] text-base font-light'>{driver?.vehicle}</p>
-            <p className='flex items-center gap-1'>
-              <span ><img src="/images/icons/star.svg" alt="" /></span>
-              <span className='text-[#0B0E12] text-xs font-normal'>{driver?.rating}</span>
-            </p>
-          </div>
-
-        </div>
-      ))}
+          </motion.div>
+        ))
+      )}
 
       <DetailsPage
         open={openDetails}
         setOpen={setOpenDetails}
         driverId={selectedDriverId}
       />
-      
     </>
   )
 }

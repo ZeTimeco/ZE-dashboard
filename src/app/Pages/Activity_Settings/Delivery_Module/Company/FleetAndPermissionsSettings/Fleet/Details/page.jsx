@@ -53,37 +53,47 @@ function DetailsPage({ open, setOpen ,driverId }) {
   return (
     <Dialog
       open={open}
+      onClose={() => setOpen(false)}
       aria-labelledby="details-dialog-title"
       aria-describedby="details-dialog-description"
       PaperProps={{ className: 'rerquest-dialog' }}
     >
-      {/* Header */}
-      <div className="flex justify-end px-6 mt-6">
-        <button
-          onClick={() => setOpen(false)}
-          className="border border-[#CDD5DF] w-12 h-12 cursor-pointer rounded-[100px] flex justify-center items-center hover:bg-gray-50 hover:border-[#9AA4B2] transition-colors duration-150"
-        >
-          <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
-        </button>
-      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+      >
+        {/* Header */}
+        <div className="flex justify-end px-6 mt-6">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setOpen(false)}
+            className="border border-[#CDD5DF] w-12 h-12 cursor-pointer rounded-[100px] flex justify-center items-center hover:bg-gray-50 hover:border-[#9AA4B2] transition-colors duration-150"
+          >
+            <img src="/images/icons/xx.svg" alt="" className="w-6 h-6" />
+          </motion.button>
+        </div>
 
-      <div className='flex flex-col items-center gap-2 mt-5'>
-        <h1 className='text-[#364152] text-2xl font-semibold'>{t('Driver file')}</h1>
-        <p className='text-[#697586] text-xl font-medium'>{t('Show your fleet')}</p>
-      </div>
+        <div className='flex flex-col items-center gap-2 mt-5'>
+          <h1 className='text-[#364152] text-2xl font-semibold'>{t('Driver file')}</h1>
+          <p className='text-[#697586] text-xl font-medium'>{t('Show your fleet')}</p>
+        </div>
 
-      {/* Content */}
-      <Content getShowDriver={getShowDriver}/>
+        {/* Content */}
+        <Content getShowDriver={getShowDriver}/>
 
-      {/* btn */}
-        <div className='grid grid-cols-2 gap-6 my-4  w-full px-6 '>
+        {/* btn */}
+        <div className='grid grid-cols-2 gap-6 my-4 w-full px-6'>
             
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => setEditOpen(true)}
-            className="h-15 w-full bg-primary text-white rounded-3px cursor-pointer"
+            className="h-15 w-full bg-primary text-white rounded-3px cursor-pointer flex items-center justify-center shadow-xs transition-colors hover:bg-primary/95"
           >
             {t('Driver data modification')}
-          </button>
+          </motion.button>
 
           <AnimatePresence mode="wait">
             {getShowDriver?.driver?.status === true ? (
@@ -96,7 +106,8 @@ function DetailsPage({ open, setOpen ,driverId }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.2 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={!statusLoading ? { scale: 1.02 } : {}}
+                whileTap={!statusLoading ? { scale: 0.98 } : {}}
                 className="h-15 w-full border border-[#CDD5DF] text-[#697586] rounded-3px cursor-pointer flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
               >
                 {statusLoading && (
@@ -114,7 +125,8 @@ function DetailsPage({ open, setOpen ,driverId }) {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.2 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={!statusLoading ? { scale: 1.02 } : {}}
+                whileTap={!statusLoading ? { scale: 0.98 } : {}}
                 className="h-15 w-full border border-[#CDD5DF] text-[#697586] rounded-3px cursor-pointer flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
               >
                 {statusLoading && (
@@ -125,10 +137,10 @@ function DetailsPage({ open, setOpen ,driverId }) {
             )}
           </AnimatePresence>
           
-
         </div>
 
         <EditPage open={editOpen} setOpen={setEditOpen} getShowDriver={getShowDriver}/>
+      </motion.div>
     </Dialog>
   )
 }

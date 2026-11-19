@@ -36,6 +36,7 @@ function Filter({ activeTab, setActiveTab }) {
         return (
           <motion.button
             key={tab.id}
+            whileHover={!isActive ? { scale: 1.02 } : {}}
             whileTap={{ scale: 0.98 }}
             onClick={() => setActiveTab(tab.id)}
             className={`relative flex justify-center items-center gap-1 p-4 cursor-pointer rounded-[3px] transition-colors duration-200 ${

@@ -1896,6 +1896,16 @@
   "Policy deleted successfully":"تم حذف السياسة بنجاح",
   "Failed to delete policy":"فشل في حذف السياسة",
   "Deleting...":"جارٍ الحذف...",
+  "Not disabled":"غير معطل",
+  "Driver updated successfully":"تم تحديث السائق بنجاح",
+  "Failed to update driver":"فشل في تحديث السائق",
+  "Order accepted successfully":"تم قبول الطلب بنجاح",
+  "Order is ready":"الطلب جاهز",
+  "Order rejected successfully":"تم رفض الطلب بنجاح",
+  "Failed to mark order as ready":"فشل في وضع الطلب كجاهز",
+  "Updating...": "جارٍ التحديث...",
+  "Accepting...": "جارٍ القبول...",
+  "Rejecting...": "جارٍ الرفض...",
 
 
   "":""

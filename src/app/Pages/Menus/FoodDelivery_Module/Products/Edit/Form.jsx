@@ -11,7 +11,13 @@ function Form({formData , setFormData ,getCategoriesMenu}) {
   const [open1, setOpen1] = useState(false);
   const [searchValue1, setSearchValue1] = useState("");
   const dropdownRef1 = useRef(null);
-  const categoryType = getCategoriesMenu?.data;
+  const categoryType = Array.isArray(getCategoriesMenu?.data)
+    ? getCategoriesMenu.data
+    : Array.isArray(getCategoriesMenu?.data?.data)
+      ? getCategoriesMenu.data.data
+      : Array.isArray(getCategoriesMenu)
+        ? getCategoriesMenu
+        : [];
 
   // Pre-fill the label when editing an existing product
   useEffect(() => {
@@ -225,7 +231,7 @@ function Form({formData , setFormData ,getCategoriesMenu}) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.15 }}
-                className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto"
+                className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-60 overflow-y-auto"
               >
                 {categoryType
                   ?.filter((opt) =>
@@ -239,11 +245,18 @@ function Form({formData , setFormData ,getCategoriesMenu}) {
                         setFormData((prev) => ({ ...prev, category_id: opt?.id }));
                         setOpen1(false);
                       }}
-                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-100"
+                      className="p-3 hover:bg-[#F5F5F5] cursor-pointer transition-colors duration-100 text-sm text-[#364152]"
                     >
                       {opt?.name}
                     </li>
                   ))}
+                {categoryType?.filter((opt) =>
+                  opt?.name?.toLowerCase().includes(searchValue1.toLowerCase())
+                ).length === 0 && (
+                  <li className="p-3 text-center text-sm text-[#9AA4B2]">
+                    {t('No categories found') || 'لا توجد تصنيفات'}
+                  </li>
+                )}
               </motion.ul>
             )}
           </AnimatePresence>

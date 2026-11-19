@@ -17,7 +17,7 @@ function AddPage() {
   const dispatch = useDispatch()
   const { getCategoriesMenu } = useSelector((state) => state.Menus)
   useEffect(() => {
-    dispatch(getCategoriesMenuThunk())
+    dispatch(getCategoriesMenuThunk({ per_page: 1000, limit: 1000 }))
   }, [dispatch])
 
   const [formData, setFormData] = useState({

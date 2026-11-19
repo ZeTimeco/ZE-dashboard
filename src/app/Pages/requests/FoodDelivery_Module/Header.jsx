@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { changeStatusThunk, getRestaurantStatusThunk } from '@/redux/slice/Requests/RequestsSlice'
 import { motion, AnimatePresence } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 function Header({getRestaurantStatus}) {
   const{t}= useTranslation()
@@ -41,6 +42,18 @@ function Header({getRestaurantStatus}) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleStatusChange = async (item) => {
+    try {
+      setSelectedOption(item)
+      setOpen(false)
+      await dispatch(changeStatusThunk({ status: item.key })).unwrap()
+      toast.success(t('Status updated successfully') || 'تم تحديث الحالة بنجاح')
+      dispatch(getRestaurantStatusThunk())
+    } catch (error) {
+      toast.error(error?.message || error || t('Failed to update status') || 'فشل تحديث الحالة')
+    }
+  }
 
   return (
     <>
@@ -96,13 +109,7 @@ function Header({getRestaurantStatus}) {
                 {extractOptions.map((item) => (
                   <li
                     key={item.key}
-                    onClick={() => {
-                      setSelectedOption(item);
-                      setOpen(false);
-                      dispatch(changeStatusThunk({ status: item.key })).then(() => {
-                        dispatch(getRestaurantStatusThunk());
-                      });
-                    }}
+                    onClick={() => handleStatusChange(item)}
                     className="flex items-center gap-2 px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors duration-150"
                   >
                     <span

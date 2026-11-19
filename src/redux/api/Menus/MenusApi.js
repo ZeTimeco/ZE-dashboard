@@ -118,10 +118,15 @@ export const updateItem = async ({ itemID, formData }) => {
   return response.data;
 };
 
-export const getCategoriesMenu = async()=>{
-  const response = await API.get(`/provider/menu-categories`)
-  return response.data
-}
+export const getCategoriesMenu = async (params = {}) => {
+  const queryParams = typeof params === 'object'
+    ? { per_page: 1000, limit: 1000, ...params }
+    : { per_page: params || 1000, limit: params || 1000 };
+  const response = await API.get(`/provider/menu-categories`, {
+    params: queryParams,
+  });
+  return response.data;
+};
 
 export const addItems = async ({formData }) => {
   const response = await API.post(`/provider/menu-items/create`,

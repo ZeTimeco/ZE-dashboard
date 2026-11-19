@@ -1897,6 +1897,18 @@
   "Policy deleted successfully":"Policy deleted successfully",
   "Failed to delete policy":"Failed to delete policy",
   "Deleting...":"Deleting...",
+  "Not disabled":"Not disabled",
+  "Driver updated successfully":"Driver updated successfully",
+  "Failed to update driver":"Failed to update driver",
+  "Order accepted successfully":"Order accepted successfully",
+  "Order is ready":"Order is ready",
+  "Order rejected successfully":"Order rejected successfully",
+  "Failed to mark order as ready":"Failed to mark order as ready",
+  "Updating...": "Updating...",
+  "Accepting...":"Accepting...",
+  "Rejecting...":"Rejecting...",
+
+
 
 
 
