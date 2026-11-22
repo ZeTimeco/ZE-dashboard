@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
 import { getEchoInstance } from "@/lib/echo";
 import {
   getAuthToken,
@@ -55,13 +56,125 @@ function UserAvatar({ avatar, name }) {
   );
 }
 
+function WhatsAppTail({ isRight, color = "#ffffff" }) {
+  if (isRight) {
+    return (
+      <svg
+        className="absolute -bottom-[0.5px] -right-[8px] w-[9px] h-[13px] pointer-events-none drop-shadow-[0_1px_1px_rgba(0,0,0,0.04)]"
+        viewBox="0 0 9 13"
+        fill="none"
+      >
+        <path d="M0 0 C1.5 3.5 5 8.5 9 13 L0 13 Z" fill={color} />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      className="absolute -bottom-[0.5px] -left-[8px] w-[9px] h-[13px] pointer-events-none drop-shadow-[0_1px_1px_rgba(0,0,0,0.04)]"
+      viewBox="0 0 9 13"
+      fill="none"
+    >
+      <path d="M9 0 C7.5 3.5 4 8.5 0 13 L9 13 Z" fill={color} />
+    </svg>
+  );
+}
+
+function getMessageDateKey(message) {
+  if (!message) return null;
+
+  if (message.created_at) {
+    try {
+      const d = new Date(message.created_at);
+      if (!isNaN(d.getTime())) {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+    } catch {}
+  }
+
+  if (message.time && typeof message.time === "string") {
+    const normalized = message.time.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d));
+    const match = normalized.match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
+    if (match) {
+      const [, y, m, d] = match;
+      return `${y}-${m.padStart(2, "0")}-${d.padStart(2, "0")}`;
+    }
+  }
+
+  return null;
+}
+
+function formatDateDivider(dateKey, t) {
+  if (!dateKey) return "";
+  try {
+    const [year, month, day] = dateKey.split("-").map(Number);
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const isToday =
+      today.getFullYear() === year &&
+      today.getMonth() + 1 === month &&
+      today.getDate() === day;
+
+    if (isToday) {
+      return t("Today") || "اليوم";
+    }
+
+    const isYesterday =
+      yesterday.getFullYear() === year &&
+      yesterday.getMonth() + 1 === month &&
+      yesterday.getDate() === day;
+
+    if (isYesterday) {
+      return t("Yesterday") || "أمس";
+    }
+
+    return `${day}/${month}/${year}`;
+  } catch {
+    return dateKey;
+  }
+}
+
+function formatMessageTimeOnly(message) {
+  if (!message) return "";
+
+  if (message.created_at) {
+    try {
+      const d = new Date(message.created_at);
+      if (!isNaN(d.getTime())) {
+        const hours = d.getHours();
+        const minutes = d.getMinutes().toString().padStart(2, "0");
+        const period = hours >= 12 ? "م" : "ص";
+        const formattedHours = (hours % 12 || 12).toString();
+        return `${formattedHours}:${minutes} ${period}`;
+      }
+    } catch {}
+  }
+
+  if (message.time && typeof message.time === "string") {
+    const trimmed = message.time.trim();
+    const parts = trimmed.split(/\s{2,}|\s+(?=\d{4}[/-])/);
+    if (parts.length > 0 && parts[0]) {
+      return parts[0].trim();
+    }
+    return trimmed;
+  }
+
+  return "";
+}
+
 const defaultMessages = [
   {
     id: 1,
     isMe: true,
     sender_type: "provider",
     message: "مرحبا هل ممكن مساعدة",
-    time: "١١:٠٢ ص  2025/11/5",
+    time: "١١:٠٢ ص",
+    created_at: "2025-11-05T11:02:00Z",
     is_read: true,
   },
   {
@@ -69,7 +182,8 @@ const defaultMessages = [
     isMe: false,
     sender_type: "user",
     message: "نعم تفضل",
-    time: "١١:٠٢ ص  2025/11/5",
+    time: "١١:٠٢ ص",
+    created_at: "2025-11-05T11:02:00Z",
     is_read: true,
   },
   {
@@ -77,7 +191,8 @@ const defaultMessages = [
     isMe: true,
     sender_type: "provider",
     message: "أود استفسارًا عن بعض الأدوية المتاحة؟ شكرًا لك!",
-    time: "١١:٠٢ ص  2025/11/5",
+    time: "١١:٠٢ ص",
+    created_at: "2025-11-06T11:02:00Z",
     is_read: true,
   },
   {
@@ -85,13 +200,19 @@ const defaultMessages = [
     isMe: false,
     sender_type: "user",
     message: "ممكن تسجل صوت نفهم المشكلة اكثر",
-    time: "١١:٠٢ ص  2025/11/5",
+    time: "١١:٠٢ ص",
+    created_at: "2025-11-06T11:02:00Z",
     is_read: true,
   },
 ];
 
 export default function ChatWindowPage({ selectedUser }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRtl =
+    i18n?.language === "ar" ||
+    (typeof document !== "undefined" &&
+      (document.dir === "rtl" || document.documentElement.dir === "rtl")) ||
+    false;
   const conversationId = selectedUser?.id || selectedUser?.conversation_id;
 
   const [currentUser, setCurrentUser] = useState(() => {
@@ -124,19 +245,50 @@ export default function ChatWindowPage({ selectedUser }) {
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [isOtherTyping, setIsOtherTyping] = useState(false);
 
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const fileInputRef = useRef(null);
   const lastTypingSentRef = useRef(0);
   const idleTypingTimerRef = useRef(null);
   const otherTypingTimerRef = useRef(null);
 
-  const scrollToBottom = (behavior = "smooth") => {
-    messagesEndRef.current?.scrollIntoView({ behavior });
+  const [showScrollBottomBtn, setShowScrollBottomBtn] = useState(false);
+  const userScrolledUpRef = useRef(false);
+  const isInitialLoadRef = useRef(true);
+
+  // Manual scroll to bottom
+  const scrollToBottom = useCallback((behavior = "smooth") => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior,
+      });
+    }
+  }, []);
+
+  const handleScroll = () => {
+    if (!messagesContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+    const isAtBottom = scrollHeight - scrollTop - clientHeight <= 80;
+    userScrolledUpRef.current = !isAtBottom;
+    setShowScrollBottomBtn(!isAtBottom);
   };
 
+  // Reset scroll state on conversation switch
   useEffect(() => {
-    scrollToBottom();
-  }, [messages, isOtherTyping]);
+    userScrolledUpRef.current = false;
+    setShowScrollBottomBtn(false);
+    isInitialLoadRef.current = true;
+  }, [conversationId]);
+
+  // Initial scroll to bottom on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Load chat messages when conversation changes
   const loadMessages = useCallback(async () => {
@@ -156,13 +308,37 @@ export default function ChatWindowPage({ selectedUser }) {
       setMessages(defaultMessages);
     } finally {
       setLoadingHistory(false);
-      setTimeout(() => scrollToBottom("auto"), 50);
+      // If user hasn't scrolled up, scroll to bottom
+      if (!userScrolledUpRef.current) {
+        setTimeout(() => {
+          if (messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+          }
+        }, 50);
+      }
     }
   }, [conversationId]);
 
   useEffect(() => {
     loadMessages();
   }, [loadMessages]);
+
+  // Keep chat at bottom when new messages arrive UNLESS the user scrolled up
+  useEffect(() => {
+    if (userScrolledUpRef.current) return;
+
+    if (messagesContainerRef.current) {
+      if (isInitialLoadRef.current) {
+        messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+        isInitialLoadRef.current = false;
+      } else {
+        messagesContainerRef.current.scrollTo({
+          top: messagesContainerRef.current.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [messages]);
 
   // Laravel Echo / Reverb WebSocket Connection
   useEffect(() => {
@@ -338,6 +514,11 @@ export default function ChatWindowPage({ selectedUser }) {
     setMessages((prev) => [...prev, optimisticMsg]);
     setSending(true);
 
+    // Ensure view scrolls to the newly sent message
+    userScrolledUpRef.current = false;
+    setShowScrollBottomBtn(false);
+    setTimeout(() => scrollToBottom("smooth"), 40);
+
     try {
       const savedMsg = await sendMessage({
         conversationId,
@@ -374,7 +555,7 @@ export default function ChatWindowPage({ selectedUser }) {
 
   if (!selectedUser) {
     return (
-      <div className="flex h-full items-center justify-center rounded-xl bg-white border border-[#d1d1d1]">
+      <div className="flex h-full items-center justify-center rounded-3px bg-white border border-[#d1d1d1]">
         <p className="text-gray-500">
           {t("Select a person to start chatting") || "اختر محادثة لبدء المراسلة"}
         </p>
@@ -383,9 +564,9 @@ export default function ChatWindowPage({ selectedUser }) {
   }
 
   return (
-    <div className="flex flex-col rounded-3px bg-white border border-[#d1d1d1] h-screen max-h-screen overflow-hidden">
+    <div className="flex flex-col rounded-3px bg-white border border-[#d1d1d1] h-full overflow-hidden relative">
       {/* Header */}
-      <div className="border-b border-[#d1d1d1] p-4 shrink-0 bg-white">
+      <div className="border-b  border-[#d1d1d1] p-4 shrink-0 bg-white">
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white text-base overflow-hidden shrink-0">
             {selectedUser.avatar ? (
@@ -411,159 +592,198 @@ export default function ChatWindowPage({ selectedUser }) {
       </div>
 
       {/* Messages List */}
-      <div className="flex-1 min-h-0 p-4 overflow-y-auto flex flex-col gap-[16px]">
+      <div
+        ref={messagesContainerRef}
+        onScroll={handleScroll}
+        className="flex-1 min-h-0 p-4 overflow-y-auto flex flex-col gap-[16px] relative bg-[#FFFDF5]"
+      >
         {loadingHistory && messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-gray-400 text-sm">
             {t("Loading messages...") || "جاري تحميل الرسائل..."}
           </div>
         ) : (
-          messages.map((message) => {
+          messages.map((message, index) => {
             const isMe = Boolean(message.isMe);
+            const currentDateKey = getMessageDateKey(message);
+            const prevDateKey = index > 0 ? getMessageDateKey(messages[index - 1]) : null;
+            const isNewDay = Boolean(currentDateKey && currentDateKey !== prevDateKey);
 
-            return isMe ? (
-              /* Sender (Me / Provider) - Right Aligned with white bubble & double green checkmarks */
-              <div key={message.id} className="flex flex-col items-end w-full">
-                <div className="flex gap-2 items-start justify-end max-w-[85%]">
-                  <div className="bg-white shadow-[0px_0px_10px_rgba(74,87,84,0.1)] flex flex-col gap-2 items-end justify-center pt-[16px] pb-[8px] pl-[24px] pr-[16px] rounded-[3px]">
-                    {/* Attachment preview if exists */}
-                    {message.attachment && (
-                      <div className="w-full mb-1">
-                        {message.attachment.match(/\.(jpeg|jpg|png|gif|webp)$/i) ||
-                        message.attachment.startsWith("blob:") ? (
-                          <a
-                            href={message.attachment}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block overflow-hidden rounded-3px border border-gray-100 max-h-48"
-                          >
-                            <img
-                              src={message.attachment}
-                              alt="attachment"
-                              className="object-cover max-h-48 w-full"
-                            />
-                          </a>
-                        ) : (
-                          <a
-                            href={message.attachment}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 p-2 rounded bg-gray-50 text-xs text-blue-600 hover:underline"
-                          >
-                            <img
-                              src="/images/icons/document-attachment-blue.svg"
-                              alt=""
-                              className="w-4 h-4"
-                            />
-                            <span>{t("View Attachment") || "عرض المرفق"}</span>
-                          </a>
-                        )}
-                      </div>
-                    )}
+            return (
+              <div key={message.id || index} className="flex flex-col gap-2.5 w-full">
+                {/* Date divider when day changes */}
+                {isNewDay && (
+                  <div className="flex justify-center my-1 select-none">
+                    <span className="bg-[#E4E7EC]/75 text-[#475467] text-[11px] font-normal px-3 py-0.5 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.03)] border border-[#D0D5DD]/40">
+                      {formatDateDivider(currentDateKey, t)}
+                    </span>
+                  </div>
+                )}
 
-                    {message.message && (
-                      <p
-                        className="text-[#0b0e11] text-[13px] text-right font-normal leading-[normal] tracking-[0.13px] whitespace-pre-wrap break-words"
-                        dir="auto"
+                {isMe ? (
+                  /* Sender (Me / Provider) - Fixed to RIGHT side */
+                  <div className="flex w-full justify-end" dir="ltr">
+                    <div className="flex gap-2.5 items-end max-w-[85%]">
+                      <div
+                        className="relative bg-white shadow-[0_1px_2px_rgba(0,0,0,0.08)] border border-black/[0.04] flex flex-col pt-2.5 pb-2 px-3.5 min-w-[95px] rounded-3px rounded-br-[2px]"
                       >
-                        {message.message}
-                      </p>
-                    )}
+                        {/* Attachment preview if exists */}
+                        {message.attachment && (
+                          <div className="w-full mb-1.5 rounded-xl overflow-hidden">
+                            {message.attachment.match(/\.(jpeg|jpg|png|gif|webp)$/i) ||
+                            message.attachment.startsWith("blob:") ? (
+                              <a
+                                href={message.attachment}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block overflow-hidden rounded-xl border border-gray-100 max-h-56"
+                              >
+                                <img
+                                  src={message.attachment}
+                                  alt="attachment"
+                                  className="object-cover max-h-56 w-full"
+                                />
+                              </a>
+                            ) : (
+                              <a
+                                href={message.attachment}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 p-2 rounded-lg bg-gray-50 text-xs text-blue-600 hover:underline"
+                              >
+                                <img
+                                  src="/images/icons/document-attachment-blue.svg"
+                                  alt=""
+                                  className="w-4 h-4"
+                                />
+                                <span>{t("View Attachment") || "عرض المرفق"}</span>
+                              </a>
+                            )}
+                          </div>
+                        )}
 
-                    <div className="flex items-center justify-end gap-1.5 text-[#4b5565] text-[11px] tracking-[0.11px]">
-                      <span dir="auto">{message.time}</span>
-                      <DoubleCheckIcon className="size-4 text-[#079455] shrink-0" />
+                        {message.message && (
+                          <p
+                            className="text-[#111b21] text-[13.5px] font-normal leading-relaxed whitespace-pre-wrap break-words"
+                            dir="auto"
+                          >
+                            {message.message}
+                          </p>
+                        )}
+
+                        <div className="flex items-center justify-end gap-1 text-[#667781] text-[11px] mt-1 select-none">
+                          <span dir="auto">{formatMessageTimeOnly(message)}</span>
+                          <DoubleCheckIcon
+                            className={`size-3.5 shrink-0 ${
+                              message.is_read ? "text-[#079455]" : "text-[#9aa4b2]"
+                            }`}
+                          />
+                        </div>
+
+                        {/* WhatsApp bottom arrow on the RIGHT */}
+                        <WhatsAppTail isRight={true} color="#ffffff" />
+                      </div>
+
+                      <UserAvatar
+                        avatar={
+                          currentUser?.image
+                            ? currentUser.image.startsWith("http")
+                              ? currentUser.image
+                              : `${IMAGE_BASE_URL}${currentUser.image}`
+                            : null
+                        }
+                        name={currentUser?.name}
+                      />
                     </div>
                   </div>
-                  <UserAvatar
-                    avatar={
-                      currentUser?.image
-                        ? currentUser.image.startsWith("http")
-                          ? currentUser.image
-                          : `${IMAGE_BASE_URL}${currentUser.image}`
-                        : null
-                    }
-                    name={currentUser?.name}
-                  />
-                </div>
-              </div>
-            ) : (
-              /* Receiver (User / Customer) - Left Aligned with lavender bubble */
-              <div key={message.id} className="flex flex-col items-start w-full">
-                <div className="flex gap-2 items-start justify-start max-w-[85%]">
-                  <UserAvatar avatar={`${IMAGE_BASE_URL}${selectedUser?.avatar}`} name={selectedUser?.name} />
-                  <div className="bg-[#ede7fd] shadow-[4px_4px_10px_rgba(0,0,77,0.04)] flex flex-col gap-2 items-start justify-center pt-[16px] pb-[8px] pl-[16px] pr-[24px] rounded-[3px]">
-                    {/* Attachment preview if exists */}
-                    {message.attachment && (
-                      <div className="w-full mb-1">
-                        {message.attachment.match(/\.(jpeg|jpg|png|gif|webp)$/i) ||
-                        message.attachment.startsWith("blob:") ? (
-                          <a
-                            href={message.attachment}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block overflow-hidden rounded-3px border border-gray-100 max-h-48"
-                          >
-                            <img
-                              src={message.attachment}
-                              alt="attachment"
-                              className="object-cover max-h-48 w-full"
-                            />
-                          </a>
-                        ) : (
-                          <a
-                            href={message.attachment}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 p-2 rounded bg-white/70 text-xs text-blue-600 hover:underline"
-                          >
-                            <img
-                              src="/images/icons/document-attachment-blue.svg"
-                              alt=""
-                              className="w-4 h-4"
-                            />
-                            <span>{t("View Attachment") || "عرض المرفق"}</span>
-                          </a>
-                        )}
-                      </div>
-                    )}
-
-                    {message.message && (
-                      <p
-                        className="text-[#0b0e11] text-[13px] text-right font-normal leading-[normal] tracking-[0.13px] whitespace-pre-wrap break-words"
-                        dir="auto"
+                ) : (
+                  /* Receiver (User / Customer) - Fixed to LEFT side */
+                  <div className="flex w-full justify-start" dir="ltr">
+                    <div className="flex gap-2.5 items-end max-w-[85%]">
+                      <UserAvatar
+                        avatar={`${IMAGE_BASE_URL}${selectedUser?.avatar}`}
+                        name={selectedUser?.name}
+                      />
+                      <div
+                        className="relative bg-[#ede7fd] shadow-[0_1px_2px_rgba(0,0,77,0.06)] border border-purple-200/30 flex flex-col pt-2.5 pb-2 px-3.5 min-w-[95px] rounded-3px rounded-bl-[2px]"
                       >
-                        {message.message}
-                      </p>
-                    )}
+                        {/* Attachment preview if exists */}
+                        {message.attachment && (
+                          <div className="w-full mb-1.5 rounded-xl overflow-hidden">
+                            {message.attachment.match(/\.(jpeg|jpg|png|gif|webp)$/i) ||
+                            message.attachment.startsWith("blob:") ? (
+                              <a
+                                href={message.attachment}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block overflow-hidden rounded-xl border border-gray-100 max-h-56"
+                              >
+                                <img
+                                  src={message.attachment}
+                                  alt="attachment"
+                                  className="object-cover max-h-56 w-full"
+                                />
+                              </a>
+                            ) : (
+                              <a
+                                href={message.attachment}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 p-2 rounded-lg bg-white/70 text-xs text-blue-600 hover:underline"
+                              >
+                                <img
+                                  src="/images/icons/document-attachment-blue.svg"
+                                  alt=""
+                                  className="w-4 h-4"
+                                />
+                                <span>{t("View Attachment") || "عرض المرفق"}</span>
+                              </a>
+                            )}
+                          </div>
+                        )}
 
-                    <div className="flex items-center justify-start text-[#4b5565] text-[11px] tracking-[0.11px]">
-                      <span dir="auto">{message.time}</span>
+                        {message.message && (
+                          <p
+                            className="text-[#111b21] text-[13.5px] font-normal leading-relaxed whitespace-pre-wrap break-words"
+                            dir="auto"
+                          >
+                            {message.message}
+                          </p>
+                        )}
+
+                        <div className="flex items-center justify-end text-[#667781] text-[11px] mt-1 select-none">
+                          <span dir="auto">{formatMessageTimeOnly(message)}</span>
+                        </div>
+
+                        {/* WhatsApp bottom arrow on the LEFT */}
+                        <WhatsAppTail isRight={false} color="#ede7fd" />
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             );
           })
         )}
 
-        {/* Real-time Typing Indicator from other party */}
+        {/* Real-time Typing Indicator from other party (on the LEFT side) */}
         {isOtherTyping && (
-          <div className="flex flex-col items-start w-full">
-            <div className="flex gap-[8px] items-start justify-start">
+          <div className="flex w-full justify-start" dir="ltr">
+            <div className="flex gap-2.5 items-end justify-start">
               <UserAvatar avatar={`${IMAGE_BASE_URL}${selectedUser?.avatar}`} name={selectedUser?.name} />
-              <div className="bg-[#ede7fd] shadow-[4px_4px_10px_rgba(0,0,77,0.04)] flex items-center gap-1.5 py-3 px-4 rounded-[3px]">
+              <div
+                className="relative bg-[#ede7fd] shadow-[0_1px_2px_rgba(0,0,77,0.06)] border border-purple-200/30 flex items-center gap-1.5 py-2.5 px-3.5 rounded-2xl rounded-bl-[2px]"
+              >
                 <span className="w-2 h-2 rounded-full bg-[#697586] animate-bounce [animation-delay:-0.3s]" />
                 <span className="w-2 h-2 rounded-full bg-[#697586] animate-bounce [animation-delay:-0.15s]" />
                 <span className="w-2 h-2 rounded-full bg-[#697586] animate-bounce" />
-                <span className="text-[#4b5565] text-xs font-normal ms-2">
+                <span className="text-[#4b5565] text-xs font-normal ms-2" dir="auto">
                   {t("Typing...") || "يكتب الآن..."}
                 </span>
+                <WhatsAppTail isRight={false} color="#ede7fd" />
               </div>
             </div>
           </div>
         )}
-
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Selected file preview pill */}
@@ -630,7 +850,32 @@ export default function ChatWindowPage({ selectedUser }) {
           </button>
         </div>
       </form>
-      
+
+      {/* Floating scroll to bottom button when user scrolls up */}
+      <AnimatePresence>
+        {showScrollBottomBtn && (
+          <motion.button
+            type="button"
+            initial={{ opacity: 0, scale: 0.7, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.7, y: 12 }}
+            transition={{ duration: 0.2 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => {
+              userScrolledUpRef.current = false;
+              setShowScrollBottomBtn(false);
+              scrollToBottom("smooth");
+            }}
+            className="absolute bottom-24 end-6 z-30 w-11 h-11 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.18)] border border-[#E3E8EF] flex items-center justify-center text-primary cursor-pointer hover:bg-[#FFFDF5] hover:border-primary/40 transition-colors"
+            title={t("Scroll to bottom") || "الانتقال لآخر الرسائل"}
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 13l-7 7m0 0l-7-7m7 7V4" />
+            </svg>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

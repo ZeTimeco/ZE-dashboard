@@ -15,8 +15,8 @@ export default function ChatLayout() {
   const targetAvatar = searchParams.get("avatar");
 
   return (
-    <div className="flex w-full gap-6 mb-4">
-      <div className="w-[40%]">
+    <div className="flex w-full gap-6 h-[calc(100vh-105px)] pb-2">
+      <div className="w-[40%] h-full">
         <UsersListPage
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
@@ -27,7 +27,7 @@ export default function ChatLayout() {
         />
       </div>
 
-      <div className="w-[60%]">
+      <div className="w-[60%] h-full">
         <ChatWindowPage selectedUser={selectedUser} />
       </div>
     </div>

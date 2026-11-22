@@ -26,6 +26,36 @@ const fallbackUsers = [
   },
 ];
 
+function formatTimeOnly(timeStr) {
+  if (!timeStr) return "";
+
+  if (typeof timeStr === "string") {
+    // If it's an ISO or SQL timestamp string like "2025-11-05T11:02:00Z"
+    if (timeStr.includes("T") || (timeStr.includes("-") && timeStr.includes(":"))) {
+      try {
+        const d = new Date(timeStr);
+        if (!isNaN(d.getTime())) {
+          const hours = d.getHours();
+          const minutes = d.getMinutes().toString().padStart(2, "0");
+          const period = hours >= 12 ? "م" : "ص";
+          const formattedHours = (hours % 12 || 12).toString();
+          return `${formattedHours}:${minutes} ${period}`;
+        }
+      } catch {}
+    }
+
+    // If it's a pre-formatted string like "١١:٠٢ ص  2025/11/5" or "11:02 ص 2025/11/5"
+    const trimmed = timeStr.trim();
+    const parts = trimmed.split(/\s{2,}|\s+(?=\d{4}[/-])/);
+    if (parts.length > 0 && parts[0]) {
+      return parts[0].trim();
+    }
+    return trimmed;
+  }
+
+  return "";
+}
+
 export default function UsersListPage({
   selectedUser,
   setSelectedUser,
@@ -217,8 +247,8 @@ export default function UsersListPage({
   });
 
   return (
-    <div className="rounded-3px bg-white py-6 border border-[#d1d1d1] h-screen flex flex-col">
-      <h2 className="text-[#28292A] text-xl px-4 font-normal mb-6">
+    <div className="rounded-3px bg-white py-6 border border-[#d1d1d1] h-full flex flex-col overflow-hidden">
+      <h2 className="text-[#28292A] text-xl  px-4 font-normal mb-6">
         {t("All conversations") || "جميع المحادثات"}
       </h2>
 
@@ -263,7 +293,7 @@ export default function UsersListPage({
       </div>
 
       {/* User / Conversation List */}
-      <div className="flex-1 overflow-y-auto flex flex-col gap-2 px-2">
+      <div className="flex-1 overflow-y-auto flex flex-col gap-2 px-2 min-h-0">
         {filteredUsers.length === 0 ? (
           <div className="p-4 text-center text-gray-400 text-sm">
             {t("No conversations found") || "لا توجد محادثات"}
@@ -314,7 +344,7 @@ export default function UsersListPage({
 
                 <div className="flex flex-col items-end gap-1 shrink-0 ms-2">
                   <p className="text-[#697586] text-xs font-light whitespace-nowrap">
-                    {user.time || "5:32 ص"}
+                    {formatTimeOnly(user.time || user.last_message_at) || "5:32 ص"}
                   </p>
 
                   {user.unread && (
