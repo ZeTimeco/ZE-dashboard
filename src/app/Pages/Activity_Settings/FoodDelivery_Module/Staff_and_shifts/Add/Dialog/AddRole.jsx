@@ -82,7 +82,7 @@ function AddRole({open , setOpen , selectedRole , setSelectedRole}) {
           <div className='px-6 mb-4'>
             <motion.button
               onClick={()=>{
-                if(tempSelected){
+                if(tempSelected && typeof setSelectedRole === 'function'){
                   setSelectedRole(tempSelected)
                 }
                 setOpen(false)

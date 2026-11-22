@@ -51,11 +51,7 @@ function SidebarFoodDelivery({ isSidebarOpen, setIsSidebarOpen }) {
       path: "/Pages/Subscription",
       icon: "/images/icons/Subscription.svg",
     },
-    {
-      key: "Reports",
-      path: "/Pages/Reports/FoodDelivery_Module",
-      icon: "/images/icons/analytics-black.svg",
-    },
+
     {
       key: "conversations",
       path: "/Pages/Chat",

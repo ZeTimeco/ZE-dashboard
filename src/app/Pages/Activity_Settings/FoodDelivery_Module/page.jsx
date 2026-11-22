@@ -1,6 +1,6 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,11 +41,37 @@ function FoodDelivery_ModulePage() {
   const searchParams = useSearchParams()
 
   const [activeTab, setActiveTab] = useState(1);
+  const tabsContainerRef = useRef(null);
+  const tabRefs = useRef({});
+
+  const scrollToTab = (tabId) => {
+    const tabEl = tabRefs.current[tabId];
+    if (tabEl) {
+      tabEl.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest',
+      });
+    }
+  };
+
+  const handleTabClick = (tabId) => {
+    setActiveTab(tabId);
+    scrollToTab(tabId);
+  };
 
   useEffect(() => {
     const tab = searchParams.get('tab')
-    if (tab) setActiveTab(Number(tab))
+    if (tab) {
+      const tabNum = Number(tab);
+      setActiveTab(tabNum);
+      scrollToTab(tabNum);
+    }
   }, [searchParams])
+
+  useEffect(() => {
+    scrollToTab(activeTab);
+  }, [activeTab]);
 
   const menuTabBar = [
     {id:1  , name:t('Restaurant condition')    , icons:'/images/icons/store-black.svg'         , iconSelected:'/images/icons/store-yellow.svg'        },
@@ -80,7 +106,8 @@ function FoodDelivery_ModulePage() {
       <div>
         {/* Tab Bar */}
         <motion.div
-          className='flex gap-4 border-b border-gray-200 overflow-x-auto whitespace-nowrap scrollbar-none'
+          ref={tabsContainerRef}
+          className='flex gap-4 border-b border-gray-200 overflow-x-auto whitespace-nowrap scrollbar-none scroll-smooth'
           variants={tabContainerVariants}
           initial="hidden"
           animate="visible"
@@ -88,11 +115,12 @@ function FoodDelivery_ModulePage() {
           {menuTabBar?.map((tab) => (
             <motion.button
               key={tab.id}
+              ref={(el) => { tabRefs.current[tab.id] = el; }}
               variants={tabItemVariants}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => handleTabClick(tab.id)}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className={`relative w-full cursor-pointer text-sm py-6 px-6 font-normal flex items-center justify-center transition-colors duration-200 ${
+              className={`relative flex-shrink-0 cursor-pointer text-sm py-6 px-6 font-normal flex items-center justify-center transition-colors duration-200 ${
                 activeTab === tab.id ? 'text-primary' : 'text-[#364152]'
               }`}
             >

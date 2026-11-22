@@ -6,8 +6,9 @@ import { useTranslation } from 'react-i18next'
 import EditRole from '../Edit/Dialog/EditRole'
 import Disable from './Dialog/Disable'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStaffDetailsThunk } from '@/redux/slice/Setting/SettingSlice'
+import { getStaffDetailsThunk, EditStaffThunk, getStaffManageConfigThunk } from '@/redux/slice/Setting/SettingSlice'
 import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 const sectionVariants = {
   hidden: {},
@@ -34,6 +35,28 @@ function DetailsPage({ open, setOpen, selectedId }) {
       dispatch(getStaffDetailsThunk(selectedId))
     }
   }, [dispatch, selectedId])
+
+  const handleRoleChange = async (newRole) => {
+    if (!newRole?.id || !selectedId) return
+    try {
+      await dispatch(
+        EditStaffThunk({
+          id: selectedId,
+          formData: {
+            name: getStaffDetails?.data?.name,
+            phone: getStaffDetails?.data?.phone,
+            email: getStaffDetails?.data?.email,
+            role_id: newRole.id,
+          },
+        })
+      ).unwrap()
+      toast.success(t('Role updated successfully') || 'تم تعديل الدور بنجاح')
+      dispatch(getStaffDetailsThunk(selectedId))
+      dispatch(getStaffManageConfigThunk())
+    } catch (error) {
+      toast.error(error?.message || error || t('Failed to update role') || 'فشل تعديل الدور')
+    }
+  }
 
   const isInactive = getStaffDetails?.data?.status === 'inactive'
 
@@ -228,7 +251,12 @@ function DetailsPage({ open, setOpen, selectedId }) {
         </motion.div>
       </Dialog>
 
-      <EditRole open={openEditRole} setOpen={setOpenEditRole} />
+      <EditRole
+        open={openEditRole}
+        setOpen={setOpenEditRole}
+        selectedRole={getStaffDetails?.data?.role}
+        setSelectedRole={handleRoleChange}
+      />
       <Disable
         open={openDisable}
         setOpen={setOpenDisable}

@@ -6,7 +6,9 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch, useSelector } from 'react-redux'
-import { EditStaffThunk, getShowForEditThunk } from '@/redux/slice/Setting/SettingSlice'
+import { EditStaffThunk, getShowForEditThunk, getStaffManageConfigThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 function EditPage() {
   const {t} = useTranslation()
@@ -30,24 +32,46 @@ function EditPage() {
     phone:'',
     role_id:'',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-  if (getShowForEditEmployee) {
-    setFormData({
-      name: getShowForEditEmployee.name ?? "",
-      email: getShowForEditEmployee.email ?? "",
-      phone: getShowForEditEmployee.phone ?? "",
-      role_id: getShowForEditEmployee.role_id ?? "",
-    });
-  }
-}, [getShowForEditEmployee]);
+    if (getShowForEditEmployee) {
+      setFormData({
+        name: getShowForEditEmployee.name ?? "",
+        email: getShowForEditEmployee.email ?? "",
+        phone: getShowForEditEmployee.phone ?? "",
+        role_id: getShowForEditEmployee.role_id ?? "",
+      });
+    }
+  }, [getShowForEditEmployee]);
 
-const handleSubmit = ()=>{
-  dispatch(EditStaffThunk({
-    id:staffId,
-    formData
-  }))
-}
+  const isFormFilled = Boolean(
+    formData?.name?.trim() &&
+    formData?.phone?.trim() &&
+    formData?.role_id !== '' &&
+    formData?.role_id !== null &&
+    formData?.role_id !== undefined
+  )
+
+  const handleSubmit = async () => {
+    if (!isFormFilled || isSubmitting) return
+
+    try {
+      setIsSubmitting(true)
+      await dispatch(EditStaffThunk({
+        id: staffId,
+        formData
+      })).unwrap()
+      await dispatch(getStaffManageConfigThunk())
+      toast.success(t('Employee updated successfully') || 'تم تعديل بيانات الموظف بنجاح')
+      router.push('/Pages/Activity_Settings/FoodDelivery_Module?tab=11')
+    } catch (error) {
+      console.log(error)
+      toast.error(error?.message || error || t('Failed to update employee') || 'فشل تعديل بيانات الموظف')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
 // console.log('getShowForEdit' , getShowForEdit);
   return (
@@ -84,14 +108,41 @@ const handleSubmit = ()=>{
         <div className='border border-0.5 border-[#CDD5DF] my-10 '></div>
 
         {/* btn */}
-        <div className='flex justify-between'>
-          <button className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-3px cursor-pointer'>
+        <div className='flex justify-between items-center'>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => router.back()}
+            className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-3px cursor-pointer hover:bg-gray-50 transition-colors'
+          >
             {t('Return')}
-          </button>
+          </motion.button>
 
-          <button onClick={handleSubmit} className='w-[20%] h-13  bg-[#E3E8EF] text-[#9AA4B2] rounded-3px cursor-pointer'>
-            {t('save')}
-          </button>
+          <motion.button
+            type="button"
+            disabled={!isFormFilled || isSubmitting}
+            onClick={handleSubmit}
+            whileHover={isFormFilled && !isSubmitting ? { scale: 1.02, filter: 'brightness(1.05)' } : {}}
+            whileTap={isFormFilled && !isSubmitting ? { scale: 0.98 } : {}}
+            className={`w-[20%] h-13 rounded-3px font-medium flex items-center justify-center gap-2 transition-all duration-200 ${
+              isFormFilled && !isSubmitting
+                ? 'bg-primary text-white cursor-pointer shadow-xs hover:bg-primary/95'
+                : 'bg-[#E3E8EF] text-[#9AA4B2] cursor-not-allowed'
+            }`}
+          >
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+                <span>{t('Saving...')}</span>
+              </>
+            ) : (
+              <span>{t('save')}</span>
+            )}
+          </motion.button>
           
         </div>
 

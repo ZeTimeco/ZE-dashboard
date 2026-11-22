@@ -1,11 +1,13 @@
 'use client'
 import MainLayout from '@/app/Components/MainLayout/MainLayout'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Form from './Form'
 import { useDispatch } from 'react-redux'
 import { addStaffThunk, getStaffManageConfigThunk } from '@/redux/slice/Setting/SettingSlice'
+import { motion } from 'framer-motion'
+import { toast } from 'react-toastify'
 
 function AddPage() {
   const {t} = useTranslation()
@@ -19,14 +21,30 @@ function AddPage() {
     phone:'',
     role_id:'',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async()=>{
-    try{
+  const isFormFilled = Boolean(
+    formData?.name?.trim() &&
+    formData?.phone?.trim() &&
+    formData?.role_id !== '' &&
+    formData?.role_id !== null &&
+    formData?.role_id !== undefined
+  )
+
+  const handleSubmit = async () => {
+    if (!isFormFilled || isSubmitting) return
+
+    try {
+      setIsSubmitting(true)
       await dispatch(addStaffThunk(formData)).unwrap()
       await dispatch(getStaffManageConfigThunk())
+      toast.success(t('Employee added successfully') || 'تمت إضافة الموظف بنجاح')
       router.push('/Pages/Activity_Settings/FoodDelivery_Module?tab=11')
-    }catch(error){
-      console.log(error);
+    } catch (error) {
+      console.log(error)
+      toast.error(error?.message || error || t('Failed to add employee') || 'فشل إضافة الموظف')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -37,13 +55,15 @@ function AddPage() {
       <header className='flex justify-between mb-10'>
         <p className='text-[#364152] text-2xl font-medium'>{t('Add a new employee')}</p>
 
-        <button
+        <motion.button
           type="button"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => router.back()}
-          className=" bg-primary rounded-3px w-8 h-8 flex justify-center items-center cursor-pointer"
+          className="bg-primary rounded-3px w-8 h-8 flex justify-center items-center cursor-pointer shadow-xs"
         >
           <img src="/images/icons/arrow-right-go.svg" className="w-5 h-5" />
-        </button>
+        </motion.button>
       </header>
 
       {/*  */}
@@ -65,14 +85,41 @@ function AddPage() {
         <div className='border border-0.5 border-[#CDD5DF] my-10 '></div>
 
         {/* btn */}
-        <div className='flex justify-between'>
-          <button  className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-3px cursor-pointer'>
+        <div className='flex justify-between items-center'>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => router.back()}
+            className='w-[20%] h-13 border border-[#697586] text-[#697586] rounded-3px cursor-pointer hover:bg-gray-50 transition-colors'
+          >
             {t('Return')}
-          </button>
+          </motion.button>
 
-          <button onClick={handleSubmit} className='w-[20%] h-13  bg-[#E3E8EF] text-[#9AA4B2] rounded-3px cursor-pointer'>
-            {t('save')}
-          </button>
+          <motion.button
+            type="button"
+            disabled={!isFormFilled || isSubmitting}
+            onClick={handleSubmit}
+            whileHover={isFormFilled && !isSubmitting ? { scale: 1.02, filter: 'brightness(1.05)' } : {}}
+            whileTap={isFormFilled && !isSubmitting ? { scale: 0.98 } : {}}
+            className={`w-[20%] h-13 rounded-3px font-medium flex items-center justify-center gap-2 transition-all duration-200 ${
+              isFormFilled && !isSubmitting
+                ? 'bg-primary text-white cursor-pointer shadow-xs hover:bg-primary/95'
+                : 'bg-[#E3E8EF] text-[#9AA4B2] cursor-not-allowed'
+            }`}
+          >
+            {isSubmitting ? (
+              <>
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+                <span>{t('Saving...')}</span>
+              </>
+            ) : (
+              <span>{t('save')}</span>
+            )}
+          </motion.button>
           
         </div>
 

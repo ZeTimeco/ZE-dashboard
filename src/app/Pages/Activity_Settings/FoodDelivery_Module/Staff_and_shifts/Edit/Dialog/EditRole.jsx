@@ -82,9 +82,9 @@ function EditRole({open , setOpen , selectedRole , setSelectedRole}) {
         {/* btn */}
         <div className='px-6 mb-4'>
           <motion.button
-            onClick={()=>{
-              if(tempSelected){
-                setSelectedRole(tempSelected)
+            onClick={async () => {
+              if (tempSelected && typeof setSelectedRole === 'function') {
+                await setSelectedRole(tempSelected)
               }
               setOpen(false)
             }}
