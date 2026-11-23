@@ -21,11 +21,11 @@ function CardOfActivePage({is_marketer , cardData}) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25 }}
         whileHover={{ y: -2, boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}
-        className={`border border-[#CDD5DF] rounded-[3px] py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
+        className={`border border-[#CDD5DF] rounded-3px py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
       >
         {/* title */}
         <div className='flex items-center gap-3'>
-          <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] shadow-2xs ${is_marketer ? 'bg-[#B4F0CC]' : 'bg-[#CDD5DF]'}`}>
+          <p className={`w-10 h-10 flex items-center justify-center rounded-3px shadow-2xs ${is_marketer ? 'bg-[#B4F0CC]' : 'bg-[#CDD5DF]'}`}>
             {is_marketer ? 
             (<img src="/images/icons/earnings.svg" alt="" className='w-6 h-6' />)
             :( <img src="/images/icons/earnings_grey.svg" alt="" className='w-6 h-6' />)
@@ -70,11 +70,11 @@ function CardOfActivePage({is_marketer , cardData}) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.05 }}
           whileHover={{ y: -2, boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}
-          className={`border border-[#CDD5DF] rounded-[3px] py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
+          className={`border border-[#CDD5DF] rounded-3px py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
         >
           {/* title */}
           <div className='flex items-center gap-3'>
-            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] shadow-2xs ${is_marketer ? 'bg-[#FEF3F2]' : 'bg-[#CDD5DF]'}`}>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-3px shadow-2xs ${is_marketer ? 'bg-[#FEF3F2]' : 'bg-[#CDD5DF]'}`}>
               {is_marketer ? 
               (<img src="/images/icons/user-group.svg" alt="" className='w-6 h-6' />)
               :( <img src="/images/icons/user-group_grey.svg" alt="" className='w-6 h-6' />)}
@@ -117,11 +117,11 @@ function CardOfActivePage({is_marketer , cardData}) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.1 }}
           whileHover={{ y: -2, boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}
-          className={`border border-[#CDD5DF] rounded-[3px] py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
+          className={`border border-[#CDD5DF] rounded-3px py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
         >
           {/* title */}
           <div className='flex items-center gap-3'>
-            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] shadow-2xs ${is_marketer ? 'bg-[#B4F0CC]' : 'bg-[#CDD5DF]'}`}>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-3px shadow-2xs ${is_marketer ? 'bg-[#B4F0CC]' : 'bg-[#CDD5DF]'}`}>
               {is_marketer ? 
               (<img src="/images/icons/earnings.svg" alt="" className='w-6 h-6' />)
               :( <img src="/images/icons/earnings_grey.svg" alt="" className='w-6 h-6' />)
@@ -165,11 +165,11 @@ function CardOfActivePage({is_marketer , cardData}) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.15 }}
           whileHover={{ y: -2, boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}
-          className={`border border-[#CDD5DF] rounded-[3px] py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
+          className={`border border-[#CDD5DF] rounded-3px py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
         >
           {/* title */}
           <div className='flex items-center gap-3'>
-            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] shadow-2xs ${is_marketer ? 'bg-[#FEF0C7]' : 'bg-[#CDD5DF]'}`}>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-3px shadow-2xs ${is_marketer ? 'bg-[#FEF0C7]' : 'bg-[#CDD5DF]'}`}>
               {is_marketer ? 
               (<img src="/images/icons/wallet-done.svg" alt="" className='w-6 h-6' />)
               :( <img src="/images/icons/wallet-done_grey.svg" alt="" className='w-6 h-6' />)
@@ -189,11 +189,11 @@ function CardOfActivePage({is_marketer , cardData}) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, delay: 0.2 }}
           whileHover={{ y: -2, boxShadow: "0 4px 14px rgba(0,0,0,0.06)" }}
-          className={`border border-[#CDD5DF] rounded-[3px] py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
+          className={`border border-[#CDD5DF] rounded-3px py-3.5 px-3 transition-all duration-200 ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
         >
           {/* title */}
           <div className='flex items-center gap-3'>
-            <p className={`w-10 h-10 flex items-center justify-center rounded-[3px] shadow-2xs ${is_marketer ? 'bg-[#EDE7FD]' : 'bg-[#CDD5DF]'}`}>
+            <p className={`w-10 h-10 flex items-center justify-center rounded-3px shadow-2xs ${is_marketer ? 'bg-[#EDE7FD]' : 'bg-[#CDD5DF]'}`}>
               {is_marketer ? 
               (<img src="/images/icons/Available_withdrawal.svg" alt="" className='w-6 h-6' />)
               :( <img src="/images/icons/Available_withdrawal_grey.svg" alt="" className='w-6 h-6' />)
@@ -216,7 +216,7 @@ function CardOfActivePage({is_marketer , cardData}) {
             type="text" 
             value={cardData?.marketer_code ?? ""}
             readOnly
-            className={`w-full p-3 border border-[#CDD5DF] rounded-[3px] focus:outline-none transition-colors ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
+            className={`w-full p-3 border border-[#CDD5DF] rounded-3px focus:outline-none transition-colors ${is_marketer ? 'bg-white' : 'bg-[#EEF2F6]'}`}
           />
           <motion.button
             whileHover={{ scale: 1.15 }}
@@ -245,7 +245,7 @@ function CardOfActivePage({is_marketer , cardData}) {
               exit={{ opacity: 0 }}
               className="w-fit mt-2"
             >
-              <div className="bg-[#16A34A] text-white px-5 py-2 rounded-[3px] shadow-md flex items-center gap-2">
+              <div className="bg-[#16A34A] text-white px-5 py-2 rounded-3px shadow-md flex items-center gap-2">
                 <svg
                   width="16"
                   height="16"

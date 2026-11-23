@@ -47,8 +47,8 @@ function WithdrawDialogPage({open , setOpen}) {
             </div>
 
             {/* note */}
-            <div className='bg-[#EEF2F6] p-3 mt-6'>
-              <ul className='list-disc pr-5 text-[#775B0D] text-sm font-normal'>
+            <div className='bg-[#EEF2F6] p-3 mt-6 '>
+              <ul className='list-disc pr-5 pl-5 text-[#775B0D] text-sm font-normal'>
                 <li className=' mb-2'>{t('The maximum amount that can be withdrawn is (225 Egyptian pounds).')}</li>
                 <li>{t('Upon acceptance of the withdrawal, the transfer will be made on the 1st and 15th of the month.')}</li>
               </ul>

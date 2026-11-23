@@ -23,7 +23,7 @@ function RejectedStatusPage({setMarketerStatus}) {
 
 
         <button 
-        className={`mt-8 w-62.5 h-12 bg-[var(--color-primary)] text-white cursor-pointer text-base font-medium rounded-[3px]`}
+        className={`mt-8 w-62.5 h-12 bg-primary text-white cursor-pointer text-base font-medium rounded-3px`}
         onClick={() => setMarketerStatus(null)}
         >
             {t('Data correction')}

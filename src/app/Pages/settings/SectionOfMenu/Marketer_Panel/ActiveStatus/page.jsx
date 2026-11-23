@@ -82,8 +82,8 @@ const [open , setOpen] =useState(false);
         <button 
           onClick={() => is_marketer && router.push('/Pages/finance/wallet')}
           className={`
-            ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
-              w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
+            ${is_marketer ?'bg-primary text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
+              w-62.5 h-15 py-2.5 px-4 rounded-3px text-base font-medium`
             }
         >
           {t('Open the wallet')}
@@ -96,8 +96,8 @@ const [open , setOpen] =useState(false);
           <button 
             onClick={() => is_marketer && setOpen(true)}
             className={`
-              ${is_marketer ?'bg-[var(--color-primary)] text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
-                w-62.5 h-15 py-2.5 px-4 rounded-[3px] text-base font-medium`
+              ${is_marketer ?'bg-primary text-white cursor-pointer':'bg-[#E3E8EF] text-[#9AA4B2]'}
+                w-62.5 h-15 py-2.5 px-4 rounded-3px text-base font-medium`
               }
         >
           {t('withdrawal request')}

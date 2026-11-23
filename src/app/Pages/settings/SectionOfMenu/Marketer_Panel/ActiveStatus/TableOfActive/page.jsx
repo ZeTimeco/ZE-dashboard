@@ -111,7 +111,7 @@ export default function TableOfActivePage({has_subscription , is_marketer}) {
     <div className="mt-8 mb-5">
       <HeaderOfTablePage activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="rounded-[3px] border border-[#E3E8EF] overflow-x-auto shadow-2xs">
+      <div className="rounded-3px border border-[#E3E8EF] overflow-x-auto shadow-2xs">
         <table className="lg1:w-full border-collapse text-sm text-right">
           {/* Table Head */}
           <thead className="bg-[#F8FAFC] border-b border-[#E3E8EF] text-[#364152] sticky top-0 z-10 font-medium">

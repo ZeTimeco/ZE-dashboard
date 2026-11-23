@@ -86,7 +86,7 @@ function TileOfSevicesPage({current_module_key}) {
             </h1>
           </div>
           <p className='text-[#64748B] text-sm lg1:text-base font-normal leading-relaxed'>
-            تابع وادِر طلبات الخدمات المنزلية بسهولة وكفاءة.
+            {t('Track and manage home service requests easily and efficiently.')}
           </p>
         </div>
 

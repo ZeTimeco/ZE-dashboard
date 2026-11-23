@@ -133,7 +133,7 @@ const [iban, setIban] = useState('');
     <>
       <div className='border border-[#E3E8EF] p-6'>
 
-        <div className='flex justify-between items-center px-6 py-4 mb-8 border border-[#CDD5DF] rounded-[3px]'>
+        <div className='flex justify-between items-center px-6 py-4 mb-8 border border-[#CDD5DF] rounded-3px'>
           <p className='text-[#4B5565] text-base font-normal '>{t('Activating the marketer dashboard')}</p>
           <GreenSwitch checked={is_marketer} onChange={handleToggle} />
         </div>
@@ -150,7 +150,7 @@ const [iban, setIban] = useState('');
                 type="text" 
                 value={iban}
                 onChange={(e) => setIban(e.target.value)}
-                className={`w-full h-14 p-3 border border-[#CDD5DF] text-[#9A9A9A] rounded-[3px] outline-none placeholder:text-sm 
+                className={`w-full h-14 p-3 border border-[#CDD5DF] text-[#9A9A9A] rounded-3px outline-none placeholder:text-sm 
                             ${!is_marketer ? 'bg-[#EEF2F6] placeholder:text-[#9A9A9A]' : 'bg-white placeholder:text-[#9A9A9A]'}
                           `} 
                 placeholder={t('Enter your IBAN number')}
@@ -166,14 +166,14 @@ const [iban, setIban] = useState('');
 
             {/* Image Upload Input */}
             <div className='mt-4'>
-              <div className={`relative w-full rounded-[3px]  overflow-hidden `}>
+              <div className={`relative w-full rounded-3px  overflow-hidden `}>
                 {selectedImage ? (
                   <div className="relative w-full h-full  "> 
                     <img src={selectedImage} alt="Selected" className="w-full h-40 object-cover  " />
                     {/* delete img */}
                     <button 
                       onClick={() => setOpen(true)}
-                      className="absolute top-2 left-2 w-7 h-7 p-1.5 border border-[#F04438] bg-[#FEE4E2] rounded-[3px] flex items-center justify-center cursor-pointer "
+                      className="absolute top-2 left-2 w-7 h-7 p-1.5 border border-[#F04438] bg-[#FEE4E2] rounded-3px flex items-center justify-center cursor-pointer "
                     >
                       <img src="/images/icons/delete-darkRed.svg" alt="Delete" className="w-5 h-5" />
                     </button>
@@ -227,7 +227,7 @@ const [iban, setIban] = useState('');
                   type="button"
                   onClick={handleUploadClick}
                   disabled={!is_marketer}
-                  className= {`w-62.5 h-10 mt-4 ${!is_marketer ? 'bg-[#E3E8EF] text-[#9AA4B2]' : 'bg-[var(--color-primary)] text-white '} text-base font-medium rounded-[3px] cursor-pointer`}
+                  className= {`w-62.5 h-10 mt-4 ${!is_marketer ? 'bg-[#E3E8EF] text-[#9AA4B2]' : 'bg-primary text-white '} text-base font-medium rounded-3px cursor-pointer`}
                 >
                   {t('Raise')}
                 </button>
@@ -241,7 +241,7 @@ const [iban, setIban] = useState('');
               </div>
 
               {selectedFile && (
-                <div className='flex justify-between items-center mt-4 p-3 border border-[#CDD5DF] rounded-[3px] bg-[#fff]'>
+                <div className='flex justify-between items-center mt-4 p-3 border border-[#CDD5DF] rounded-3px bg-[#fff]'>
                   {/* {console.log('Rendering selectedFile block:', selectedFile.name)} */}
                   <div className='flex items-center gap-3'>
                   {(() => {
@@ -278,7 +278,7 @@ const [iban, setIban] = useState('');
             disabled={!selectedImage}
             onClick={handleSubmitIpn}
             // onClick={() => setMarketerStatus('pending')}
-            className={`mt-8 w-62.5 h-12 ${!selectedImage ? 'bg-[#E3E8EF] text-[#9AA4B2] cursor-not-allowed' : 'bg-[var(--color-primary)] text-white cursor-pointer'} text-base font-medium rounded-[3px]`}
+            className={`mt-8 w-62.5 h-12 ${!selectedImage ? 'bg-[#E3E8EF] text-[#9AA4B2] cursor-not-allowed' : 'bg-primary text-white cursor-pointer'} text-base font-medium rounded-3px`}
           >
             {t('It was completed')}
           </button>

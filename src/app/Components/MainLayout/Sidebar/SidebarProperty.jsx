@@ -116,7 +116,7 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
           }`}
         >
           {open ? (
-            <div className="flex items-center w-full">
+            <div className="flex items-center gap-3 w-full">
               <img
                 src={item.icon}
                 alt=""
@@ -125,7 +125,7 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
                 }`}
               />
 
-              <span className="text-sm font-medium leading-none whitespace-nowrap mr-3 flex-1 text-right">
+              <span className="text-sm font-medium leading-none whitespace-nowrap flex-1 text-start">
                 {t(item.key)}
               </span>
             </div>
@@ -153,9 +153,10 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
         ease: [0.25, 0.1, 0.25, 1.0],
       }}
       className={`
-        ${isSidebarOpen ? "translate-x-0" : "translate-x-full lg1:translate-x-0"}
-        lg1:flex flex-col h-screen border-x border-[#E3E8EF] pt-4 pb-4
-        bg-white fixed lg1:static z-50 top-0 right-0 shadow-lg lg1:shadow-none
+        ${isSidebarOpen ? "!translate-x-0" : "max-lg1:rtl:translate-x-full max-lg1:ltr:-translate-x-full"}
+        lg1:!translate-x-0 rtl:lg1:!translate-x-0 ltr:lg1:!translate-x-0
+        flex flex-col h-screen shrink-0 border-e border-[#E3E8EF] pt-4 pb-4
+        bg-white fixed lg1:static z-50 top-0 rtl:right-0 ltr:left-0 shadow-lg lg1:shadow-none
         select-none overflow-hidden transition-transform duration-300 ease-in-out
       `}
     >
@@ -221,6 +222,7 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
               height="12"
               viewBox="0 0 12 12"
               fill="none"
+              className="rtl:rotate-180"
             >
               <path
                 d="M7.5 2L3.5 6L7.5 10"
@@ -239,7 +241,7 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
             onClick={() => setOpen(true)}
-            className="absolute -left-1 top-0 w-7 h-7 flex items-center justify-center rounded-full border border-[#E3E8EF] bg-white text-[#697586] hover:bg-[#F9F5E8] transition-colors cursor-pointer focus:outline-none"
+            className="absolute rtl:-left-1 ltr:-right-1 top-0 w-7 h-7 flex items-center justify-center rounded-full border border-[#E3E8EF] bg-white text-[#697586] hover:bg-[#F9F5E8] transition-colors cursor-pointer focus:outline-none"
             aria-label="Expand sidebar"
           >
             <svg
@@ -247,6 +249,7 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
               height="12"
               viewBox="0 0 12 12"
               fill="none"
+              className="rtl:rotate-180"
             >
               <path
                 d="M4.5 2L8.5 6L4.5 10"
@@ -270,7 +273,7 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
         ========================= */}
         <div className="flex flex-col gap-1">
           {open && (
-            <p className="text-[10px] font-semibold tracking-widest text-[#9AA4B2] uppercase px-1 mb-1 text-right">
+            <p className="text-[10px] font-semibold tracking-widest text-[#9AA4B2] uppercase px-1 mb-1 text-start">
               MAIN
             </p>
           )}
@@ -290,7 +293,7 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
         ========================= */}
         <div className="flex flex-col gap-1">
           {open && (
-            <p className="text-[10px] font-semibold tracking-widest text-[#9AA4B2] uppercase px-1 mb-1 text-right">
+            <p className="text-[10px] font-semibold tracking-widest text-[#9AA4B2] uppercase px-1 mb-1 text-start">
               {t("Settings")}
             </p>
           )}
@@ -316,14 +319,14 @@ function SidebarProperty({ isSidebarOpen, setIsSidebarOpen }) {
             className="flex items-center w-full h-11 px-3 rounded-3px hover:bg-red-50 text-[#D92D20] transition-colors cursor-pointer focus:outline-none"
           >
             {open ? (
-              <div className="flex items-center w-full">
+              <div className="flex items-center gap-3 w-full">
                 <img
                   src="/images/icons/signout.svg"
                   alt=""
                   className="w-5 h-5 shrink-0"
                 />
 
-                <span className="text-sm font-medium leading-none whitespace-nowrap mr-3 flex-1 text-right">
+                <span className="text-sm font-medium leading-none whitespace-nowrap flex-1 text-start">
                   {t("Sign out")}
                 </span>
               </div>

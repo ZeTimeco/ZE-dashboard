@@ -34,7 +34,7 @@ function Marketer_PanelPage({userData}) {
 
       {/* // Header */}
       <div className=' px-6 py-4  flex gap-2 '>
-          <p className='w-10 h-10 bg-[#EDE7FD] flex justify-center items-center rounded-[3px]'>
+          <p className='w-10 h-10 bg-[#EDE7FD] flex justify-center items-center rounded-3px'>
           <img src="/images/icons/user-searchBlue.svg" alt=""  className='w-5 h-5 '/>
         </p>
         <p className='flex items-center text-[#364152] text-base font-normal'>{t('Marketer Panel')}</p>

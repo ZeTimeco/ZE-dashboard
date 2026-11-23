@@ -6,6 +6,7 @@ import { useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addAreaThunk, getWorkplacesThunk } from "@/redux/slice/Setting/SettingSlice";
+import { useTranslation } from "react-i18next";
 
 const MapContainer = dynamic(() => import("react-leaflet").then((m) => m.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import("react-leaflet").then((m) => m.TileLayer), { ssr: false });
@@ -58,6 +59,7 @@ function LocationPicker({ position, setPosition, setLocationInfo }) {
 }
 
 export default function MapDialog({ open, handleClose }) {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.setting);
 
@@ -107,7 +109,7 @@ export default function MapDialog({ open, handleClose }) {
   return (
     <Dialog open={open} onClose={handleClose} PaperProps={{ className: "AddFuel-dialog" }}>
       <div style={{ padding: 20 }}>
-        <h3 className="mb-4 text-lg font-semibold text-right">اختر موقعك على الخريطة</h3>
+        <h3 className="mb-4 text-lg font-semibold text-right">{t('Choose your location on the map')}</h3>
         <div style={{ height: 400 }}>
           <MapContainer center={mapPosition} zoom={13} style={{ height: "100%", width: "100%" }}>
             <TileLayer
@@ -126,10 +128,10 @@ export default function MapDialog({ open, handleClose }) {
 
         <div className="flex justify-end mt-4 gap-2">
           <button onClick={handleClose} disabled={loading} className="px-4 py-2 bg-gray-300 rounded-3px cursor-pointer disabled:opacity-50">
-            إلغاء
+            {t('cancel')}
           </button>
           <button onClick={handleConfirm} disabled={loading} className="px-4 py-2 bg-blue-600 text-white rounded-3px cursor-pointer disabled:opacity-50">
-            {loading ? "جاري الحفظ..." : "تأكيد الموقع"}
+            {loading ? t('Saving...') : t('Confirm Location')}
           </button>
         </div>
       </div>

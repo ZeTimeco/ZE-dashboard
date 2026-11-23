@@ -29,22 +29,21 @@ function WithdrawDialogPage({ open, setOpen }) {
 
       <section className='px-6'>
         <p className='text-[#364152] text-sm font-normal mb-1.5'>{t('Enter the amount')}</p>
-        <input type="text" className='border border-[#C8C8C8] rounded-[3px] p-3 h-14 w-full outline-none'/>
+        <input type="text" className='border border-[#C8C8C8] rounded-3px p-3 h-14 w-full outline-none'/>
       </section>
 
       <section className='px-6 my-6 '>
-        <div className='bg-[#EEF2F6] rounded-[3px] px-6'>
+        <div className='bg-[#EEF2F6] rounded-3px px-6'>
           <ul className='list-disc text-[#775B0D] text-sm font-normal p-3'>
-            <li className='mb-2'>{t('The maximum amount that can be withdrawn is')} ( 225 جنية )</li>
+            <li className='mb-2'>{t('The maximum amount that can be withdrawn is')} ( 225 {t('pound')} )</li>
             <li>{t('Upon acceptance of the withdrawal, the transfer will be made on the 1st and 15th of the month.')}</li>
           </ul>
         </div>
-        
       </section>
 
 
       <section className='px-6'>
-        <button className='bg-[var(--color-primary)] text-white rounded-[3px] py-3 px-4 w-full h-14  mb-8 cursor-pointer '>
+        <button className='bg-primary text-white rounded-3px py-3 px-4 w-full h-14  mb-8 cursor-pointer '>
           {t('confirmation')}
         </button>
       </section>

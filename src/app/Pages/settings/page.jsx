@@ -52,8 +52,8 @@ function Home_Car_Street_ModulePage() {
                 onClick={() => handleTabClick(item)}
                 className={`relative flex items-center justify-center w-full gap-2 px-5 py-3 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
                   isActive
-                    ? 'text-[var(--color-primary)] font-semibold'
-                    : 'text-[#4B5565] hover:text-[var(--color-primary)]'
+                    ? 'text-primary font-semibold'
+                    : 'text-[#4B5565] hover:text-primary'
                 }`}
               >
                 <motion.img
@@ -67,7 +67,7 @@ function Home_Car_Street_ModulePage() {
                 {isActive && (
                   <motion.div
                     layoutId="settingsTabUnderline"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--color-primary)]"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -78,17 +78,17 @@ function Home_Car_Street_ModulePage() {
 
         {/* Sub-Tab Bar (shown only when active parent has subItems) */}
         {activeParent?.subItems && (
-          <div className="flex gap-1 border border-[#EEF2F6] bg-[#EEF2F6] w-fit h-14 rounded-[3px] p-2">
+          <div className="flex gap-1 border border-[#EEF2F6] bg-[#EEF2F6] w-fit h-14 rounded-3px p-2">
             {activeParent.subItems.map((sub) => {
               const isSelected = selectedMenu === sub.Label
               return (
                 <button
                   key={sub.Label}
                   onClick={() => setSelectedMenu(sub.Label)}
-                  className={`relative px-3 py-2 text-sm rounded-[3px] cursor-pointer transition-all ${
+                  className={`relative px-3 py-2 text-sm rounded-3px cursor-pointer transition-all ${
                     isSelected
-                      ? 'bg-[var(--color-primary)] text-white font-medium shadow-xs'
-                      : 'text-[#4B5565] hover:text-[var(--color-primary)]'
+                      ? 'bg-primary text-white font-medium shadow-xs'
+                      : 'text-[#4B5565] hover:text-primary'
                   }`}
                 >
                   <span className="relative z-10">{t(sub.nameKey)}</span>

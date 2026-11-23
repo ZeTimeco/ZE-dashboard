@@ -11,7 +11,7 @@ import SidebarDelivery from './Sidebar/SidebarDelivery';
 // ─── Sidebar Skeleton ─────────────────────────────────────────────────────────
 function SidebarSkeleton() {
   return (
-    <aside className="hidden lg1:flex flex-col h-screen w-[280px] shrink-0 border-x border-[#E3E8EF] pt-4 pb-4 bg-white select-none overflow-hidden">
+    <aside className="hidden lg1:flex flex-col h-screen w-[280px] shrink-0 border-e border-[#E3E8EF] pt-4 pb-4 bg-white select-none overflow-hidden">
       {/* Logo placeholder */}
       <div className="flex items-center gap-2 px-4 mb-6">
         <div className="h-7 w-7 rounded-full bg-gray-200 animate-pulse" />

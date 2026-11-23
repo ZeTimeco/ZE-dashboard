@@ -89,7 +89,7 @@ export default function TableOfTransactionsPage({TransactionsData ,loading}) {
 
   return (
     <div className="mt-8 mb-5 rounded-3px border border-[#E3E8EF] overflow-x-auto shadow-xs">
-      <table className="min-w-[1000px] lg1:w-full border border-[#E3E8EF] text-sm text-right ">
+      <table className="min-w-[1000px] lg1:w-full border border-[#E3E8EF] text-sm rtl:text-right ltr:text-left ">
         {/* Table Head */}
         <thead className="bg-[#F8FAFC] border-b border-[#E3E8EF] text-[#364152] sticky top-0 z-10">
           <tr>
