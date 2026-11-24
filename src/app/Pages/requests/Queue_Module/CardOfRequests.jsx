@@ -16,7 +16,10 @@ const cardVariants = {
 }
 
 function CardOfRequests({getReservationsData}) {
-  const {t} = useTranslation()
+  const {t, i18n} = useTranslation()
+
+  const isLtr = i18n.language?.startsWith('en') || (typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'ltr');
+  const dateLocale = isLtr ? 'en-US' : 'ar-EG';
 
   // '!pending','!confirmed','!seated','!completed','!cancelled','no_show','!arrived','!rejected'
   const StatusRender = (status) => {
@@ -157,11 +160,12 @@ function CardOfRequests({getReservationsData}) {
                   </div>
                   <div>
                     <p className='text-[#697586] text-base font-normal'>
-                      {new Date(`1970-01-01T${reservation?.start_time}`).toLocaleTimeString('ar-EG', {
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true,
-                      })}
+                      {reservation?.start_time &&
+                        new Date(`1970-01-01T${reservation?.start_time}`).toLocaleTimeString(dateLocale, {
+                          hour: 'numeric',
+                          minute: '2-digit',
+                          hour12: true,
+                        })}
                     </p>
                   </div>
                 </div>

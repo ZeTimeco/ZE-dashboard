@@ -204,7 +204,7 @@ function Content({ formData, setFormData }) {
                 }}
                 className='w-full h-14 p-3 border border-[#CDD5DF] text-sm text-[#364152] rounded-3px outline-none transition-colors focus:border-[var(--color-primary)]'
               />
-              <span className="absolute left-3 cursor-pointer">
+              <span className="absolute rtl:left-3 ltr:right-3 cursor-pointer">
                 {open1 ? (
                   <img src="/images/icons/ArrowUp.svg" alt="up" />
                 ) : (

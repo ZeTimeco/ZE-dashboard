@@ -4,9 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 function RequestPage({ getBookingDetails }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const getBookingDetailsData = getBookingDetails?.data
   const status = getBookingDetailsData?.status
+
+  const isLtr = i18n.language?.startsWith('en') || (typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'ltr');
+  const dateLocale = isLtr ? 'en-US' : 'ar-EG';
 
   const StatusRender = (status) => {
     switch (status) {
@@ -86,7 +89,7 @@ function RequestPage({ getBookingDetails }) {
 
   return (
     <>
-      <div className='border border-[#E3E8EF] bg-white rounded-[3px] p-4 mb-4 mt-6 shadow-xs transition-shadow duration-200 hover:shadow-sm'>
+      <div className='border border-[#E3E8EF] bg-white rounded-3px p-4 mb-4 mt-6 shadow-xs transition-shadow duration-200 hover:shadow-sm'>
         <div className='flex justify-between items-center'>
           <p className='text-[#697586] text-sm font-medium'>{t('to request')}/{getBookingDetailsData?.booking_number}</p>        
           <div>{StatusRender(status)}</div>
@@ -96,7 +99,7 @@ function RequestPage({ getBookingDetails }) {
           <motion.div 
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className='flex items-center gap-2 border border-[#FDB022] bg-[#FFFCF5] p-3 mt-4 rounded-[3px] shadow-xs'
+            className='flex items-center gap-2 border border-[#FDB022] bg-[#FFFCF5] p-3 mt-4 rounded-3px shadow-xs'
           >
             <img src="/images/icons/clock_orange_bold.svg" alt="" className='w-5 h-5' />
             <p className='text-[#DC6803] text-sm font-medium'>{t('Please review the request and respond immediately.')}</p>
@@ -112,7 +115,7 @@ function RequestPage({ getBookingDetails }) {
               <img src="/images/icons/calendar_blue.svg" alt="" className='w-5 h-5' />
               <p className='text-[#4B5565] text-base font-medium'>
                 {getBookingDetailsData?.created_at &&
-                  new Date(getBookingDetailsData.created_at).toLocaleDateString("ar-EG", {
+                  new Date(getBookingDetailsData.created_at).toLocaleDateString(dateLocale, {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
@@ -178,7 +181,7 @@ function RequestPage({ getBookingDetails }) {
             <p className='text-[#697586] text-xs mb-1'>{t('Arrival date')}:</p>
             <p className='text-[#364152] text-sm font-medium'>
               {getBookingDetailsData?.check_in &&
-              new Date(getBookingDetailsData.check_in).toLocaleDateString("ar-EG", {
+              new Date(getBookingDetailsData.check_in).toLocaleDateString(dateLocale, {
                 day: "numeric",
                 month: "long",
                 year: "numeric",
@@ -190,7 +193,7 @@ function RequestPage({ getBookingDetails }) {
             <p className='text-[#697586] text-xs mb-1'>{t('Departure date')}:</p>
             <p className='text-[#364152] text-sm font-medium'>
               {getBookingDetailsData?.check_out &&
-                new Date(getBookingDetailsData.check_out).toLocaleDateString("ar-EG", {
+                new Date(getBookingDetailsData.check_out).toLocaleDateString(dateLocale, {
                   day: "numeric",
                   month: "long",
                   year: "numeric",

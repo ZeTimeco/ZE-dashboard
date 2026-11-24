@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
+import { useTranslation } from "react-i18next";
 
 /* ✅ Client-only imports */
 const MapContainer = dynamic(
@@ -25,6 +26,7 @@ const Marker = dynamic(
 let markerIcon = null;
 
 export default function MapDialog({ open, handleClose, onConfirm }) {
+  const {t} = useTranslation()
   const [mapPosition, setMapPosition] = useState([24.7136, 46.6753]);
   const [address, setAddress] = useState("");
   const [isClient, setIsClient] = useState(false);
@@ -108,7 +110,7 @@ export default function MapDialog({ open, handleClose, onConfirm }) {
     <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
       <div className="p-5">
         <h3 className="mb-4 text-lg font-semibold text-right">
-          اختر موقعك على الخريطة
+          {t('Choose your location on the map')}    
         </h3>
 
         <div style={{ height: 400, width: "100%" }}>
@@ -134,14 +136,14 @@ export default function MapDialog({ open, handleClose, onConfirm }) {
             onClick={handleClose}
             className="px-4 py-2 bg-gray-300 rounded"
           >
-            إلغاء
+            {t('cancel')}
           </button>
 
           <button
             onClick={handleConfirm}
             className="px-4 py-2 bg-blue-600 text-white rounded"
           >
-            تأكيد الموقع
+            {t('Confirm Location')}
           </button>
         </div>
       </div>

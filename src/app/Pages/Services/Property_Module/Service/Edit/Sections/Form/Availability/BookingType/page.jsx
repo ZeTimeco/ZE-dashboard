@@ -3,14 +3,32 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 function BookingTypePage({ formData, setFormData }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+
+  const isLtr = i18n.language?.startsWith('en') || (typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'ltr');
+  const dateLocale = isLtr ? 'en-US' : 'ar-EG';
 
   const inputClassName = "w-5 h-5 appearance-none border rounded-full border-gray-300 bg-white checked:bg-[var(--color-primary)] checked:border-[var(--color-primary)] relative cursor-pointer checked:after:content-['✔'] checked:after:text-white checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center checked:after:text-xs"
 
-  const days = [
-    t("Saturday"), t("Sunday"), t("Monday"), t("Tuesday"),
-    t("Wednesday"), t("Thursday"), t("Friday"),
-  ];
+  const days = isLtr
+    ? [
+        t("Sunday"),
+        t("Monday"),
+        t("Tuesday"),
+        t("Wednesday"),
+        t("Thursday"),
+        t("Friday"),
+        t("Saturday"),
+      ]
+    : [
+        t("Saturday"),
+        t("Sunday"),
+        t("Monday"),
+        t("Tuesday"),
+        t("Wednesday"),
+        t("Thursday"),
+        t("Friday"),
+      ];
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDates, setSelectedDates] = useState([]);
@@ -118,7 +136,7 @@ function BookingTypePage({ formData, setFormData }) {
   const month = currentDate.getMonth();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay    = new Date(year, month, 1).getDay();
-  const startDay    = (firstDay + 1) % 7;
+  const startDay    = isLtr ? firstDay : (firstDay + 1) % 7;
 
   const calendarDays = [];
   for (let i = 0; i < startDay; i++) calendarDays.push("");
@@ -270,21 +288,37 @@ function BookingTypePage({ formData, setFormData }) {
       </div>
 
       {/* Calendar */}
-      <div className='flex gap-6 w-full border border-[#E3E8EF] mt-4 p-4 rounded-3px'>
-        {/* Right section – calendar */}
-        <div className='w-[70%] mt-4 bg-white rounded-3px'>
-          <div className='flex justify-between mb-4 w-full'>
-            <div className='flex items-center gap-2 w-[70%]'>
+      <div className='flex flex-col lg1:flex-row gap-6 w-full border border-[#E3E8EF] mt-4 p-4 rounded-3px'>
+        {/* Calendar section */}
+        <div className='w-full lg1:w-[70%] mt-4 bg-white rounded-3px'>
+          <div className='flex justify-between items-center mb-4 w-full'>
+            <div className='flex items-center gap-2'>
               <img src="/images/icons/appointment-blue.svg" className="w-6 h-6" />
               <p className='text-[#364152] text-base font-medium'>{t('Quick procedures')}</p>
             </div>
 
-            <div className="flex justify-between items-center w-[30%] rounded">
-              <button onClick={prevMonth} className="text-[#364152] font-bold px-2 py-1 hover:bg-gray-200 rounded">{"<"}</button>
-              <h2 className="font-medium text-base text-[#364152]">
-                {currentDate.toLocaleString("ar-EG", { month: "long", year: "numeric" })}
+            <div className="flex justify-between items-center gap-2 rounded">
+              <button
+                onClick={prevMonth}
+                className="text-[#364152] p-1.5 hover:bg-gray-200 rounded transition-colors cursor-pointer flex items-center justify-center"
+                aria-label="Previous month"
+              >
+                <svg className="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <h2 className="font-medium text-base text-[#364152] min-w-[140px] text-center">
+                {currentDate.toLocaleString(dateLocale, { month: "long", year: "numeric" })}
               </h2>
-              <button onClick={nextMonth} className="text-[#364152] font-bold px-2 py-1 hover:bg-gray-200 rounded">{">"}</button>
+              <button
+                onClick={nextMonth}
+                className="text-[#364152] p-1.5 hover:bg-gray-200 rounded transition-colors cursor-pointer flex items-center justify-center"
+                aria-label="Next month"
+              >
+                <svg className="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
             </div>
           </div>
 
@@ -326,8 +360,8 @@ function BookingTypePage({ formData, setFormData }) {
           </div>
         </div>
 
-        {/* Left section – quick actions */}
-        <div className='w-[30%]'>
+        {/* Quick actions section */}
+        <div className='w-full lg1:w-[30%]'>
           <div className='border border-[#E3E8EF] p-4 mt-4 bg-white rounded-3px'>
             <div className='flex gap-2'>
               <img src="/images/icons/save-money-dollar_blue.svg" alt="" />

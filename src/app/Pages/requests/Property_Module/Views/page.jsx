@@ -82,7 +82,7 @@ function ViewsPage({ open, setOpen, id }) {
               whileTap={!actionLoading ? { scale: 0.98 } : {}}
               disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus('checked_in')} 
-              className={`bg-[var(--color-primary)] text-white font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`bg-primary text-white font-medium h-14 w-full rounded-3px transition-all duration-200 flex items-center justify-center gap-2 ${
                 actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
@@ -100,7 +100,7 @@ function ViewsPage({ open, setOpen, id }) {
               whileTap={!actionLoading ? { scale: 0.98 } : {}}
               disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus('not_attend')} 
-              className={`border border-[#F04438] text-[#F04438] font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`border border-[#F04438] text-[#F04438] font-medium h-14 w-full rounded-3px transition-all duration-200 flex items-center justify-center gap-2 ${
                 actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
@@ -128,14 +128,14 @@ function ViewsPage({ open, setOpen, id }) {
             <motion.button 
               whileHover={{ scale: 1.02, boxShadow: '0 4px 14px rgba(0,0,0,0.12)' }}
               whileTap={{ scale: 0.98 }}
-              className='bg-[var(--color-primary)] text-white font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200 flex items-center justify-center'
+              className='bg-primary text-white font-medium h-14 w-full cursor-pointer rounded-3px transition-colors duration-200 flex items-center justify-center'
             >
               {t('Download the invoice')}
             </motion.button>
             <motion.button 
               whileHover={{ scale: 1.02, backgroundColor: 'rgba(240, 68, 56, 0.05)' }}
               whileTap={{ scale: 0.98 }}
-              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-[3px] transition-colors duration-200 flex items-center justify-center'
+              className='border border-[#F04438] text-[#F04438] font-medium h-14 w-full cursor-pointer rounded-3px transition-colors duration-200 flex items-center justify-center'
             >
               {t('Report a problem')}
             </motion.button>
@@ -156,7 +156,7 @@ function ViewsPage({ open, setOpen, id }) {
               whileTap={!actionLoading ? { scale: 0.98 } : {}}
               disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus("confirmed")} 
-              className={`bg-[var(--color-primary)] text-white font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`bg-primary text-white font-medium h-14 w-full rounded-3px transition-all duration-200 flex items-center justify-center gap-2 ${
                 actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
@@ -174,7 +174,7 @@ function ViewsPage({ open, setOpen, id }) {
               whileTap={!actionLoading ? { scale: 0.98 } : {}}
               disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus("canceled")} 
-              className={`border border-[#F04438] text-[#F04438] font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`border border-[#F04438] text-[#F04438] font-medium h-14 w-full rounded-3px transition-all duration-200 flex items-center justify-center gap-2 ${
                 actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
@@ -204,7 +204,7 @@ function ViewsPage({ open, setOpen, id }) {
               whileTap={!actionLoading ? { scale: 0.98 } : {}}
               disabled={Boolean(actionLoading)}
               onClick={() => handleChangeStatus('completed')} 
-              className={`bg-[#9333EA] text-white font-medium h-14 w-full rounded-[3px] transition-all duration-200 flex items-center justify-center gap-2 ${
+              className={`bg-[#9333EA] text-white font-medium h-14 w-full rounded-3px transition-all duration-200 flex items-center justify-center gap-2 ${
                 actionLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
               }`}
             >
@@ -306,11 +306,11 @@ function ViewsPage({ open, setOpen, id }) {
                     <motion.button
                       whileHover={{ scale: 1.03, backgroundColor: 'rgba(var(--color-primary-rgb, 245, 158, 11), 0.05)' }}
                       whileTap={{ scale: 0.97 }}
-                      className='flex items-center gap-2 border border-[var(--color-primary)] rounded-[3px] px-4 py-2.5 cursor-pointer transition-colors duration-200'
+                      className='flex items-center gap-2 border border-primary rounded-3px px-4 py-2.5 cursor-pointer transition-colors duration-200'
                       onClick={() => setShowActivityLog(prev => !prev)}
                     >
                       <img src="/images/icons/Activity log.svg" className="w-6 h-6" alt="" />
-                      <p className='text-[var(--color-primary)] text-base font-medium'>{t('Activity log')}</p>
+                      <p className='text-primary text-base font-medium'>{t('Activity log')}</p>
                     </motion.button>
                   </div>
                 </section>

@@ -8,17 +8,30 @@ import { getPropertyCalendarThunk } from "@/redux/slice/Services/ServicesSlice";
 import { useParams, useSearchParams } from "next/navigation";
 
 function CalenderDaysContent() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-  const days = [
-    t("Saturday"),
-    t("Sunday"),
-    t("Monday"),
-    t("Tuesday"),
-    t("Wednesday"),
-    t("Thursday"),
-    t("Friday"),
-  ];
+  const isLtr = i18n.language?.startsWith('en') || (typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'ltr');
+  const dateLocale = isLtr ? 'en-US' : 'ar-EG';
+
+  const days = isLtr
+    ? [
+        t("Sunday"),
+        t("Monday"),
+        t("Tuesday"),
+        t("Wednesday"),
+        t("Thursday"),
+        t("Friday"),
+        t("Saturday"),
+      ]
+    : [
+        t("Saturday"),
+        t("Sunday"),
+        t("Monday"),
+        t("Tuesday"),
+        t("Wednesday"),
+        t("Thursday"),
+        t("Friday"),
+      ];
 
   // redux
   const dispatch = useDispatch();
@@ -49,7 +62,7 @@ function CalenderDaysContent() {
   // calendar logic
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDay = new Date(year, month, 1).getDay();
-  const startDay = (firstDay + 1) % 7;
+  const startDay = isLtr ? firstDay : (firstDay + 1) % 7;
 
   const calendarDays = [];
 
@@ -131,7 +144,7 @@ function CalenderDaysContent() {
     }
 
     setSelectedDayInfo({
-      date: new Date(year, month, day).toLocaleDateString("ar-EG", {
+      date: new Date(year, month, day).toLocaleDateString(dateLocale, {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -150,17 +163,33 @@ function CalenderDaysContent() {
   return (
     <div className="w-full p-4 bg-white border border-[#E3E8EF]">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4 bg-[#F8FAFC] border p-3">
-        <button onClick={prevMonth}>{"<"}</button>
+      <div className="flex justify-between items-center mb-4 bg-[#F8FAFC] border p-3 rounded">
+        <button
+          onClick={prevMonth}
+          className="p-1 hover:bg-gray-200 rounded text-[#364152] transition-colors cursor-pointer flex items-center justify-center"
+          aria-label="Previous month"
+        >
+          <svg className="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
 
-        <h2 className="font-medium text-base text-[#364152]">
-          {currentDate.toLocaleString("ar-EG", {
+        <h2 className="font-medium text-base text-[#364152] min-w-[140px] text-center">
+          {currentDate.toLocaleString(dateLocale, {
             month: "long",
             year: "numeric",
           })}
         </h2>
 
-        <button onClick={nextMonth}>{">"}</button>
+        <button
+          onClick={nextMonth}
+          className="p-1 hover:bg-gray-200 rounded text-[#364152] transition-colors cursor-pointer flex items-center justify-center"
+          aria-label="Next month"
+        >
+          <svg className="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
 
       {/* Calendar */}

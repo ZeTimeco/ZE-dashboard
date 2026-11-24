@@ -299,7 +299,7 @@ function FiltersPageContent({ open, handleClose, onApplyFilters, currentFilters 
         <label className="text-[#364152] text-base font-normal mb-1.5 block">{t("Property")}</label>
         <div className="relative w-full" ref={dropdownRef}>
           <div
-            className="relative flex items-center border border-[#C8C8C8] rounded-[3px] cursor-pointer"
+            className="relative flex items-center border border-[#C8C8C8] rounded-3px cursor-pointer"
             onClick={() => setOpenProp(!openProp)}
           >
             <input
@@ -309,12 +309,12 @@ function FiltersPageContent({ open, handleClose, onApplyFilters, currentFilters 
               onChange={(e) => { setSearchValue(e.target.value); setOpenProp(true); setSelectedPropertyId(null); setSelectedPropertyTitle(""); }}
               className="h-15 p-3 w-full text-[#364152] focus:outline-none"
             />
-            <span className="absolute left-3 pointer-events-none">
+            <span className="absolute rtl:left-3 ltr:right-3 pointer-events-none">
               <img src={openProp ? "/images/icons/ArrowUp.svg" : "/images/icons/ArrowDown.svg"} alt="" />
             </span>
           </div>
           {openProp && (
-            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-[3px] shadow-md z-10 max-h-48 overflow-y-auto">
+            <ul className="absolute left-0 right-0 border border-[#C8C8C8] bg-white rounded-3px shadow-md z-10 max-h-48 overflow-y-auto">
               {PropertyOptions
                 .filter((opt) => opt?.title?.toLowerCase().includes(searchValue.toLowerCase()))
                 .map((opt) => (
@@ -342,7 +342,7 @@ function FiltersPageContent({ open, handleClose, onApplyFilters, currentFilters 
               onClick={() => setSelectedPayment(prev => prev === item.value ? null : item.value)}
               className={`p-2.5 text-sm font-normal rounded-full cursor-pointer transition ${
                 selectedPayment === item.value
-                  ? "bg-[var(--color-primary)] text-white"
+                  ? "bg-primary text-white"
                   : "bg-[#EEF2F6] text-[#4B5565]"
               }`}
             >
@@ -364,7 +364,7 @@ function FiltersPageContent({ open, handleClose, onApplyFilters, currentFilters 
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
               placeholder="0 جنيه"
-              className="w-full h-12.5 px-4 border border-[#C8C8C8] rounded-[3px] outline-0"
+              className="w-full h-12.5 px-4 border border-[#C8C8C8] rounded-3px outline-0"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -374,7 +374,7 @@ function FiltersPageContent({ open, handleClose, onApplyFilters, currentFilters 
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
               placeholder="0 جنيه"
-              className="w-full h-12.5 px-4 border border-[#C8C8C8] rounded-[3px] outline-0"
+              className="w-full h-12.5 px-4 border border-[#C8C8C8] rounded-3px outline-0"
             />
           </div>
         </div>
@@ -385,13 +385,13 @@ function FiltersPageContent({ open, handleClose, onApplyFilters, currentFilters 
       <section className="px-6 mb-6 flex gap-3">
         <button
           onClick={handleApply}
-          className="w-[25%] h-14 bg-[var(--color-primary)] text-white rounded-[3px] cursor-pointer"
+          className="w-[25%] h-14 bg-primary text-white rounded-3px cursor-pointer"
         >
           {t('apply')}
         </button>
         <button
           onClick={handleReset}
-          className="w-[20%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] cursor-pointer"
+          className="w-[20%] h-14 border border-primary text-primary rounded-3px cursor-pointer"
         >
           {t('cancel')}
         </button>

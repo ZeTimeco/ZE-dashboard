@@ -24,7 +24,7 @@ function FirstNote() {
             <img src="/images/icons/ii_blue.svg" className="w-6 h-6" />
             <span className='text-[#364152] text-base font-medium'>{t('Recommendations before adding images')}</span>
           </p>
-          <ul className='grid grid-cols-2 gap-3 mt-4 list-disc pr-6'>
+          <ul className='grid grid-cols-2 gap-3 mt-4 list-disc rtl:pr-6  ltr:pl-6'>
             {imageNote?.map((item)=>(
               <li key={item?.id} className='text-[#4B5565] text-base font-normal'>{item?.title}</li>
             ))}

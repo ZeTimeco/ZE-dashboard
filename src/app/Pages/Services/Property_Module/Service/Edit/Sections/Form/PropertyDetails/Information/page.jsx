@@ -59,7 +59,7 @@ function InformationPage({formData, setFormData}) {
                     className="w-full h-full flex items-center justify-between px-3 py-2 text-sm cursor-pointer"
                   >
                     <span>{selected.label}</span>
-                    <span className="absolute left-3 cursor-pointer">
+                    <span className="absolute rtl:left-3 ltr:right-3 cursor-pointer">
                       {open ? (
                         <img src="/images/icons/ArrowUp.svg" alt="up" />
                       ) : (

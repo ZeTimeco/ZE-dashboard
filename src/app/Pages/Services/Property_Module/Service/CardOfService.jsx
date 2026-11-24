@@ -149,7 +149,7 @@ function CardOfService({ getProperties }) {
             )
         } else if(approvalStatus === 'pending') {
             content = (
-              <div className='my-4 py-2.5 px-4 border border-[#FEC84B] bg-[#FFFAEB] rounded-[3px] shadow-2xs'>
+              <div className='my-4 py-2.5 px-4 border border-[#FEC84B] bg-[#FFFAEB] rounded-3px shadow-2xs'>
                 <div className='flex items-center gap-1.5 mb-1'>
                   <img src="/images/icons/clock_orange_bold.svg" alt="" className='w-4 h-4' />
                   <p className='text-[#364152] text-sm font-medium'>{t('Under review')}</p>
@@ -161,7 +161,7 @@ function CardOfService({ getProperties }) {
             )
         } else if(approvalStatus === 'draft') {
             content = (
-              <div className='my-4 py-2.5 px-4 border border-[#48A1FF] bg-[#EFF6FF] rounded-[3px] shadow-2xs'>
+              <div className='my-4 py-2.5 px-4 border border-[#48A1FF] bg-[#EFF6FF] rounded-3px shadow-2xs'>
                 <div className='flex items-center gap-1.5 mb-1'>
                   <img src="/images/icons/i_blue.svg" alt="" className='w-4 h-4' />
                   <p className='text-[#364152] text-sm font-medium'>{t('Complete the numbers')}</p>
@@ -173,7 +173,7 @@ function CardOfService({ getProperties }) {
             )
         } else if(approvalStatus === 'rejected') {
             content = (
-              <div className='my-4 py-2.5 px-4 border border-[#F04438] bg-[#FEE4E2] rounded-[3px] shadow-2xs'>
+              <div className='my-4 py-2.5 px-4 border border-[#F04438] bg-[#FEE4E2] rounded-3px shadow-2xs'>
                 <div className='flex items-center gap-1.5 mb-1'>
                   <img src="/images/icons/warning_red.svg" alt="" className='w-4 h-4' />
                   <p className='text-[#364152] text-sm font-medium'>{t('Required procedure')}</p>
@@ -194,7 +194,7 @@ function CardOfService({ getProperties }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05, ease: 'easeOut' }}
             whileHover={{ y: -4, boxShadow: '0 8px 24px rgba(0,0,0,0.12)' }}
-            className='group relative bg-white shadow-[0_0_4px_0_#0000004D] rounded-[3px] p-3 transition-all duration-300'
+            className='group relative bg-white shadow-[0_0_4px_0_#0000004D] rounded-3px p-3 transition-all duration-300'
           >
             {/* Image and status */}
             <div className='relative w-full overflow-hidden rounded-[2px]'>
@@ -226,7 +226,7 @@ function CardOfService({ getProperties }) {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: -6 }}
                     transition={{ duration: 0.15 }}
-                    className='absolute top-9 left-2 p-2 w-47 bg-white border border-[#EEE] rounded-[3px] shadow-lg z-20 space-y-1'
+                    className='absolute top-9 left-2 p-2 w-47 bg-white border border-[#EEE] rounded-3px shadow-lg z-20 space-y-1'
                   >
                     {(property?.side_actions?.includes('activate') || property?.side_actions?.includes('deactivate')) && (
                       <button 

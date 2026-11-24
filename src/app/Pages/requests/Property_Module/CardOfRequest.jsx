@@ -6,11 +6,14 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 function CardOfRequest({ getBooking, hasActiveFilters }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const urlId = searchParams.get('id')
+
+  const isLtr = i18n.language?.startsWith('en') || (typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'ltr');
+  const dateLocale = isLtr ? 'en-US' : 'ar-EG';
 
   const getBookingData = Array.isArray(getBooking) ? getBooking : getBooking?.data
 
@@ -182,7 +185,7 @@ function CardOfRequest({ getBooking, hasActiveFilters }) {
               <p className='text-[#697586] text-xs mb-0.5'>{t('Arrival date')}:</p>
               <p className='text-[#364152] text-sm font-medium'>
                 {booking?.check_in &&
-                new Date(booking.check_in).toLocaleDateString("ar-EG", {
+                new Date(booking.check_in).toLocaleDateString(dateLocale, {
                   day: "numeric",
                   month: "long",
                   year: "numeric",
@@ -194,7 +197,7 @@ function CardOfRequest({ getBooking, hasActiveFilters }) {
               <p className='text-[#697586] text-xs mb-0.5'>{t('Departure date')}:</p>
               <p className='text-[#364152] text-sm font-medium'>
                 {booking?.check_out &&
-                  new Date(booking.check_out).toLocaleDateString("ar-EG", {
+                  new Date(booking.check_out).toLocaleDateString(dateLocale, {
                     day: "numeric",
                     month: "long",
                     year: "numeric",
