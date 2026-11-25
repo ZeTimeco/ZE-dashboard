@@ -45,7 +45,7 @@ function Powers_and_rolesPage() {
         <Header />
 
         <motion.div
-          className='p-6 flex flex-col gap-4'
+          className='p-6 flex flex-col  gap-4'
           variants={sectionVariants}
           initial="hidden"
           animate="visible"

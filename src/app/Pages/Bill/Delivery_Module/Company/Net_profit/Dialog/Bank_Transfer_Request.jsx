@@ -77,10 +77,10 @@ const handleConfirmTransfer = async () => {
             <div className="relative w-full mt-6">
               <input 
                 type="number" 
-                placeholder="0 جنية"
+                placeholder={`0 ${t('pound')}`}
                 value={amount}
                 onChange={(e)=>setAmount(e.target.value)}
-                className="w-full h-14 px-4 border border-[#C7C7C7] rounded-3px text-right focus:outline-none focus:border-black placeholder:text-[#9CA3AF]" 
+                className="w-full h-14 px-4 border border-[#C7C7C7] rounded-3px rtl:text-right ltr:text-left focus:outline-none focus:border-black placeholder:text-[#9CA3AF]" 
               />
             </div>
 

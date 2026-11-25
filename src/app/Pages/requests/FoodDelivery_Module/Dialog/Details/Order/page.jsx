@@ -1,12 +1,14 @@
 'use client'
 import { formatDistanceToNow } from 'date-fns'
-import { ar } from 'date-fns/locale'
+import { ar, enUS } from 'date-fns/locale'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 
 function OrderPage({getOrderById}) {
-  const {t} = useTranslation()
+  const {t, i18n} = useTranslation()
+  const isLtr = i18n.language?.startsWith('en') || (typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'ltr')
+  const dateLocale = isLtr ? 'en-US' : 'ar-EG'
   const getOrderByIdData = getOrderById?.data
 
   const StatusRender = (status) => {
@@ -81,9 +83,9 @@ function OrderPage({getOrderById}) {
 
   const createdAt = getOrderByIdData?.created_at;
   const date = createdAt ? new Date(createdAt.replace(/\.\d+Z$/, "Z")) : null;
-  const orderDate = date && !isNaN(date.getTime()) ? date.toLocaleDateString("ar-EG") : "";
+  const orderDate = date && !isNaN(date.getTime()) ? date.toLocaleDateString(dateLocale) : "";
   const orderTime = date && !isNaN(date.getTime())
-    ? date.toLocaleTimeString("ar-EG", {
+    ? date.toLocaleTimeString(dateLocale, {
         hour: "numeric",
         minute: "2-digit",
       })
@@ -91,7 +93,7 @@ function OrderPage({getOrderById}) {
   const orderRelativeTime = date && !isNaN(date.getTime())
     ? formatDistanceToNow(date, {
         addSuffix: true,
-        locale: ar,
+        locale: isLtr ? enUS : ar,
       })
     : "";
 

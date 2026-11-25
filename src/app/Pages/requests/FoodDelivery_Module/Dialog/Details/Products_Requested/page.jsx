@@ -38,7 +38,7 @@ function Products_RequestedPage({getOrderById}) {
           </div>
 
           <div className='flex justify-end mt-2'>
-            <p className='text-[var(--color-primary)] text-base font-medium'>{item?.total_price} جنية</p>
+            <p className='text-[var(--color-primary)] text-base font-medium'>{item?.total_price} {t('pound')}</p>
           </div>
 
           {index !== getOrderByIdData?.items?.length - 1 && (

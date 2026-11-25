@@ -49,7 +49,7 @@ function Boxes({getRoleAndPermissionConfig}) {
 
 
     {/* note */}
-      <div className='border border-primary bg-[#F9F5E8] p-3 rounded-3px flex gap-2'>
+      <div className='border border-primary bg-[#F9F5E8] p-3 my-3 rounded-3px flex gap-2'>
         <p>
           <img src="/images/icons/i_Yellow.svg" alt="" />
         </p>

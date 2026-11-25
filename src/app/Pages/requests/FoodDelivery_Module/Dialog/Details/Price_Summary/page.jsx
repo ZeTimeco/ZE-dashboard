@@ -22,7 +22,7 @@ function Price_SummaryPage({getOrderById}) {
           <p className='text-[#4B5565] text-sm font-normal flex items-center'>{t('Subtotal')}</p>
           <p className='text-[#364152] text-base font-medium flex items-center gap-1'>
             <span>{getOrderByIdData?.subtotal}</span>
-            <span>ج.م</span>
+            <span>{t('EGP')}</span>
           </p>
         </div>
 
@@ -31,7 +31,7 @@ function Price_SummaryPage({getOrderById}) {
           <p className='text-[#4B5565] text-sm font-normal flex items-center'>{t('Delivery fees')}</p>
           <p className='text-[#364152] text-base font-medium flex items-center gap-1'>
             <span>{getOrderByIdData?.delivery_fee}</span>
-            <span>ج.م</span>
+            <span>{t('EGP')}</span>
           </p> 
         </div>
 
@@ -40,7 +40,7 @@ function Price_SummaryPage({getOrderById}) {
           <p className='text-[#4B5565] text-sm font-normal flex items-center'>{t('Service fees')}</p>
           <p className='text-[#364152] text-base font-medium flex items-center gap-1'>
             <span>{getOrderByIdData?.service_fee}</span>
-            <span>ج.م</span>
+            <span>{t('EGP')}</span>
           </p>
         </div>
 
@@ -60,7 +60,7 @@ function Price_SummaryPage({getOrderById}) {
           <p className='text-[#364152] text-sm font-medium flex items-center'>{t('Total')}</p>
           <p className='text-[var(--color-primary)] text-base font-semibold flex items-center gap-1'>
             <span>{getOrderByIdData?.total}</span>
-            <span>ج.م</span>
+            <span>{t('EGP')}</span>
           </p>
         </div>
       </div>

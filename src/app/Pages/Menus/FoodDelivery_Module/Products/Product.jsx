@@ -26,7 +26,7 @@ function Product({getMenus}) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25, delay: Math.min(catIndex * 0.04, 0.2) }}
-            className="shadow-[0_0_2px_0_rgba(0,0,0,0.20)] p-3 rounded-[3px] bg-white"
+            className="shadow-[0_0_2px_0_rgba(0,0,0,0.20)]  p-3 rounded-[3px] bg-white"
           >
             {/* Header */}
             <div className="flex items-center justify-between">
@@ -100,7 +100,7 @@ function Product({getMenus}) {
                               {t("available")} 
                             </p>
                           ):(
-                            <p className="border border-[#F97066] bg-[#FEE4E2] rounded-full h-7 w-15 flex justify-center items-center text-[#D92D20] text-xs font-normal">  
+                            <p className="border border-[#F97066] bg-[#FEE4E2] rounded-full h-7 rtl:w-15 ltr:w-fit ltr:px-2 flex justify-center items-center text-[#D92D20] text-xs font-normal">  
                               {t("Not available")} 
                             </p>
                           )}

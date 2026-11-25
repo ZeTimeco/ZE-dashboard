@@ -70,7 +70,7 @@ function BasicInformation({formData , setFormData , getRestaurantType, currentLa
               className=" p-3 w-full text-sm text-[#364152] focus:outline-none"
             />
 
-            <span className="absolute left-3 cursor-pointer">
+            <span className="absolute rtl:left-3 ltr:right-3 cursor-pointer">
               {open1 ? (
                 <img src="/images/icons/ArrowUp.svg" alt="up" />
               ) : (

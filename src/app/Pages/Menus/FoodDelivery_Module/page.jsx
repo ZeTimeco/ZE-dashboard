@@ -18,7 +18,7 @@ function FoodDelivery_ModulePage() {
         transition={{ duration: 0.25 }}
       >
         {/* header */}
-        <div className='flex justify-between items-center mb-5'>
+        <div className='flex justify-between items-center mb-5 '>
           <p className='text-[#364152] text-2xl font-medium'>{t('menu')}</p>
           <motion.button 
             whileHover={{ scale: 1.01 }}

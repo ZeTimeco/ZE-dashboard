@@ -14,7 +14,7 @@ function Roles({getRoleAndPermissionConfig}) {
       {getRoleAndPermissionConfig?.roles?.map((role)=>(
         <motion.div
           key={role?.id}
-          className='border border-[#E3E8EF] rounded-3px p-4 flex justify-between'
+          className='border border-[#E3E8EF] rounded-3px p-4 flex justify-between mt-3'
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}

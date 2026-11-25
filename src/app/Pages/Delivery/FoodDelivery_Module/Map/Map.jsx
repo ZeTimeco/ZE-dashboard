@@ -315,7 +315,7 @@ export default function Map({ getDeliveryMap }) {
 
   return (
     <div
-      className="w-full mt-4 rounded-[12px] overflow-hidden shadow-sm border border-[#EAECF0] transition-shadow duration-300 hover:shadow-md"
+      className="w-full my-4 rounded-[12px] overflow-hidden shadow-sm border border-[#EAECF0] transition-shadow duration-300 hover:shadow-md"
       style={{ height: 'calc(100vh - 180px)', position: 'relative' }}
     >
       <style>{`

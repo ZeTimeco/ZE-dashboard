@@ -33,7 +33,7 @@ function Header() {
         onClick={() => router.back()}
         className='w-[20%] h-14 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-[3px] text-base font-medium cursor-pointer shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-1'
       >
-        {t('Open the menu')}
+        {t('Return')}
       </motion.button>
     </motion.div>
   )
