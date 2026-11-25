@@ -19,7 +19,9 @@ const cardVariants = {
 }
 
 function Cards({ activeTab , getWaitingList, refresh }) {
-  const {t} = useTranslation()
+  const {t, i18n} = useTranslation()
+  const isLtr = i18n.language?.startsWith('en') || (typeof document !== 'undefined' && document.documentElement.getAttribute('dir') === 'ltr');
+  const dateLocale = isLtr ? 'en-US' : 'ar-EG';
   const dispatch = useDispatch()
   const [loadingId, setLoadingId] = useState(null)
   const [openNotification , setOpenNotification] = useState(false)
@@ -102,14 +104,14 @@ function Cards({ activeTab , getWaitingList, refresh }) {
                 <span className='text-[#364152]'>
                   {items?.checked_in_at === null
                     ? t('Not yet determined')
-                    : new Date(items.checked_in_at).toLocaleTimeString("ar-EG", { hour: "numeric", minute: "2-digit", hour12: true })}
+                    : new Date(items.checked_in_at).toLocaleTimeString(dateLocale, { hour: "numeric", minute: "2-digit", hour12: true })}
                 </span>
               </p>
               <p className='text-base font-normal'>
                 <span className='text-[#697586]'>{t('Expected arrival')} : </span>{' '}
                 <span className='text-[#364152]'>
                   {items?.start_time
-                    ? new Date(`2000-01-01T${items.start_time}`).toLocaleTimeString("ar-EG", { hour: "numeric", minute: "2-digit", hour12: true })
+                    ? new Date(`2000-01-01T${items.start_time}`).toLocaleTimeString(dateLocale, { hour: "numeric", minute: "2-digit", hour12: true })
                     : "-"}
                 </span>
               </p>

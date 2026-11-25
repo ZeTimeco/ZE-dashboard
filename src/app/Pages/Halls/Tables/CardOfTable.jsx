@@ -6,11 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { DeleteTableThunk, getTablesThunk } from '@/redux/slice/Halls/HallsSlice';
 import { motion } from 'framer-motion';
+import ConfirmDelete from './ConfirmDelete';
 
 function CardOfTable({getTables ,HallId}) {
   const { t } = useTranslation()
   const router = useRouter()
   const dispatch = useDispatch()
+  const [deleteId, setDeleteId] = useState(null)
 
   const handleDelete = async (tableId) => {
     const result = await dispatch(DeleteTableThunk(tableId))
@@ -156,7 +158,7 @@ function CardOfTable({getTables ,HallId}) {
             )}
 
             <button 
-              onClick={() => handleDelete(table?.id)} 
+              onClick={() => setDeleteId(table?.id)} 
               className='flex items-center justify-center gap-1 rounded-3px border border-[#E3E8EF] hover:border-[#F97066] hover:bg-[#FEF3F2] active:scale-[0.98] transition-all duration-200 px-2 h-10 w-full cursor-pointer'
             >
               <img src="/images/icons/delete-darkRed.svg" className='w-5 h-5' alt="" />
@@ -167,6 +169,13 @@ function CardOfTable({getTables ,HallId}) {
           </motion.div>
         ))}
       </motion.div>
+
+      {/* Confirm Delete Dialog */}
+      <ConfirmDelete 
+        deleteId={deleteId}
+        setDeleteId={setDeleteId}
+        handleDelete={handleDelete}
+      />
     </>
   )
 }

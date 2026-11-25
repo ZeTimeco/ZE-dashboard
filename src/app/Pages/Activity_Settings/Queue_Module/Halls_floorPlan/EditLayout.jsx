@@ -166,7 +166,7 @@ function EditLayout({formData , setFormData}) {
         </span>
       )}
 
-      <span className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none">
+      <span className="absolute rtl:left-3 ltr:right-3 top-1/2 -translate-y-1/2 pointer-events-none">
         {open1 ? (
           <img src="/images/icons/ArrowUp.svg" alt="up" />
         ) : (

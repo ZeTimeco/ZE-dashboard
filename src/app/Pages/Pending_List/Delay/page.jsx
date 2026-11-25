@@ -130,7 +130,7 @@ function DelayPage({open , setOpen , guestID , guestDetails }) {
                 }`}
               >
                 <img src="/images/icons/clock-gray.svg" alt="" />
-                <p className='text-[#364152] text-base font-normal'>{item?.name} دقائق</p>
+                <p className='text-[#364152] text-base font-normal'>{item?.name} {t('minutes')}</p>
               </motion.div>
             ))}
           </div>

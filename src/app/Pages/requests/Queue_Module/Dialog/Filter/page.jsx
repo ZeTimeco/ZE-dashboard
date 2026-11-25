@@ -245,7 +245,7 @@ function FilterPage({open , setOpen}) {
                   }}
                   className="w-full h-14 rounded-[3px] border border-[#CDD5DF] p-3 text-sm text-[#7D8D84] outline-none"
                 />
-                <span className="absolute left-3 cursor-pointer">
+                <span className="absolute rtl:left-3 ltr:right-3 cursor-pointer">
                   <img
                     src={
                       open1
@@ -324,7 +324,7 @@ function FilterPage({open , setOpen}) {
                   className="w-full h-14 rounded-[3px] border border-[#CDD5DF] p-3 text-sm text-[#7D8D84] outline-none"
                 />
 
-                <span className="absolute left-3 cursor-pointer">
+                <span className="absolute rtl:left-3 ltr:right-3 cursor-pointer">
                   <img
                     src={
                       open2
@@ -422,7 +422,7 @@ function FilterPage({open , setOpen}) {
                   className="w-full h-14 rounded-[3px] border border-[#CDD5DF] p-3 text-sm text-[#7D8D84] outline-none"
                 />
 
-                <span className="absolute left-3 cursor-pointer">
+                <span className="absolute rtl:left-3 ltr:right-3 cursor-pointer">
                   <img
                     src={
                       open3

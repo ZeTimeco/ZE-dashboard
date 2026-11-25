@@ -147,7 +147,7 @@ function Form({ getTage, getHallsView, formData, setFormData }) {
               className="p-3 w-full text-sm text-[#364152] focus:outline-none bg-transparent"
             />
 
-            <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open1 ? 'rotate-180' : ''}`}>
+            <span className={`absolute rtl:left-3 ltr:right-3 cursor-pointer transition-transform duration-200 ${open1 ? 'rotate-180' : ''}`}>
               <img src="/images/icons/ArrowDown.svg" alt="toggle" />
             </span>
           </div>
@@ -208,7 +208,7 @@ function Form({ getTage, getHallsView, formData, setFormData }) {
               className="p-3 w-full text-sm text-[#364152] focus:outline-none bg-transparent"
             />
 
-            <span className={`absolute left-3 cursor-pointer transition-transform duration-200 ${open2 ? 'rotate-180' : ''}`}>
+            <span className={`absolute rtl:left-3 ltr:right-3 cursor-pointer transition-transform duration-200 ${open2 ? 'rotate-180' : ''}`}>
               <img src="/images/icons/ArrowDown.svg" alt="toggle" />
             </span>
           </div>
